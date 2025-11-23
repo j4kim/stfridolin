@@ -1,6 +1,5 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 import Home from "../views/Home.vue";
-import Profile from "../views/Profile.vue";
 import { useMainStore } from "../stores/main";
 import { redirectToLogin } from "../api";
 
@@ -9,14 +8,6 @@ const routes = [
         path: "/",
         name: "home",
         component: Home,
-    },
-    {
-        path: "/profile",
-        name: "profile",
-        component: Profile,
-        meta: {
-            requireAuth: true,
-        },
     },
 ];
 

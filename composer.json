@@ -1,9 +1,12 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "j4kim/laravel-vue-starter",
+    "name": "j4kim/jukeboxe",
     "type": "project",
-    "description": "Fork of laravel/laravel with personal defaults",
-    "keywords": ["laravel", "framework"],
+    "description": "Two tracks in a ring, fighting for who is the next the DJ will play",
+    "keywords": [
+        "laravel",
+        "framework"
+    ],
     "license": "MIT",
     "require": {
         "php": "^8.2",

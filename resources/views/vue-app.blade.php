@@ -19,7 +19,6 @@
     </head>
 
     <body
-        data-csrf-token="{{ csrf_token() }}"
         data-app-version="{{ config('app.version') }}"
         data-app-name="{{ config('app.name') }}"
         data-user="{{ json_encode(auth()->user()) }}"
