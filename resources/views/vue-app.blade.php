@@ -12,6 +12,8 @@
 
         @routes()
 
+        <script src="https://sdk.scdn.co/spotify-player.js"></script>
+
         <!-- Styles / Scripts -->
         @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
             @vite('vue-app/main.js')
@@ -22,6 +24,7 @@
         data-app-version="{{ config('app.version') }}"
         data-app-name="{{ config('app.name') }}"
         data-user="{{ json_encode(auth()->user()) }}"
+        data-spotify-token="{{ new App\Tools\Spotify()->getCachedToken() }}"
     >
         <div id="app"></div>
     </body>
