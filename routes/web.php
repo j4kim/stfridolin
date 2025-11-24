@@ -2,4 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::view('/', 'vue-app');
+Route::fallback(function () {
+    return view('vue-app');
+})->name('vue-app');
