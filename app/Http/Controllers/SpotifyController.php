@@ -39,11 +39,13 @@ class SpotifyController extends Controller
         return Spotify::playbackState();
     }
 
-    public function play()
+    public function play(Request $request)
     {
-        return Spotify::apiRequest()
-            ->put("/me/player/play", ['position_ms' => 0])
-            ->throw();
+        $spotifyRequest = Spotify::apiRequest();
+        if ($request->device_id) {
+            $spotifyRequest->withQueryParameters(['device_id' => $request->device_id]);
+        }
+        return $spotifyRequest->put("/me/player/play", ['position_ms' => 0]);
     }
 
     public function pause()
