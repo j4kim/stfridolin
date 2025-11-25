@@ -2,6 +2,7 @@
 
 namespace App\Tools;
 
+use App\Exceptions\NoSpotifyTokenException;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Cache;
@@ -42,10 +43,6 @@ class Spotify
     {
         $tokenInfo = Cache::get('spotifyTokenInfo');
 
-        if (!$tokenInfo) {
-            abort(400, "No cached token info");
-        }
-
         $response = Http::asForm()
             ->post('https://accounts.spotify.com/api/token', [
                 'grant_type' => 'refresh_token',
@@ -76,7 +73,7 @@ class Spotify
     {
         $tokenInfo = Cache::memo()->get('spotifyTokenInfo');
         if (!$tokenInfo) {
-            abort(400, "No cached token info");
+            throw new NoSpotifyTokenException;
         }
         $isExpired = now() > $tokenInfo['expires_at'];
         if ($isExpired) {
