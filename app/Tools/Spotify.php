@@ -9,6 +9,44 @@ use Illuminate\Support\Facades\Http;
 
 class Spotify
 {
+    public static function userAuthenticationUrl(): string
+    {
+        return url()->query('https://accounts.spotify.com/authorize', [
+            'client_id' => config('services.spotify.client_id'),
+            'response_type' => 'code',
+            'redirect_uri' => config('services.spotify.redirect_uri'),
+            'state' => str()->random(),
+            'scope' => config('services.spotify.scope'),
+        ]);
+    }
+
+    public static function requestAccessToken(string $code): bool
+    {
+        $client_id = config('services.spotify.client_id');
+        $client_secret = config('services.spotify.client_secret');
+
+        $response = Http::asForm()
+            ->withBasicAuth($client_id, $client_secret)
+            ->post('https://accounts.spotify.com/api/token', [
+                'grant_type' => 'authorization_code',
+                'code' => $code,
+                'redirect_uri' => config('services.spotify.redirect_uri'),
+            ])
+            ->throw()
+            ->json();
+
+        session(['spotifyToken' => [
+            'access_token' => $response->access_token,
+            'token_type' => $response->token_type,
+            'scope' => $response->scope,
+            'expires_in' => $response->expires_in,
+            'expires_at' => now()->addSeconds($response->expires_in),
+            'refresh_token' => $response->refresh_token,
+        ]]);
+
+        return true;
+    }
+
     public function requestToken(): string
     {
         return Http::asForm()->post('https://accounts.spotify.com/api/token', [

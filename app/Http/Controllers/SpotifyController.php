@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Tools\Spotify;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -13,19 +14,8 @@ class SpotifyController extends Controller
             session(['url.intended' => $request->intended]);
         }
 
-        $url = url()->query('https://accounts.spotify.com/authorize', [
-            'client_id' => config('services.spotify.client_id'),
-            'response_type' => 'code',
-            'redirect_uri' => 'http://127.0.0.1:8000/spotify-callback',
-            'state' => str()->random(),
-            'scope' => implode(' ', [
-                'streaming user-read-email',
-                'user-read-private',
-                'user-modify-playback-state',
-                'user-read-playback-state',
-                'user-read-currently-playing'
-            ]),
-        ]);
+        $url = Spotify::userAuthenticationUrl();
+
         return redirect()->away($url);
     }
 
@@ -37,27 +27,7 @@ class SpotifyController extends Controller
             abort(500, "No code in request");
         }
 
-        $client_id = config('services.spotify.client_id');
-        $client_secret = config('services.spotify.client_secret');
-
-        $response = Http::asForm()
-            ->withBasicAuth($client_id, $client_secret)
-            ->post('https://accounts.spotify.com/api/token', [
-                'grant_type' => 'authorization_code',
-                'code' => $request->code,
-                'redirect_uri' => 'http://127.0.0.1:8000/spotify-callback',
-            ])
-            ->throw()
-            ->json();
-
-        /*
-         access_token,
-         token_type,
-         scope,
-         expires_in,
-         refresh_token
-        */
-        session(['spotifyToken' => $response]);
+        Spotify::requestAccessToken($request->code);
 
         return redirect()->intended('spotify-remote');
     }

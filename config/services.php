@@ -38,6 +38,14 @@ return [
     'spotify' => [
         'client_id' => env('SPOTIFY_CLIENT_ID'),
         'client_secret' => env('SPOTIFY_CLIENT_SECRET'),
+        'redirect_uri' => env('SPOTIFY_REDIRECT_URI'),
+        'scope' => implode(' ', [
+            'streaming user-read-email',
+            'user-read-private',
+            'user-modify-playback-state',
+            'user-read-playback-state',
+            'user-read-currently-playing'
+        ]),
     ],
 
 ];
