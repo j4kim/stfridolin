@@ -10,6 +10,14 @@ const mainStore = useMainStore();
             {{ mainStore.appName }}
         </RouterLink>
     </h1>
+    <nav class="flex gap-4 p-2">
+        <RouterLink :to="{ name: 'home' }" activeClass="font-bold">
+            Home
+        </RouterLink>
+        <RouterLink :to="{ name: 'spotify' }" activeClass="font-bold">
+            Spotify remote
+        </RouterLink>
+    </nav>
     <main class="p-2">
         <RouterView></RouterView>
     </main>

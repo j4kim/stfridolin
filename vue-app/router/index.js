@@ -2,12 +2,21 @@ import { createRouter, createWebHistory } from "vue-router";
 import Home from "../views/Home.vue";
 import { useMainStore } from "../stores/main";
 import { redirectToLogin } from "../api";
+import Spotify from "../views/Spotify.vue";
 
 const routes = [
     {
         path: "/",
         name: "home",
         component: Home,
+    },
+    {
+        path: "/",
+        name: "spotify",
+        component: Spotify,
+        meta: {
+            requireAuth: true,
+        },
     },
 ];
 
