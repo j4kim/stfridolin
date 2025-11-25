@@ -44,16 +44,21 @@ class Spotify
     {
         $tokenInfo = Cache::get('spotifyTokenInfo');
 
+        $client_id = config('services.spotify.client_id');
+        $client_secret = config('services.spotify.client_secret');
+
         $response = Http::asForm()
+            ->withBasicAuth($client_id, $client_secret)
             ->post('https://accounts.spotify.com/api/token', [
                 'grant_type' => 'refresh_token',
                 'refresh_token' => $tokenInfo['refresh_token'],
-                'client_id' => config('services.spotify.client_id')
             ])
             ->throw()
             ->json();
 
-        return self::cacheToken($response);
+        $newTokenInfo = array_merge($tokenInfo, $response);
+
+        return self::cacheToken($newTokenInfo);
     }
 
     public static function cacheToken(array $info): array
