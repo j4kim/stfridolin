@@ -5,11 +5,12 @@ import { route as ziggy } from "../../vendor/tightenco/ziggy";
 import { useRoute } from "vue-router";
 
 const error = ref(null);
+const playback = ref(null);
 
 const route = useRoute();
 
 get("spotify.playback-state")
-    .then((data) => console.log(data))
+    .then((data) => (playback.value = data))
     .catch((e) => {
         if (e.response?.data?.exception) {
             error.value = e.response.data.exception;
@@ -31,5 +32,19 @@ get("spotify.playback-state")
             No spotify playback.
             <a href="https://open.spotify.com" target="_blank">Open Spotify</a>
         </p>
+    </div>
+    <div v-else-if="playback">
+        <img
+            class="inline"
+            v-if="playback.item.album.images.length"
+            :src="
+                playback.item.album.images[
+                    playback.item.album.images.length - 1
+                ].url
+            "
+        />
+        {{ playback.item.artists[0].name }} - {{ playback.item.name }}
+        <button v-if="playback.is_playing">⏸️</button>
+        <button v-else>▶️</button>
     </div>
 </template>
