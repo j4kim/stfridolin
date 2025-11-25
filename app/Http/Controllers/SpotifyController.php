@@ -36,6 +36,6 @@ class SpotifyController extends Controller
 
     public function playbackState()
     {
-        return Spotify::apiRequest()->get('/me/player')->throw()->json();
+        return Spotify::playbackState();
     }
 }

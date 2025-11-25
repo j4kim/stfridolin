@@ -2,6 +2,7 @@
 
 namespace App\Tools;
 
+use App\Exceptions\NoSpotifyPlaybackException;
 use App\Exceptions\NoSpotifyTokenException;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Response;
@@ -86,6 +87,15 @@ class Spotify
     {
         return Http::withToken(self::getToken())
             ->baseUrl('https://api.spotify.com/v1/');
+    }
+
+    public static function playbackState(): array
+    {
+        $response = Spotify::apiRequest()->get('/me/player')->throw();
+        if ($response->status() === 204) {
+            throw new NoSpotifyPlaybackException;
+        }
+        return $response->json();
     }
 
     public static function search(string $q, string $type = 'track', string $market = 'CH', int $limit = 10): Response
