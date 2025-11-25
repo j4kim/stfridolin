@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Tools\Spotify;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
 
 class SpotifyController extends Controller
 {
@@ -14,9 +13,7 @@ class SpotifyController extends Controller
             session(['url.intended' => $request->intended]);
         }
 
-        $url = Spotify::userAuthenticationUrl();
-
-        return redirect()->away($url);
+        return redirect()->away(Spotify::userAuthenticationUrl());
     }
 
     public function callback(Request $request)
@@ -29,21 +26,11 @@ class SpotifyController extends Controller
 
         Spotify::requestAccessToken($request->code);
 
-        return redirect()->intended('spotify-remote');
+        return redirect()->intended('spotify-devices');
     }
 
-    public function remote()
+    public function devices()
     {
-        if (!session('spotifyToken')) {
-            return redirect()->route('spotify-login');
-        }
-
-        $devices = Http::withToken(session('spotifyToken.access_token'))
-            ->baseUrl('https://api.spotify.com/v1/')
-            ->get('/me/player/devices')
-            ->throw()
-            ->json();
-
-        dump($devices, session('spotifyToken'));
+        return Spotify::getDevices();
     }
 }

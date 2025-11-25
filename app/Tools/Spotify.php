@@ -20,7 +20,7 @@ class Spotify
         ]);
     }
 
-    public static function requestAccessToken(string $code): bool
+    public static function requestAccessToken(string $code): array
     {
         $client_id = config('services.spotify.client_id');
         $client_secret = config('services.spotify.client_secret');
@@ -35,47 +35,76 @@ class Spotify
             ->throw()
             ->json();
 
-        session(['spotifyToken' => [
-            'access_token' => $response->access_token,
-            'token_type' => $response->token_type,
-            'scope' => $response->scope,
-            'expires_in' => $response->expires_in,
-            'expires_at' => now()->addSeconds($response->expires_in),
-            'refresh_token' => $response->refresh_token,
-        ]]);
-
-        return true;
+        return self::cacheToken($response);
     }
 
-    public function requestToken(): string
+    public static function refreshToken(): array
     {
-        return Http::asForm()->post('https://accounts.spotify.com/api/token', [
-            'grant_type' => 'client_credentials',
-            'client_id' => config('services.spotify.client_id'),
-            'client_secret' => config('services.spotify.client_secret'),
-        ])->throw()->json('access_token');
+        $tokenInfo = Cache::get('spotifyTokenInfo');
+
+        if (!$tokenInfo) {
+            abort(400, "No cached token info");
+        }
+
+        $response = Http::asForm()
+            ->post('https://accounts.spotify.com/api/token', [
+                'grant_type' => 'refresh_token',
+                'refresh_token' => $tokenInfo['refresh_token'],
+                'client_id' => config('services.spotify.client_id')
+            ])
+            ->throw()
+            ->json();
+
+        return self::cacheToken($response);
     }
 
-    public function getCachedToken(): string
+    public static function cacheToken(array $info): array
     {
-        return Cache::memo()->remember('spotify-token', 3500, fn() => $this->requestToken());
+        $tokenInfo = [
+            'access_token' => $info['access_token'],
+            'token_type' => $info['token_type'],
+            'scope' => $info['scope'],
+            'expires_in' => $info['expires_in'],
+            'expires_at' => now()->addSeconds($info['expires_in']),
+            'refresh_token' => $info['refresh_token'],
+        ];
+        Cache::put('spotifyTokenInfo', $tokenInfo);
+        return $tokenInfo;
     }
 
-    public function api(): PendingRequest
+    public static function getToken(): string
     {
-        return Http::withToken($this->getCachedToken())
+        $tokenInfo = Cache::memo()->get('spotifyTokenInfo');
+        if (!$tokenInfo) {
+            abort(400, "No cached token info");
+        }
+        $isExpired = now() > $tokenInfo['expires_at'];
+        if ($isExpired) {
+            $tokenInfo = self::refreshToken();
+        }
+        return $tokenInfo['access_token'];
+    }
+
+    public static function apiRequest(): PendingRequest
+    {
+        return Http::withToken(self::getToken())
             ->baseUrl('https://api.spotify.com/v1/');
     }
 
-    public function search(string $q, string $type = 'track', string $market = 'CH', int $limit = 10): Response
+    public static function getDevices(): array
     {
-        return $this->api()
+        return self::apiRequest()->get('/me/player/devices')->throw()->json();
+    }
+
+    public static function search(string $q, string $type = 'track', string $market = 'CH', int $limit = 10): Response
+    {
+        return self::apiRequest()
             ->get('search', compact('q', 'type', 'market', 'limit'))
             ->throw();
     }
 
-    public function searchTracks(string $q): array
+    public static function searchTracks(string $q): array
     {
-        return $this->search($q, 'track')->json('tracks');
+        return self::search($q, 'track')->json('tracks');
     }
 }

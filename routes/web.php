@@ -9,4 +9,4 @@ Route::fallback(function () {
 
 Route::get('spotify-login', [SpotifyController::class, 'login'])->name('spotify-login');
 Route::get('spotify-callback', [SpotifyController::class, 'callback'])->name('spotify-callback');
-Route::get('spotify-remote', [SpotifyController::class, 'remote'])->name('spotify-remote');
+Route::get('spotify-devices', [SpotifyController::class, 'devices'])->name('spotify-devices');
