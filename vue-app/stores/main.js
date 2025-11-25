@@ -7,6 +7,7 @@ export const useMainStore = defineStore("main", () => {
     return {
         appVersion: document.body.dataset.appVersion,
         appName: document.body.dataset.appName,
+        spotifyToken: JSON.parse(document.body.dataset.spotifyToken),
         user,
     };
 });

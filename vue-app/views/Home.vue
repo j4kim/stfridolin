@@ -1,11 +1,20 @@
 <script setup>
+import { useMainStore } from "../stores/main";
+
+const mainStore = useMainStore();
+
 window.onSpotifyWebPlaybackSDKReady = () => {
     console.log("onSpotifyWebPlaybackSDKReady");
+
+    if (!mainStore.spotifyToken?.access_token) {
+        console.warn("No Spotify access token");
+        return;
+    }
 
     const player = new Spotify.Player({
         name: "Web Playback SDK Quick Start Player",
         getOAuthToken: (cb) => {
-            cb(document.body.dataset.spotifyToken);
+            cb(mainStore.spotifyToken?.access_token);
         },
         volume: 0.5,
     });

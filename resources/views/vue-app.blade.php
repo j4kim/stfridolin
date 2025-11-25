@@ -24,7 +24,7 @@
         data-app-version="{{ config('app.version') }}"
         data-app-name="{{ config('app.name') }}"
         data-user="{{ json_encode(auth()->user()) }}"
-        data-spotify-token="{{ new App\Tools\Spotify()->getCachedToken() }}"
+        data-spotify-token="{{ json_encode(session('spotifyToken')) }}"
     >
         <div id="app"></div>
     </body>
