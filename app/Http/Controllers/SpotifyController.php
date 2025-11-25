@@ -7,8 +7,12 @@ use Illuminate\Support\Facades\Http;
 
 class SpotifyController extends Controller
 {
-    public function login()
+    public function login(Request $request)
     {
+        if ($request->intended) {
+            session(['url.intended' => $request->intended]);
+        }
+
         $url = url()->query('https://accounts.spotify.com/authorize', [
             'client_id' => config('services.spotify.client_id'),
             'response_type' => 'code',
@@ -46,8 +50,30 @@ class SpotifyController extends Controller
             ->throw()
             ->json();
 
+        /*
+         access_token,
+         token_type,
+         scope,
+         expires_in,
+         refresh_token
+        */
         session(['spotifyToken' => $response]);
 
-        return "Successfully connected to Spotify";
+        return redirect()->intended('spotify-remote');
+    }
+
+    public function remote()
+    {
+        if (!session('spotifyToken')) {
+            return redirect()->route('spotify-login');
+        }
+
+        $devices = Http::withToken(session('spotifyToken.access_token'))
+            ->baseUrl('https://api.spotify.com/v1/')
+            ->get('/me/player/devices')
+            ->throw()
+            ->json();
+
+        dump($devices, session('spotifyToken'));
     }
 }

@@ -7,5 +7,6 @@ Route::fallback(function () {
     return view('vue-app');
 })->name('vue-app');
 
-Route::get('spotify-login', [SpotifyController::class, 'login']);
-Route::get('spotify-callback', [SpotifyController::class, 'callback']);
+Route::get('spotify-login', [SpotifyController::class, 'login'])->name('spotify-login');
+Route::get('spotify-callback', [SpotifyController::class, 'callback'])->name('spotify-callback');
+Route::get('spotify-remote', [SpotifyController::class, 'remote'])->name('spotify-remote');
