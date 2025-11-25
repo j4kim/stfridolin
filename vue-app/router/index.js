@@ -11,7 +11,7 @@ const routes = [
         component: Home,
     },
     {
-        path: "/",
+        path: "/spotify",
         name: "spotify",
         component: Spotify,
         meta: {
@@ -27,7 +27,7 @@ const router = createRouter({
 
 router.beforeEach((to) => {
     if (to.meta?.requireAuth && !useMainStore().user) {
-        redirectToLogin("/" + to.href);
+        redirectToLogin(to.href);
         return false;
     }
 });
