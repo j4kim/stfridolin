@@ -38,4 +38,18 @@ class SpotifyController extends Controller
     {
         return Spotify::playbackState();
     }
+
+    public function play()
+    {
+        return Spotify::apiRequest()
+            ->put("/me/player/play", ['position_ms' => 0])
+            ->throw();
+    }
+
+    public function pause()
+    {
+        return Spotify::apiRequest()
+            ->put("/me/player/pause")
+            ->throw();
+    }
 }

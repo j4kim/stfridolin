@@ -1,23 +1,41 @@
 <script setup>
 import { ref } from "vue";
-import { get } from "../api";
+import { get, put } from "../api";
 import { route as ziggy } from "../../vendor/tightenco/ziggy";
 import { useRoute } from "vue-router";
 
 const error = ref(null);
 const playback = ref(null);
+const is_playing = ref(false);
 
 const route = useRoute();
 
-get("spotify.playback-state")
-    .then((data) => (playback.value = data))
-    .catch((e) => {
-        if (e.response?.data?.exception) {
-            error.value = e.response.data.exception;
-        } else {
-            alert(error.response?.data?.message ?? error.message);
-        }
-    });
+getPlaybackState();
+
+async function getPlaybackState() {
+    get("spotify.playback-state")
+        .then((data) => {
+            playback.value = data;
+            is_playing.value = data.is_playing;
+        })
+        .catch((e) => {
+            if (e.response?.data?.exception) {
+                error.value = e.response.data.exception;
+            } else {
+                alert(error.response?.data?.message ?? error.message);
+            }
+        });
+}
+
+async function play() {
+    await put("spotify.play");
+    is_playing.value = true;
+}
+
+async function pause() {
+    await put("spotify.pause");
+    is_playing.value = false;
+}
 </script>
 
 <template>
@@ -44,7 +62,13 @@ get("spotify.playback-state")
             "
         />
         {{ playback.item.artists[0].name }} - {{ playback.item.name }}
-        <button v-if="playback.is_playing">⏸️</button>
-        <button v-else>▶️</button>
+        <div class="flex items-center gap-1">
+            <progress
+                :max="playback.item.duration_ms"
+                :value="playback.progress_ms"
+            ></progress>
+            <button v-if="is_playing" @click="pause">⏸️</button>
+            <button v-else @click="play">▶️</button>
+        </div>
     </div>
 </template>
