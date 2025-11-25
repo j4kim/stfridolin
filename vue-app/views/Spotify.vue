@@ -1,7 +1,7 @@
 <script setup>
 import { get } from "../api";
 
-get("spotify.devices").then((data) => console.log(data));
+get("spotify.playback-state").then((data) => console.log(data));
 </script>
 
 <template>

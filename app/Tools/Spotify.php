@@ -88,11 +88,6 @@ class Spotify
             ->baseUrl('https://api.spotify.com/v1/');
     }
 
-    public static function getDevices(): array
-    {
-        return self::apiRequest()->get('/me/player/devices')->throw()->json();
-    }
-
     public static function search(string $q, string $type = 'track', string $market = 'CH', int $limit = 10): Response
     {
         return self::apiRequest()

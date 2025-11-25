@@ -31,6 +31,11 @@ class SpotifyController extends Controller
 
     public function devices()
     {
-        return Spotify::getDevices();
+        return Spotify::apiRequest()->get('/me/player/devices')->throw()->json();
+    }
+
+    public function playbackState()
+    {
+        return Spotify::apiRequest()->get('/me/player')->throw()->json();
     }
 }
