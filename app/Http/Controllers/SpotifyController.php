@@ -48,6 +48,12 @@ class SpotifyController extends Controller
         return $spotifyRequest->put("/me/player/play", ['position_ms' => 0]);
     }
 
+
+    public function playTrack(string $trackUri)
+    {
+        Spotify::playTrack($trackUri);
+    }
+
     public function pause()
     {
         return Spotify::apiRequest()

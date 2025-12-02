@@ -135,4 +135,11 @@ class Spotify
         self::apiRequest()->put("/me/player", ['device_ids' => [$deviceId]])->throw();
         Cache::put('spotifySelectedDeviceId', $deviceId);
     }
+
+    public static function playTrack(string $trackUri): Response
+    {
+        return self::apiRequest()
+            ->withQueryParameters(['device_id' => self::getSelectedDeviceId()])
+            ->put("/me/player/play", ['position_ms' => 0, 'uris' => [$trackUri]]);
+    }
 }

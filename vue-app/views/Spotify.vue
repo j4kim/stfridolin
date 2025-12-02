@@ -59,6 +59,11 @@ async function searchTracks() {
     const data = await get("spotify.search-tracks", { q: searchQuery.value });
     tracks.value = data.items;
 }
+
+async function playTrack(uri) {
+    const data = await put("spotify.play-track", uri);
+    setTimeout(async () => await getPlaybackState(), 500);
+}
 </script>
 
 <template>
@@ -148,7 +153,10 @@ async function searchTracks() {
                         {{ track.artists.map((a) => a.name).join(", ") }}
                     </div>
                 </div>
-                <button class="btn btn-square btn-ghost">
+                <button
+                    class="btn btn-square btn-ghost"
+                    @click="playTrack(track.uri)"
+                >
                     <PlayIcon />
                 </button>
             </li>
