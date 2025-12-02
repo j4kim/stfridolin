@@ -6,6 +6,7 @@ use App\Exceptions\NoSpotifyPlaybackException;
 use App\Exceptions\NoSpotifyTokenException;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Response;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 
@@ -113,5 +114,25 @@ class Spotify
     public static function searchTracks(string $q): array
     {
         return self::search($q, 'track')->json('tracks');
+    }
+
+    public static function devices(): Collection
+    {
+        $devices = self::apiRequest()->get('/me/player/devices')->throw()->collect('devices');
+        return $devices->map(fn(array $device) => [
+            ...$device,
+            'selected' => $device['id'] === self::getSelectedDeviceId(),
+        ]);
+    }
+
+    public static function getSelectedDeviceId(): ?string
+    {
+        return Cache::memo()->get('spotifySelectedDeviceId');
+    }
+
+    public static function selectDevice(string $deviceId)
+    {
+        self::apiRequest()->put("/me/player", ['device_ids' => [$deviceId]])->throw();
+        Cache::put('spotifySelectedDeviceId', $deviceId);
     }
 }

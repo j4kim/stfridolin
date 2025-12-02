@@ -31,7 +31,7 @@ class SpotifyController extends Controller
 
     public function devices()
     {
-        return Spotify::apiRequest()->get('/me/player/devices')->throw()->json();
+        return Spotify::devices();
     }
 
     public function playbackState()
@@ -53,5 +53,10 @@ class SpotifyController extends Controller
         return Spotify::apiRequest()
             ->put("/me/player/pause")
             ->throw();
+    }
+
+    public function selectDevice(string $deviceId)
+    {
+        Spotify::selectDevice($deviceId);
     }
 }
