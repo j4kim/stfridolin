@@ -6,7 +6,11 @@ import Boxer from "../svg/Boxer.vue";
     <div>
         <svg width="100%" height="100%" viewBox="0 0 1500 1000">
             <Boxer />
-            <Boxer transform="scale(-1, 1)" transform-origin="center" />
+            <Boxer
+                transform="scale(-1, 1)"
+                transform-origin="center"
+                style="--anim-arm-front-dur: 0.9s; --anim-arm-back-dur: 0.7s"
+            />
         </svg>
     </div>
 </template>
