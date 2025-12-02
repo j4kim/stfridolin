@@ -59,4 +59,12 @@ class SpotifyController extends Controller
     {
         Spotify::selectDevice($deviceId);
     }
+
+    public function searchTracks(Request $request)
+    {
+        if (!$request->q) {
+            return ['items' => []];
+        }
+        return Spotify::searchTracks($request->q);
+    }
 }
