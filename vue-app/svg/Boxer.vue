@@ -6,6 +6,10 @@ import { MorphSVGPlugin } from "gsap/MorphSVGPlugin";
 
 gsap.registerPlugin(MorphSVGPlugin);
 
+const props = defineProps({
+    imageUrl: String,
+});
+
 const frames = [
     {
         leg_back: {
@@ -35,7 +39,7 @@ const frames = [
         },
         head: {
             image: {
-                href: "https://i.scdn.co/image/ab67616d0000b27389b9e48b79603248d4fea627",
+                href: props.imageUrl,
                 x: 362,
                 y: 116,
                 width: 272,
@@ -79,7 +83,7 @@ const frames = [
         },
         head: {
             image: {
-                href: "https://i.scdn.co/image/ab67616d0000b27389b9e48b79603248d4fea627",
+                href: props.imageUrl,
                 x: 329,
                 y: 116,
                 width: 272,
