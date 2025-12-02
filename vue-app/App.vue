@@ -24,5 +24,4 @@ const mainStore = useMainStore();
     <main class="p-2">
         <RouterView></RouterView>
     </main>
-    <footer class="p-2 text-sm opacity-50">v{{ mainStore.appVersion }}</footer>
 </template>
