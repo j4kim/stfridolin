@@ -4,7 +4,7 @@ import Boxer from "../svg/Boxer.vue";
 
 <template>
     <div>
-        <svg width="100%" height="100%" viewBox="0 0 1500 1000">
+        <svg class="max-h-[80vh] w-full" viewBox="0 0 1500 1000">
             <Boxer
                 imageUrl="https://i.scdn.co/image/ab67616d0000b27389b9e48b79603248d4fea627"
             />
