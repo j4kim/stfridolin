@@ -60,12 +60,7 @@ const frame = ref(0);
 </script>
 
 <template>
-    <svg
-        width="100%"
-        height="100%"
-        viewBox="0 0 1000 1000"
-        @click="frame = (frame + 1) % frames.length"
-    >
+    <g @click="frame = (frame + 1) % frames.length">
         <g v-for="(paths, id) in frames[frame]" :id>
             <path
                 v-for="d in paths"
@@ -73,5 +68,5 @@ const frame = ref(0);
                 style="fill: #ebebeb; stroke: #000; stroke-width: 1px"
             />
         </g>
-    </svg>
+    </g>
 </template>
