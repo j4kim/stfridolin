@@ -42,13 +42,22 @@ async function pause() {
     <div v-if="error">
         <p v-if="error === 'App\\Exceptions\\NoSpotifyTokenException'">
             No Spotify Token.
-            <a :href="ziggy('spotify-login', { intended: route.path })">
+            <a
+                :href="ziggy('spotify-login', { intended: route.path })"
+                class="link-primary"
+            >
                 Login to Spotify
             </a>
         </p>
         <p v-if="error === 'App\\Exceptions\\NoSpotifyPlaybackException'">
             No spotify playback.
-            <a href="https://open.spotify.com" target="_blank">Open Spotify</a>
+            <a
+                href="https://open.spotify.com"
+                target="_blank"
+                class="link-primary"
+            >
+                Open Spotify
+            </a>
         </p>
     </div>
     <div v-else-if="playback">
