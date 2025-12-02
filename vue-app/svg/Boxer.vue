@@ -1,5 +1,10 @@
 <script setup>
-import { ref } from "vue";
+import { onMounted, ref, useTemplateRef } from "vue";
+import { gsap } from "gsap";
+
+import { MorphSVGPlugin } from "gsap/MorphSVGPlugin";
+
+gsap.registerPlugin(MorphSVGPlugin);
 
 const frames = [
     {
@@ -82,13 +87,33 @@ const frames = [
     },
 ];
 
-const frame = ref(0);
+const pathElements = useTemplateRef("pathElements");
+
+onMounted(() => {
+    const duration = 0.8 + (Math.random() - 0.05);
+    pathElements.value.forEach((pathElement) => {
+        const [id, idx] = pathElement.id.split("-");
+        const toPath = frames[1][id].paths[idx];
+        gsap.to(pathElement, {
+            duration: duration,
+            morphSVG: toPath,
+            repeat: -1,
+            yoyo: true,
+            ease: "power1.inOut", // "back.inOut" is cool too
+        });
+    });
+});
 </script>
 
 <template>
-    <g @click="frame = (frame + 1) % frames.length">
-        <g v-for="(group, id) in frames[frame]" :id :class="group.cls">
-            <path v-for="d in group.paths" :d />
+    <g>
+        <g v-for="(group, id) in frames[0]" :id :class="group.cls">
+            <path
+                v-for="(d, idx) in group.paths"
+                :d
+                :id="`${id}-${idx}`"
+                ref="pathElements"
+            />
         </g>
     </g>
 </template>
