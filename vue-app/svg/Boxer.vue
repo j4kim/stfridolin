@@ -6,6 +6,12 @@ import { MorphSVGPlugin } from "gsap/MorphSVGPlugin";
 
 gsap.registerPlugin(MorphSVGPlugin);
 
+const max = 1.1;
+const min = 0.7;
+const animBackArmDuration = Math.random() * (max - min) + min;
+const animFrontArmDuration = Math.random() * (max - min) + min;
+const animBodyDuration = Math.random() * (max - min) + min;
+
 const props = defineProps({
     imageUrl: String,
     reversed: Boolean,
@@ -26,6 +32,9 @@ const frames = [
                 "M596.398,425.301l32.229,30.18l28.14,-20.674l-40.059,-33.859l-20.31,24.353Z",
             ],
             cls: "arm",
+            style: {
+                animationDuration: `${animBackArmDuration}s`,
+            },
         },
         leg_front: {
             paths: [
@@ -55,6 +64,9 @@ const frames = [
                 "M512.265,441.844l6.863,47.347l43.091,-4.893l-8.551,-58.273l-41.403,15.819Z",
             ],
             cls: "arm",
+            style: {
+                animationDuration: `${animFrontArmDuration}s`,
+            },
         },
     },
     {
@@ -105,7 +117,7 @@ const frames = [
 const animables = useTemplateRef("animables");
 
 onMounted(() => {
-    const duration = 0.8 + (Math.random() - 0.05);
+    const duration = animBodyDuration;
     const ease = "power1.inOut"; // "back.inOut" is cool too
     animables.value.forEach((el) => {
         const [id, idx] = el.id.split("-");
@@ -128,7 +140,12 @@ onMounted(() => {
 
 <template>
     <g :class="{ reversed }">
-        <g v-for="(group, id) in frames[0]" :id :class="group.cls">
+        <g
+            v-for="(group, id) in frames[0]"
+            :id
+            :class="group.cls"
+            :style="group.style"
+        >
             <path
                 v-for="(d, idx) in group.paths"
                 :d
@@ -157,13 +174,11 @@ onMounted(() => {
 g.reversed {
     transform: scale(-1, 1);
     transform-origin: center;
-    --anim-arm-front-dur: 0.9s;
-    --anim-arm-back-dur: 0.7s;
 }
 path {
     fill: #ebebeb;
     stroke: #000;
-    stroke-width: 1px;
+    stroke-width: 4px;
 }
 image {
     transform-box: fill-box;
@@ -174,7 +189,7 @@ image {
         rotate: 0deg;
     }
     100% {
-        rotate: 12deg;
+        rotate: 10deg;
     }
 }
 g.arm {
@@ -182,11 +197,9 @@ g.arm {
 }
 g#arm_front {
     transform-origin: 28% 39%;
-    animation-duration: var(--anim-arm-front-dur, 0.8s);
 }
 g#arm_back {
     transform-origin: 28% 39%;
-    animation-duration: var(--anim-arm-back-dur, 1s);
 }
 g#head path {
     fill: url(#img1);
