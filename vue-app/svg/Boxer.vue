@@ -34,9 +34,14 @@ const frames = [
             ],
         },
         head: {
-            paths: [
-                "M667.464,159.807l-79.61,261.619l-261.619,-79.61l79.609,-261.619l261.62,79.61Z",
-            ],
+            image: {
+                href: "https://i.scdn.co/image/ab67616d0000b27389b9e48b79603248d4fea627",
+                x: 362,
+                y: 116,
+                width: 272,
+                height: 272,
+                rotate: 17,
+            },
         },
         arm_front: {
             paths: [
@@ -73,9 +78,14 @@ const frames = [
             ],
         },
         head: {
-            paths: [
-                "M635.439,159.807l-79.61,261.619l-261.619,-79.61l79.61,-261.619l261.619,79.61Z",
-            ],
+            image: {
+                href: "https://i.scdn.co/image/ab67616d0000b27389b9e48b79603248d4fea627",
+                x: 329,
+                y: 116,
+                width: 272,
+                height: 272,
+                rotate: 17,
+            },
         },
         arm_front: {
             paths: [
@@ -87,20 +97,26 @@ const frames = [
     },
 ];
 
-const pathElements = useTemplateRef("pathElements");
+const animables = useTemplateRef("animables");
 
 onMounted(() => {
     const duration = 0.8 + (Math.random() - 0.05);
-    pathElements.value.forEach((pathElement) => {
-        const [id, idx] = pathElement.id.split("-");
-        const toPath = frames[1][id].paths[idx];
-        gsap.to(pathElement, {
-            duration: duration,
-            morphSVG: toPath,
-            repeat: -1,
-            yoyo: true,
-            ease: "power1.inOut", // "back.inOut" is cool too
-        });
+    const ease = "power1.inOut"; // "back.inOut" is cool too
+    animables.value.forEach((el) => {
+        const [id, idx] = el.id.split("-");
+        const toObj = frames[1][id];
+        if (el.nodeName === "path") {
+            const morphSVG = toObj.paths[idx];
+            gsap.to(el, { duration, morphSVG, repeat: -1, yoyo: true, ease });
+        } else if (el.nodeName === "image") {
+            gsap.to(el, {
+                duration,
+                attr: toObj.image,
+                repeat: -1,
+                yoyo: true,
+                ease,
+            });
+        }
     });
 });
 </script>
@@ -112,7 +128,20 @@ onMounted(() => {
                 v-for="(d, idx) in group.paths"
                 :d
                 :id="`${id}-${idx}`"
-                ref="pathElements"
+                ref="animables"
+            />
+            <image
+                v-if="group.image"
+                :href="group.image.href"
+                :x="group.image.x"
+                :y="group.image.y"
+                :width="group.image.width"
+                :height="group.image.height"
+                :style="{
+                    rotate: `${group.image.rotate}deg`,
+                }"
+                :id="`${id}-0`"
+                ref="animables"
             />
         </g>
     </g>
@@ -123,6 +152,10 @@ path {
     fill: #ebebeb;
     stroke: #000;
     stroke-width: 1px;
+}
+image {
+    transform-box: fill-box;
+    transform-origin: center;
 }
 @keyframes animatearms {
     0% {
@@ -142,5 +175,8 @@ g#arm_front {
 g#arm_back {
     transform-origin: 28% 39%;
     animation-duration: var(--anim-arm-back-dur, 1s);
+}
+g#head path {
+    fill: url(#img1);
 }
 </style>
