@@ -9,10 +9,8 @@ import Boxer from "../svg/Boxer.vue";
                 imageUrl="https://i.scdn.co/image/ab67616d0000b27389b9e48b79603248d4fea627"
             />
             <Boxer
-                transform="scale(-1, 1)"
-                transform-origin="center"
-                style="--anim-arm-front-dur: 0.9s; --anim-arm-back-dur: 0.7s"
                 imageUrl="https://i.scdn.co/image/ab67616d0000b2734e09836e2d1938337c416bf2"
+                reversed
             />
         </svg>
     </div>

@@ -8,6 +8,7 @@ gsap.registerPlugin(MorphSVGPlugin);
 
 const props = defineProps({
     imageUrl: String,
+    reversed: Boolean,
 });
 
 const frames = [
@@ -126,7 +127,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <g>
+    <g :class="{ reversed }">
         <g v-for="(group, id) in frames[0]" :id :class="group.cls">
             <path
                 v-for="(d, idx) in group.paths"
@@ -142,6 +143,7 @@ onMounted(() => {
                 :width="group.image.width"
                 :height="group.image.height"
                 :style="{
+                    scale: reversed ? '-1 1' : 'auto',
                     rotate: `${group.image.rotate}deg`,
                 }"
                 :id="`${id}-0`"
@@ -152,6 +154,12 @@ onMounted(() => {
 </template>
 
 <style scoped>
+g.reversed {
+    transform: scale(-1, 1);
+    transform-origin: center;
+    --anim-arm-front-dur: 0.9s;
+    --anim-arm-back-dur: 0.7s;
+}
 path {
     fill: #ebebeb;
     stroke: #000;
