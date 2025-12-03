@@ -15,12 +15,19 @@
             <path d="M283.817,602.899l94.976,93.367l-50.075,167.046l82.279,3.391l-37.229,-24.383l62.468,-154.752l-69.453,-113.912l-82.966,29.243Z" style="fill:#ebebeb;stroke:#000;stroke-width:1px;"/>
             <path d="M291.529,527.904l-9.971,32.17l-4.428,44.446l58.31,82.247l85.787,-60.537l-57.638,-93.327l-72.06,-4.999Z" style="fill:#ebebeb;stroke:#000;stroke-width:1px;"/>
         </g>
-        <path id="torso" d="M296.693,527.904l73.598,30.908l55.146,-8.681l54.938,-171.037l-28.228,-37.381l-51.04,-14.907l-45.239,21.38l-59.175,179.718Z" style="fill:#ebebeb;stroke:#000;stroke-width:1px;"/>
-        <path id="head" d="M635.439,159.807l-79.61,261.619l-261.619,-79.61l79.61,-261.619l261.619,79.61Z" style="fill:#ebebeb;stroke:#000;stroke-width:1px;"/>
+        <g id="torso">
+            <path d="M296.693,527.904l73.598,30.908l55.146,-8.681l54.938,-171.037l-28.228,-37.381l-51.04,-14.907l-45.239,21.38l-59.175,179.718Z" style="fill:#ebebeb;stroke:#000;stroke-width:1px;"/>
+        </g>
+        <g id="head">
+            <use xlink:href="#_Image1" x="0" y="0" width="4px" height="4px" transform="matrix(65.3658,18.7433,-18.7433,65.3658,371.58,82.5931)"/>
+        </g>
         <g id="arm_front">
             <path d="M349.179,397.299l38.197,104.331l132.913,-21.379l-6.107,-37.442l-88.745,9.464l-10.394,-73.666l-42.036,-25.413l-23.828,44.105Z" style="fill:#ebebeb;stroke:#000;stroke-width:1px;"/>
             <path d="M512.954,444.778l4.479,30.843l51.989,16.006l51.011,-17.84l-16.124,-73.545l-61.888,-2.808l-29.467,47.344Z" style="fill:#ebebeb;stroke:#000;stroke-width:1px;"/>
             <path d="M480.241,441.844l6.862,47.347l43.091,-4.893l-8.551,-58.273l-41.402,15.819Z" style="fill:#ebebeb;stroke:#000;stroke-width:1px;"/>
         </g>
     </g>
+    <defs>
+        <image id="_Image1" width="4px" height="4px" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAJElEQVQImV3KMQoAAAiAQIv+/2UbIohuFAOQIwFUdHr8o/ZYDYDiCv5/F+VjAAAAAElFTkSuQmCC"/>
+    </defs>
 </svg>
