@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, useTemplateRef } from "vue";
+import { onMounted, ref, useTemplateRef } from "vue";
 import { gsap } from "gsap";
 
 import { MorphSVGPlugin } from "gsap/MorphSVGPlugin";
@@ -18,23 +18,29 @@ const props = defineProps({
     initialSvgContent: String,
 });
 
-const root = useTemplateRef("root");
+const g = useTemplateRef("g");
 
 const baseTl = gsap.timeline({ repeat: -1, yoyo: true });
 
-onMounted(() => {
-    const animables = root.value.querySelectorAll("path, use");
-    Array.from(animables).forEach((el) => {
-        const toSel = `#frame-2 [data-name=${el.dataset.name}]`;
+const animables = ref([]);
+
+function addToTl(tl, frame, duration, ease) {
+    animables.value.forEach((el) => {
+        const toSel = `#frame-${frame} [data-name=${el.dataset.name}]`;
         const toEl = document.querySelector(toSel);
-        const vars = { ease: "power1.inOut", duration: animBodyDuration };
+        const vars = { ease, duration };
         if (el.nodeName === "path") {
             vars.morphSVG = toEl;
         } else if (el.nodeName === "use") {
             vars.transform = toEl.attributes.transform.value;
         }
-        baseTl.to(el, vars, 0);
+        tl.to(el, vars, 0);
     });
+}
+
+onMounted(() => {
+    animables.value = Array.from(g.value.querySelectorAll("path, use"));
+    addToTl(baseTl, 2, animBodyDuration, "power1.inOut");
 });
 </script>
 
@@ -42,7 +48,7 @@ onMounted(() => {
     <g
         :class="{ reversed }"
         v-html="initialSvgContent"
-        ref="root"
+        ref="g"
         :style="{
             '--animBackArmDuration': `${animBackArmDuration}s`,
             '--animFrontArmDuration': `${animFrontArmDuration}s`,
