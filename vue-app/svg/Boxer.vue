@@ -23,12 +23,18 @@ const root = useTemplateRef("root");
 onMounted(() => {
     const duration = animBodyDuration;
     const ease = "power1.inOut"; // "back.inOut" is cool too
-    const animables = root.value.querySelectorAll("path");
+    const animables = root.value.querySelectorAll("path, use");
     Array.from(animables).forEach((el) => {
         const toEl = document.querySelector(
             `#frame-2 [data-name=${el.dataset.name}]`,
         );
-        gsap.to(el, { duration, morphSVG: toEl, repeat: -1, yoyo: true, ease });
+        const vars = { duration, repeat: -1, yoyo: true, ease };
+        if (el.nodeName === "path") {
+            vars.morphSVG = toEl;
+        } else if (el.nodeName === "use") {
+            vars.transform = toEl.attributes.transform.value;
+        }
+        gsap.to(el, vars);
     });
 });
 </script>
