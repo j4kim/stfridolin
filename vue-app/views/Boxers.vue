@@ -1,4 +1,5 @@
 <script setup>
+import { ref } from "vue";
 import Boxer from "../svg/Boxer.vue";
 import boxer1 from "../svg/boxer-1.svg?raw";
 import boxer2 from "../svg/boxer-2.svg?raw";
@@ -25,6 +26,11 @@ const framesXml = [
 ].map(({ id, svg }) => {
     return { id, content: getBoxerSvgContent(svg, id) };
 });
+
+const imgUrls = ref({
+    left: "https://i.scdn.co/image/ab67616d0000b27389b9e48b79603248d4fea627",
+    right: "https://i.scdn.co/image/ab67616d0000b2734e09836e2d1938337c416bf2",
+});
 </script>
 
 <template>
@@ -40,13 +46,13 @@ const framesXml = [
                     id="_Image1"
                     width="4px"
                     height="4px"
-                    href="https://i.scdn.co/image/ab67616d0000b27389b9e48b79603248d4fea627"
+                    :href="imgUrls.left"
                 />
                 <image
                     id="_Image2"
                     width="4px"
                     height="4px"
-                    href="https://i.scdn.co/image/ab67616d0000b2734e09836e2d1938337c416bf2"
+                    :href="imgUrls.right"
                 />
             </defs>
             <Boxer
