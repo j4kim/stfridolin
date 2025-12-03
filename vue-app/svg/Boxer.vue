@@ -40,12 +40,40 @@ onMounted(() => {
 </script>
 
 <template>
-    <g :class="{ reversed }" v-html="initialSvgContent" ref="root"></g>
+    <g
+        :class="{ reversed }"
+        v-html="initialSvgContent"
+        ref="root"
+        :style="{
+            '--animBackArmDuration': `${animBackArmDuration}s`,
+            '--animFrontArmDuration': `${animFrontArmDuration}s`,
+        }"
+    ></g>
 </template>
 
-<style scoped>
+<style>
 g.reversed {
     transform: scale(-1, 1);
     transform-origin: center;
+}
+
+@keyframes animatearms {
+    0% {
+        rotate: 0deg;
+    }
+    100% {
+        rotate: 10deg;
+    }
+}
+g[data-name^="arm_"] {
+    animation: animatearms infinite ease-in-out alternate;
+}
+g[data-name="arm_back"] {
+    transform-origin: 28% 39%;
+    animation-duration: var(--animBackArmDuration);
+}
+g[data-name="arm_front"] {
+    transform-origin: 28% 39%;
+    animation-duration: var(--animFrontArmDuration);
 }
 </style>
