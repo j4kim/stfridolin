@@ -3,6 +3,7 @@ import { ref } from "vue";
 import Boxer from "../svg/Boxer.vue";
 import boxer1 from "../svg/boxer-1.svg?raw";
 import boxer2 from "../svg/boxer-2.svg?raw";
+import boxer3 from "../svg/boxer-3.svg?raw";
 
 const parser = new DOMParser();
 
@@ -23,6 +24,7 @@ function getBoxerSvgContent(svg, id) {
 const framesXml = [
     { id: "frame-1", svg: boxer1 },
     { id: "frame-2", svg: boxer2 },
+    { id: "frame-3", svg: boxer3 },
 ].map(({ id, svg }) => {
     return { id, content: getBoxerSvgContent(svg, id) };
 });
