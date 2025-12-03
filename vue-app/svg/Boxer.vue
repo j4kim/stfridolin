@@ -20,21 +20,20 @@ const props = defineProps({
 
 const root = useTemplateRef("root");
 
+const baseTl = gsap.timeline({ repeat: -1, yoyo: true });
+
 onMounted(() => {
-    const duration = animBodyDuration;
-    const ease = "power1.inOut"; // "back.inOut" is cool too
     const animables = root.value.querySelectorAll("path, use");
     Array.from(animables).forEach((el) => {
-        const toEl = document.querySelector(
-            `#frame-2 [data-name=${el.dataset.name}]`,
-        );
-        const vars = { duration, repeat: -1, yoyo: true, ease };
+        const toSel = `#frame-2 [data-name=${el.dataset.name}]`;
+        const toEl = document.querySelector(toSel);
+        const vars = { ease: "power1.inOut", duration: animBodyDuration };
         if (el.nodeName === "path") {
             vars.morphSVG = toEl;
         } else if (el.nodeName === "use") {
             vars.transform = toEl.attributes.transform.value;
         }
-        gsap.to(el, vars);
+        baseTl.to(el, vars, 0);
     });
 });
 </script>
