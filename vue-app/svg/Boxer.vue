@@ -26,7 +26,7 @@ const punchTl = gsap.timeline({ paused: true });
 
 const animables = ref([]);
 
-function addToTl(tl, frame, duration, ease, position) {
+function addToTl(tl, frame, duration, ease = "power1.inOut", position = 0) {
     animables.value.forEach((el) => {
         const toSel = `#frame-${frame} [data-name=${el.dataset.name}]`;
         const toEl = document.querySelector(toSel);
@@ -47,11 +47,13 @@ onMounted(() => {
     addToTl(punchTl, 2, 0.3, "power1.inOut", 0.4);
 });
 
-async function punch() {
+function punch() {
     baseTl.pause();
-    punchTl.seek(0);
-    punchTl.play().then(() => {
-        baseTl.resume();
+    punchTl.restart().then(() => {
+        baseTl.seek(animBodyDuration);
+        const correctionTl = gsap.timeline();
+        correctionTl.then(() => baseTl.resume());
+        addToTl(correctionTl, 2, 0.1);
     });
 }
 </script>
