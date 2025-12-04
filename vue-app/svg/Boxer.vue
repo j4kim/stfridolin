@@ -1,8 +1,8 @@
 <script setup>
 import { onMounted, ref, useTemplateRef } from "vue";
 import { gsap } from "gsap";
-
 import { MorphSVGPlugin } from "gsap/MorphSVGPlugin";
+import { getShapeIndex } from "./utils";
 
 gsap.registerPlugin(MorphSVGPlugin);
 
@@ -29,13 +29,23 @@ const punchTl = gsap.timeline({ paused: true });
 
 const animables = ref([]);
 
-function addToTl(tl, frame, duration, ease = "power1.inOut", position = 0) {
+function addToTl(
+    tl,
+    fromFrame,
+    toFrame,
+    duration,
+    ease = "power1.inOut",
+    position = 0,
+) {
     animables.value.forEach((el) => {
-        const toSel = `#frame-${frame} [data-name=${el.dataset.name}]`;
+        const toSel = `#frame-${toFrame} [data-name=${el.dataset.name}]`;
         const toEl = document.querySelector(toSel);
         const vars = { ease, duration };
         if (el.nodeName === "path") {
-            vars.morphSVG = toEl;
+            vars.morphSVG = {
+                shape: toEl,
+                shapeIndex: getShapeIndex(fromFrame, toFrame, el.dataset.name),
+            };
         } else if (el.nodeName === "use") {
             vars.transform = toEl.attributes.transform.value;
         }
@@ -45,10 +55,11 @@ function addToTl(tl, frame, duration, ease = "power1.inOut", position = 0) {
 
 onMounted(() => {
     animables.value = Array.from(g.value.querySelectorAll("path, use"));
-    addToTl(baseTl, 2, animBodyDuration, "power1.inOut", 0);
-    addToTl(punchTl, 3, punchInDuration, "back.in(4)", 0);
+    addToTl(baseTl, 1, 2, animBodyDuration, "power1.inOut", 0);
+    addToTl(punchTl, 1, 3, punchInDuration, "back.in(3)", 0);
     addToTl(
         punchTl,
+        3,
         2,
         punchOutDuration,
         "power1.inOut",
@@ -58,11 +69,11 @@ onMounted(() => {
 
 function punch() {
     baseTl.pause();
-    punchTl.restart().then(() => {
+    return punchTl.restart().then(() => {
         baseTl.seek(animBodyDuration);
         const correctionTl = gsap.timeline();
         correctionTl.then(() => baseTl.resume());
-        addToTl(correctionTl, 2, 0.1);
+        addToTl(correctionTl, 2, 2, 0.1);
     });
 }
 </script>

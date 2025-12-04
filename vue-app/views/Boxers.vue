@@ -40,7 +40,7 @@ const imgUrls = ref({
         <svg class="max-h-[80vh] w-full" viewBox="0 0 1500 1000">
             <defs>
                 <g
-                    v-for="svg in framesXml.slice(1)"
+                    v-for="svg in framesXml"
                     :id="svg.id"
                     v-html="svg.content"
                 ></g>
