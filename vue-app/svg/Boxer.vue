@@ -11,6 +11,9 @@ const min = 0.7;
 const animBackArmDuration = Math.random() * (max - min) + min;
 const animFrontArmDuration = Math.random() * (max - min) + min;
 const animBodyDuration = Math.random() * (max - min) + min;
+const punchInDuration = 0.6;
+const punchInPause = 0.2;
+const punchOutDuration = 0.5;
 
 const props = defineProps({
     imageUrl: String,
@@ -43,8 +46,14 @@ function addToTl(tl, frame, duration, ease = "power1.inOut", position = 0) {
 onMounted(() => {
     animables.value = Array.from(g.value.querySelectorAll("path, use"));
     addToTl(baseTl, 2, animBodyDuration, "power1.inOut", 0);
-    addToTl(punchTl, 3, 0.6, "back.in(4)", 0);
-    addToTl(punchTl, 2, 0.5, "power1.inOut", 0.8);
+    addToTl(punchTl, 3, punchInDuration, "back.in(4)", 0);
+    addToTl(
+        punchTl,
+        2,
+        punchOutDuration,
+        "power1.inOut",
+        punchInDuration + punchInPause,
+    );
 });
 
 function punch() {
