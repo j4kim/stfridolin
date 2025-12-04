@@ -1,9 +1,9 @@
 <script setup>
 import { ref } from "vue";
-import Boxer from "../svg/Boxer.vue";
-import boxer1 from "../svg/boxer-1.svg?raw";
-import boxer2 from "../svg/boxer-2.svg?raw";
-import boxer3 from "../svg/boxer-3.svg?raw";
+import Boxer from "./Boxer.vue";
+import boxer1 from "./svg/boxer-1.svg?raw";
+import boxer2 from "./svg/boxer-2.svg?raw";
+import boxer3 from "./svg/boxer-3.svg?raw";
 
 const parser = new DOMParser();
 

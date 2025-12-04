@@ -3,7 +3,7 @@ import Home from "../views/Home.vue";
 import { useMainStore } from "../stores/main";
 import { redirectToLogin } from "../api";
 import Spotify from "../views/Spotify.vue";
-import Boxers from "../views/Boxers.vue";
+import Boxing from "../views/Boxing.vue";
 
 const routes = [
     {
@@ -20,9 +20,9 @@ const routes = [
         },
     },
     {
-        path: "/boxers",
-        name: "boxers",
-        component: Boxers,
+        path: "/boxing",
+        name: "boxing",
+        component: Boxing,
     },
 ];
 

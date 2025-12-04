@@ -17,8 +17,8 @@ const mainStore = useMainStore();
         <RouterLink :to="{ name: 'spotify' }" activeClass="font-bold">
             Spotify remote
         </RouterLink>
-        <RouterLink :to="{ name: 'boxers' }" activeClass="font-bold">
-            Boxers
+        <RouterLink :to="{ name: 'boxing' }" activeClass="font-bold">
+            Boxing
         </RouterLink>
     </nav>
     <main class="p-2">
