@@ -22,9 +22,11 @@ const g = useTemplateRef("g");
 
 const baseTl = gsap.timeline({ repeat: -1, yoyo: true });
 
+const punchTl = gsap.timeline({ paused: true });
+
 const animables = ref([]);
 
-function addToTl(tl, frame, duration, ease) {
+function addToTl(tl, frame, duration, ease, position) {
     animables.value.forEach((el) => {
         const toSel = `#frame-${frame} [data-name=${el.dataset.name}]`;
         const toEl = document.querySelector(toSel);
@@ -34,14 +36,24 @@ function addToTl(tl, frame, duration, ease) {
         } else if (el.nodeName === "use") {
             vars.transform = toEl.attributes.transform.value;
         }
-        tl.to(el, vars, 0);
+        tl.to(el, vars, position);
     });
 }
 
 onMounted(() => {
     animables.value = Array.from(g.value.querySelectorAll("path, use"));
-    addToTl(baseTl, 2, animBodyDuration, "power1.inOut");
+    addToTl(baseTl, 2, animBodyDuration, "power1.inOut", 0);
+    addToTl(punchTl, 3, 0.15, "power1.in", 0);
+    addToTl(punchTl, 2, 0.3, "power1.inOut", 0.4);
 });
+
+async function punch() {
+    baseTl.pause();
+    punchTl.seek(0);
+    punchTl.play().then(() => {
+        baseTl.resume();
+    });
+}
 </script>
 
 <template>
@@ -53,6 +65,7 @@ onMounted(() => {
             '--animBackArmDuration': `${animBackArmDuration}s`,
             '--animFrontArmDuration': `${animFrontArmDuration}s`,
         }"
+        @click="punch"
     ></g>
 </template>
 
