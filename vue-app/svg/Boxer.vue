@@ -43,8 +43,8 @@ function addToTl(tl, frame, duration, ease = "power1.inOut", position = 0) {
 onMounted(() => {
     animables.value = Array.from(g.value.querySelectorAll("path, use"));
     addToTl(baseTl, 2, animBodyDuration, "power1.inOut", 0);
-    addToTl(punchTl, 3, 0.15, "power1.in", 0);
-    addToTl(punchTl, 2, 0.3, "power1.inOut", 0.4);
+    addToTl(punchTl, 3, 0.6, "back.in(4)", 0);
+    addToTl(punchTl, 2, 0.5, "power1.inOut", 0.8);
 });
 
 function punch() {
