@@ -16,9 +16,7 @@ const punchInPause = 0.2;
 const punchOutDuration = 0.5;
 
 const props = defineProps({
-    imageUrl: String,
-    reversed: Boolean,
-    initialSvgContent: String,
+    fighter: Object,
 });
 
 const g = useTemplateRef("g");
@@ -80,8 +78,7 @@ function punch() {
 
 <template>
     <g
-        :class="{ reversed }"
-        v-html="initialSvgContent"
+        v-html="fighter.initialSvgContent"
         ref="g"
         :style="{
             '--animBackArmDuration': `${animBackArmDuration}s`,
@@ -92,11 +89,6 @@ function punch() {
 </template>
 
 <style>
-g.reversed {
-    transform: scale(-1, 1);
-    transform-origin: center;
-}
-
 @keyframes animatearms {
     0% {
         rotate: 0deg;
