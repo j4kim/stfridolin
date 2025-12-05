@@ -14,9 +14,10 @@ boxingStore.fighters.left.imgUrl =
             <template v-for="fighter in boxingStore.fighters">
                 <defs>
                     <g
-                        v-for="svg in fighter.svgFrames"
-                        :id="svg.id"
-                        v-html="svg.content"
+                        v-for="frame in fighter.svgFrames"
+                        :id="`${fighter.id}_${frame.id}`"
+                        v-html="frame.content"
+                        :data-frame-id="frame.id"
                         :data-fighter-id="fighter.id"
                     ></g>
                     <image
@@ -26,7 +27,7 @@ boxingStore.fighters.left.imgUrl =
                         :href="fighter.imgUrl"
                     />
                 </defs>
-                <Boxer :id="fighter.id" :fighter />
+                <Boxer v-if="fighter.ready" :id="fighter.id" :fighter />
             </template>
         </svg>
     </div>

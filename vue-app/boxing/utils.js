@@ -1,5 +1,5 @@
 const morphShapeIndexes = {
-    "1-3": {
+    "base1-punch": {
         "leg_back-0": 0,
         "leg_back-1": 0,
         "arm_back-0": 0,
@@ -12,7 +12,7 @@ const morphShapeIndexes = {
         "arm_front-1": 0,
         "arm_front-2": 0,
     },
-    "3-2": {
+    "punch-base2": {
         "leg_back-0": 0,
         "leg_back-1": 0,
         "arm_back-0": 0,
@@ -29,4 +29,8 @@ const morphShapeIndexes = {
 
 export function getShapeIndex(fromFrame, toFrame, name) {
     return morphShapeIndexes[`${fromFrame}-${toFrame}`]?.[name];
+}
+
+export function random(min, max) {
+    return Math.random() * (max - min) + min;
 }
