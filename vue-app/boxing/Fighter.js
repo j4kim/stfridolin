@@ -1,7 +1,7 @@
 import { ref } from "vue";
 import { gsap } from "gsap";
 import { MorphSVGPlugin } from "gsap/MorphSVGPlugin";
-import { getShapeIndex } from "./utils";
+import { Sway } from "./animations";
 
 gsap.registerPlugin(MorphSVGPlugin);
 
@@ -17,6 +17,7 @@ export class Fighter {
         this.svgFrames = ref([]);
         this.imgUrl = ref("");
         this.initialSvgContent = "";
+        this.timelines = [];
         this.computeSvgFrames();
     }
 
@@ -53,32 +54,11 @@ export class Fighter {
         this.ready = true;
     }
 
-    addTimeline(fromFrameId, toFrameId, duration, ease, position = 0) {
-        const tl = gsap.timeline({ repeat: -1, yoyo: true });
-        this.animables.forEach((el) => {
-            const toSel = `#${this.id}_${toFrameId} [data-name=${el.dataset.name}]`;
-            const toEl = document.querySelector(toSel);
-            const vars = { ease, duration };
-            if (el.nodeName === "path") {
-                vars.morphSVG = {
-                    shape: toEl,
-                    shapeIndex: getShapeIndex(
-                        fromFrameId,
-                        toFrameId,
-                        el.dataset.name,
-                    ),
-                };
-            } else if (el.nodeName === "use") {
-                vars.transform = toEl.attributes.transform.value;
-            }
-            tl.to(el, vars, position);
-        });
-        return tl;
-    }
-
     initTimelines() {
         this.root = document.getElementById(this.id);
         this.animables = this.root.querySelectorAll("path, use");
-        const sway = this.addTimeline("base1", "base2", 1, "power1.inOut");
+        this.timelines = {
+            sway: new Sway(this),
+        };
     }
 }
