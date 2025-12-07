@@ -10,7 +10,8 @@ export class Animation {
     addSubTimeline(fromFrame, toFrame, duration, ease) {
         const tl = gsap.timeline();
         this.fighter.animables.forEach((el) => {
-            const toSel = `#${this.fighter.id}_${toFrame} [data-name=${el.dataset.name}]`;
+            const elName = el.dataset.name;
+            const toSel = `#${this.fighter.id}_${toFrame} [data-name=${elName}]`;
             const toEl = document.querySelector(toSel);
             if (!toEl) {
                 console.warn("toEl not found", toSel);
@@ -18,14 +19,8 @@ export class Animation {
             }
             const vars = { ease, duration };
             if (el.nodeName === "path") {
-                vars.morphSVG = {
-                    shape: toEl,
-                    shapeIndex: getShapeIndex(
-                        fromFrame,
-                        toFrame,
-                        el.dataset.name,
-                    ),
-                };
+                const shapeIndex = getShapeIndex(fromFrame, toFrame, elName);
+                vars.morphSVG = { shape: toEl, shapeIndex };
             } else if (el.nodeName === "use") {
                 vars.transform = toEl.attributes.transform.value;
             }
