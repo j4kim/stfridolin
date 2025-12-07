@@ -1,11 +1,10 @@
 import gsap from "gsap";
 import { getShapeIndex } from "./utils";
 
-export class Sway {
+export class Animation {
     constructor(fighter) {
         this.fighter = fighter;
-        this.baseTl = gsap.timeline({ repeat: -1, yoyo: true });
-        this.addSubTimeline("base1", "base2", 1, "power1.inOut");
+        this.baseTl = gsap.timeline({ paused: true });
     }
 
     addSubTimeline(fromFrame, toFrame, duration, ease) {
@@ -33,5 +32,13 @@ export class Sway {
             tl.to(el, vars, 0);
         });
         this.baseTl.add(tl);
+    }
+}
+
+export class Sway extends Animation {
+    constructor(fighter) {
+        super(fighter);
+        this.baseTl.repeat(-1).yoyo(true).resume();
+        this.addSubTimeline("base1", "base2", 1, "power1.inOut");
     }
 }
