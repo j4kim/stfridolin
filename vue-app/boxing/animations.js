@@ -14,8 +14,7 @@ export class Animation {
             const toSel = `#${this.fighter.id}_${toFrame} [data-name=${elName}]`;
             const toEl = document.querySelector(toSel);
             if (!toEl) {
-                console.warn("toEl not found", toSel);
-                return;
+                throw new Error(`toEl (${toSel}) not found`);
             }
             const vars = { ease, duration };
             if (el.nodeName === "path") {
