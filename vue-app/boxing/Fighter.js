@@ -1,7 +1,7 @@
 import { ref } from "vue";
 import { gsap } from "gsap";
 import { MorphSVGPlugin } from "gsap/MorphSVGPlugin";
-import { Sway } from "./animations";
+import { Punch, Sway } from "./animations";
 
 gsap.registerPlugin(MorphSVGPlugin);
 
@@ -59,6 +59,14 @@ export class Fighter {
         this.animables = this.root.querySelectorAll("path, use");
         this.timelines = {
             sway: new Sway(this),
+            punch: new Punch(this),
         };
+    }
+
+    punch() {
+        this.timelines.sway.tl.pause();
+        return this.timelines.punch.tl.restart().then(() => {
+            this.timelines.sway.tl.resume();
+        });
     }
 }

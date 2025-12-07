@@ -4,10 +4,10 @@ import { getShapeIndex, random } from "./utils";
 export class Animation {
     constructor(fighter) {
         this.fighter = fighter;
-        this.baseTl = gsap.timeline({ paused: true });
+        this.tl = gsap.timeline({ paused: true });
     }
 
-    addSubTimeline(fromFrame, toFrame, duration, ease) {
+    addSubTimeline(fromFrame, toFrame, duration, ease, pos = null) {
         const tl = gsap.timeline();
         this.fighter.animables.forEach((el) => {
             const elName = el.dataset.name;
@@ -25,7 +25,7 @@ export class Animation {
             }
             tl.to(el, vars, 0);
         });
-        this.baseTl.add(tl);
+        this.tl.add(tl, pos);
     }
 }
 
@@ -33,7 +33,15 @@ export class Sway extends Animation {
     constructor(fighter) {
         super(fighter);
         this.duration = random(0.7, 1.1);
-        this.baseTl.repeat(-1).yoyo(true).resume();
+        this.tl.repeat(-1).yoyo(true).resume();
         this.addSubTimeline("base1", "base2", this.duration, "power1.inOut");
+    }
+}
+
+export class Punch extends Animation {
+    constructor(fighter) {
+        super(fighter);
+        this.addSubTimeline("base2", "punch", 0.6, "back.in(3)");
+        this.addSubTimeline("punch", "base1", 0.5, "power1.inOut", "+=0.2");
     }
 }
