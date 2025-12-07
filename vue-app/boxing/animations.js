@@ -1,5 +1,5 @@
 import gsap from "gsap";
-import { getShapeIndex } from "./utils";
+import { getShapeIndex, random } from "./utils";
 
 export class Animation {
     constructor(fighter) {
@@ -32,7 +32,8 @@ export class Animation {
 export class Sway extends Animation {
     constructor(fighter) {
         super(fighter);
+        this.duration = random(0.7, 1.1);
         this.baseTl.repeat(-1).yoyo(true).resume();
-        this.addSubTimeline("base1", "base2", 1, "power1.inOut");
+        this.addSubTimeline("base1", "base2", this.duration, "power1.inOut");
     }
 }
