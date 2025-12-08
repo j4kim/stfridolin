@@ -36,8 +36,10 @@ export function getShapeIndex(fromFrame, toFrame, name) {
 export class Fighter {
     constructor(id) {
         this.id = id;
-        this.swayTl = gsap.timeline({ repeat: -1, yoyo: true });
-        this.punchTl = gsap.timeline({ paused: true });
+        this.animations = {
+            sway: gsap.timeline({ repeat: -1, yoyo: true }),
+            punch: gsap.timeline({ paused: true }),
+        };
         this.animables = [];
         const max = 1.1;
         const min = 0.7;
@@ -48,7 +50,7 @@ export class Fighter {
     }
 
     addToTl(
-        tlName,
+        anim,
         fromFrame,
         toFrame,
         duration,
@@ -74,21 +76,21 @@ export class Fighter {
             }
             subTl.to(el, vars, 0);
         });
-        this[tlName].add(subTl, position);
+        this.animations[anim].add(subTl, position);
     }
 
     mount() {
         const root = document.getElementById(this.id);
         this.animables = root.querySelectorAll("path, use");
-        this.addToTl("swayTl", 1, 2, this.animBodyDuration, "power1.inOut");
-        this.addToTl("punchTl", 1, 3, 0.6, "back.in(3)");
-        this.addToTl("punchTl", 3, 1, 0.5, "power1.inOut", "+=0.2");
+        this.addToTl("sway", 1, 2, this.animBodyDuration, "power1.inOut");
+        this.addToTl("punch", 1, 3, 0.6, "back.in(3)");
+        this.addToTl("punch", 3, 1, 0.5, "power1.inOut", "+=0.2");
     }
 
     punch() {
-        this.swayTl.pause();
-        return this.punchTl.restart().then(() => {
-            this.swayTl.restart();
+        this.animations.sway.pause();
+        return this.animations.punch.restart().then(() => {
+            this.animations.sway.restart();
         });
     }
 }
