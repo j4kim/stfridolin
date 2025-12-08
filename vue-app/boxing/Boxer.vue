@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, useTemplateRef } from "vue";
+import { onMounted } from "vue";
 import { gsap } from "gsap";
 import { MorphSVGPlugin } from "gsap/MorphSVGPlugin";
 import { Fighter } from "./utils";
@@ -18,12 +18,10 @@ const props = defineProps({
     initialSvgContent: String,
 });
 
-const g = useTemplateRef("g");
-
 const fighter = new Fighter(props.id);
 
 onMounted(() => {
-    fighter.mount(Array.from(g.value.querySelectorAll("path, use")));
+    fighter.mount();
 });
 </script>
 
@@ -32,7 +30,6 @@ onMounted(() => {
         :id
         :class="{ reversed }"
         v-html="initialSvgContent"
-        ref="g"
         :style="{
             '--animBackArmDuration': `${animBackArmDuration}s`,
             '--animFrontArmDuration': `${animFrontArmDuration}s`,

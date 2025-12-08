@@ -72,8 +72,9 @@ export class Fighter {
         this.punchOutDuration = 0.5;
     }
 
-    mount(animables) {
-        this.animables = animables;
+    mount() {
+        const root = document.getElementById(this.id);
+        this.animables = root.querySelectorAll("path, use");
         addToTl(
             this.animables,
             this.baseTl,
