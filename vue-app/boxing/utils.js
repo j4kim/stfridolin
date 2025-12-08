@@ -102,4 +102,11 @@ export class Fighter {
             this.punchInDuration + this.punchInPause,
         );
     }
+
+    punch() {
+        this.baseTl.pause();
+        return this.punchTl.restart().then(() => {
+            this.baseTl.restart();
+        });
+    }
 }

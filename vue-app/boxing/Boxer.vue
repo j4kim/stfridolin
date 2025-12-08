@@ -1,8 +1,8 @@
 <script setup>
-import { onMounted, ref, useTemplateRef } from "vue";
+import { onMounted, useTemplateRef } from "vue";
 import { gsap } from "gsap";
 import { MorphSVGPlugin } from "gsap/MorphSVGPlugin";
-import { addToTl, Fighter } from "./utils";
+import { Fighter } from "./utils";
 
 gsap.registerPlugin(MorphSVGPlugin);
 
@@ -25,13 +25,6 @@ const fighter = new Fighter(props.id);
 onMounted(() => {
     fighter.mount(Array.from(g.value.querySelectorAll("path, use")));
 });
-
-function punch() {
-    fighter.baseTl.pause();
-    return fighter.punchTl.restart().then(() => {
-        fighter.baseTl.restart();
-    });
-}
 </script>
 
 <template>
@@ -44,7 +37,7 @@ function punch() {
             '--animBackArmDuration': `${animBackArmDuration}s`,
             '--animFrontArmDuration': `${animFrontArmDuration}s`,
         }"
-        @click="punch"
+        @click="fighter.punch"
     ></g>
 </template>
 
