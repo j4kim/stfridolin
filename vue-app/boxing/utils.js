@@ -96,7 +96,7 @@ export class Fighter {
             this.animables,
             this.punchTl,
             3,
-            2,
+            1,
             this.punchOutDuration,
             "power1.inOut",
             this.punchInDuration + this.punchInPause,

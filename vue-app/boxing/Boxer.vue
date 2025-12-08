@@ -29,10 +29,7 @@ onMounted(() => {
 function punch() {
     fighter.baseTl.pause();
     return fighter.punchTl.restart().then(() => {
-        fighter.baseTl.seek(fighter.animBodyDuration);
-        const correctionTl = gsap.timeline();
-        correctionTl.then(() => fighter.baseTl.resume());
-        addToTl(fighter.animables, correctionTl, 2, 2, 0.1);
+        fighter.baseTl.restart();
     });
 }
 </script>
