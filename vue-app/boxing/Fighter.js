@@ -17,7 +17,7 @@ export class Fighter {
         this.svgFrames = ref([]);
         this.imgUrl = ref("");
         this.initialSvgContent = "";
-        this.timelines = [];
+        this.animations = [];
         this.computeSvgFrames();
     }
 
@@ -57,16 +57,16 @@ export class Fighter {
     initTimelines() {
         this.root = document.getElementById(this.id);
         this.animables = this.root.querySelectorAll("path, use");
-        this.timelines = {
+        this.animations = {
             sway: new Sway(this),
             punch: new Punch(this),
         };
     }
 
     punch() {
-        this.timelines.sway.tl.pause();
-        return this.timelines.punch.tl.restart().then(() => {
-            this.timelines.sway.tl.resume();
+        this.animations.sway.tl.pause();
+        return this.animations.punch.tl.restart().then(() => {
+            this.animations.sway.tl.resume();
         });
     }
 }
