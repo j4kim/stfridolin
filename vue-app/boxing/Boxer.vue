@@ -2,7 +2,7 @@
 import { onMounted, ref, useTemplateRef } from "vue";
 import { gsap } from "gsap";
 import { MorphSVGPlugin } from "gsap/MorphSVGPlugin";
-import { getShapeIndex } from "./utils";
+import { addToTl } from "./utils";
 
 gsap.registerPlugin(MorphSVGPlugin);
 
@@ -29,35 +29,12 @@ const punchTl = gsap.timeline({ paused: true });
 
 const animables = ref([]);
 
-function addToTl(
-    tl,
-    fromFrame,
-    toFrame,
-    duration,
-    ease = "power1.inOut",
-    position = 0,
-) {
-    animables.value.forEach((el) => {
-        const toSel = `#frame-${toFrame} [data-name=${el.dataset.name}]`;
-        const toEl = document.querySelector(toSel);
-        const vars = { ease, duration };
-        if (el.nodeName === "path") {
-            vars.morphSVG = {
-                shape: toEl,
-                shapeIndex: getShapeIndex(fromFrame, toFrame, el.dataset.name),
-            };
-        } else if (el.nodeName === "use") {
-            vars.transform = toEl.attributes.transform.value;
-        }
-        tl.to(el, vars, position);
-    });
-}
-
 onMounted(() => {
     animables.value = Array.from(g.value.querySelectorAll("path, use"));
-    addToTl(baseTl, 1, 2, animBodyDuration, "power1.inOut", 0);
-    addToTl(punchTl, 1, 3, punchInDuration, "back.in(3)", 0);
+    addToTl(animables.value, baseTl, 1, 2, animBodyDuration, "power1.inOut", 0);
+    addToTl(animables.value, punchTl, 1, 3, punchInDuration, "back.in(3)", 0);
     addToTl(
+        animables.value,
         punchTl,
         3,
         2,
@@ -73,7 +50,7 @@ function punch() {
         baseTl.seek(animBodyDuration);
         const correctionTl = gsap.timeline();
         correctionTl.then(() => baseTl.resume());
-        addToTl(correctionTl, 2, 2, 0.1);
+        addToTl(animables.value, correctionTl, 2, 2, 0.1);
     });
 }
 </script>

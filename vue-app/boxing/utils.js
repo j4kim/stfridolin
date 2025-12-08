@@ -30,3 +30,28 @@ const morphShapeIndexes = {
 export function getShapeIndex(fromFrame, toFrame, name) {
     return morphShapeIndexes[`${fromFrame}-${toFrame}`]?.[name];
 }
+
+export function addToTl(
+    animables,
+    tl,
+    fromFrame,
+    toFrame,
+    duration,
+    ease = "power1.inOut",
+    position = 0,
+) {
+    animables.forEach((el) => {
+        const toSel = `#frame-${toFrame} [data-name=${el.dataset.name}]`;
+        const toEl = document.querySelector(toSel);
+        const vars = { ease, duration };
+        if (el.nodeName === "path") {
+            vars.morphSVG = {
+                shape: toEl,
+                shapeIndex: getShapeIndex(fromFrame, toFrame, el.dataset.name),
+            };
+        } else if (el.nodeName === "use") {
+            vars.transform = toEl.attributes.transform.value;
+        }
+        tl.to(el, vars, position);
+    });
+}
