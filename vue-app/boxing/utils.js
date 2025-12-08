@@ -64,9 +64,42 @@ export class Fighter {
         this.baseTl = gsap.timeline({ repeat: -1, yoyo: true });
         this.punchTl = gsap.timeline({ paused: true });
         this.animables = [];
+        const max = 1.1;
+        const min = 0.7;
+        this.animBodyDuration = Math.random() * (max - min) + min;
+        this.punchInDuration = 0.6;
+        this.punchInPause = 0.2;
+        this.punchOutDuration = 0.5;
     }
 
     mount(animables) {
         this.animables = animables;
+        addToTl(
+            this.animables,
+            this.baseTl,
+            1,
+            2,
+            this.animBodyDuration,
+            "power1.inOut",
+            0,
+        );
+        addToTl(
+            this.animables,
+            this.punchTl,
+            1,
+            3,
+            this.punchInDuration,
+            "back.in(3)",
+            0,
+        );
+        addToTl(
+            this.animables,
+            this.punchTl,
+            3,
+            2,
+            this.punchOutDuration,
+            "power1.inOut",
+            this.punchInDuration + this.punchInPause,
+        );
     }
 }
