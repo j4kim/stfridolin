@@ -63,5 +63,10 @@ export class Fighter {
         this.id = id;
         this.baseTl = gsap.timeline({ repeat: -1, yoyo: true });
         this.punchTl = gsap.timeline({ paused: true });
+        this.animables = [];
+    }
+
+    mount(animables) {
+        this.animables = animables;
     }
 }

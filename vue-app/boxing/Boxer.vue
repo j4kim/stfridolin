@@ -26,12 +26,10 @@ const g = useTemplateRef("g");
 
 const fighter = new Fighter(props.id);
 
-const animables = ref([]);
-
 onMounted(() => {
-    animables.value = Array.from(g.value.querySelectorAll("path, use"));
+    fighter.mount(Array.from(g.value.querySelectorAll("path, use")));
     addToTl(
-        animables.value,
+        fighter.animables,
         fighter.baseTl,
         1,
         2,
@@ -40,7 +38,7 @@ onMounted(() => {
         0,
     );
     addToTl(
-        animables.value,
+        fighter.animables,
         fighter.punchTl,
         1,
         3,
@@ -49,7 +47,7 @@ onMounted(() => {
         0,
     );
     addToTl(
-        animables.value,
+        fighter.animables,
         fighter.punchTl,
         3,
         2,
@@ -65,7 +63,7 @@ function punch() {
         fighter.baseTl.seek(animBodyDuration);
         const correctionTl = gsap.timeline();
         correctionTl.then(() => fighter.baseTl.resume());
-        addToTl(animables.value, correctionTl, 2, 2, 0.1);
+        addToTl(fighter.animables, correctionTl, 2, 2, 0.1);
     });
 }
 </script>
