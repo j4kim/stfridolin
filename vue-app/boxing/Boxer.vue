@@ -2,7 +2,7 @@
 import { onMounted, ref, useTemplateRef } from "vue";
 import { gsap } from "gsap";
 import { MorphSVGPlugin } from "gsap/MorphSVGPlugin";
-import { addToTl } from "./utils";
+import { addToTl, Fighter } from "./utils";
 
 gsap.registerPlugin(MorphSVGPlugin);
 
@@ -16,6 +16,7 @@ const punchInPause = 0.2;
 const punchOutDuration = 0.5;
 
 const props = defineProps({
+    id: String,
     imageUrl: String,
     reversed: Boolean,
     initialSvgContent: String,
@@ -23,19 +24,33 @@ const props = defineProps({
 
 const g = useTemplateRef("g");
 
-const baseTl = gsap.timeline({ repeat: -1, yoyo: true });
-
-const punchTl = gsap.timeline({ paused: true });
+const fighter = new Fighter(props.id);
 
 const animables = ref([]);
 
 onMounted(() => {
     animables.value = Array.from(g.value.querySelectorAll("path, use"));
-    addToTl(animables.value, baseTl, 1, 2, animBodyDuration, "power1.inOut", 0);
-    addToTl(animables.value, punchTl, 1, 3, punchInDuration, "back.in(3)", 0);
     addToTl(
         animables.value,
-        punchTl,
+        fighter.baseTl,
+        1,
+        2,
+        animBodyDuration,
+        "power1.inOut",
+        0,
+    );
+    addToTl(
+        animables.value,
+        fighter.punchTl,
+        1,
+        3,
+        punchInDuration,
+        "back.in(3)",
+        0,
+    );
+    addToTl(
+        animables.value,
+        fighter.punchTl,
         3,
         2,
         punchOutDuration,
@@ -45,11 +60,11 @@ onMounted(() => {
 });
 
 function punch() {
-    baseTl.pause();
-    return punchTl.restart().then(() => {
-        baseTl.seek(animBodyDuration);
+    fighter.baseTl.pause();
+    return fighter.punchTl.restart().then(() => {
+        fighter.baseTl.seek(animBodyDuration);
         const correctionTl = gsap.timeline();
-        correctionTl.then(() => baseTl.resume());
+        correctionTl.then(() => fighter.baseTl.resume());
         addToTl(animables.value, correctionTl, 2, 2, 0.1);
     });
 }
@@ -57,6 +72,7 @@ function punch() {
 
 <template>
     <g
+        :id
         :class="{ reversed }"
         v-html="initialSvgContent"
         ref="g"

@@ -1,3 +1,5 @@
+import gsap from "gsap";
+
 const morphShapeIndexes = {
     "1-3": {
         "leg_back-0": 0,
@@ -54,4 +56,12 @@ export function addToTl(
         }
         tl.to(el, vars, position);
     });
+}
+
+export class Fighter {
+    constructor(id) {
+        this.id = id;
+        this.baseTl = gsap.timeline({ repeat: -1, yoyo: true });
+        this.punchTl = gsap.timeline({ paused: true });
+    }
 }
