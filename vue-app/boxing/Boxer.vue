@@ -1,10 +1,5 @@
 <script setup>
 import { onMounted } from "vue";
-import { gsap } from "gsap";
-import { MorphSVGPlugin } from "gsap/MorphSVGPlugin";
-import { Fighter } from "./Fighter";
-
-gsap.registerPlugin(MorphSVGPlugin);
 
 const max = 1.1;
 const min = 0.7;
@@ -12,22 +7,20 @@ const animBackArmDuration = Math.random() * (max - min) + min;
 const animFrontArmDuration = Math.random() * (max - min) + min;
 
 const props = defineProps({
-    id: String,
     imageUrl: String,
     reversed: Boolean,
     initialSvgContent: String,
+    fighter: Object,
 });
 
-const fighter = new Fighter(props.id);
-
 onMounted(() => {
-    fighter.mount();
+    props.fighter.mount();
 });
 </script>
 
 <template>
     <g
-        :id
+        :id="fighter.id"
         :class="{ reversed }"
         v-html="initialSvgContent"
         :style="{

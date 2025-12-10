@@ -1,5 +1,8 @@
 import gsap from "gsap";
+import { MorphSVGPlugin } from "gsap/MorphSVGPlugin";
 import { getShapeIndex } from "./utils";
+
+gsap.registerPlugin(MorphSVGPlugin);
 
 export class Fighter {
     constructor(id) {
