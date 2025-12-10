@@ -4,7 +4,7 @@ import Boxer from "./Boxer.vue";
 import boxer1 from "./svg/boxer-1.svg?raw";
 import boxer2 from "./svg/boxer-2.svg?raw";
 import boxer3 from "./svg/boxer-3.svg?raw";
-import { Fighter } from "./Fighter";
+import { useBoxingStore } from "../stores/boxing";
 
 const parser = new DOMParser();
 
@@ -35,10 +35,7 @@ const imgUrls = ref({
     right: "https://i.scdn.co/image/ab67616d0000b2734e09836e2d1938337c416bf2",
 });
 
-const fighters = {
-    left: new Fighter("left"),
-    right: new Fighter("right"),
-};
+const boxing = useBoxingStore();
 </script>
 
 <template>
@@ -64,12 +61,12 @@ const fighters = {
                 />
             </defs>
             <Boxer
-                :fighter="fighters.left"
+                :fighter="boxing.fighters.left"
                 :initialSvgContent="getBoxerSvgContent(boxer1, 'boxer-left')"
             />
             <Boxer
                 reversed
-                :fighter="fighters.right"
+                :fighter="boxing.fighters.right"
                 :initialSvgContent="
                     getBoxerSvgContent(boxer1, 'boxer-right').replace(
                         '_Image1',
