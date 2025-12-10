@@ -2,7 +2,7 @@
 import { onMounted } from "vue";
 import { gsap } from "gsap";
 import { MorphSVGPlugin } from "gsap/MorphSVGPlugin";
-import { Fighter } from "./utils";
+import { Fighter } from "./Fighter";
 
 gsap.registerPlugin(MorphSVGPlugin);
 
