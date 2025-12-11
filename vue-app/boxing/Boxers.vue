@@ -33,27 +33,5 @@ boxingStore.fighters.right.imgUrl =
                 <Boxer v-if="fighter.ready" :id="fighter.id" :fighter />
             </template>
         </svg>
-        <div
-            v-for="fighter in boxingStore.fighters"
-            class="flex flex-col gap-2"
-        >
-            {{ fighter.id }}
-            <div v-for="(a, name) in fighter.animations" class="flex gap-2">
-                <div class="w-12">{{ name }}</div>
-                <button
-                    v-for="action in [
-                        'play',
-                        'pause',
-                        'resume',
-                        'kill',
-                        'restart',
-                    ]"
-                    class="btn btn-xs"
-                    @click="a.tl[action]()"
-                >
-                    {{ action }}
-                </button>
-            </div>
-        </div>
     </div>
 </template>
