@@ -66,7 +66,7 @@ export class Fighter {
     punch() {
         this.animations.sway.tl.pause();
         return this.animations.punch.tl.restart().then(() => {
-            this.animations.sway.tl.resume();
+            this.animations.sway.tl.restart();
         });
     }
 }
