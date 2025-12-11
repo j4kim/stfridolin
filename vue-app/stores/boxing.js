@@ -1,10 +1,10 @@
 import { defineStore } from "pinia";
-import { Fighter } from "../boxing/Fighter";
+import { LeftFighter, RightFighter } from "../boxing/Fighter";
 
 export const useBoxingStore = defineStore("boxing", () => {
     const fighters = {
-        left: new Fighter("left"),
-        right: new Fighter("right"),
+        left: new LeftFighter(),
+        right: new RightFighter(),
     };
 
     return { fighters };

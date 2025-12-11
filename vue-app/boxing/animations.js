@@ -1,5 +1,5 @@
 import gsap from "gsap";
-import { getShapeIndex, random } from "./utils";
+import { random } from "./utils";
 
 export class Animation {
     constructor(fighter) {
@@ -18,7 +18,11 @@ export class Animation {
             }
             const vars = { ease, duration };
             if (el.nodeName === "path") {
-                const shapeIndex = getShapeIndex(fromFrame, toFrame, elName);
+                const shapeIndex = this.fighter.getShapeIndex(
+                    fromFrame,
+                    toFrame,
+                    elName,
+                );
                 vars.morphSVG = { shape: toEl, shapeIndex };
             } else if (el.nodeName === "use") {
                 vars.transform = toEl.attributes.transform.value;

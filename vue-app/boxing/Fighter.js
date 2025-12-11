@@ -54,6 +54,12 @@ export class Fighter {
         this.ready = true;
     }
 
+    getShapeIndex(fromFrame, toFrame, name) {
+        const couple = `${fromFrame}-${toFrame}`;
+        const index = this.morphShapeIndexes[couple]?.[name];
+        return index ?? 0;
+    }
+
     initTimelines() {
         this.root = document.getElementById(this.id);
         this.animables = this.root.querySelectorAll("path, use");
@@ -68,5 +74,28 @@ export class Fighter {
         return this.animations.punch.tl.restart().then(() => {
             this.animations.sway.tl.restart();
         });
+    }
+}
+
+export class LeftFighter extends Fighter {
+    morphShapeIndexes = {
+        "base2-punch": {
+            arm_front_0: 7,
+        },
+        "punch-base2": {
+            arm_front_0: 1,
+        },
+    };
+
+    constructor() {
+        super("left");
+    }
+}
+
+export class RightFighter extends Fighter {
+    morphShapeIndexes = {};
+
+    constructor() {
+        super("right");
     }
 }
