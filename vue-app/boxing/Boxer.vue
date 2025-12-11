@@ -17,6 +17,7 @@ onMounted(() => {
 
 <template>
     <g
+        :id="fighter.id"
         v-html="fighter.initialSvgContent"
         :style="{
             '--animBackArmDuration': `${animBackArmDuration}s`,
@@ -36,14 +37,19 @@ onMounted(() => {
     }
 }
 g[data-name^="arm_"] {
+    transform-origin: var(--armTransformOriginX) 39%;
     animation: animatearms infinite ease-in-out alternate;
 }
+#left {
+    --armTransformOriginX: 28%;
+}
+#right {
+    --armTransformOriginX: 72%;
+}
 g[data-name="arm_back"] {
-    transform-origin: 28% 39%;
     animation-duration: var(--animBackArmDuration);
 }
 g[data-name="arm_front"] {
-    transform-origin: 28% 39%;
     animation-duration: var(--animFrontArmDuration);
 }
 </style>

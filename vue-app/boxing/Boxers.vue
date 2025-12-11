@@ -30,7 +30,7 @@ boxingStore.fighters.right.imgUrl =
                         :href="fighter.imgUrl"
                     />
                 </defs>
-                <Boxer v-if="fighter.ready" :id="fighter.id" :fighter />
+                <Boxer v-if="fighter.ready" :fighter />
             </template>
         </svg>
     </div>
