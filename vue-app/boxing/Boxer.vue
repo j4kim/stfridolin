@@ -23,7 +23,6 @@ onMounted(() => {
             '--animBackArmDuration': `${animBackArmDuration}s`,
             '--animFrontArmDuration': `${animFrontArmDuration}s`,
         }"
-        @click="fighter.punch"
     ></g>
 </template>
 
