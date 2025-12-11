@@ -42,11 +42,20 @@ export class Sway extends Animation {
     }
 }
 
-export class Punch extends Animation {
+export class Punch1 extends Animation {
     constructor(fighter) {
         super(fighter);
         this.addSubTimeline("base2", "punch1", 0.6, "back.in(3)");
         this.addSubTimeline("punch1", "base2", 0.5, "power1.inOut", "+=0.2");
+        this.addSubTimeline("base2", "base1", 0.8, "power1.inOut");
+    }
+}
+
+export class Punch2 extends Animation {
+    constructor(fighter) {
+        super(fighter);
+        this.addSubTimeline("base2", "punch2", 0.6, "back.in(3)");
+        this.addSubTimeline("punch2", "base2", 0.5, "power1.inOut", "+=0.2");
         this.addSubTimeline("base2", "base1", 0.8, "power1.inOut");
     }
 }

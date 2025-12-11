@@ -1,7 +1,7 @@
 import { ref } from "vue";
 import { gsap } from "gsap";
 import { MorphSVGPlugin } from "gsap/MorphSVGPlugin";
-import { Punch, Sway } from "./animations";
+import { Punch1, Punch2, Sway } from "./animations";
 
 gsap.registerPlugin(MorphSVGPlugin);
 
@@ -18,6 +18,7 @@ export class Fighter {
         this.imgUrl = ref("");
         this.initialSvgContent = "";
         this.animations = [];
+        this.nextPunchAnimation = 0;
         this.computeSvgFrames();
     }
 
@@ -67,14 +68,16 @@ export class Fighter {
         this.animables = this.root.querySelectorAll("path, use");
         this.animations = {
             sway: new Sway(this),
-            punch: new Punch(this),
+            punch: [new Punch1(this), new Punch2(this)],
         };
     }
 
     punch() {
         this.animations.sway.tl.pause();
-        return this.animations.punch.tl.restart().then(() => {
+        const anim = this.animations.punch[this.nextPunchAnimation];
+        return anim.tl.restart().then(() => {
             this.animations.sway.tl.restart();
+            this.nextPunchAnimation = (this.nextPunchAnimation + 1) % 2;
         });
     }
 }
