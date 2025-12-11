@@ -38,7 +38,9 @@ export class Fighter {
 
     async computeSvgFrames() {
         const promises = [];
-        const frames = ["base1", "base2", "punch"].map((id) => ({ id }));
+        const frames = ["base1", "base2", "punch1", "punch2"].map((id) => ({
+            id,
+        }));
         frames.forEach((frame) => {
             const promise = import(`./svg/${this.id}/${frame.id}.svg?raw`).then(
                 (m) => {
@@ -79,10 +81,10 @@ export class Fighter {
 
 export class LeftFighter extends Fighter {
     morphShapeIndexes = {
-        "base2-punch": {
+        "base2-punch1": {
             arm_front_0: 7,
         },
-        "punch-base2": {
+        "punch1-base2": {
             arm_front_0: 1,
         },
     };
