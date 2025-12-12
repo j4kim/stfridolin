@@ -20,10 +20,10 @@ boxingStore.fighters.right.imgUrl =
             right punch
         </button>
     </div>
-    <div class="relative">
+    <div class="relative aspect-3/2 max-h-[80vh] w-full">
         <svg
             v-for="fighter in boxingStore.fighters"
-            class="absolute top-0 min-h-[80vh] w-full"
+            class="absolute top-0 h-full w-full"
             :class="{
                 'z-10': fighter.punching,
             }"
