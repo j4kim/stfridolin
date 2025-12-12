@@ -2,27 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Tools\Spotify;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
 
 class SpotifyController extends Controller
 {
-    public function login()
+    public function login(Request $request)
     {
-        $url = url()->query('https://accounts.spotify.com/authorize', [
-            'client_id' => config('services.spotify.client_id'),
-            'response_type' => 'code',
-            'redirect_uri' => 'http://127.0.0.1:8000/spotify-callback',
-            'state' => str()->random(),
-            'scope' => implode(' ', [
-                'streaming user-read-email',
-                'user-read-private',
-                'user-modify-playback-state',
-                'user-read-playback-state',
-                'user-read-currently-playing'
-            ]),
-        ]);
-        return redirect()->away($url);
+        if ($request->intended) {
+            session(['url.intended' => $request->intended]);
+        }
+
+        return redirect()->away(Spotify::userAuthenticationUrl());
     }
 
     public function callback(Request $request)
@@ -33,21 +24,53 @@ class SpotifyController extends Controller
             abort(500, "No code in request");
         }
 
-        $client_id = config('services.spotify.client_id');
-        $client_secret = config('services.spotify.client_secret');
+        Spotify::requestAccessToken($request->code);
 
-        $response = Http::asForm()
-            ->withBasicAuth($client_id, $client_secret)
-            ->post('https://accounts.spotify.com/api/token', [
-                'grant_type' => 'authorization_code',
-                'code' => $request->code,
-                'redirect_uri' => 'http://127.0.0.1:8000/spotify-callback',
-            ])
-            ->throw()
-            ->json();
+        return redirect()->intended('spotify-devices');
+    }
 
-        session(['spotifyToken' => $response]);
+    public function devices()
+    {
+        return Spotify::devices();
+    }
 
-        return "Successfully connected to Spotify";
+    public function playbackState()
+    {
+        return Spotify::playbackState();
+    }
+
+    public function play(Request $request)
+    {
+        $spotifyRequest = Spotify::apiRequest();
+        if ($request->device_id) {
+            $spotifyRequest->withQueryParameters(['device_id' => $request->device_id]);
+        }
+        return $spotifyRequest->put("/me/player/play", ['position_ms' => 0]);
+    }
+
+
+    public function playTrack(string $trackUri)
+    {
+        Spotify::playTrack($trackUri);
+    }
+
+    public function pause()
+    {
+        return Spotify::apiRequest()
+            ->put("/me/player/pause")
+            ->throw();
+    }
+
+    public function selectDevice(string $deviceId)
+    {
+        Spotify::selectDevice($deviceId);
+    }
+
+    public function searchTracks(Request $request)
+    {
+        if (!$request->q) {
+            return ['items' => []];
+        }
+        return Spotify::searchTracks($request->q);
     }
 }
