@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 1500 1000" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;">
+    <g id="punch2">
+        <g id="leg_back">
+            <path d="M533.222,529.636l20.767,131.42l2.563,142.371l49.254,33.621l-78.776,-4.63l-25.074,-161.426l-40.076,-112.646l71.342,-28.71Z" style="fill:#ebebeb;stroke:#000;stroke-width:1px;"/>
+            <path d="M483.711,490.508l-33.787,42.928l16.56,101.357l87.505,-8.609l-18.05,-108.842l-52.228,-26.834Z" style="fill:#ebebeb;stroke:#000;stroke-width:1px;"/>
+        </g>
+        <g id="arm_back">
+            <path d="M523.833,492.39l50.996,-6.927l70.782,-150.068l-42.528,-0l-56.094,102.561l-40.995,-112.019l-33.15,-2.366l-11.778,39.253l62.767,129.566Z" style="fill:#ebebeb;stroke:#000;stroke-width:1px;"/>
+            <path d="M609.433,326.758l29.342,10.511l38.522,-38.407l8.17,-53.421l-72.516,-20.255l-31.509,53.341l27.991,48.231Z" style="fill:#ebebeb;stroke:#000;stroke-width:1px;"/>
+            <path d="M599.608,347.601l43.574,7.125l11.865,-32.841l-52.128,-5.822l-3.311,31.538Z" style="fill:#ebebeb;stroke:#000;stroke-width:1px;"/>
+        </g>
+        <g id="leg_front">
+            <path d="M428.462,533.078l-33.555,155.032l-66.189,175.202l82.279,3.391l-37.229,-24.383l67.754,-138.216l60.435,-136.76l-73.495,-34.266Z" style="fill:#ebebeb;stroke:#000;stroke-width:1px;"/>
+            <path d="M461.066,500l-42.212,4.035l-22.818,49.912l-9.573,74.058l100.748,26.779l34.179,-118.962l-60.324,-35.822Z" style="fill:#ebebeb;stroke:#000;stroke-width:1px;"/>
+        </g>
+        <g id="torso">
+            <path d="M422.835,511.899l96.265,30.492l25.048,-16.742l58.935,-161.952l-28.228,-37.381l-51.04,-14.907l-45.239,21.38l-55.741,179.11Z" style="fill:#ebebeb;stroke:#000;stroke-width:1px;"/>
+        </g>
+        <g id="head">
+            <use id="_Image1_" serif:id="_Image1" xlink:href="#_Image1" x="0" y="0" width="4px" height="4px" transform="matrix(65.1481,19.4865,-19.4865,65.1481,511.76,45.2538)"/>
+        </g>
+        <g id="arm_front">
+            <path d="M574.202,387.851l140.731,-26.446l171.557,-21.955l-12.981,-41.302l-160.678,18.719l-132.171,9.17l-26.787,26.28l20.329,35.534Z" style="fill:#ebebeb;stroke:#000;stroke-width:1px;"/>
+            <path d="M887.495,302.926l-1.005,31.151l48.372,24.885l53.351,-8.609l-2.962,-75.233l-60.434,-13.629l-37.322,41.435Z" style="fill:#ebebeb;stroke:#000;stroke-width:1px;"/>
+            <path d="M857.822,295.88l4.622,49.67l39.941,-1.008l-5.064,-55.548l-39.499,6.886Z" style="fill:#ebebeb;stroke:#000;stroke-width:1px;"/>
+        </g>
+    </g>
+    <defs>
+        <image id="_Image1" width="4px" height="4px" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAJElEQVQImV3KMQoAAAiAQIv+/2UbIohuFAOQIwFUdHr8o/ZYDYDiCv5/F+VjAAAAAElFTkSuQmCC"/>
+    </defs>
+</svg>

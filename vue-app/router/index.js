@@ -3,6 +3,7 @@ import Home from "../views/Home.vue";
 import { useMainStore } from "../stores/main";
 import { redirectToLogin } from "../api";
 import Spotify from "../views/Spotify.vue";
+import Boxing from "../views/Boxing.vue";
 
 const routes = [
     {
@@ -17,6 +18,11 @@ const routes = [
         meta: {
             requireAuth: true,
         },
+    },
+    {
+        path: "/boxing",
+        name: "boxing",
+        component: Boxing,
     },
 ];
 
