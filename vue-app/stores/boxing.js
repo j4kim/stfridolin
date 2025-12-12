@@ -7,5 +7,13 @@ export const useBoxingStore = defineStore("boxing", () => {
         right: new RightFighter(),
     };
 
-    return { fighters };
+    function punch(puncher) {
+        const receiver = Object.values(fighters).find(
+            (f) => f.id !== puncher.id,
+        );
+        puncher.punch();
+        receiver.receive();
+    }
+
+    return { fighters, punch };
 });

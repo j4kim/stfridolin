@@ -59,3 +59,11 @@ export class Punch2 extends Animation {
         this.addSubTimeline("base2", "base1", 0.8, "power1.inOut");
     }
 }
+
+export class Receive extends Animation {
+    constructor(fighter) {
+        super(fighter);
+        this.addSubTimeline("base1", "ouch", 0.3, "power3.out");
+        this.addSubTimeline("ouch", "base1", 0.7, "power1.inOut");
+    }
+}

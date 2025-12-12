@@ -1,7 +1,7 @@
 import { ref } from "vue";
 import { gsap } from "gsap";
 import { MorphSVGPlugin } from "gsap/MorphSVGPlugin";
-import { Punch1, Punch2, Sway } from "./animations";
+import { Punch1, Punch2, Receive, Sway } from "./animations";
 
 gsap.registerPlugin(MorphSVGPlugin);
 
@@ -39,9 +39,8 @@ export class Fighter {
 
     async computeSvgFrames() {
         const promises = [];
-        const frames = ["base1", "base2", "punch1", "punch2"].map((id) => ({
-            id,
-        }));
+        const frameNames = ["base1", "base2", "punch1", "punch2", "ouch"];
+        const frames = frameNames.map((id) => ({ id }));
         frames.forEach((frame) => {
             const promise = import(`./svg/${this.id}/${frame.id}.svg?raw`).then(
                 (m) => {
@@ -69,6 +68,7 @@ export class Fighter {
         this.animations = {
             sway: new Sway(this),
             punch: [new Punch1(this), new Punch2(this)],
+            receive: new Receive(this),
         };
     }
 
@@ -79,6 +79,15 @@ export class Fighter {
             this.animations.sway.tl.restart();
             this.nextPunchAnimation = (this.nextPunchAnimation + 1) % 2;
         });
+    }
+
+    receive() {
+        setTimeout(() => {
+            this.animations.sway.tl.pause();
+            return this.animations.receive.tl.restart().then(() => {
+                this.animations.sway.tl.restart();
+            });
+        }, 600);
     }
 }
 
