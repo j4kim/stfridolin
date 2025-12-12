@@ -7,10 +7,9 @@ export const useBoxingStore = defineStore("boxing", () => {
         right: new RightFighter(),
     };
 
-    function punch(puncher) {
-        const receiver = Object.values(fighters).find(
-            (f) => f.id !== puncher.id,
-        );
+    function punch(puncherId) {
+        const puncher = fighters[puncherId];
+        const receiver = fighters[puncherId === "left" ? "right" : "left"];
         puncher.punch();
         receiver.receive();
     }
