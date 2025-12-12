@@ -13,10 +13,16 @@ boxingStore.fighters.right.imgUrl =
 
 <template>
     <div class="flex gap-2">
-        <button @click="boxingStore.fighters.left.punch" class="btn btn-xs">
+        <button
+            @click="boxingStore.punch(boxingStore.fighters.left)"
+            class="btn btn-xs"
+        >
             left punch
         </button>
-        <button @click="boxingStore.fighters.right.punch" class="btn btn-xs">
+        <button
+            @click="boxingStore.punch(boxingStore.fighters.right)"
+            class="btn btn-xs"
+        >
             right punch
         </button>
     </div>

@@ -1,5 +1,5 @@
 import gsap from "gsap";
-import { getShapeIndex, random } from "./utils";
+import { random } from "./utils";
 
 export class Animation {
     constructor(fighter) {
@@ -18,7 +18,11 @@ export class Animation {
             }
             const vars = { ease, duration };
             if (el.nodeName === "path") {
-                const shapeIndex = getShapeIndex(fromFrame, toFrame, elName);
+                const shapeIndex = this.fighter.getShapeIndex(
+                    fromFrame,
+                    toFrame,
+                    elName,
+                );
                 vars.morphSVG = { shape: toEl, shapeIndex };
             } else if (el.nodeName === "use") {
                 vars.transform = toEl.attributes.transform.value;
@@ -38,11 +42,28 @@ export class Sway extends Animation {
     }
 }
 
-export class Punch extends Animation {
+export class Punch1 extends Animation {
     constructor(fighter) {
         super(fighter);
-        this.addSubTimeline("base2", "punch", 0.6, "back.in(3)");
-        this.addSubTimeline("punch", "base2", 0.5, "power1.inOut", "+=0.2");
+        this.addSubTimeline("base2", "punch1", 0.6, "back.in(3)");
+        this.addSubTimeline("punch1", "base2", 0.5, "power1.inOut", "+=0.2");
         this.addSubTimeline("base2", "base1", 0.8, "power1.inOut");
+    }
+}
+
+export class Punch2 extends Animation {
+    constructor(fighter) {
+        super(fighter);
+        this.addSubTimeline("base2", "punch2", 0.6, "back.in(3)");
+        this.addSubTimeline("punch2", "base2", 0.5, "power1.inOut", "+=0.2");
+        this.addSubTimeline("base2", "base1", 0.8, "power1.inOut");
+    }
+}
+
+export class Receive extends Animation {
+    constructor(fighter) {
+        super(fighter);
+        this.addSubTimeline("base1", "ouch", 0.3, "power3.out");
+        this.addSubTimeline("ouch", "base1", 0.7, "power1.inOut");
     }
 }

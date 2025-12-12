@@ -1,7 +1,7 @@
 import { ref } from "vue";
 import { gsap } from "gsap";
 import { MorphSVGPlugin } from "gsap/MorphSVGPlugin";
-import { Punch, Sway } from "./animations";
+import { Punch1, Punch2, Receive, Sway } from "./animations";
 
 gsap.registerPlugin(MorphSVGPlugin);
 
@@ -19,6 +19,7 @@ export class Fighter {
         this.initialSvgContent = "";
         this.animations = [];
         this.punching = false;
+        this.nextPunchAnimation = 0;
         this.computeSvgFrames();
     }
 
@@ -39,7 +40,8 @@ export class Fighter {
 
     async computeSvgFrames() {
         const promises = [];
-        const frames = ["base1", "base2", "punch"].map((id) => ({ id }));
+        const frameNames = ["base1", "base2", "punch1", "punch2", "ouch"];
+        const frames = frameNames.map((id) => ({ id }));
         frames.forEach((frame) => {
             const promise = import(`./svg/${this.id}/${frame.id}.svg?raw`).then(
                 (m) => {
@@ -55,21 +57,62 @@ export class Fighter {
         this.ready = true;
     }
 
+    getShapeIndex(fromFrame, toFrame, name) {
+        const couple = `${fromFrame}-${toFrame}`;
+        const index = this.morphShapeIndexes[couple]?.[name];
+        return index ?? 0;
+    }
+
     initTimelines() {
         this.root = document.getElementById(this.id);
         this.animables = this.root.querySelectorAll("path, use");
         this.animations = {
             sway: new Sway(this),
-            punch: new Punch(this),
+            punch: [new Punch1(this), new Punch2(this)],
+            receive: new Receive(this),
         };
     }
 
     punch() {
         this.punching = true;
         this.animations.sway.tl.pause();
-        return this.animations.punch.tl.restart().then(() => {
+        const anim = this.animations.punch[this.nextPunchAnimation];
+        return anim.tl.restart().then(() => {
             this.animations.sway.tl.restart();
             this.punching = false;
+            this.nextPunchAnimation = (this.nextPunchAnimation + 1) % 2;
         });
+    }
+
+    receive() {
+        setTimeout(() => {
+            this.animations.sway.tl.pause();
+            return this.animations.receive.tl.restart().then(() => {
+                this.animations.sway.tl.restart();
+            });
+        }, 600);
+    }
+}
+
+export class LeftFighter extends Fighter {
+    morphShapeIndexes = {
+        "base2-punch1": {
+            arm_front_0: 7,
+        },
+        "punch1-base2": {
+            arm_front_0: 1,
+        },
+    };
+
+    constructor() {
+        super("left");
+    }
+}
+
+export class RightFighter extends Fighter {
+    morphShapeIndexes = {};
+
+    constructor() {
+        super("right");
     }
 }
