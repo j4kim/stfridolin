@@ -18,6 +18,7 @@ export class Fighter {
         this.imgUrl = ref("");
         this.initialSvgContent = "";
         this.animations = [];
+        this.punching = ref(false);
         this.nextPunchAnimation = 0;
         this.computeSvgFrames();
     }
@@ -73,11 +74,13 @@ export class Fighter {
     }
 
     punch() {
+        this.punching.value = true;
         this.animations.sway.tl.pause();
         const anim = this.animations.punch[this.nextPunchAnimation];
         return anim.tl.restart().then(() => {
             this.animations.sway.tl.restart();
             this.nextPunchAnimation = (this.nextPunchAnimation + 1) % 2;
+            this.punching.value = false;
         });
     }
 

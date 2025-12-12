@@ -1,6 +1,5 @@
 <script setup>
 import { onMounted } from "vue";
-import { useBoxingStore } from "../stores/boxing";
 
 const max = 1.1;
 const min = 0.7;
@@ -14,8 +13,6 @@ const props = defineProps({
 onMounted(() => {
     props.fighter.initTimelines();
 });
-
-const boxingStore = useBoxingStore();
 </script>
 
 <template>
@@ -26,7 +23,6 @@ const boxingStore = useBoxingStore();
             '--animBackArmDuration': `${animBackArmDuration}s`,
             '--animFrontArmDuration': `${animFrontArmDuration}s`,
         }"
-        @click="boxingStore.punch(fighter)"
     ></g>
 </template>
 
