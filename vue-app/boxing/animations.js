@@ -37,7 +37,7 @@ export class Sway extends Animation {
     constructor(fighter) {
         super(fighter);
         this.duration = random(0.7, 1.1);
-        this.tl.repeat(-1).yoyo(true);
+        this.tl.repeat(-1).yoyo(true).play();
         this.addSubTimeline("base1", "base2", this.duration, "power1.inOut");
     }
 }

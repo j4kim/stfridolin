@@ -20,6 +20,7 @@ export class Fighter {
         this.animations = [];
         this.punching = ref(false);
         this.nextPunchAnimation = 0;
+        this.receiveTimout = null;
         this.computeSvgFrames();
     }
 
@@ -73,9 +74,17 @@ export class Fighter {
         };
     }
 
+    pauseAnimations() {
+        this.animations.receive.tl.pause();
+        this.animations.sway.tl.pause();
+        this.animations.punch[0].tl.pause();
+        this.animations.punch[1].tl.pause();
+        clearTimeout(this.receiveTimout);
+    }
+
     punch() {
         this.punching.value = true;
-        this.animations.sway.tl.pause();
+        this.pauseAnimations();
         const anim = this.animations.punch[this.nextPunchAnimation];
         return anim.tl.restart().then(() => {
             this.animations.sway.tl.restart();
@@ -85,8 +94,8 @@ export class Fighter {
     }
 
     receive() {
-        setTimeout(() => {
-            this.animations.sway.tl.pause();
+        this.receiveTimout = setTimeout(() => {
+            this.pauseAnimations();
             return this.animations.receive.tl.restart().then(() => {
                 this.animations.sway.tl.restart();
             });
