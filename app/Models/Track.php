@@ -24,4 +24,16 @@ class Track extends Model
     {
         return $this->hasMany(Vote::class);
     }
+
+    public static function createFromSpotifyData(array $data)
+    {
+        return self::create([
+            'name' => $data['name'],
+            'artist_name' => collect($data['artists'])->map(fn(array $a) => $a['name'])->join(', '),
+            'spotify_uri' => $data['uri'],
+            'img_url' => $data['album']['images'][0]['url'],
+            'img_thumbnail_url' => $data['album']['images'][2]['url'],
+            'spotify_data' => $data,
+        ]);
+    }
 }

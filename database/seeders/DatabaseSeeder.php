@@ -34,7 +34,7 @@ class DatabaseSeeder extends Seeder
             }
             $contents = file_get_contents($path);
             $json = json_decode($contents, true);
-            Track::create(['spotify_data' => $json]);
+            Track::createFromSpotifyData($json);
         }
     }
 }
