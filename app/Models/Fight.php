@@ -24,6 +24,13 @@ class Fight extends Model
         return $this->belongsTo(Track::class, 'right_track_id');
     }
 
+    public static function current(): Fight
+    {
+        return Fight::whereNotNull('started_at')
+            ->whereNull('ended_at')
+            ->first();
+    }
+
     public static function createNext(): Fight
     {
         $tracks = Track::getCandidates();
