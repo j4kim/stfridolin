@@ -23,6 +23,7 @@ return new class extends Migration
             $table->json('spotify_data');
             $table->unsignedTinyInteger('priority')->default(0);
             $table->boolean('won')->nullable();
+            $table->boolean('played')->nullable();
         });
     }
 

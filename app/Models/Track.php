@@ -46,4 +46,9 @@ class Track extends Model
             ->take(2)
             ->get();
     }
+
+    public static function current(): Track
+    {
+        return Track::whereNull('played')->where('won', true)->first();
+    }
 }
