@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('tracks', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->foreignId('proposed_by')->nullable()->constrained('guests');
             $table->json('spotify_data');
             $table->unsignedTinyInteger('priority')->default(0);
             $table->boolean('won')->nullable();
