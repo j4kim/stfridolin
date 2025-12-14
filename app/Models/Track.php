@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Collection;
 
 class Track extends Model
 {
@@ -35,5 +36,14 @@ class Track extends Model
             'img_thumbnail_url' => $data['album']['images'][2]['url'],
             'spotify_data' => $data,
         ]);
+    }
+
+    public static function getCandidates(): Collection
+    {
+        return self::whereNull('won')
+            ->orderByDesc('priority')
+            ->orderBy('id')
+            ->take(2)
+            ->get();
     }
 }

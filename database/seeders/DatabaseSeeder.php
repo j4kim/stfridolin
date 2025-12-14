@@ -2,12 +2,13 @@
 
 namespace Database\Seeders;
 
+use App\Models\Fight;
 use App\Models\Guest;
 use App\Models\Track;
 use App\Models\User;
+use App\Models\Vote;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Storage;
 
 class DatabaseSeeder extends Seeder
 {
@@ -36,5 +37,16 @@ class DatabaseSeeder extends Seeder
             $json = json_decode($contents, true);
             Track::createFromSpotifyData($json);
         }
+        Track::orderByDesc('id')->first()->update(['priority' => 1]);
+
+        $fight = Fight::createNext();
+        $fight->start();
+        Vote::create([
+            'guest_id' => 1,
+            'track_id' => $fight->leftTrack->id,
+            'fight_id' => $fight->id,
+        ]);
+        $fight->end();
+        Fight::createNext()->start();
     }
 }
