@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('key')->unique();
             $table->string('pictureUrl', 2048)->nullable();
+            $table->integer('tokens')->default(0);
         });
     }
 
