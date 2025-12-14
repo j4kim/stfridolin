@@ -8,6 +8,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Track extends Model
 {
+    protected function casts(): array
+    {
+        return [
+            'spotify_data' => 'array',
+        ];
+    }
+
     public function proposedBy(): BelongsTo
     {
         return $this->belongsTo(Guest::class, 'proposed_by');
