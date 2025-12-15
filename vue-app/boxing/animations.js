@@ -78,6 +78,6 @@ export class Win extends Animation {
 export class Lose extends Animation {
     constructor(fighter) {
         super(fighter);
-        this.addSubTimeline("base1", "loser", 0.6, "back.out(2)");
+        this.addSubTimeline("base1", "loser", 1.5, "elastic.out(1,0.5)");
     }
 }
