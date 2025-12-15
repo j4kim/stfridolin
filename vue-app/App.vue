@@ -21,7 +21,7 @@ const mainStore = useMainStore();
             Boxing
         </RouterLink>
     </nav>
-    <main class="p-2">
+    <main>
         <RouterView></RouterView>
     </main>
 </template>

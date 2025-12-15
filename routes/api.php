@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FightController;
 use App\Http\Controllers\SpotifyController;
 use Illuminate\Support\Facades\Route;
 
@@ -12,3 +13,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('spotify/select-device/{deviceId}', [SpotifyController::class, 'selectDevice'])->name('spotify.select-device');
     Route::get('spotify/search-tracks', [SpotifyController::class, 'searchTracks'])->name('spotify.search-tracks');
 });
+
+Route::get('fights/current', [FightController::class, 'current'])->name('fights.current');
