@@ -2,6 +2,7 @@ import { ref } from "vue";
 import { gsap } from "gsap";
 import { MorphSVGPlugin } from "gsap/MorphSVGPlugin";
 import { Lose, Punch1, Punch2, Receive, Sway, Win } from "./animations";
+import { frameNames, frames } from "./utils";
 
 gsap.registerPlugin(MorphSVGPlugin);
 
@@ -10,7 +11,6 @@ const parser = new DOMParser();
 export class Fighter {
     constructor(id) {
         this.id = id;
-        this.ready = false;
         this.animables = [];
         this.root = null;
         this.imgId = `${id}-image`;
@@ -40,31 +40,16 @@ export class Fighter {
         return rootG.innerHTML;
     }
 
-    async computeSvgFrames() {
-        const promises = [];
-        const frameNames = [
-            "base1",
-            "base2",
-            "punch1",
-            "punch2",
-            "ouch",
-            "winner",
-            "loser",
-        ];
-        const frames = frameNames.map((id) => ({ id }));
-        frames.forEach((frame) => {
-            const promise = import(`./svg/${this.id}/${frame.id}.svg?raw`).then(
-                (m) => {
-                    frame.svg = m.default;
-                    frame.content = this.getSvgContent(frame.svg, frame.id);
-                },
-            );
-            promises.push(promise);
+    computeSvgFrames() {
+        this.svgFrames.value = frameNames.map((name) => {
+            const svg = frames[this.id][name];
+            return {
+                id: name,
+                content: this.getSvgContent(svg, name),
+            };
         });
-        await Promise.all(promises);
-        this.svgFrames.value = frames;
-        this.initialSvgContent = this.getSvgContent(frames[0].svg, "");
-        this.ready = true;
+        const firstSvg = frames[this.id]["base1"];
+        this.initialSvgContent = this.getSvgContent(firstSvg, "");
     }
 
     getShapeIndex(fromFrame, toFrame, name) {

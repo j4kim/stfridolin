@@ -29,6 +29,6 @@ const props = defineProps({
                 :href="fighter.imgUrl"
             />
         </defs>
-        <Boxer v-if="fighter.ready" :fighter />
+        <Boxer :fighter />
     </svg>
 </template>
