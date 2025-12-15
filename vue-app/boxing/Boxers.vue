@@ -1,7 +1,6 @@
 <script setup>
 import SvgBoxer from "./SvgBoxer.vue";
 import { useBoxingStore } from "../stores/boxing";
-import BoxingControls from "./BoxingControls.vue";
 
 const boxingStore = useBoxingStore();
 
@@ -13,8 +12,7 @@ boxingStore.fighters.right.imgUrl =
 </script>
 
 <template>
-    <BoxingControls />
-    <div class="relative aspect-3/2 max-h-[80vh] w-full">
+    <div class="relative h-full w-full">
         <SvgBoxer
             v-if="boxingStore.running"
             v-for="fighter in boxingStore.fighters"
