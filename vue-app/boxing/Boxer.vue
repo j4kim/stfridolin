@@ -23,6 +23,8 @@ onMounted(() => {
             '--animBackArmDuration': `${animBackArmDuration}s`,
             '--animFrontArmDuration': `${animFrontArmDuration}s`,
         }"
+        class="boxer"
+        :class="{ ko: fighter.ko }"
     ></g>
 </template>
 
@@ -35,20 +37,23 @@ onMounted(() => {
         rotate: 10deg;
     }
 }
-g[data-name^="arm_"] {
+.boxer g[data-name^="arm_"] {
     transform-origin: var(--armTransformOriginX) 39%;
     animation: animatearms infinite ease-in-out alternate;
 }
-#left {
+.boxer.ko g[data-name^="arm_"] {
+    animation: none;
+}
+.boxer#left {
     --armTransformOriginX: 28%;
 }
-#right {
+.boxer#right {
     --armTransformOriginX: 72%;
 }
-g[data-name="arm_back"] {
+.boxer g[data-name="arm_back"] {
     animation-duration: var(--animBackArmDuration);
 }
-g[data-name="arm_front"] {
+.boxer g[data-name="arm_front"] {
     animation-duration: var(--animFrontArmDuration);
 }
 </style>

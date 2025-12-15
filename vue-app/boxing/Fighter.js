@@ -21,6 +21,7 @@ export class Fighter {
         this.punching = ref(false);
         this.nextPunchAnimation = 0;
         this.receiveTimout = null;
+        this.ko = ref(false);
         this.computeSvgFrames();
     }
 
@@ -90,6 +91,7 @@ export class Fighter {
         this.animations.punch[0].tl.pause();
         this.animations.punch[1].tl.pause();
         clearTimeout(this.receiveTimout);
+        this.ko.value = false;
     }
 
     punch() {
@@ -119,6 +121,7 @@ export class Fighter {
 
     lose() {
         this.pauseAnimations();
+        this.ko.value = true;
         return this.animations.lose.tl.restart();
     }
 }
