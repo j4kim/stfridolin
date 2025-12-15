@@ -1,6 +1,7 @@
 <script setup>
 import SvgBoxer from "./SvgBoxer.vue";
 import { useBoxingStore } from "../stores/boxing";
+import BoxingControls from "./BoxingControls.vue";
 
 const boxingStore = useBoxingStore();
 
@@ -12,30 +13,7 @@ boxingStore.fighters.right.imgUrl =
 </script>
 
 <template>
-    <div v-if="!boxingStore.finished" class="flex gap-2">
-        <button @click="boxingStore.punch('left')" class="btn btn-xs">
-            left punch
-        </button>
-        <button @click="boxingStore.punch('right')" class="btn btn-xs">
-            right punch
-        </button>
-        <button @click="boxingStore.win('left')" class="btn btn-xs">
-            left wins
-        </button>
-        <button @click="boxingStore.win('right')" class="btn btn-xs">
-            right wins
-        </button>
-    </div>
-    <div v-else class="flex gap-2">
-        <button
-            v-if="boxingStore.running"
-            @click="boxingStore.running = false"
-            class="btn btn-xs"
-        >
-            stop
-        </button>
-        <button v-else @click="boxingStore.run" class="btn btn-xs">run</button>
-    </div>
+    <BoxingControls />
     <div class="relative aspect-3/2 max-h-[80vh] w-full">
         <SvgBoxer
             v-if="boxingStore.running"
