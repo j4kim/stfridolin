@@ -11,7 +11,7 @@ boxingStore.fetchCurrentFight();
 </script>
 
 <template>
-    <div class="p-[1vw] pt-[4vw] text-center">
+    <div class="p-[1vw] pt-[3vw] text-center">
         <div class="text-[2.2vw] font-semibold">
             {{ track.name }}
         </div>

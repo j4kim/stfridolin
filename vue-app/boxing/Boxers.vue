@@ -6,13 +6,11 @@ const boxingStore = useBoxingStore();
 </script>
 
 <template>
-    <div class="relative h-full w-full">
-        <Transition>
-            <div v-if="boxingStore.running">
-                <SvgBoxer v-for="fighter in boxingStore.fighters" :fighter />
-            </div>
-        </Transition>
-    </div>
+    <Transition>
+        <div v-if="boxingStore.running">
+            <SvgBoxer v-for="fighter in boxingStore.fighters" :fighter />
+        </div>
+    </Transition>
 </template>
 
 <style>

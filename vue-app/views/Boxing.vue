@@ -18,17 +18,29 @@ boxingStore.fetchCurrentFight();
             backgroundImage: `url(${ring})`,
         }"
     >
-        <div class="aspect-240/35"></div>
+        <div class="flex aspect-240/35 flex-col">
+            <div class="grow"></div>
+            <div class="text-center text-[1.6vw]">
+                Combat pour le prochain morceau
+            </div>
+        </div>
         <div class="flex grow">
             <TrackData
-                class="-mr-[6vw] grow"
+                class="-mr-[8vw] grow"
                 :track="boxingStore.fight.left_track"
             />
-            <div class="aspect-3/2 h-full">
-                <Boxers />
+            <div class="relative aspect-3/2 h-full">
+                <div class="absolute h-full w-full">
+                    <Boxers />
+                    <div
+                        class="absolute bottom-0 w-full p-[1vw] text-center text-[1.3vw]"
+                    >
+                        Utilisez l'application pour ajouter un concurrent
+                    </div>
+                </div>
             </div>
             <TrackData
-                class="-ml-[6vw] grow"
+                class="-ml-[8vw] grow"
                 :track="boxingStore.fight.right_track"
             />
         </div>
