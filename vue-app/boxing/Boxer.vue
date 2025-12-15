@@ -38,7 +38,7 @@ onMounted(() => {
     }
 }
 .boxer g path {
-    fill: #222 !important;
+    fill: #191919 !important;
     stroke: white !important;
     stroke-width: 3px !important;
 }
