@@ -1,7 +1,11 @@
 import { defineStore } from "pinia";
 import { LeftFighter, RightFighter } from "../boxing/Fighter";
+import { ref } from "vue";
 
 export const useBoxingStore = defineStore("boxing", () => {
+    const running = ref(true);
+    const finished = ref(false);
+
     const fighters = {
         left: new LeftFighter(),
         right: new RightFighter(),
@@ -23,7 +27,13 @@ export const useBoxingStore = defineStore("boxing", () => {
         const [winner, loser] = getSorted(puncherId);
         winner.win();
         loser.lose();
+        finished.value = true;
     }
 
-    return { fighters, punch, win };
+    function run() {
+        running.value = true;
+        finished.value = false;
+    }
+
+    return { running, finished, fighters, punch, win, run };
 });
