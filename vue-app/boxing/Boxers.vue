@@ -13,10 +13,22 @@ boxingStore.fighters.right.imgUrl =
 
 <template>
     <div class="relative h-full w-full">
-        <SvgBoxer
-            v-if="boxingStore.running"
-            v-for="fighter in boxingStore.fighters"
-            :fighter
-        />
+        <Transition>
+            <div v-if="boxingStore.running">
+                <SvgBoxer v-for="fighter in boxingStore.fighters" :fighter />
+            </div>
+        </Transition>
     </div>
 </template>
+
+<style>
+.v-enter-active,
+.v-leave-active {
+    transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+    opacity: 0;
+}
+</style>
