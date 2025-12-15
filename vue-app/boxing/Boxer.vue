@@ -37,6 +37,20 @@ onMounted(() => {
         rotate: 10deg;
     }
 }
+.boxer g path {
+    fill: #222 !important;
+    stroke: white !important;
+    stroke-width: 3px !important;
+}
+#left.boxer g[data-name^="leg_"] path:nth-child(2),
+#left.boxer g[data-name^="arm_"] path:not(:first-child) {
+    fill: #722 !important;
+}
+#right.boxer g[data-name^="leg_"] path:nth-child(2),
+#right.boxer g[data-name^="arm_"] path:not(:first-child) {
+    fill: #227 !important;
+}
+
 .boxer g[data-name^="arm_"] {
     transform-origin: var(--armTransformOriginX) 39%;
     animation: animatearms infinite ease-in-out alternate;
