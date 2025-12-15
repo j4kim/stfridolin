@@ -67,3 +67,17 @@ export class Receive extends Animation {
         this.addSubTimeline("ouch", "base1", 0.7, "power1.inOut");
     }
 }
+
+export class Win extends Animation {
+    constructor(fighter) {
+        super(fighter);
+        this.addSubTimeline("base1", "winner", 0.6, "back.out(2)");
+    }
+}
+
+export class Lose extends Animation {
+    constructor(fighter) {
+        super(fighter);
+        this.addSubTimeline("base1", "loser", 0.6, "back.out(2)");
+    }
+}
