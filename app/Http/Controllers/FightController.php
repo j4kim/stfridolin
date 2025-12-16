@@ -9,6 +9,9 @@ class FightController extends Controller
 {
     public function current()
     {
-        return Fight::current()->load('leftTrack', 'rightTrack');
+        $fight = Fight::current()->load('leftTrack', 'rightTrack');
+        $fight->leftTrack->loadCount('votes');
+        $fight->rightTrack->loadCount('votes');
+        return $fight;
     }
 }
