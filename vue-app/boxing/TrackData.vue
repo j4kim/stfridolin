@@ -1,13 +1,7 @@
 <script setup>
-import { useBoxingStore } from "../stores/boxing";
-
 defineProps({
     track: Object,
 });
-
-const boxingStore = useBoxingStore();
-
-boxingStore.fetchCurrentFight();
 </script>
 
 <template>
