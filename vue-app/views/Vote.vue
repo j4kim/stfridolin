@@ -22,6 +22,7 @@ function vote() {
 </script>
 
 <template>
+    <div class="my-2 px-4 font-bold">Combat en cours</div>
     <ul class="list bg-base-100 rounded-box shadow-md" v-if="boxingStore.fight">
         <li
             v-for="{ side, track } in [
@@ -47,6 +48,12 @@ function vote() {
             </button>
         </li>
     </ul>
+
+    <div class="mt-8 px-4">
+        <button class="btn btn-primary w-full">
+            Ajouter un morceau en file d'attente
+        </button>
+    </div>
 
     <dialog ref="dialog" class="modal">
         <div class="modal-box">
