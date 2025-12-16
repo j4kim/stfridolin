@@ -1,7 +1,6 @@
 <script setup>
 import Boxers from "../boxing/Boxers.vue";
 import ring from "../boxing/svg/ring.svg";
-import BoxingControls from "../boxing/BoxingControls.vue";
 import { useBoxingStore } from "../stores/boxing";
 import TrackData from "../boxing/TrackData.vue";
 import CurrentTrack from "../boxing/CurrentTrack.vue";
@@ -51,5 +50,4 @@ boxingStore.fetchCurrentFight();
             />
         </div>
     </div>
-    <BoxingControls class="mt-2" />
 </template>
