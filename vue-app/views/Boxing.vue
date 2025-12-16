@@ -31,6 +31,7 @@ boxingStore.fetchCurrentTrack();
                 v-if="boxingStore.track"
                 :track="boxingStore.track"
             />
+            <div v-else class="grow"></div>
             <div class="text-center text-[1.6vw]">
                 Combat pour le prochain morceau
             </div>
