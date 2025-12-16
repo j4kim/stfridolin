@@ -16,4 +16,3 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 Route::get('fights/current', [FightController::class, 'current'])->name('fights.current');
-Route::get('tracks/current', [TrackController::class, 'current'])->name('tracks.current');

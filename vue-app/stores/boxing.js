@@ -7,7 +7,6 @@ export const useBoxingStore = defineStore("boxing", () => {
     const running = ref(true);
     const finished = ref(false);
     const fight = ref(null);
-    const track = ref(null);
 
     const fighters = {
         left: new LeftFighter(),
@@ -45,20 +44,14 @@ export const useBoxingStore = defineStore("boxing", () => {
         fighters.right.imgUrl.value = fight.value.right_track.img_url;
     }
 
-    async function fetchCurrentTrack() {
-        track.value = await get("tracks.current");
-    }
-
     return {
         running,
         finished,
         fight,
-        track,
         fighters,
         punch,
         win,
         run,
         fetchCurrentFight,
-        fetchCurrentTrack,
     };
 });

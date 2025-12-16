@@ -9,7 +9,6 @@ import CurrentTrack from "../boxing/CurrentTrack.vue";
 const boxingStore = useBoxingStore();
 
 boxingStore.fetchCurrentFight();
-boxingStore.fetchCurrentTrack();
 </script>
 
 <template>
@@ -26,12 +25,7 @@ boxingStore.fetchCurrentTrack();
             >
                 Jukeboxe
             </div>
-            <CurrentTrack
-                class="grow"
-                v-if="boxingStore.track"
-                :track="boxingStore.track"
-            />
-            <div v-else class="grow"></div>
+            <CurrentTrack class="grow" />
             <div class="text-center text-[1.6vw]">
                 Combat pour le prochain morceau
             </div>
