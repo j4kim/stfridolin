@@ -38,7 +38,6 @@ export const useBoxingStore = defineStore("boxing", () => {
     }
 
     async function fetchCurrentFight() {
-        console.log("fetchCurrentFight");
         fight.value = await get("fights.current");
         fighters.left.imgUrl.value = fight.value.left_track.img_url;
         fighters.right.imgUrl.value = fight.value.right_track.img_url;
