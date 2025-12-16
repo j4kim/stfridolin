@@ -20,6 +20,9 @@ const mainStore = useMainStore();
         <RouterLink :to="{ name: 'boxing' }" activeClass="font-bold">
             Boxing
         </RouterLink>
+        <RouterLink :to="{ name: 'vote' }" activeClass="font-bold">
+            Vote
+        </RouterLink>
     </nav>
     <main>
         <RouterView></RouterView>

@@ -4,6 +4,7 @@ import { useMainStore } from "../stores/main";
 import { redirectToLogin } from "../api";
 import Spotify from "../views/Spotify.vue";
 import Boxing from "../views/Boxing.vue";
+import Vote from "../views/Vote.vue";
 
 const routes = [
     {
@@ -23,6 +24,11 @@ const routes = [
         path: "/boxing",
         name: "boxing",
         component: Boxing,
+    },
+    {
+        path: "/vote",
+        name: "vote",
+        component: Vote,
     },
 ];
 
