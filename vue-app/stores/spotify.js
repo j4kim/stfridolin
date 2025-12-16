@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 import { get } from "../api";
 
 export const useSpotifyStore = defineStore("spotify", () => {
@@ -55,6 +55,13 @@ export const useSpotifyStore = defineStore("spotify", () => {
         clearInterval(clockInterval.value);
         clockInterval.value = setInterval(computeProgressRatio, 1000);
     }
+
+    watch(progressRatio, (ratio) => {
+        if (ratio >= 1) {
+            clearInterval(clockInterval.value);
+            getPlaybackState();
+        }
+    });
 
     return { playback, getPlaybackState, track, progressRatio };
 });
