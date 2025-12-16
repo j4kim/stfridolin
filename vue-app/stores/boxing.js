@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import { LeftFighter, RightFighter } from "../boxing/Fighter";
 import { ref } from "vue";
 import { get } from "../api";
+import { pusher } from "../broadcasting";
 
 export const useBoxingStore = defineStore("boxing", () => {
     const running = ref(true);
@@ -13,20 +14,20 @@ export const useBoxingStore = defineStore("boxing", () => {
         right: new RightFighter(),
     };
 
-    function getSorted(fighterId) {
-        const f1 = fighters[fighterId];
-        const f2 = fighters[fighterId === "left" ? "right" : "left"];
+    function getSorted(side) {
+        const f1 = fighters[side];
+        const f2 = fighters[side === "left" ? "right" : "left"];
         return [f1, f2];
     }
 
-    function punch(puncherId) {
-        const [puncher, receiver] = getSorted(puncherId);
+    function punch(side) {
+        const [puncher, receiver] = getSorted(side);
         puncher.punch();
         receiver.receive();
     }
 
-    function win(puncherId) {
-        const [winner, loser] = getSorted(puncherId);
+    function win(side) {
+        const [winner, loser] = getSorted(side);
         winner.win();
         loser.lose();
         finished.value = true;
@@ -42,6 +43,13 @@ export const useBoxingStore = defineStore("boxing", () => {
         fighters.left.imgUrl.value = fight.value.left_track.img_url;
         fighters.right.imgUrl.value = fight.value.right_track.img_url;
     }
+
+    pusher.subscribe("votes").bind("VoteCreated", (data) => {
+        const trackId = data.model.track_id;
+        const side = fight.value.left_track.id == trackId ? "left" : "right";
+        fight.value[`${side}_track`].votes_count++;
+        punch(side);
+    });
 
     return {
         running,
