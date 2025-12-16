@@ -42,7 +42,6 @@ class DatabaseSeeder extends Seeder
         $fight = Fight::createNext();
         $fight->start();
         Vote::create([
-            'guest_id' => 1,
             'track_id' => $fight->leftTrack->id,
             'fight_id' => $fight->id,
         ]);
