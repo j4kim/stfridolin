@@ -2,6 +2,9 @@
 import { ref, useTemplateRef } from "vue";
 import { useBoxingStore } from "../stores/boxing";
 import { post } from "../api";
+import { useMainStore } from "../stores/main";
+
+const mainStore = useMainStore();
 
 const boxingStore = useBoxingStore();
 
@@ -31,6 +34,9 @@ async function vote() {
 </script>
 
 <template>
+    <h1 class="p-4 text-2xl">
+        {{ mainStore.appName }}
+    </h1>
     <div class="my-2 px-4 font-bold">Combat en cours</div>
     <ul class="list bg-base-100 rounded-box shadow-md" v-if="boxingStore.fight">
         <li

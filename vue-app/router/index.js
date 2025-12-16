@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Home from "../views/Home.vue";
 import { useMainStore } from "../stores/main";
 import { redirectToLogin } from "../api";
 import Spotify from "../views/Spotify.vue";
@@ -9,8 +8,8 @@ import Vote from "../views/Vote.vue";
 const routes = [
     {
         path: "/",
-        name: "home",
-        component: Home,
+        name: "vote",
+        component: Vote,
     },
     {
         path: "/spotify",
@@ -24,11 +23,6 @@ const routes = [
         path: "/boxing",
         name: "boxing",
         component: Boxing,
-    },
-    {
-        path: "/vote",
-        name: "vote",
-        component: Vote,
     },
 ];
 
