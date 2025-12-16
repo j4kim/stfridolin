@@ -3,6 +3,7 @@
 use App\Http\Controllers\FightController;
 use App\Http\Controllers\SpotifyController;
 use App\Http\Controllers\TrackController;
+use App\Http\Controllers\VoteController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->group(function () {
@@ -16,3 +17,4 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 Route::get('fights/current', [FightController::class, 'current'])->name('fights.current');
+Route::post('votes/{fight}/{track}', [VoteController::class, 'vote'])->name('votes.vote');

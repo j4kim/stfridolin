@@ -1,6 +1,7 @@
 <script setup>
 import { ref, useTemplateRef } from "vue";
 import { useBoxingStore } from "../stores/boxing";
+import { post } from "../api";
 
 const boxingStore = useBoxingStore();
 
@@ -15,9 +16,17 @@ function select(t) {
     dialog.value.showModal();
 }
 
-function vote() {
-    // todo
-    dialog.value.close();
+const voting = ref(false);
+
+async function vote() {
+    voting.value = true;
+    try {
+        await post("votes.vote", [boxingStore.fight.id, track.value.id]);
+        dialog.value.close();
+    } catch (error) {
+    } finally {
+        voting.value = false;
+    }
 }
 </script>
 
@@ -59,7 +68,12 @@ function vote() {
         <div class="modal-box">
             <h3 class="text-lg font-bold">Voter pour {{ track?.name }} ?</h3>
             <div class="modal-action flex flex-col">
-                <button class="btn btn-primary w-full" @click="vote">
+                <button
+                    class="btn btn-primary w-full"
+                    @click="vote"
+                    :disabled="voting"
+                >
+                    <span v-if="voting" class="loading loading-spinner"></span>
                     Dépenser 1 jeton
                 </button>
                 <button class="btn btn-ghost w-full" @click="dialog.close">
