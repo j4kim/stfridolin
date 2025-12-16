@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\FightController;
 use App\Http\Controllers\SpotifyController;
+use App\Http\Controllers\TrackController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->group(function () {
@@ -15,3 +16,4 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 Route::get('fights/current', [FightController::class, 'current'])->name('fights.current');
+Route::get('tracks/current', [TrackController::class, 'current'])->name('tracks.current');

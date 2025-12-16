@@ -4,10 +4,12 @@ import ring from "../boxing/svg/ring.svg";
 import BoxingControls from "../boxing/BoxingControls.vue";
 import { useBoxingStore } from "../stores/boxing";
 import TrackData from "../boxing/TrackData.vue";
+import CurrentTrack from "../boxing/CurrentTrack.vue";
 
 const boxingStore = useBoxingStore();
 
 boxingStore.fetchCurrentFight();
+boxingStore.fetchCurrentTrack();
 </script>
 
 <template>
@@ -19,7 +21,16 @@ boxingStore.fetchCurrentFight();
         }"
     >
         <div class="flex aspect-240/35 flex-col">
-            <div class="grow"></div>
+            <div
+                class="text-center text-[2vw] font-bold tracking-widest uppercase"
+            >
+                Jukeboxe
+            </div>
+            <CurrentTrack
+                class="grow"
+                v-if="boxingStore.track"
+                :track="boxingStore.track"
+            />
             <div class="text-center text-[1.6vw]">
                 Combat pour le prochain morceau
             </div>
