@@ -11,7 +11,7 @@ spotify.getPlaybackState();
         <div class="w-1/5 text-right text-[1.6vw]">
             À l'écoute actuellement:
         </div>
-        <div class="card card-side card-md grow bg-black/60">
+        <div class="card card-side card-md grow bg-black/40 backdrop-blur-md">
             <figure class="aspect-square h-[7.5vw]">
                 <img v-if="spotify.track" :src="spotify.track.img_url" />
             </figure>
