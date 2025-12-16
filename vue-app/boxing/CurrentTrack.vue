@@ -29,7 +29,7 @@ spotify.getPlaybackState();
                 </p>
                 <progress
                     class="progress h-[0.8vw]"
-                    :value="spotify.track.progress"
+                    :value="spotify.progressRatio"
                 ></progress>
             </div>
         </div>
