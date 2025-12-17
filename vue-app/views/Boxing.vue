@@ -44,7 +44,7 @@ fightStore.fetchCurrentFight().then(() => {
                 <div class="absolute h-full w-full">
                     <Boxers />
                     <div
-                        class="absolute bottom-0 w-full p-[1vw] text-center text-[1.3vw]"
+                        class="absolute bottom-0 w-full text-center text-[1.3vw]"
                     >
                         Utilisez l'application pour ajouter un concurrent
                     </div>
