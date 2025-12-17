@@ -2,5 +2,13 @@
   "exclude": [
     "node_modules",
     "dist"
-  ]
+  ],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "./vue-app/*"
+      ]
+    }
+  }
 }

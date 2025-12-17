@@ -26,4 +26,9 @@ export default defineConfig({
         }),
         tailwindcss(),
     ],
+    resolve: {
+        alias: {
+            "@": "/vue-app/",
+        },
+    },
 });
