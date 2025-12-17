@@ -1,14 +1,14 @@
 <script setup>
 import { ref, useTemplateRef } from "vue";
-import { useBoxingStore } from "../stores/boxing";
 import { post } from "../api";
 import { useMainStore } from "../stores/main";
+import { useFightStore } from "../stores/fight";
 
 const mainStore = useMainStore();
 
-const boxingStore = useBoxingStore();
+const fightStore = useFightStore();
 
-boxingStore.fetchCurrentFight();
+fightStore.fetchCurrentFight();
 
 const dialog = useTemplateRef("dialog");
 
@@ -24,7 +24,7 @@ const voting = ref(false);
 async function vote() {
     voting.value = true;
     try {
-        await post("votes.vote", [boxingStore.fight.id, track.value.id]);
+        await post("votes.vote", [fightStore.fight.id, track.value.id]);
         dialog.value.close();
     } catch (error) {
     } finally {
@@ -38,11 +38,11 @@ async function vote() {
         {{ mainStore.appName }}
     </h1>
     <div class="my-2 px-4 font-bold">Combat en cours</div>
-    <ul class="list bg-base-100 rounded-box shadow-md" v-if="boxingStore.fight">
+    <ul class="list bg-base-100 rounded-box shadow-md" v-if="fightStore.fight">
         <li
-            v-for="{ side, track } in [
-                { side: 'left', track: boxingStore.fight.left_track },
-                { side: 'right', track: boxingStore.fight.right_track },
+            v-for="track in [
+                fightStore.fight.left_track,
+                fightStore.fight.right_track,
             ]"
             class="list-row"
         >

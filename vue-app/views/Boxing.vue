@@ -4,15 +4,21 @@ import ring from "../boxing/svg/ring.svg";
 import { useBoxingStore } from "../stores/boxing";
 import TrackData from "../boxing/TrackData.vue";
 import CurrentTrack from "../boxing/CurrentTrack.vue";
+import { useFightStore } from "../stores/fight";
 
+const fightStore = useFightStore();
 const boxingStore = useBoxingStore();
 
-boxingStore.fetchCurrentFight();
+fightStore.fetchCurrentFight().then(() => {
+    const fight = fightStore.fight;
+    boxingStore.fighters.left.imgUrl = fight.left_track.img_url;
+    boxingStore.fighters.right.imgUrl = fight.right_track.img_url;
+});
 </script>
 
 <template>
     <div
-        v-if="boxingStore.fight"
+        v-if="fightStore.fight"
         class="flex aspect-video flex-col"
         :style="{
             backgroundImage: `url(${ring})`,
@@ -32,13 +38,13 @@ boxingStore.fetchCurrentFight();
         <div class="flex grow">
             <TrackData
                 class="-mr-[8vw] grow"
-                :track="boxingStore.fight.left_track"
+                :track="fightStore.fight.left_track"
             />
             <div class="relative aspect-3/2 h-full">
                 <div class="absolute h-full w-full">
                     <Boxers />
                     <div
-                        class="absolute bottom-0 w-full p-[1vw] text-center text-[1.3vw]"
+                        class="absolute bottom-0 w-full text-center text-[1.3vw]"
                     >
                         Utilisez l'application pour ajouter un concurrent
                     </div>
@@ -46,7 +52,7 @@ boxingStore.fetchCurrentFight();
             </div>
             <TrackData
                 class="-ml-[8vw] grow"
-                :track="boxingStore.fight.right_track"
+                :track="fightStore.fight.right_track"
             />
         </div>
     </div>
