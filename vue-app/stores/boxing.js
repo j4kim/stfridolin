@@ -1,13 +1,12 @@
 import { defineStore } from "pinia";
 import { LeftFighter, RightFighter } from "../boxing/Fighter";
 import { ref } from "vue";
-import { get } from "../api";
 import { pusher } from "../broadcasting";
+import { useFightStore } from "./fight";
 
 export const useBoxingStore = defineStore("boxing", () => {
     const running = ref(true);
     const finished = ref(false);
-    const fight = ref(null);
 
     const fighters = {
         left: new LeftFighter(),
@@ -38,18 +37,13 @@ export const useBoxingStore = defineStore("boxing", () => {
         finished.value = false;
     }
 
-    async function fetchCurrentFight() {
-        fight.value = await get("fights.current");
-        fighters.left.imgUrl.value = fight.value.left_track.img_url;
-        fighters.right.imgUrl.value = fight.value.right_track.img_url;
-    }
-
     pusher.subscribe("votes").bind("VoteCreated", (data) => {
+        const fight = useFightStore().fight;
         const trackId = data.model.track_id;
-        const side = fight.value.left_track.id == trackId ? "left" : "right";
-        fight.value[`${side}_track`].votes_count++;
+        const side = fight.left_track.id == trackId ? "left" : "right";
+        fight[`${side}_track`].votes_count++;
         punch(side);
-        if (fight.value[`${side}_track`].votes_count % 5 === 0) {
+        if (fight[`${side}_track`].votes_count % 5 === 0) {
             setTimeout(() => win(side), 1000);
         }
     });
@@ -57,11 +51,9 @@ export const useBoxingStore = defineStore("boxing", () => {
     return {
         running,
         finished,
-        fight,
         fighters,
         punch,
         win,
         run,
-        fetchCurrentFight,
     };
 });
