@@ -1,11 +1,13 @@
-<script setup>
-import { cn } from "@/lib/utils";
-import { itemMediaVariants } from ".";
+<script setup lang="ts">
+import type { HTMLAttributes } from "vue"
+import type { ItemMediaVariants } from "."
+import { cn } from "@/lib/utils"
+import { itemMediaVariants } from "."
 
-const props = defineProps({
-  class: { type: null, required: false },
-  variant: { type: null, required: false },
-});
+const props = defineProps<{
+  class?: HTMLAttributes["class"]
+  variant?: ItemMediaVariants["variant"]
+}>()
 </script>
 
 <template>

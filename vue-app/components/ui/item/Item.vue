@@ -1,15 +1,18 @@
-<script setup>
-import { Primitive } from "reka-ui";
-import { cn } from "@/lib/utils";
-import { itemVariants } from ".";
+<script setup lang="ts">
+import type { PrimitiveProps } from "reka-ui"
+import type { HTMLAttributes } from "vue"
+import type { ItemVariants } from "."
+import { Primitive } from "reka-ui"
+import { cn } from "@/lib/utils"
+import { itemVariants } from "."
 
-const props = defineProps({
-  asChild: { type: Boolean, required: false },
-  as: { type: null, required: false, default: "div" },
-  class: { type: null, required: false },
-  variant: { type: null, required: false },
-  size: { type: null, required: false },
-});
+const props = withDefaults(defineProps<PrimitiveProps & {
+  class?: HTMLAttributes["class"]
+  variant?: ItemVariants["variant"]
+  size?: ItemVariants["size"]
+}>(), {
+  as: "div",
+})
 </script>
 
 <template>
