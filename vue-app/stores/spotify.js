@@ -1,13 +1,23 @@
 import { defineStore } from "pinia";
 import { computed, ref, watch } from "vue";
-import { get } from "@/api";
+import { get, put } from "@/api";
 
 export const useSpotifyStore = defineStore("spotify", () => {
+    const devices = ref([]);
     const playback = ref(null);
     const error = ref(null);
 
     const t0 = ref(Date.now());
     const clockInterval = ref(null);
+
+    async function getDevices() {
+        get("spotify.devices").then((data) => (devices.value = data));
+    }
+
+    async function selectDevice(deviceId) {
+        await put("spotify.select-device", deviceId);
+        await getDevices();
+    }
 
     async function getPlaybackState() {
         playback.value = null;
@@ -64,5 +74,13 @@ export const useSpotifyStore = defineStore("spotify", () => {
         }
     });
 
-    return { playback, getPlaybackState, track, progressRatio };
+    return {
+        devices,
+        playback,
+        getDevices,
+        selectDevice,
+        getPlaybackState,
+        track,
+        progressRatio,
+    };
 });

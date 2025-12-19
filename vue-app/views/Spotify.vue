@@ -1,24 +1,16 @@
 <script setup>
-import { ref } from "vue";
 import { get, put } from "@/api";
 import { route as ziggy } from "@/../vendor/tightenco/ziggy";
 import { useRoute } from "vue-router";
 import Search from "@/spotify/Search.vue";
 import { useSpotifyStore } from "@/stores/spotify";
 import Progress from "@/components/ui/progress/Progress.vue";
+import SelectDevice from "@/spotify/SelectDevice.vue";
 
 const spotify = useSpotifyStore();
 spotify.getPlaybackState();
 
-const devices = ref([]);
-
 const route = useRoute();
-
-getDevices();
-
-async function getDevices() {
-    get("spotify.devices").then((data) => (devices.value = data));
-}
 
 async function play(params = null) {
     await put("spotify.play", params);
@@ -28,11 +20,6 @@ async function play(params = null) {
 async function pause() {
     await put("spotify.pause");
     spotify.playback.is_playing = false;
-}
-
-async function selectDevice(deviceId) {
-    await put("spotify.select-device", deviceId);
-    await getDevices();
 }
 </script>
 
@@ -69,18 +56,9 @@ async function selectDevice(deviceId) {
             </p>
         </div>
 
-        <div class="devices">
+        <div>
             Devices:
-            <div v-for="device in devices" class="flex gap-2">
-                <span class="font-semibold">{{ device.name }}</span>
-                <span>{{ device.is_active ? "active" : "inactive" }}</span>
-                <button
-                    class="btn btn-xs btn-soft btn-primary"
-                    :class="{ 'btn-disabled': device.selected }"
-                    @click="selectDevice(device.id)"
-                    v-text="device.selected ? 'selected' : 'select'"
-                ></button>
-            </div>
+            <SelectDevice />
         </div>
 
         <div class="flex max-w-sm items-center gap-2" v-if="spotify.track">
