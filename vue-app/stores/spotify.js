@@ -1,17 +1,27 @@
 import { defineStore } from "pinia";
 import { computed, ref, watch } from "vue";
-import { get } from "../api";
+import { get, put } from "@/api";
 
 export const useSpotifyStore = defineStore("spotify", () => {
+    const devices = ref([]);
     const playback = ref(null);
-    const error = ref(null);
+    const playbackError = ref(null);
 
     const t0 = ref(Date.now());
     const clockInterval = ref(null);
 
+    async function getDevices() {
+        get("spotify.devices").then((data) => (devices.value = data));
+    }
+
+    async function selectDevice(deviceId) {
+        await put("spotify.select-device", deviceId);
+        await getDevices();
+    }
+
     async function getPlaybackState() {
         playback.value = null;
-        error.value = null;
+        playbackError.value = null;
         try {
             playback.value = await get("spotify.playback-state");
             if (playback.value.is_playing) {
@@ -22,7 +32,7 @@ export const useSpotifyStore = defineStore("spotify", () => {
             computeProgressRatio();
         } catch (e) {
             if (e.response?.data?.exception) {
-                error.value = e.response.data.exception;
+                playbackError.value = e.response.data.exception;
             } else {
                 throw e;
             }
@@ -34,6 +44,7 @@ export const useSpotifyStore = defineStore("spotify", () => {
         const item = playback.value.item;
         return {
             img_url: item?.album.images[0].url,
+            img_thumbnail_url: item?.album.images[2].url,
             name: item?.name,
             artist_name: item?.artists.map((a) => a.name).join(", "),
             duration: item?.duration_ms,
@@ -63,5 +74,14 @@ export const useSpotifyStore = defineStore("spotify", () => {
         }
     });
 
-    return { playback, getPlaybackState, track, progressRatio };
+    return {
+        devices,
+        playback,
+        playbackError,
+        getDevices,
+        selectDevice,
+        getPlaybackState,
+        track,
+        progressRatio,
+    };
 });

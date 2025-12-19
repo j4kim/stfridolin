@@ -1,9 +1,9 @@
 import { createRouter, createWebHistory } from "vue-router";
-import { useMainStore } from "../stores/main";
-import { redirectToLogin } from "../api";
-import Spotify from "../views/Spotify.vue";
-import Boxing from "../views/Boxing.vue";
-import Vote from "../views/Vote.vue";
+import { useMainStore } from "@/stores/main";
+import { redirectToLogin } from "@/api";
+import Spotify from "@/views/Spotify.vue";
+import Boxing from "@/views/Boxing.vue";
+import Vote from "@/views/Vote.vue";
 
 const routes = [
     {

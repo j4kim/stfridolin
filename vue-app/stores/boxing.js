@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
-import { LeftFighter, RightFighter } from "../boxing/Fighter";
+import { LeftFighter, RightFighter } from "@/boxing/Fighter";
 import { ref } from "vue";
-import { pusher } from "../broadcasting";
+import { pusher } from "@/broadcasting";
 import { useFightStore } from "./fight";
 
 export const useBoxingStore = defineStore("boxing", () => {

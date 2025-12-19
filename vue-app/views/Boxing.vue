@@ -1,10 +1,10 @@
 <script setup>
-import Boxers from "../boxing/Boxers.vue";
-import ring from "../boxing/svg/ring.svg";
-import { useBoxingStore } from "../stores/boxing";
-import TrackData from "../boxing/TrackData.vue";
-import CurrentTrack from "../boxing/CurrentTrack.vue";
-import { useFightStore } from "../stores/fight";
+import Boxers from "@/boxing/Boxers.vue";
+import ring from "@/boxing/svg/ring.svg";
+import { useBoxingStore } from "@/stores/boxing";
+import TrackData from "@/boxing/TrackData.vue";
+import CurrentTrack from "@/boxing/CurrentTrack.vue";
+import { useFightStore } from "@/stores/fight";
 
 const fightStore = useFightStore();
 const boxingStore = useBoxingStore();
