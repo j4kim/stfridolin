@@ -1,14 +1,12 @@
-<script setup>
-import { cn } from "@/lib/utils";
-import { Separator } from '@/components/ui/separator';
+<script setup lang="ts">
+import type { SeparatorProps } from "reka-ui"
+import type { HTMLAttributes } from "vue"
+import { cn } from "@/lib/utils"
+import { Separator } from '@/components/ui/separator'
 
-const props = defineProps({
-  orientation: { type: String, required: false },
-  decorative: { type: Boolean, required: false },
-  asChild: { type: Boolean, required: false },
-  as: { type: null, required: false },
-  class: { type: null, required: false },
-});
+const props = defineProps<
+  SeparatorProps & { class?: HTMLAttributes["class"] }
+>()
 </script>
 
 <template>

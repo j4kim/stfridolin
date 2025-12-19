@@ -1,14 +1,15 @@
-<script setup>
-import { DrawerTrigger } from "vaul-vue";
+<script lang="ts" setup>
+import type { DrawerTriggerProps } from "vaul-vue"
+import { DrawerTrigger } from "vaul-vue"
 
-const props = defineProps({
-  asChild: { type: Boolean, required: false },
-  as: { type: null, required: false },
-});
+const props = defineProps<DrawerTriggerProps>()
 </script>
 
 <template>
-  <DrawerTrigger data-slot="drawer-trigger" v-bind="props">
+  <DrawerTrigger
+    data-slot="drawer-trigger"
+    v-bind="props"
+  >
     <slot />
   </DrawerTrigger>
 </template>
