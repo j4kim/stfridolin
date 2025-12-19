@@ -9,6 +9,7 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { useRoute } from "vue-router";
 
 const groups = [
     {
@@ -34,6 +35,8 @@ const groups = [
         ],
     },
 ];
+
+const route = useRoute();
 </script>
 
 <template>
@@ -47,7 +50,10 @@ const groups = [
                             v-for="link in group.links"
                             :key="link.title"
                         >
-                            <SidebarMenuButton as-child>
+                            <SidebarMenuButton
+                                as-child
+                                :is-active="route.name === link.name"
+                            >
                                 <RouterLink :to="{ name: link.name }">
                                     <span>{{ link.title }}</span>
                                 </RouterLink>
