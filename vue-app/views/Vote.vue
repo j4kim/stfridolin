@@ -1,8 +1,8 @@
 <script setup>
 import { ref, useTemplateRef } from "vue";
-import { post } from "../api";
-import { useMainStore } from "../stores/main";
-import { useFightStore } from "../stores/fight";
+import { post } from "@/api";
+import { useMainStore } from "@/stores/main";
+import { useFightStore } from "@/stores/fight";
 
 const mainStore = useMainStore();
 

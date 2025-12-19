@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
-import { get } from "../api";
+import { get } from "@/api";
 
 export const useFightStore = defineStore("fight", () => {
     const fight = ref(null);

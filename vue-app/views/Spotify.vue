@@ -1,11 +1,11 @@
 <script setup>
 import { ref } from "vue";
-import { get, put } from "../api";
-import { route as ziggy } from "../../vendor/tightenco/ziggy";
+import { get, put } from "@/api";
+import { route as ziggy } from "@/../vendor/tightenco/ziggy";
 import { useRoute } from "vue-router";
-import SearchIcon from "../icons/SearchIcon.vue";
+import SearchIcon from "@/icons/SearchIcon.vue";
 import { watchDebounced } from "@vueuse/core";
-import PlayIcon from "../icons/PlayIcon.vue";
+import PlayIcon from "@/icons/PlayIcon.vue";
 
 const error = ref(null);
 const playback = ref(null);

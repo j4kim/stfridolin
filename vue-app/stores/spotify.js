@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { computed, ref, watch } from "vue";
-import { get } from "../api";
+import { get } from "@/api";
 
 export const useSpotifyStore = defineStore("spotify", () => {
     const playback = ref(null);

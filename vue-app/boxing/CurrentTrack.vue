@@ -1,5 +1,5 @@
 <script setup>
-import { useSpotifyStore } from "../stores/spotify";
+import { useSpotifyStore } from "@/stores/spotify";
 
 const spotify = useSpotifyStore();
 
