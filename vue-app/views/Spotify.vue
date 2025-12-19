@@ -11,12 +11,12 @@ import PlaybackState from "@/spotify/PlaybackState.vue";
             <SelectDevice />
         </div>
 
-        <div>
+        <div class="max-w-sm">
             <h2 class="text-lg font-bold">Playback state</h2>
             <PlaybackState />
         </div>
 
-        <div>
+        <div class="max-w-sm">
             <h2 class="text-lg font-bold">Search</h2>
             <Search />
         </div>

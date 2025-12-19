@@ -1,10 +1,15 @@
 <script setup>
 import { ref } from "vue";
 import { get, put } from "@/api";
-import SearchIcon from "@/icons/SearchIcon.vue";
 import { watchDebounced } from "@vueuse/core";
 import PlayIcon from "@/icons/PlayIcon.vue";
 import { useSpotifyStore } from "@/stores/spotify";
+import {
+    InputGroup,
+    InputGroupAddon,
+    InputGroupInput,
+} from "@/components/ui/input-group";
+import { Search } from "lucide-vue-next";
 
 const spotify = useSpotifyStore();
 
@@ -24,16 +29,15 @@ async function playTrack(uri) {
 </script>
 
 <template>
-    <div>
-        <label class="flex">
-            <SearchIcon />
-            <input
-                type="search"
-                placeholder="Search track"
-                v-model="searchQuery"
-            />
-        </label>
-    </div>
+    <InputGroup>
+        <InputGroupInput
+            placeholder="Rechercher un morceau"
+            v-model="searchQuery"
+        />
+        <InputGroupAddon>
+            <Search />
+        </InputGroupAddon>
+    </InputGroup>
 
     <ul
         class="list bg-base-100 rounded-box max-w-lg shadow-md"

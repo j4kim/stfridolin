@@ -17,9 +17,9 @@ async function pause() {
 </script>
 
 <template>
-    <div class="flex max-w-sm items-center gap-2" v-if="spotify.track">
+    <div class="flex w-full items-center gap-2" v-if="spotify.track">
         <img :src="spotify.track.img_thumbnail_url" />
-        <div class="flex w-full flex-col">
+        <div class="flex grow flex-col">
             {{ spotify.track.name }} - {{ spotify.track.artist_name }}
             <div class="flex items-center gap-2">
                 <Progress :model-value="spotify.progressRatio * 100"></Progress>
