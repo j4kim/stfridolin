@@ -1,0 +1,9 @@
+<script setup>
+import { Sidebar, SidebarContent } from "@/components/ui/sidebar";
+</script>
+
+<template>
+    <Sidebar>
+        <SidebarContent />
+    </Sidebar>
+</template>
