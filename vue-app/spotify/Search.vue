@@ -2,14 +2,24 @@
 import { ref } from "vue";
 import { get, put } from "@/api";
 import { watchDebounced } from "@vueuse/core";
-import PlayIcon from "@/icons/PlayIcon.vue";
 import { useSpotifyStore } from "@/stores/spotify";
 import {
     InputGroup,
     InputGroupAddon,
     InputGroupInput,
 } from "@/components/ui/input-group";
-import { Search } from "lucide-vue-next";
+import { Play, Search } from "lucide-vue-next";
+import {
+    ItemGroup,
+    Item,
+    ItemMedia,
+    ItemContent,
+    ItemTitle,
+    ItemDescription,
+    ItemActions,
+    ItemSeparator,
+} from "@/components/ui/item";
+import Button from "@/components/ui/button/Button.vue";
 
 const spotify = useSpotifyStore();
 
@@ -39,29 +49,33 @@ async function playTrack(uri) {
         </InputGroupAddon>
     </InputGroup>
 
-    <ul
-        class="list bg-base-100 rounded-box max-w-lg shadow-md"
-        v-if="tracks.length"
-    >
-        <li v-for="track in tracks" class="list-row">
-            <div>
-                <img
-                    class="rounded-box size-10"
-                    :src="track.album.images[2].url"
-                />
-            </div>
-            <div>
-                <div>{{ track.name }}</div>
-                <div class="text-xs font-semibold opacity-60">
-                    {{ track.artists.map((a) => a.name).join(", ") }}
-                </div>
-            </div>
-            <button
-                class="btn btn-square btn-ghost"
-                @click="playTrack(track.uri)"
-            >
-                <PlayIcon />
-            </button>
-        </li>
-    </ul>
+    <ItemGroup>
+        <template v-for="(track, index) in tracks" :key="track.id">
+            <Item>
+                <ItemMedia>
+                    <img
+                        class="rounded-box size-10"
+                        :src="track.album.images[2].url"
+                    />
+                </ItemMedia>
+                <ItemContent class="gap-1">
+                    <ItemTitle>{{ track.name }}</ItemTitle>
+                    <ItemDescription>
+                        {{ track.artists.map((a) => a.name).join(", ") }}
+                    </ItemDescription>
+                </ItemContent>
+                <ItemActions>
+                    <Button
+                        variant="ghost"
+                        size="icon"
+                        class="rounded-full"
+                        @click="playTrack(track.uri)"
+                    >
+                        <Play />
+                    </Button>
+                </ItemActions>
+            </Item>
+            <ItemSeparator v-if="index !== track.length - 1" />
+        </template>
+    </ItemGroup>
 </template>
