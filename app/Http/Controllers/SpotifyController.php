@@ -26,7 +26,7 @@ class SpotifyController extends Controller
 
         Spotify::requestAccessToken($request->code);
 
-        return redirect()->intended('spotify-devices');
+        return redirect()->intended();
     }
 
     public function devices()
