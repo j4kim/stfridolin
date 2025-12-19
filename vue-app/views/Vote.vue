@@ -1,5 +1,4 @@
 <script setup>
-import { ref, useTemplateRef } from "vue";
 import { post } from "@/api";
 import { useMainStore } from "@/stores/main";
 import { useFightStore } from "@/stores/fight";
@@ -10,7 +9,7 @@ import {
     ItemActions,
     ItemMedia,
 } from "@/components/ui/item";
-import Spinner from "@/components/ui/spinner/Spinner.vue";
+import ValidationDrawer from "@/components/ValidationDrawer.vue";
 
 const mainStore = useMainStore();
 
@@ -18,26 +17,8 @@ const fightStore = useFightStore();
 
 fightStore.fetchCurrentFight();
 
-const dialog = useTemplateRef("dialog");
-
-const track = ref(null);
-
-function select(t) {
-    track.value = t;
-    dialog.value.showModal();
-}
-
-const voting = ref(false);
-
-async function vote() {
-    voting.value = true;
-    try {
-        await post("votes.vote", [fightStore.fight.id, track.value.id]);
-        dialog.value.close();
-    } catch (error) {
-    } finally {
-        voting.value = false;
-    }
+async function vote(track) {
+    return await post("votes.vote", [fightStore.fight.id, track.id]);
 }
 </script>
 
@@ -67,7 +48,12 @@ async function vote() {
                 </div>
             </ItemContent>
             <ItemActions>
-                <Button @click="select(track)"> Voter </Button>
+                <ValidationDrawer
+                    trigger="Voter"
+                    :title="`Voter pour ${track.name} ?`"
+                    :action="() => vote(track)"
+                    submitBtn="Dépenser 1 jeton"
+                ></ValidationDrawer>
             </ItemActions>
         </Item>
     </div>
@@ -75,23 +61,4 @@ async function vote() {
     <div class="mt-8 px-4">
         <Button class="w-full"> Ajouter un morceau en file d'attente </Button>
     </div>
-
-    <dialog ref="dialog" class="modal">
-        <div class="modal-box">
-            <h3 class="text-lg font-bold">Voter pour {{ track?.name }} ?</h3>
-            <div class="modal-action flex flex-col">
-                <Button class="w-full" @click="vote" :disabled="voting">
-                    <Spinner v-if="voting" class="animate-spin" />
-                    Dépenser 1 jeton
-                </Button>
-                <Button
-                    class="w-full"
-                    variant="secondary"
-                    @click="dialog.close()"
-                >
-                    Annuler
-                </Button>
-            </div>
-        </div>
-    </dialog>
 </template>
