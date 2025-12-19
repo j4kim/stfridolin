@@ -3,6 +3,7 @@ import { ref, useTemplateRef } from "vue";
 import { post } from "@/api";
 import { useMainStore } from "@/stores/main";
 import { useFightStore } from "@/stores/fight";
+import Button from "@/components/ui/button/Button.vue";
 
 const mainStore = useMainStore();
 
@@ -38,7 +39,7 @@ async function vote() {
         {{ mainStore.appName }}
     </h1>
     <div class="my-2 px-4 font-bold">Combat en cours</div>
-    <ul class="list bg-base-100 rounded-box shadow-md" v-if="fightStore.fight">
+    <ul class="list rounded-box shadow-md" v-if="fightStore.fight">
         <li
             v-for="track in [
                 fightStore.fight.left_track,
@@ -58,33 +59,29 @@ async function vote() {
                     {{ track.artist_name }}
                 </div>
             </div>
-            <button class="btn btn-primary" @click="select(track)">
-                Voter
-            </button>
+            <Button @click="select(track)"> Voter </Button>
         </li>
     </ul>
 
     <div class="mt-8 px-4">
-        <button class="btn btn-primary w-full">
-            Ajouter un morceau en file d'attente
-        </button>
+        <Button class="w-full"> Ajouter un morceau en file d'attente </Button>
     </div>
 
     <dialog ref="dialog" class="modal">
         <div class="modal-box">
             <h3 class="text-lg font-bold">Voter pour {{ track?.name }} ?</h3>
             <div class="modal-action flex flex-col">
-                <button
-                    class="btn btn-primary w-full"
-                    @click="vote"
-                    :disabled="voting"
-                >
+                <Button class="w-full" @click="vote" :disabled="voting">
                     <span v-if="voting" class="loading loading-spinner"></span>
                     Dépenser 1 jeton
-                </button>
-                <button class="btn btn-ghost w-full" @click="dialog.close">
+                </Button>
+                <Button
+                    class="w-full"
+                    variant="secondary"
+                    @click="dialog.close()"
+                >
                     Annuler
-                </button>
+                </Button>
             </div>
         </div>
     </dialog>
