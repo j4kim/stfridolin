@@ -1,7 +1,9 @@
 <script setup>
 import { put } from "@/api";
+import Button from "@/components/ui/button/Button.vue";
 import Progress from "@/components/ui/progress/Progress.vue";
 import { useSpotifyStore } from "@/stores/spotify";
+import { Pause, Play } from "lucide-vue-next";
 
 const spotify = useSpotifyStore();
 
@@ -23,10 +25,14 @@ async function pause() {
             {{ spotify.track.name }} - {{ spotify.track.artist_name }}
             <div class="flex items-center gap-2">
                 <Progress :model-value="spotify.progressRatio * 100"></Progress>
-                <button v-if="spotify.track.is_playing" @click="pause">
-                    ⏸️
-                </button>
-                <button v-else @click="play">▶️</button>
+                <Button
+                    variant="outline"
+                    size="icon"
+                    class="rounded-full"
+                    @click="spotify.track.is_playing ? pause() : play()"
+                >
+                    <component :is="spotify.track.is_playing ? Pause : Play" />
+                </Button>
             </div>
         </div>
     </div>
