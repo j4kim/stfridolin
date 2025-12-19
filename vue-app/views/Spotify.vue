@@ -7,17 +7,17 @@ import PlaybackState from "@/spotify/PlaybackState.vue";
 <template>
     <div class="flex flex-col gap-8">
         <div>
-            <h2 class="text-lg font-bold">Devices</h2>
+            <h2 class="mb-2 text-lg font-bold">Devices</h2>
             <SelectDevice />
         </div>
 
         <div class="max-w-sm">
-            <h2 class="text-lg font-bold">Playback state</h2>
+            <h2 class="mb-2 text-lg font-bold">Playback state</h2>
             <PlaybackState />
         </div>
 
         <div class="max-w-sm">
-            <h2 class="text-lg font-bold">Search</h2>
+            <h2 class="mb-2 text-lg font-bold">Search</h2>
             <Search />
         </div>
     </div>
