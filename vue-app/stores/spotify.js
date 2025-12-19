@@ -5,7 +5,7 @@ import { get, put } from "@/api";
 export const useSpotifyStore = defineStore("spotify", () => {
     const devices = ref([]);
     const playback = ref(null);
-    const error = ref(null);
+    const playbackError = ref(null);
 
     const t0 = ref(Date.now());
     const clockInterval = ref(null);
@@ -21,7 +21,7 @@ export const useSpotifyStore = defineStore("spotify", () => {
 
     async function getPlaybackState() {
         playback.value = null;
-        error.value = null;
+        playbackError.value = null;
         try {
             playback.value = await get("spotify.playback-state");
             if (playback.value.is_playing) {
@@ -32,7 +32,7 @@ export const useSpotifyStore = defineStore("spotify", () => {
             computeProgressRatio();
         } catch (e) {
             if (e.response?.data?.exception) {
-                error.value = e.response.data.exception;
+                playbackError.value = e.response.data.exception;
             } else {
                 throw e;
             }
@@ -77,6 +77,7 @@ export const useSpotifyStore = defineStore("spotify", () => {
     return {
         devices,
         playback,
+        playbackError,
         getDevices,
         selectDevice,
         getPlaybackState,
