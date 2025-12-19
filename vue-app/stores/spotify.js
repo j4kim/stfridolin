@@ -34,6 +34,7 @@ export const useSpotifyStore = defineStore("spotify", () => {
         const item = playback.value.item;
         return {
             img_url: item?.album.images[0].url,
+            img_thumbnail_url: item?.album.images[2].url,
             name: item?.name,
             artist_name: item?.artists.map((a) => a.name).join(", "),
             duration: item?.duration_ms,
