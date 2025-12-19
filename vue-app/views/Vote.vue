@@ -10,6 +10,7 @@ import {
     ItemActions,
     ItemMedia,
 } from "@/components/ui/item";
+import Spinner from "@/components/ui/spinner/Spinner.vue";
 
 const mainStore = useMainStore();
 
@@ -80,7 +81,7 @@ async function vote() {
             <h3 class="text-lg font-bold">Voter pour {{ track?.name }} ?</h3>
             <div class="modal-action flex flex-col">
                 <Button class="w-full" @click="vote" :disabled="voting">
-                    <span v-if="voting" class="loading loading-spinner"></span>
+                    <Spinner v-if="voting" class="animate-spin" />
                     Dépenser 1 jeton
                 </Button>
                 <Button
