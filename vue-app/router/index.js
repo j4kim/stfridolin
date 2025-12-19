@@ -23,6 +23,9 @@ const routes = [
         path: "/boxing",
         name: "boxing",
         component: Boxing,
+        meta: {
+            requireAuth: true,
+        },
     },
 ];
 
