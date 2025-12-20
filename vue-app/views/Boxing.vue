@@ -25,11 +25,11 @@ fightStore.fetchCurrentFight().then(() => {
         }"
     >
         <div class="flex aspect-240/35 flex-col">
-            <div
+            <h1
                 class="text-center text-[2vw] font-bold tracking-widest uppercase"
             >
-                Jukeboxe
-            </div>
+                <RouterLink to="/"> Jukeboxe </RouterLink>
+            </h1>
             <CurrentTrack class="grow" />
             <div class="text-center text-[1.6vw]">
                 Combat pour le prochain morceau
