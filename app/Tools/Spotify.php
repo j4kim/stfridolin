@@ -104,16 +104,18 @@ class Spotify
         return $response->json();
     }
 
-    public static function search(string $q, string $type = 'track', string $market = 'CH', int $limit = 10): Response
+    public static function searchTracks(string $q, int $offset = 0): array
     {
         return self::apiRequest()
-            ->get('search', compact('q', 'type', 'market', 'limit'))
-            ->throw();
-    }
-
-    public static function searchTracks(string $q): array
-    {
-        return self::search($q, 'track')->json('tracks');
+            ->get('search', [
+                'q' => $q,
+                'type' => 'track',
+                'market' => 'CH',
+                'limit' => 10,
+                'offset' => $offset,
+            ])
+            ->throw()
+            ->json('tracks');
     }
 
     public static function devices(): Collection

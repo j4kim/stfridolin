@@ -23,13 +23,26 @@ import Button from "@/components/ui/button/Button.vue";
 
 const spotify = useSpotifyStore();
 
-const tracks = ref([]);
 const searchQuery = ref("");
 watchDebounced(searchQuery, searchTracks, { debounce: 500 });
 
+const searchResults = ref(null);
+
 async function searchTracks() {
-    const data = await get("spotify.search-tracks", { q: searchQuery.value });
-    tracks.value = data.items;
+    searchResults.value = await get("spotify.search-tracks", {
+        q: searchQuery.value,
+    });
+}
+
+async function searchMore() {
+    const data = await get("spotify.search-tracks", {
+        q: searchQuery.value,
+        offset: searchResults.value.offset + 10,
+    });
+    searchResults.value = {
+        ...data,
+        items: searchResults.value.items.concat(data.items),
+    };
 }
 
 async function playTrack(uri) {
@@ -49,8 +62,8 @@ async function playTrack(uri) {
         </InputGroupAddon>
     </InputGroup>
 
-    <ItemGroup>
-        <template v-for="(track, index) in tracks" :key="track.id">
+    <ItemGroup v-if="searchResults">
+        <template v-for="(track, index) in searchResults.items" :key="track.id">
             <Item>
                 <ItemMedia>
                     <img
@@ -77,5 +90,8 @@ async function playTrack(uri) {
             </Item>
             <ItemSeparator v-if="index !== track.length - 1" />
         </template>
+        <Button variant="ghost" class="my-4" @click="searchMore">
+            Charger plus
+        </Button>
     </ItemGroup>
 </template>

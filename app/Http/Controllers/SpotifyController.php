@@ -71,6 +71,6 @@ class SpotifyController extends Controller
         if (!$request->q) {
             return ['items' => []];
         }
-        return Spotify::searchTracks($request->q);
+        return Spotify::searchTracks($request->q, $request->offset ?? 0);
     }
 }
