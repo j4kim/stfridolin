@@ -45,17 +45,19 @@ async function searchMore() {
 
 <template>
     <div>
-        <InputGroup>
-            <InputGroupInput
-                placeholder="Rechercher un morceau"
-                v-model="searchQuery"
-            />
-            <InputGroupAddon>
-                <Search />
-            </InputGroupAddon>
-        </InputGroup>
+        <div class="px-4">
+            <InputGroup>
+                <InputGroupInput
+                    placeholder="Rechercher un morceau"
+                    v-model="searchQuery"
+                />
+                <InputGroupAddon>
+                    <Search />
+                </InputGroupAddon>
+            </InputGroup>
+        </div>
 
-        <ItemGroup v-if="searchResults">
+        <ItemGroup v-if="searchResults?.items.length">
             <template
                 v-for="(track, index) in searchResults.items"
                 :key="track.id"
