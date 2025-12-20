@@ -18,3 +18,4 @@ Route::middleware('auth:sanctum')->group(function () {
 
 Route::get('fights/current', [FightController::class, 'current'])->name('fights.current');
 Route::post('votes/{fight}/{track}', [VoteController::class, 'vote'])->name('votes.vote');
+Route::post('tracks/', [TrackController::class, 'store'])->name('tracks.store');

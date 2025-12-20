@@ -1,7 +1,12 @@
 <script setup>
+import { post } from "@/api";
 import Layout from "@/components/Layout.vue";
 import ValidationDrawer from "@/components/ValidationDrawer.vue";
 import Search from "@/spotify/Search.vue";
+
+async function add(track) {
+    await post("tracks.store", null, track);
+}
 </script>
 
 <template>
@@ -14,7 +19,7 @@ import Search from "@/spotify/Search.vue";
                 <ValidationDrawer
                     trigger="Ajouter"
                     :title="`Ajouter ${track.name} à la file d'attente ?`"
-                    :action="() => console.log(track)"
+                    :action="() => add(track)"
                     submitBtn="Dépenser 1 jeton"
                 ></ValidationDrawer>
             </template>
