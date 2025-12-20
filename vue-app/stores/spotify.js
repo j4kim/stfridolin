@@ -1,14 +1,11 @@
 import { defineStore } from "pinia";
-import { computed, ref, watch } from "vue";
+import { computed, ref } from "vue";
 import { get, put } from "@/api";
 
 export const useSpotifyStore = defineStore("spotify", () => {
     const devices = ref([]);
     const playback = ref(null);
     const playbackError = ref(null);
-
-    const t0 = ref(Date.now());
-    const clockInterval = ref(null);
 
     async function getDevices() {
         get("spotify.devices").then((data) => (devices.value = data));
@@ -24,12 +21,6 @@ export const useSpotifyStore = defineStore("spotify", () => {
         playbackError.value = null;
         try {
             playback.value = await get("spotify.playback-state");
-            if (playback.value.is_playing) {
-                restartClock();
-            } else {
-                clearInterval(clockInterval.value);
-            }
-            computeProgressRatio();
         } catch (e) {
             if (e.response?.data?.exception) {
                 playbackError.value = e.response.data.exception;
@@ -48,31 +39,10 @@ export const useSpotifyStore = defineStore("spotify", () => {
             name: item?.name,
             artist_name: item?.artists.map((a) => a.name).join(", "),
             duration: item?.duration_ms,
-            progress: playback.value.progress_ms,
-            is_playing: playback.value.is_playing,
         };
     });
 
-    const progressRatio = ref(0);
-
-    function computeProgressRatio() {
-        const delta = Date.now() - t0.value;
-        const progress = track.value.progress + delta;
-        progressRatio.value = progress / track.value.duration;
-    }
-
-    function restartClock() {
-        t0.value = Date.now();
-        clearInterval(clockInterval.value);
-        clockInterval.value = setInterval(computeProgressRatio, 1000);
-    }
-
-    watch(progressRatio, (ratio) => {
-        if (ratio >= 1) {
-            clearInterval(clockInterval.value);
-            getPlaybackState();
-        }
-    });
+    const isPlaying = computed(() => playback.value?.is_playing ?? false);
 
     return {
         devices,
@@ -82,6 +52,6 @@ export const useSpotifyStore = defineStore("spotify", () => {
         selectDevice,
         getPlaybackState,
         track,
-        progressRatio,
+        isPlaying,
     };
 });

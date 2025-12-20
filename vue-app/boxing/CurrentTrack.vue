@@ -1,8 +1,10 @@
 <script setup>
 import Progress from "@/components/ui/progress/Progress.vue";
+import { useClockStore } from "@/stores/clock";
 import { useSpotifyStore } from "@/stores/spotify";
 
 const spotify = useSpotifyStore();
+const clock = useClockStore();
 
 spotify.getPlaybackState();
 </script>
@@ -31,7 +33,7 @@ spotify.getPlaybackState();
                 <Progress
                     v-if="spotify.track"
                     class="h-[0.8vw]"
-                    :model-value="spotify.progressRatio * 100"
+                    :model-value="clock.progress.percent"
                 ></Progress>
             </div>
         </div>

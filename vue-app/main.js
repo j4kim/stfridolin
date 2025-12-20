@@ -6,6 +6,7 @@ import App from "@/App.vue";
 import router from "@/router";
 import "@/broadcasting";
 import { useClientStore } from "./stores/client";
+import { useClockStore } from "./stores/clock";
 
 const app = createApp(App);
 
@@ -13,6 +14,7 @@ app.use(createPinia());
 app.use(router);
 
 useClientStore().getMasterClientId();
+useClockStore().startClock();
 
 await importFrames();
 
