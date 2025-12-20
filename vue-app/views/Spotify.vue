@@ -7,8 +7,10 @@ import { Button } from "@/components/ui/button";
 import { Play } from "lucide-vue-next";
 import { useSpotifyStore } from "@/stores/spotify";
 import { put } from "@/api";
+import { useClientStore } from "@/stores/client";
 
 const spotify = useSpotifyStore();
+const client = useClientStore();
 
 async function playTrack(uri) {
     const data = await put("spotify.play-track", uri);
@@ -19,6 +21,18 @@ async function playTrack(uri) {
 <template>
     <Layout>
         <div class="flex flex-col gap-8 p-4">
+            <div>
+                <h2 class="mb-2 text-lg font-bold">Master client</h2>
+                <p class="mb-2">
+                    The master client is the tab that is responsible of managing
+                    the playback and the state of the fight.
+                </p>
+                <p v-if="client.isMaster">✅ This client is master</p>
+                <Button v-else @click="client.setAsMaster" size="sm">
+                    Set this client as master
+                </Button>
+            </div>
+
             <div>
                 <h2 class="mb-2 text-lg font-bold">Devices</h2>
                 <SelectDevice />
