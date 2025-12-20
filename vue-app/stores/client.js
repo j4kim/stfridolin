@@ -2,7 +2,8 @@ import { get, post } from "@/api";
 import { pusher } from "@/broadcasting";
 import { useSessionStorage } from "@vueuse/core";
 import { defineStore } from "pinia";
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
+import { useMainStore } from "./main";
 
 export const useClientStore = defineStore("client", () => {
     const clientId = useSessionStorage("clientId", sessionStorage.clientId);
@@ -22,6 +23,14 @@ export const useClientStore = defineStore("client", () => {
     pusher.subscribe("master").bind("MasterClientChanged", (data) => {
         masterId.value = data.clientId;
     });
+
+    watch(
+        isMaster,
+        (value) => {
+            document.title = value ? "Master" : useMainStore().appName;
+        },
+        { immediate: true },
+    );
 
     return {
         clientId,
