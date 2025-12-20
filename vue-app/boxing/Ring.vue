@@ -18,7 +18,7 @@ fightStore.fetchCurrentFight().then(() => {
 
 <template>
     <div
-        class="flex aspect-video flex-col"
+        class="@container flex aspect-video flex-col"
         :style="{
             backgroundImage: `url(${ring})`,
             backgroundSize: 'cover',
@@ -28,32 +28,28 @@ fightStore.fetchCurrentFight().then(() => {
     >
         <div class="flex aspect-240/35 flex-col">
             <h1
-                class="text-center text-[2vw] font-bold tracking-widest uppercase"
+                class="text-center text-[2cqw] font-bold tracking-widest uppercase"
             >
                 <RouterLink to="/"> Jukeboxe </RouterLink>
             </h1>
             <CurrentTrack class="grow" />
-            <div class="text-center text-[1.6vw]">
+            <div class="text-center text-[1.6cqw]">
                 Combat pour le prochain morceau
             </div>
         </div>
         <div class="flex grow" v-if="fightStore.fight">
             <TrackData
-                class="-mr-[8vw] grow"
+                class="-mr-[8cqw] w-[26cqw]"
                 :track="fightStore.fight.left_track"
             />
-            <div class="relative aspect-3/2 h-full">
-                <div class="absolute h-full w-full">
-                    <Boxers />
-                    <div
-                        class="absolute bottom-0 w-full text-center text-[1.3vw]"
-                    >
-                        Utilisez l'application pour ajouter un concurrent
-                    </div>
+            <div class="relative flex grow-4 flex-col">
+                <Boxers class="grow" />
+                <div class="w-full text-center text-[1.3cqw]">
+                    Utilisez l'application pour ajouter un concurrent
                 </div>
             </div>
             <TrackData
-                class="-ml-[8vw] grow"
+                class="-ml-[8cqw] w-[26cqw]"
                 :track="fightStore.fight.right_track"
             />
         </div>

@@ -10,12 +10,12 @@ spotify.getPlaybackState();
 </script>
 
 <template>
-    <div class="flex items-center gap-[3vw] px-[3vw]">
-        <div class="w-1/5 text-right text-[1.6vw]">
+    <div class="flex items-center gap-[3cqw] px-[3cqw]">
+        <div class="w-1/5 text-right text-[1.6cqw]">
             À l'écoute actuellement:
         </div>
         <div
-            class="flex h-[7.5vw] grow rounded-[0.7vw] bg-black/40 backdrop-blur-md"
+            class="flex h-[7.5cqw] grow rounded-[0.7cqw] bg-black/40 backdrop-blur-md"
         >
             <img
                 class="aspect-square rounded-s-[inherit]"
@@ -23,16 +23,16 @@ spotify.getPlaybackState();
                 :src="spotify.track.img_url"
             />
             <div
-                class="flex w-full flex-col justify-center gap-[0.8vw] px-[1.8vw]"
+                class="flex w-full flex-col justify-center gap-[0.8cqw] px-[1.8cqw]"
             >
-                <p class="text-[1.4vw]" v-if="spotify.track">
+                <p class="text-[1.4cqw]" v-if="spotify.track">
                     <span class="font-bold">{{ spotify.track.name }}</span>
                     -
                     <span>{{ spotify.track.artist_name }}</span>
                 </p>
                 <Progress
                     v-if="spotify.track"
-                    class="h-[0.8vw]"
+                    class="h-[0.8cqw]"
                     :model-value="clock.progress.percent"
                 ></Progress>
             </div>
