@@ -1,14 +1,13 @@
 <script setup>
 import { ref } from "vue";
-import { get, put } from "@/api";
+import { get } from "@/api";
 import { watchDebounced } from "@vueuse/core";
-import { useSpotifyStore } from "@/stores/spotify";
 import {
     InputGroup,
     InputGroupAddon,
     InputGroupInput,
 } from "@/components/ui/input-group";
-import { Play, Search } from "lucide-vue-next";
+import { Search } from "lucide-vue-next";
 import {
     ItemGroup,
     Item,
@@ -20,8 +19,6 @@ import {
     ItemSeparator,
 } from "@/components/ui/item";
 import Button from "@/components/ui/button/Button.vue";
-
-const spotify = useSpotifyStore();
 
 const searchQuery = ref("");
 watchDebounced(searchQuery, searchTracks, { debounce: 500 });
@@ -43,11 +40,6 @@ async function searchMore() {
         ...data,
         items: searchResults.value.items.concat(data.items),
     };
-}
-
-async function playTrack(uri) {
-    const data = await put("spotify.play-track", uri);
-    setTimeout(async () => await spotify.getPlaybackState(), 500);
 }
 </script>
 
@@ -78,14 +70,7 @@ async function playTrack(uri) {
                     </ItemDescription>
                 </ItemContent>
                 <ItemActions>
-                    <Button
-                        variant="ghost"
-                        size="icon"
-                        class="rounded-full"
-                        @click="playTrack(track.uri)"
-                    >
-                        <Play />
-                    </Button>
+                    <slot :track="track" name="actions"></slot>
                 </ItemActions>
             </Item>
             <ItemSeparator v-if="index !== track.length - 1" />
