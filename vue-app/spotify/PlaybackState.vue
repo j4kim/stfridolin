@@ -21,7 +21,10 @@ spotify.getPlaybackState();
                 "
             >
                 No Spotify Token.
-                <a :href="ziggy('spotify-login', { intended: route.path })">
+                <a
+                    class="link"
+                    :href="ziggy('spotify-login', { intended: route.path })"
+                >
                     Login to Spotify
                 </a>
             </p>
@@ -32,7 +35,7 @@ spotify.getPlaybackState();
                 "
             >
                 No spotify playback.
-                <a href="https://open.spotify.com" target="_blank">
+                <a class="link" href="https://open.spotify.com" target="_blank">
                     Open Spotify and play a track
                 </a>
             </p>

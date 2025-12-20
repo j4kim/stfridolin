@@ -123,6 +123,6 @@
     }
 }
 
-a {
+a.link {
     @apply underline hover:no-underline;
 }
