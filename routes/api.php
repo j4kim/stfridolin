@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\FightController;
+use App\Http\Controllers\MasterController;
 use App\Http\Controllers\SpotifyController;
 use App\Http\Controllers\TrackController;
 use App\Http\Controllers\VoteController;
@@ -14,7 +15,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('spotify/pause', [SpotifyController::class, 'pause'])->name('spotify.pause');
     Route::put('spotify/select-device/{deviceId}', [SpotifyController::class, 'selectDevice'])->name('spotify.select-device');
     Route::get('spotify/search-tracks', [SpotifyController::class, 'searchTracks'])->name('spotify.search-tracks');
+    Route::post('master-client-id', [MasterController::class, 'setMasterClientId'])->name('master-client-id.set');
 });
+
+Route::get('master-client-id', [MasterController::class, 'getMasterClientId'])->name('master-client-id.get');
 
 Route::get('fights/current', [FightController::class, 'current'])->name('fights.current');
 Route::post('votes/{fight}/{track}', [VoteController::class, 'vote'])->name('votes.vote');
