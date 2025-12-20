@@ -27,7 +27,9 @@ async function playTrack(uri) {
                     The master client is the tab that is responsible of managing
                     the playback and the state of the fight.
                 </p>
-                <p v-if="client.isMaster">✅ This client is master</p>
+                <Button v-if="client.isMaster" size="sm" disabled>
+                    This client is master
+                </Button>
                 <Button v-else @click="client.setAsMaster" size="sm">
                     Set this client as master
                 </Button>

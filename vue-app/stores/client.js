@@ -1,4 +1,5 @@
 import { get, post } from "@/api";
+import { pusher } from "@/broadcasting";
 import { useSessionStorage } from "@vueuse/core";
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
@@ -17,6 +18,10 @@ export const useClientStore = defineStore("client", () => {
     }
 
     const isMaster = computed(() => clientId.value == masterId.value);
+
+    pusher.subscribe("master").bind("MasterClientChanged", (data) => {
+        masterId.value = data.clientId;
+    });
 
     return {
         clientId,
