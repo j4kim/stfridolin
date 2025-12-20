@@ -5,6 +5,9 @@
   ],
   "compilerOptions": {
     "baseUrl": ".",
+    "allowJs": true,
+    "checkJs": false,
+    "noEmit": false,
     "paths": {
       "@/*": [
         "./vue-app/*"
