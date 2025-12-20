@@ -26,7 +26,7 @@ class Track extends Model
         return $this->hasMany(Vote::class);
     }
 
-    public static function createFromSpotifyData(array $data)
+    public static function createFromSpotifyData(array $data, int $priority = 0)
     {
         return self::create([
             'name' => $data['name'],
@@ -35,6 +35,7 @@ class Track extends Model
             'img_url' => $data['album']['images'][0]['url'],
             'img_thumbnail_url' => $data['album']['images'][2]['url'],
             'spotify_data' => $data,
+            'priority' => $priority,
         ]);
     }
 

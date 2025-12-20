@@ -55,9 +55,11 @@ async function vote(track) {
         </div>
 
         <div class="mt-8 px-4">
-            <Button class="w-full">
-                Ajouter un morceau en file d'attente
-            </Button>
+            <RouterLink :to="{ name: 'add-to-queue' }">
+                <Button class="w-full">
+                    Ajouter un morceau en file d'attente
+                </Button>
+            </RouterLink>
         </div>
     </Layout>
 </template>
