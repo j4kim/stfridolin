@@ -44,39 +44,44 @@ async function searchMore() {
 </script>
 
 <template>
-    <InputGroup>
-        <InputGroupInput
-            placeholder="Rechercher un morceau"
-            v-model="searchQuery"
-        />
-        <InputGroupAddon>
-            <Search />
-        </InputGroupAddon>
-    </InputGroup>
+    <div>
+        <InputGroup>
+            <InputGroupInput
+                placeholder="Rechercher un morceau"
+                v-model="searchQuery"
+            />
+            <InputGroupAddon>
+                <Search />
+            </InputGroupAddon>
+        </InputGroup>
 
-    <ItemGroup v-if="searchResults">
-        <template v-for="(track, index) in searchResults.items" :key="track.id">
-            <Item>
-                <ItemMedia>
-                    <img
-                        class="rounded-box size-10"
-                        :src="track.album.images[2].url"
-                    />
-                </ItemMedia>
-                <ItemContent class="gap-1">
-                    <ItemTitle>{{ track.name }}</ItemTitle>
-                    <ItemDescription>
-                        {{ track.artists.map((a) => a.name).join(", ") }}
-                    </ItemDescription>
-                </ItemContent>
-                <ItemActions>
-                    <slot :track="track" name="actions"></slot>
-                </ItemActions>
-            </Item>
-            <ItemSeparator v-if="index !== track.length - 1" />
-        </template>
-        <Button variant="ghost" class="my-4" @click="searchMore">
-            Charger plus
-        </Button>
-    </ItemGroup>
+        <ItemGroup v-if="searchResults">
+            <template
+                v-for="(track, index) in searchResults.items"
+                :key="track.id"
+            >
+                <Item>
+                    <ItemMedia>
+                        <img
+                            class="rounded-box size-10"
+                            :src="track.album.images[2].url"
+                        />
+                    </ItemMedia>
+                    <ItemContent class="gap-1">
+                        <ItemTitle>{{ track.name }}</ItemTitle>
+                        <ItemDescription>
+                            {{ track.artists.map((a) => a.name).join(", ") }}
+                        </ItemDescription>
+                    </ItemContent>
+                    <ItemActions>
+                        <slot :track="track" name="actions"></slot>
+                    </ItemActions>
+                </Item>
+                <ItemSeparator v-if="index !== track.length - 1" />
+            </template>
+            <Button variant="ghost" class="my-4" @click="searchMore">
+                Charger plus
+            </Button>
+        </ItemGroup>
+    </div>
 </template>

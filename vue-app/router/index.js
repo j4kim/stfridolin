@@ -4,12 +4,18 @@ import { redirectToLogin } from "@/api";
 import Spotify from "@/views/Spotify.vue";
 import Boxing from "@/views/Boxing.vue";
 import Vote from "@/views/Vote.vue";
+import AddToQueue from "@/views/AddToQueue.vue";
 
 const routes = [
     {
         path: "/",
         name: "vote",
         component: Vote,
+    },
+    {
+        path: "/add-to-queue",
+        name: "add-to-queue",
+        component: AddToQueue,
     },
     {
         path: "/spotify",
