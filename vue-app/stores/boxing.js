@@ -43,9 +43,6 @@ export const useBoxingStore = defineStore("boxing", () => {
         const side = fight.left_track.id == trackId ? "left" : "right";
         fight[`${side}_track`].votes_count++;
         punch(side);
-        if (fight[`${side}_track`].votes_count % 5 === 0) {
-            setTimeout(() => win(side), 1000);
-        }
     });
 
     return {
