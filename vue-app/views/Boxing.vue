@@ -1,4 +1,5 @@
 <script setup>
+import Controls from "@/boxing/Controls.vue";
 import Ring from "@/boxing/Ring.vue";
 import Layout from "@/components/Layout.vue";
 import { Button } from "@/components/ui/button";
@@ -12,8 +13,9 @@ const { isFullscreen, enter } = useFullscreen(ring);
 <template>
     <Layout>
         <Ring ref="ring" :class="{ 'cursor-none': isFullscreen }" />
-        <div class="p-2">
-            <Button @click="enter">Plein écran</Button>
+        <div class="m-2">
+            <Button size="sm" @click="enter">Plein écran</Button>
         </div>
+        <Controls class="m-2"></Controls>
     </Layout>
 </template>
