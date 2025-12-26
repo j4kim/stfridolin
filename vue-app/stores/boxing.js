@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { LeftFighter, RightFighter } from "@/boxing/Fighter";
+import { Fighter, LeftFighter, RightFighter } from "@/boxing/Fighter";
 import { ref } from "vue";
 import { pusher } from "@/broadcasting";
 import { useFightStore } from "./fight";
@@ -13,6 +13,10 @@ export const useBoxingStore = defineStore("boxing", () => {
         right: new RightFighter(),
     };
 
+    /**
+     * @param {'left' | 'right'} side
+     * @returns {Fighter[]}
+     */
     function getSorted(side) {
         const f1 = fighters[side];
         const f2 = fighters[side === "left" ? "right" : "left"];
