@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Exception;
+use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -24,11 +26,30 @@ class Fight extends Model
         return $this->belongsTo(Track::class, 'right_track_id');
     }
 
-    public static function current(): Fight
+    #[Scope]
+    protected function current(Builder $query): void
     {
-        return Fight::whereNotNull('started_at')
-            ->whereNull('ended_at')
-            ->first();
+        $query->whereNotNull('started_at')->whereNull('ended_at');
+    }
+
+    public static function getCurrent(): Fight
+    {
+        $fight = Fight::query()->current()->first();
+        $fight->leftTrack->loadCount('votes');
+        $fight->rightTrack->loadCount('votes');
+        return $fight;
+    }
+
+    public function getWinnerAndLoser(): array
+    {
+        $leftVotes = $this->leftTrack->votes_count;
+        $rightVotes = $this->rightTrack->votes_count;
+        if ($leftVotes === $rightVotes) {
+            throw new Exception("No winner");
+        }
+        return $leftVotes > $rightVotes ?
+            [$this->leftTrack, $this->rightTrack] :
+            [$this->rightTrack, $this->leftTrack];
     }
 
     public static function createNext(): Fight
