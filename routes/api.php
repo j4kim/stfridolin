@@ -17,6 +17,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('spotify/search-tracks', [SpotifyController::class, 'searchTracks'])->name('spotify.search-tracks');
     Route::post('master-client-id', [MasterController::class, 'setMasterClientId'])->name('master-client-id.set');
     Route::put('fights/end', [FightController::class, 'end'])->name('fights.end');
+    Route::post('fights/create-next', [FightController::class, 'createNext'])->name('fights.create-next');
 });
 
 Route::get('master-client-id', [MasterController::class, 'getMasterClientId'])->name('master-client-id.get');

@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
-import { get, put } from "@/api";
+import { get, post, put } from "@/api";
 import { pusher } from "@/broadcasting";
 
 export const useFightStore = defineStore("fight", () => {
@@ -15,6 +15,11 @@ export const useFightStore = defineStore("fight", () => {
         console.log("fight ended", data);
     }
 
+    async function createNext() {
+        const data = await post("fights.create-next");
+        console.log("new fight created", data);
+    }
+
     pusher.subscribe("fights").bind("EndFight", (data) => {
         fight.value.is_ended = true;
     });
@@ -23,5 +28,6 @@ export const useFightStore = defineStore("fight", () => {
         fight,
         fetchCurrentFight,
         endFight,
+        createNext,
     };
 });
