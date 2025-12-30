@@ -49,6 +49,10 @@ export const useBoxingStore = defineStore("boxing", () => {
         punch(side);
     });
 
+    pusher.subscribe("fights").bind("EndFight", (data) => {
+        win(data.winner);
+    });
+
     return {
         running,
         finished,

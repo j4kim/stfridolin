@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\EndFight;
 use Exception;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
@@ -75,9 +76,11 @@ class Fight extends Model
         if ($leftVotes === $rightVotes) {
             throw new Exception("No winner");
         }
-        $this->leftTrack->update(['won' => $leftVotes > $rightVotes]);
-        $this->rightTrack->update(['won' => $rightVotes > $leftVotes]);
+        $winner = $leftVotes > $rightVotes ? 'left' : 'right';
+        $this->leftTrack->update(['won' => $winner === 'left']);
+        $this->rightTrack->update(['won' => $winner === 'right']);
         $this->update(['ended_at' => now()]);
+        EndFight::dispatch($winner);
         return $this;
     }
 
