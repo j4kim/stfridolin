@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Events\EndFight;
+use App\Events\NewFight;
 use Exception;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
@@ -55,11 +56,14 @@ class Fight extends Model
         if ($tracks->count() != 2) {
             throw new Exception("There are no 2 candidates");
         }
-        return Fight::create([
+        $fight = Fight::create([
             'left_track_id' => $tracks[0]->id,
             'right_track_id' => $tracks[1]->id,
             'started_at' => $startNow ? now() : null,
         ]);
+        $fight->ensureVotesAreLoaded();
+        NewFight::dispatch($fight);
+        return $fight;
     }
 
     public function end(): Fight
