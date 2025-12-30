@@ -16,6 +16,8 @@ class Track extends Model
         ];
     }
 
+    protected $hidden = ['spotify_data'];
+
     public function proposedBy(): BelongsTo
     {
         return $this->belongsTo(Guest::class, 'proposed_by');
