@@ -41,13 +41,19 @@ class Fight extends Model
         return $fight;
     }
 
-    public function ensureVotesAreLoaded()
+    public function loadVotes(): Fight
     {
-        foreach ([$this->leftTrack, $this->rightTrack] as $track) {
-            if (!isset($track->votes_count)) {
-                $track->loadCount('votes');
-            }
+        $this->leftTrack->loadCount('votes');
+        $this->rightTrack->loadCount('votes');
+        return $this;
+    }
+
+    public function ensureVotesAreLoaded(): Fight
+    {
+        if (!isset($this->leftTrack->votes_count)) {
+            $this->loadVotes();
         }
+        return $this;
     }
 
     public static function createNext(bool $startNow): Fight

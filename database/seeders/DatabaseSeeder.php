@@ -44,7 +44,7 @@ class DatabaseSeeder extends Seeder
             'track_id' => $fight->leftTrack->id,
             'fight_id' => $fight->id,
         ]);
-        $fight->end();
+        $fight->loadVotes()->end();
         Fight::createNext(true);
     }
 }
