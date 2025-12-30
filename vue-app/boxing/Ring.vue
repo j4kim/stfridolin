@@ -7,13 +7,8 @@ import CurrentTrack from "@/boxing/CurrentTrack.vue";
 import { useFightStore } from "@/stores/fight";
 
 const fightStore = useFightStore();
-const boxingStore = useBoxingStore();
 
-fightStore.fetchCurrentFight().then(() => {
-    const fight = fightStore.fight;
-    boxingStore.fighters.left.imgUrl = fight.left_track.img_url;
-    boxingStore.fighters.right.imgUrl = fight.right_track.img_url;
-});
+fightStore.fetchCurrentFight();
 </script>
 
 <template>

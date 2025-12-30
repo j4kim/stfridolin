@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { Fighter, LeftFighter, RightFighter } from "@/boxing/Fighter";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { pusher } from "@/broadcasting";
 import { useFightStore } from "./fight";
 
@@ -8,10 +8,22 @@ export const useBoxingStore = defineStore("boxing", () => {
     const running = ref(true);
     const finished = ref(false);
 
+    const fightStore = useFightStore();
+
     const fighters = {
         left: new LeftFighter(),
         right: new RightFighter(),
     };
+
+    watch(
+        fightStore.fight,
+        (fight) => {
+            if (!fight) return;
+            fighters.left.imgUrl.value = fight.left_track.img_url;
+            fighters.right.imgUrl.value = fight.right_track.img_url;
+        },
+        { immediate: true },
+    );
 
     /**
      * @param {'left' | 'right'} side
