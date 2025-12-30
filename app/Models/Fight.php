@@ -40,18 +40,6 @@ class Fight extends Model
         return $fight;
     }
 
-    public function getWinnerAndLoser(): array
-    {
-        $leftVotes = $this->leftTrack->votes_count;
-        $rightVotes = $this->rightTrack->votes_count;
-        if ($leftVotes === $rightVotes) {
-            throw new Exception("No winner");
-        }
-        return $leftVotes > $rightVotes ?
-            [$this->leftTrack, $this->rightTrack] :
-            [$this->rightTrack, $this->leftTrack];
-    }
-
     public static function createNext(): Fight
     {
         $tracks = Track::getCandidates();
@@ -73,8 +61,8 @@ class Fight extends Model
 
     public function end(): Fight
     {
-        $leftVotes = $this->leftTrack->votes()->count();
-        $rightVotes = $this->rightTrack->votes()->count();
+        $leftVotes = $this->leftTrack->votes_count;
+        $rightVotes = $this->rightTrack->votes_count;
         if ($leftVotes === $rightVotes) {
             throw new Exception("No winner");
         }
@@ -82,5 +70,18 @@ class Fight extends Model
         $this->rightTrack->update(['won' => $rightVotes > $leftVotes]);
         $this->update(['ended_at' => now()]);
         return $this;
+    }
+
+    public function getWinnerAndLoser(): array
+    {
+        if (!$this->ended_at) {
+            throw new Exception("Match is not ended");
+        }
+        if ($this->leftTrack->won) {
+            return [$this->leftTrack, $this->rightTrack];
+        } else if ($this->rightTrack->won) {
+            return [$this->rightTrack, $this->leftTrack];
+        }
+        throw new Exception("No winner");
     }
 }
