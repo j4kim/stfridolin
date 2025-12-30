@@ -32,11 +32,11 @@ class Fight extends Model
         $query->whereNotNull('started_at')->whereNull('ended_at');
     }
 
-    public static function getCurrent(): Fight
+    public static function getCurrent(): ?Fight
     {
         $fight = Fight::query()->current()->first();
-        $fight->leftTrack->loadCount('votes');
-        $fight->rightTrack->loadCount('votes');
+        $fight?->leftTrack->loadCount('votes');
+        $fight?->rightTrack->loadCount('votes');
         return $fight;
     }
 

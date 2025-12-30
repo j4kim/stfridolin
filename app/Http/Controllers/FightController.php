@@ -16,7 +16,7 @@ class FightController extends Controller
     public function end()
     {
         $fight = Fight::getCurrent();
-        [$winner, $loser] = $fight->getWinnerAndLoser();
+        [$winner, $loser] = $fight?->end()->getWinnerAndLoser();
         return compact('fight', 'winner', 'loser');
     }
 }
