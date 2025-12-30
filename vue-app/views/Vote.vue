@@ -22,7 +22,12 @@ async function vote(track) {
 
 <template>
     <Layout>
-        <h2 class="my-2 px-4 font-bold">Combat en cours</h2>
+        <h2 class="my-2 px-4 font-bold">
+            Combat en cours
+            <span class="opacity-50" v-if="fightStore.fight.is_ended">
+                (terminé)
+            </span>
+        </h2>
         <div class="flex flex-col border-t" v-if="fightStore.fight">
             <Item
                 v-for="track in [
@@ -49,6 +54,7 @@ async function vote(track) {
                         :title="`Voter pour ${track.name} ?`"
                         :action="() => vote(track)"
                         submitBtn="Dépenser 1 jeton"
+                        :disabled="fightStore.fight.is_ended ?? false"
                     ></ValidationDrawer>
                 </ItemActions>
             </Item>

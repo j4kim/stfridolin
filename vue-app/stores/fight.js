@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import { get, put } from "@/api";
+import { pusher } from "@/broadcasting";
 
 export const useFightStore = defineStore("fight", () => {
     const fight = ref(null);
@@ -13,6 +14,10 @@ export const useFightStore = defineStore("fight", () => {
         const data = await put("fights.end");
         console.log("fight ended", data);
     }
+
+    pusher.subscribe("fights").bind("EndFight", (data) => {
+        fight.value.is_ended = true;
+    });
 
     return {
         fight,
