@@ -23,6 +23,7 @@ class NewFight implements ShouldBroadcastNow
      */
     public function __construct(Fight $fight)
     {
+        $fight->load('leftTrack', 'rightTrack');
         $this->fight = $fight;
     }
 

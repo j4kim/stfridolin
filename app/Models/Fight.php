@@ -61,7 +61,6 @@ class Fight extends Model
             'right_track_id' => $tracks[1]->id,
             'started_at' => $startNow ? now() : null,
         ]);
-        $fight->ensureVotesAreLoaded();
         NewFight::dispatch($fight);
         return $fight;
     }
