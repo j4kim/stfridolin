@@ -39,13 +39,12 @@ class DatabaseSeeder extends Seeder
         }
         Track::orderByDesc('id')->first()->update(['priority' => 1]);
 
-        $fight = Fight::createNext();
-        $fight->start();
+        $fight = Fight::createNext(true);
         Vote::create([
             'track_id' => $fight->leftTrack->id,
             'fight_id' => $fight->id,
         ]);
         $fight->end();
-        Fight::createNext()->start();
+        Fight::createNext(true);
     }
 }
