@@ -35,9 +35,17 @@ class Fight extends Model
     public static function getCurrent(): ?Fight
     {
         $fight = Fight::query()->current()->first();
-        $fight?->leftTrack->loadCount('votes');
-        $fight?->rightTrack->loadCount('votes');
+        $fight?->ensureVotesAreLoaded();
         return $fight;
+    }
+
+    public function ensureVotesAreLoaded()
+    {
+        foreach ([$this->leftTrack, $this->rightTrack] as $track) {
+            if (!isset($track->votes_count)) {
+                $track->loadCount('votes');
+            }
+        }
     }
 
     public static function createNext(): Fight
@@ -61,6 +69,7 @@ class Fight extends Model
 
     public function end(): Fight
     {
+        $this->ensureVotesAreLoaded();
         $leftVotes = $this->leftTrack->votes_count;
         $rightVotes = $this->rightTrack->votes_count;
         if ($leftVotes === $rightVotes) {
