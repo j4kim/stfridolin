@@ -24,6 +24,10 @@ export const useFightStore = defineStore("fight", () => {
         fight.value.is_ended = true;
     });
 
+    pusher.subscribe("fights").bind("NewFight", (data) => {
+        fight.value = data.fight;
+    });
+
     return {
         fight,
         fetchCurrentFight,

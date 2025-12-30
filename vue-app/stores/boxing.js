@@ -65,6 +65,13 @@ export const useBoxingStore = defineStore("boxing", () => {
         win(data.winner);
     });
 
+    pusher.subscribe("fights").bind("NewFight", (data) => {
+        running.value = false;
+        setTimeout(() => {
+            run();
+        }, 200);
+    });
+
     return {
         running,
         finished,
