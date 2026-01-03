@@ -8,17 +8,8 @@ import {
     InputGroupInput,
 } from "@/components/ui/input-group";
 import { Search } from "lucide-vue-next";
-import {
-    ItemGroup,
-    Item,
-    ItemMedia,
-    ItemContent,
-    ItemTitle,
-    ItemDescription,
-    ItemActions,
-    ItemSeparator,
-} from "@/components/ui/item";
 import Button from "@/components/ui/button/Button.vue";
+import Tracks from "@/components/Tracks.vue";
 
 const searchQuery = ref("");
 watchDebounced(searchQuery, searchTracks, { debounce: 500 });
@@ -45,7 +36,7 @@ async function searchMore() {
 
 <template>
     <div>
-        <div class="px-4">
+        <div class="mb-4 px-4">
             <InputGroup>
                 <InputGroupInput
                     placeholder="Rechercher un morceau"
@@ -57,33 +48,17 @@ async function searchMore() {
             </InputGroup>
         </div>
 
-        <ItemGroup v-if="searchResults?.items.length">
-            <template
-                v-for="(track, index) in searchResults.items"
-                :key="track.id"
-            >
-                <Item>
-                    <ItemMedia>
-                        <img
-                            class="size-10 rounded"
-                            :src="track.img_thumbnail_url"
-                        />
-                    </ItemMedia>
-                    <ItemContent>
-                        <ItemTitle>{{ track.name }}</ItemTitle>
-                        <ItemDescription>
-                            {{ track.artist_name }}
-                        </ItemDescription>
-                    </ItemContent>
-                    <ItemActions>
-                        <slot :track="track" name="actions"></slot>
-                    </ItemActions>
-                </Item>
-                <ItemSeparator v-if="index !== track.length - 1" />
+        <Tracks :tracks="searchResults?.items">
+            <template #actions="{ track }">
+                <slot :track="track" name="actions"></slot>
             </template>
-            <Button variant="ghost" class="my-4" @click="searchMore">
-                Charger plus
-            </Button>
-        </ItemGroup>
+            <template #after>
+                <div class="my-4 px-4">
+                    <Button variant="ghost" class="w-full" @click="searchMore">
+                        Charger plus
+                    </Button>
+                </div>
+            </template>
+        </Tracks>
     </div>
 </template>

@@ -2,14 +2,9 @@
 import { post } from "@/api";
 import { useFightStore } from "@/stores/fight";
 import Button from "@/components/ui/button/Button.vue";
-import {
-    Item,
-    ItemContent,
-    ItemActions,
-    ItemMedia,
-} from "@/components/ui/item";
 import ValidationDrawer from "@/components/ValidationDrawer.vue";
 import Layout from "@/components/Layout.vue";
+import Tracks from "@/components/Tracks.vue";
 
 const fightStore = useFightStore();
 
@@ -28,44 +23,32 @@ async function vote(track) {
                 (terminé)
             </span>
         </h2>
-        <div class="flex flex-col border-t" v-if="fightStore.fight">
-            <Item
-                v-for="track in [
-                    fightStore.fight.left_track,
-                    fightStore.fight.right_track,
-                ]"
-                class="border-border rounded-none border-0 border-b"
-            >
-                <ItemMedia>
-                    <img
-                        class="size-10 rounded"
-                        :src="track.img_thumbnail_url"
-                    />
-                </ItemMedia>
-                <ItemContent>
-                    <div>{{ track.name }}</div>
-                    <div class="text-xs font-semibold opacity-60">
-                        {{ track.artist_name }}
-                    </div>
-                </ItemContent>
-                <ItemActions>
-                    <ValidationDrawer
-                        trigger="Voter"
-                        :title="`Voter pour ${track.name} ?`"
-                        :action="() => vote(track)"
-                        submitBtn="Dépenser 1 jeton"
-                        :disabled="fightStore.fight.is_ended ?? false"
-                    ></ValidationDrawer>
-                </ItemActions>
-            </Item>
-        </div>
 
-        <div class="mt-8 px-4">
-            <RouterLink :to="{ name: 'add-to-queue' }">
-                <Button class="w-full" variant="outline">
-                    Ajouter un morceau en file d'attente
-                </Button>
-            </RouterLink>
-        </div>
+        <Tracks
+            v-if="fightStore.fight"
+            :tracks="[
+                fightStore.fight.left_track,
+                fightStore.fight.right_track,
+            ]"
+        >
+            <template #actions="{ track }">
+                <ValidationDrawer
+                    trigger="Voter"
+                    :title="`Voter pour ${track.name} ?`"
+                    :action="() => vote(track)"
+                    submitBtn="Dépenser 1 jeton"
+                    :disabled="fightStore.fight.is_ended ?? false"
+                ></ValidationDrawer>
+            </template>
+            <template #after>
+                <div class="my-4 px-4">
+                    <RouterLink :to="{ name: 'add-to-queue' }">
+                        <Button class="w-full" variant="outline">
+                            Ajouter un morceau en file d'attente
+                        </Button>
+                    </RouterLink>
+                </div>
+            </template>
+        </Tracks>
     </Layout>
 </template>
