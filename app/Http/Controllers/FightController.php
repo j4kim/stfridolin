@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\FightNotEndedException;
 use App\Models\Fight;
-use Exception;
 use Illuminate\Http\Request;
 
 class FightController extends Controller
@@ -24,7 +24,7 @@ class FightController extends Controller
     public function createNext()
     {
         if (Fight::query()->current()->exists()) {
-            throw new Exception("Current fight is not ended");
+            throw new FightNotEndedException;
         }
         return Fight::createNext();
     }

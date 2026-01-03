@@ -4,6 +4,9 @@ namespace App\Models;
 
 use App\Events\EndFight;
 use App\Events\NewFight;
+use App\Exceptions\FightNotEndedException;
+use App\Exceptions\NotEnoughTracksInQueueException;
+use App\Exceptions\NoWinnerException;
 use Exception;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
@@ -60,7 +63,7 @@ class Fight extends Model
     {
         $tracks = Track::getCandidates();
         if ($tracks->count() != 2) {
-            throw new Exception("There are no 2 candidates");
+            throw new NotEnoughTracksInQueueException;
         }
         $fight = Fight::create([
             'left_track_id' => $tracks[0]->id,
@@ -78,7 +81,7 @@ class Fight extends Model
         $leftVotes = $this->leftTrack->votes_count;
         $rightVotes = $this->rightTrack->votes_count;
         if ($leftVotes === $rightVotes) {
-            throw new Exception("No winner");
+            throw new NoWinnerException;
         }
         $winner = $leftVotes > $rightVotes ? 'left' : 'right';
         $this->leftTrack->update(['won' => $winner === 'left']);
@@ -91,13 +94,13 @@ class Fight extends Model
     public function getWinnerAndLoser(): array
     {
         if (!$this->ended_at) {
-            throw new Exception("Match is not ended");
+            throw new FightNotEndedException;
         }
         if ($this->leftTrack->won) {
             return [$this->leftTrack, $this->rightTrack];
         } else if ($this->rightTrack->won) {
             return [$this->rightTrack, $this->leftTrack];
         }
-        throw new Exception("No winner");
+        throw new NoWinnerException;
     }
 }
