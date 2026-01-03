@@ -6,5 +6,5 @@ use Exception;
 
 class NoWinnerException extends Exception
 {
-    protected $message = "No winner";
+    protected $message = "Il n'y a pas de vainqueur";
 }

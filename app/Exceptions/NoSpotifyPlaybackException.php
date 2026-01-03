@@ -6,5 +6,5 @@ use Exception;
 
 class NoSpotifyPlaybackException extends Exception
 {
-    protected $message = 'Playback not available or active';
+    protected $message = "Il n'y a pas de playback Spotify actif";
 }

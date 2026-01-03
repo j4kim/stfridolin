@@ -6,5 +6,5 @@ use Exception;
 
 class NotEnoughTracksInQueueException extends Exception
 {
-    protected $message = "There are no 2 candidates";
+    protected $message = "Il n'y a pas assez de morceaux en file d'attente";
 }

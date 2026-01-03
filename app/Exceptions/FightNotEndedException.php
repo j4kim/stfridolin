@@ -6,5 +6,5 @@ use Exception;
 
 class FightNotEndedException extends Exception
 {
-    protected $message = "Current fight is not ended";
+    protected $message = "Le combat n'est pas terminé";
 }
