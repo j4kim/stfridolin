@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { Fighter, LeftFighter, RightFighter } from "@/boxing/Fighter";
-import { ref, watch } from "vue";
+import { ref } from "vue";
 import { pusher } from "@/broadcasting";
 import { useFightStore } from "./fight";
 
@@ -14,16 +14,6 @@ export const useBoxingStore = defineStore("boxing", () => {
         left: new LeftFighter(),
         right: new RightFighter(),
     };
-
-    watch(
-        fightStore.fight,
-        (fight) => {
-            if (!fight) return;
-            fighters.left.imgUrl.value = fight.left_track.img_url;
-            fighters.right.imgUrl.value = fight.right_track.img_url;
-        },
-        { immediate: true },
-    );
 
     /**
      * @param {'left' | 'right'} side
@@ -49,12 +39,21 @@ export const useBoxingStore = defineStore("boxing", () => {
     }
 
     function run() {
+        const fight = fightStore.fight;
+        if (!fight) {
+            throw new Error("There is no current fight");
+        }
+        fighters.left.imgUrl.value = fight.left_track.img_url;
+        fighters.right.imgUrl.value = fight.right_track.img_url;
         running.value = true;
         finished.value = false;
     }
 
     pusher.subscribe("votes").bind("VoteCreated", (data) => {
-        const fight = useFightStore().fight;
+        const fight = fightStore.fight;
+        if (!fightStore.fight) {
+            throw new Error("There is no current fight");
+        }
         const trackId = data.model.track_id;
         const side = fight.left_track.id == trackId ? "left" : "right";
         fight[`${side}_track`].votes_count++;
@@ -67,9 +66,7 @@ export const useBoxingStore = defineStore("boxing", () => {
 
     pusher.subscribe("fights").bind("NewFight", (data) => {
         running.value = false;
-        setTimeout(() => {
-            run();
-        }, 200);
+        setTimeout(() => run(), 200);
     });
 
     return {

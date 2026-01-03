@@ -7,8 +7,9 @@ import CurrentTrack from "@/boxing/CurrentTrack.vue";
 import { useFightStore } from "@/stores/fight";
 
 const fightStore = useFightStore();
+const boxingStore = useBoxingStore();
 
-fightStore.fetchCurrentFight();
+fightStore.fetchCurrentFight().then(boxingStore.run);
 </script>
 
 <template>
