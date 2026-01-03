@@ -16,6 +16,7 @@ export async function axiosRequest(config, isRetry = false) {
         const response = await axios(config);
         return response.data;
     } catch (error) {
+        let msg = error.response?.data?.message ?? error.response?.statusText;
         if (error.response?.status === 419 && !isRetry) {
             return await refreshTokenAndRetry(config);
         }
@@ -27,6 +28,8 @@ export async function axiosRequest(config, isRetry = false) {
                     onClick: () => redirectToLogin(location.href),
                 },
             });
+        } else if (msg) {
+            toast.error(msg);
         }
         throw error;
     }
