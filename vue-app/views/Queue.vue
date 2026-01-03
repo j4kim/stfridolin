@@ -32,7 +32,9 @@ const backupTracks = computed(() =>
         <p class="my-2 px-4">Morceaux ajoutés par les invités:</p>
         <Tracks :tracks="guestTracks">
             <template #actions="{ track }">
-                <Badge v-if="track.isNext">prochain combat</Badge>
+                <Badge v-if="track.isNext" variant="secondary">
+                    prochain combat
+                </Badge>
             </template>
         </Tracks>
 
@@ -47,7 +49,9 @@ const backupTracks = computed(() =>
         <p class="my-2 mt-8 px-4">Morceaux en réserve:</p>
         <Tracks :tracks="backupTracks">
             <template #actions="{ track }">
-                <Badge v-if="track.isNext">prochain combat</Badge>
+                <Badge v-if="track.isNext" variant="secondary">
+                    prochain combat
+                </Badge>
             </template>
         </Tracks>
     </Layout>
