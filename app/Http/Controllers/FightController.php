@@ -26,6 +26,6 @@ class FightController extends Controller
         if (Fight::query()->current()->exists()) {
             throw new Exception("Current fight is not ended");
         }
-        return Fight::createNext(true);
+        return Fight::createNext();
     }
 }

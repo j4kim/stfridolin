@@ -56,7 +56,7 @@ class Fight extends Model
         return $this;
     }
 
-    public static function createNext(bool $startNow): Fight
+    public static function createNext(): Fight
     {
         $tracks = Track::getCandidates();
         if ($tracks->count() != 2) {
@@ -65,8 +65,9 @@ class Fight extends Model
         $fight = Fight::create([
             'left_track_id' => $tracks[0]->id,
             'right_track_id' => $tracks[1]->id,
-            'started_at' => $startNow ? now() : null,
+            'started_at' => now(),
         ]);
+        $tracks->each(fn(Track $t) => $t->update(['used' => true]));
         NewFight::dispatch($fight);
         return $fight;
     }
