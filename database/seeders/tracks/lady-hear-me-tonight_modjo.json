@@ -4,35 +4,39 @@
         "artists": [
             {
                 "external_urls": {
-                    "spotify": "https://open.spotify.com/artist/0AkpPlFLnr0VQwZQeMGht0"
+                    "spotify": "https:\/\/open.spotify.com\/artist\/0AkpPlFLnr0VQwZQeMGht0"
                 },
-                "href": "https://api.spotify.com/v1/artists/0AkpPlFLnr0VQwZQeMGht0",
+                "href": "https:\/\/api.spotify.com\/v1\/artists\/0AkpPlFLnr0VQwZQeMGht0",
                 "id": "0AkpPlFLnr0VQwZQeMGht0",
                 "name": "Modjo",
                 "type": "artist",
                 "uri": "spotify:artist:0AkpPlFLnr0VQwZQeMGht0"
             }
         ],
-        "available_markets": ["AT", "CH", "DE"],
+        "available_markets": [
+            "AT",
+            "CH",
+            "DE"
+        ],
         "external_urls": {
-            "spotify": "https://open.spotify.com/album/5Fvk2oTQGmVkFbhMnB8Qca"
+            "spotify": "https:\/\/open.spotify.com\/album\/5Fvk2oTQGmVkFbhMnB8Qca"
         },
-        "href": "https://api.spotify.com/v1/albums/5Fvk2oTQGmVkFbhMnB8Qca",
+        "href": "https:\/\/api.spotify.com\/v1\/albums\/5Fvk2oTQGmVkFbhMnB8Qca",
         "id": "5Fvk2oTQGmVkFbhMnB8Qca",
         "images": [
             {
                 "height": 640,
-                "url": "https://i.scdn.co/image/ab67616d0000b2738978a51a702b4dbd16a4cd09",
+                "url": "https:\/\/i.scdn.co\/image\/ab67616d0000b2738978a51a702b4dbd16a4cd09",
                 "width": 640
             },
             {
                 "height": 300,
-                "url": "https://i.scdn.co/image/ab67616d00001e028978a51a702b4dbd16a4cd09",
+                "url": "https:\/\/i.scdn.co\/image\/ab67616d00001e028978a51a702b4dbd16a4cd09",
                 "width": 300
             },
             {
                 "height": 64,
-                "url": "https://i.scdn.co/image/ab67616d000048518978a51a702b4dbd16a4cd09",
+                "url": "https:\/\/i.scdn.co\/image\/ab67616d000048518978a51a702b4dbd16a4cd09",
                 "width": 64
             }
         ],
@@ -46,16 +50,20 @@
     "artists": [
         {
             "external_urls": {
-                "spotify": "https://open.spotify.com/artist/0AkpPlFLnr0VQwZQeMGht0"
+                "spotify": "https:\/\/open.spotify.com\/artist\/0AkpPlFLnr0VQwZQeMGht0"
             },
-            "href": "https://api.spotify.com/v1/artists/0AkpPlFLnr0VQwZQeMGht0",
+            "href": "https:\/\/api.spotify.com\/v1\/artists\/0AkpPlFLnr0VQwZQeMGht0",
             "id": "0AkpPlFLnr0VQwZQeMGht0",
             "name": "Modjo",
             "type": "artist",
             "uri": "spotify:artist:0AkpPlFLnr0VQwZQeMGht0"
         }
     ],
-    "available_markets": ["AT", "CH", "DE"],
+    "available_markets": [
+        "AT",
+        "CH",
+        "DE"
+    ],
     "disc_number": 1,
     "duration_ms": 307153,
     "explicit": false,
@@ -63,9 +71,9 @@
         "isrc": "FR9W10100535"
     },
     "external_urls": {
-        "spotify": "https://open.spotify.com/track/70HxNVlYQ0Hi6XqBtPLw80"
+        "spotify": "https:\/\/open.spotify.com\/track\/70HxNVlYQ0Hi6XqBtPLw80"
     },
-    "href": "https://api.spotify.com/v1/tracks/70HxNVlYQ0Hi6XqBtPLw80",
+    "href": "https:\/\/api.spotify.com\/v1\/tracks\/70HxNVlYQ0Hi6XqBtPLw80",
     "id": "70HxNVlYQ0Hi6XqBtPLw80",
     "is_local": false,
     "name": "Lady - Hear Me Tonight",
