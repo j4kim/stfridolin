@@ -4,9 +4,9 @@
         "artists": [
             {
                 "external_urls": {
-                    "spotify": "https://open.spotify.com/artist/7knmbOGe07k85GmK50vACB"
+                    "spotify": "https:\/\/open.spotify.com\/artist\/7knmbOGe07k85GmK50vACB"
                 },
-                "href": "https://api.spotify.com/v1/artists/7knmbOGe07k85GmK50vACB",
+                "href": "https:\/\/api.spotify.com\/v1\/artists\/7knmbOGe07k85GmK50vACB",
                 "id": "7knmbOGe07k85GmK50vACB",
                 "name": "Indochine",
                 "type": "artist",
@@ -200,24 +200,24 @@
             "XK"
         ],
         "external_urls": {
-            "spotify": "https://open.spotify.com/album/7bO2aXCaoPZi6ozNSWFwy6"
+            "spotify": "https:\/\/open.spotify.com\/album\/7bO2aXCaoPZi6ozNSWFwy6"
         },
-        "href": "https://api.spotify.com/v1/albums/7bO2aXCaoPZi6ozNSWFwy6",
+        "href": "https:\/\/api.spotify.com\/v1\/albums\/7bO2aXCaoPZi6ozNSWFwy6",
         "id": "7bO2aXCaoPZi6ozNSWFwy6",
         "images": [
             {
                 "height": 640,
-                "url": "https://i.scdn.co/image/ab67616d0000b273f80fe67d0f4293be5b8f5251",
+                "url": "https:\/\/i.scdn.co\/image\/ab67616d0000b273f80fe67d0f4293be5b8f5251",
                 "width": 640
             },
             {
                 "height": 300,
-                "url": "https://i.scdn.co/image/ab67616d00001e02f80fe67d0f4293be5b8f5251",
+                "url": "https:\/\/i.scdn.co\/image\/ab67616d00001e02f80fe67d0f4293be5b8f5251",
                 "width": 300
             },
             {
                 "height": 64,
-                "url": "https://i.scdn.co/image/ab67616d00004851f80fe67d0f4293be5b8f5251",
+                "url": "https:\/\/i.scdn.co\/image\/ab67616d00004851f80fe67d0f4293be5b8f5251",
                 "width": 64
             }
         ],
@@ -231,9 +231,9 @@
     "artists": [
         {
             "external_urls": {
-                "spotify": "https://open.spotify.com/artist/7knmbOGe07k85GmK50vACB"
+                "spotify": "https:\/\/open.spotify.com\/artist\/7knmbOGe07k85GmK50vACB"
             },
-            "href": "https://api.spotify.com/v1/artists/7knmbOGe07k85GmK50vACB",
+            "href": "https:\/\/api.spotify.com\/v1\/artists\/7knmbOGe07k85GmK50vACB",
             "id": "7knmbOGe07k85GmK50vACB",
             "name": "Indochine",
             "type": "artist",
@@ -433,9 +433,9 @@
         "isrc": "FRZ058200040"
     },
     "external_urls": {
-        "spotify": "https://open.spotify.com/track/2UC5XnHA1Wn9FjQmbjNca9"
+        "spotify": "https:\/\/open.spotify.com\/track\/2UC5XnHA1Wn9FjQmbjNca9"
     },
-    "href": "https://api.spotify.com/v1/tracks/2UC5XnHA1Wn9FjQmbjNca9",
+    "href": "https:\/\/api.spotify.com\/v1\/tracks\/2UC5XnHA1Wn9FjQmbjNca9",
     "id": "2UC5XnHA1Wn9FjQmbjNca9",
     "is_local": false,
     "name": "L'aventurier",

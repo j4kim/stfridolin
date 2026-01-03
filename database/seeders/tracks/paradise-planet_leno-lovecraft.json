@@ -4,9 +4,9 @@
         "artists": [
             {
                 "external_urls": {
-                    "spotify": "https://open.spotify.com/artist/6LR29KEZi7tmh9l5qvtsEf"
+                    "spotify": "https:\/\/open.spotify.com\/artist\/6LR29KEZi7tmh9l5qvtsEf"
                 },
-                "href": "https://api.spotify.com/v1/artists/6LR29KEZi7tmh9l5qvtsEf",
+                "href": "https:\/\/api.spotify.com\/v1\/artists\/6LR29KEZi7tmh9l5qvtsEf",
                 "id": "6LR29KEZi7tmh9l5qvtsEf",
                 "name": "Leno Lovecraft",
                 "type": "artist",
@@ -15,24 +15,24 @@
         ],
         "available_markets": [],
         "external_urls": {
-            "spotify": "https://open.spotify.com/album/1svFzyP8LAIVudlBgjVl3f"
+            "spotify": "https:\/\/open.spotify.com\/album\/1svFzyP8LAIVudlBgjVl3f"
         },
-        "href": "https://api.spotify.com/v1/albums/1svFzyP8LAIVudlBgjVl3f",
+        "href": "https:\/\/api.spotify.com\/v1\/albums\/1svFzyP8LAIVudlBgjVl3f",
         "id": "1svFzyP8LAIVudlBgjVl3f",
         "images": [
             {
                 "height": 640,
-                "url": "https://i.scdn.co/image/ab67616d0000b27364f58e08d0c9e027d373d76a",
+                "url": "https:\/\/i.scdn.co\/image\/ab67616d0000b27364f58e08d0c9e027d373d76a",
                 "width": 640
             },
             {
                 "height": 300,
-                "url": "https://i.scdn.co/image/ab67616d00001e0264f58e08d0c9e027d373d76a",
+                "url": "https:\/\/i.scdn.co\/image\/ab67616d00001e0264f58e08d0c9e027d373d76a",
                 "width": 300
             },
             {
                 "height": 64,
-                "url": "https://i.scdn.co/image/ab67616d0000485164f58e08d0c9e027d373d76a",
+                "url": "https:\/\/i.scdn.co\/image\/ab67616d0000485164f58e08d0c9e027d373d76a",
                 "width": 64
             }
         ],
@@ -46,9 +46,9 @@
     "artists": [
         {
             "external_urls": {
-                "spotify": "https://open.spotify.com/artist/6LR29KEZi7tmh9l5qvtsEf"
+                "spotify": "https:\/\/open.spotify.com\/artist\/6LR29KEZi7tmh9l5qvtsEf"
             },
-            "href": "https://api.spotify.com/v1/artists/6LR29KEZi7tmh9l5qvtsEf",
+            "href": "https:\/\/api.spotify.com\/v1\/artists\/6LR29KEZi7tmh9l5qvtsEf",
             "id": "6LR29KEZi7tmh9l5qvtsEf",
             "name": "Leno Lovecraft",
             "type": "artist",
@@ -63,9 +63,9 @@
         "isrc": "CAL451560301"
     },
     "external_urls": {
-        "spotify": "https://open.spotify.com/track/1g4tDOm9hM734Odqs6lmNW"
+        "spotify": "https:\/\/open.spotify.com\/track\/1g4tDOm9hM734Odqs6lmNW"
     },
-    "href": "https://api.spotify.com/v1/tracks/1g4tDOm9hM734Odqs6lmNW",
+    "href": "https:\/\/api.spotify.com\/v1\/tracks\/1g4tDOm9hM734Odqs6lmNW",
     "id": "1g4tDOm9hM734Odqs6lmNW",
     "is_local": false,
     "name": "Paradise Planet",
