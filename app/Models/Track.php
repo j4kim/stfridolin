@@ -60,9 +60,4 @@ class Track extends Model
     {
         return self::query()->queue()->take(2)->get();
     }
-
-    public static function current(): Track
-    {
-        return Track::whereNull('played')->where('won', true)->first();
-    }
 }
