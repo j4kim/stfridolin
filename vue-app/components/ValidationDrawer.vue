@@ -18,7 +18,7 @@ const props = defineProps<{
     title: string;
     action: Function;
     submitBtn: string;
-    disabled: boolean;
+    disabled?: boolean;
 }>();
 
 const open = ref(false);
