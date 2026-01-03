@@ -1,6 +1,7 @@
 import axios from "axios";
 import { route } from "../vendor/tightenco/ziggy";
 import { toast } from "vue-sonner";
+import { useClientStore } from "./stores/client";
 
 async function refreshTokenAndRetry(config) {
     await get("sanctum.csrf-cookie");
@@ -37,7 +38,8 @@ export async function axiosRequest(config, isRetry = false) {
 
 export async function request(method, name, params = null, data = null) {
     const url = route(name, params);
-    return await axiosRequest({ method, url, data });
+    const headers = { "X-Client-Id": useClientStore().clientId };
+    return await axiosRequest({ method, url, data, headers });
 }
 
 export async function get(name, params = null) {
