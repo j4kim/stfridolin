@@ -2,7 +2,8 @@
 
 namespace App\Models;
 
-use App\Tools\Spotify;
+use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -49,13 +50,15 @@ class Track extends Model
         ]);
     }
 
+    #[Scope]
+    protected function queue(Builder $query): void
+    {
+        $query->whereNull('won')->orderByDesc('priority')->orderBy('id');
+    }
+
     public static function getCandidates(): Collection
     {
-        return self::whereNull('won')
-            ->orderByDesc('priority')
-            ->orderBy('id')
-            ->take(2)
-            ->get();
+        return self::query()->queue()->take(2)->get();
     }
 
     public static function current(): Track

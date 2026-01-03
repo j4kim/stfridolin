@@ -13,4 +13,9 @@ class TrackController extends Controller
         $spotifyData = Spotify::getTrack($spotifyUri);
         return Track::createFromSpotifyData($spotifyData, 1);
     }
+
+    public function queue()
+    {
+        return Track::query()->queue()->get();
+    }
 }

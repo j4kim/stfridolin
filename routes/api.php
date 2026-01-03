@@ -24,3 +24,4 @@ Route::get('master-client-id', [MasterController::class, 'getMasterClientId'])->
 Route::get('fights/current', [FightController::class, 'current'])->name('fights.current');
 Route::post('votes/{fight}/{track}', [VoteController::class, 'vote'])->name('votes.vote');
 Route::post('tracks/{spotifyUri}', [TrackController::class, 'store'])->name('tracks.store');
+Route::get('tracks/queue', [TrackController::class, 'queue'])->name('tracks.queue');
