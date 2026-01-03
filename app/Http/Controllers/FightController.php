@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\FightNotEndedException;
+use App\Exceptions\NoCurrentFightException;
 use App\Models\Fight;
 use Illuminate\Http\Request;
 
@@ -17,7 +18,10 @@ class FightController extends Controller
     public function end()
     {
         $fight = Fight::getCurrent();
-        [$winner, $loser] = $fight?->end()->getWinnerAndLoser();
+        if (!$fight) {
+            throw new NoCurrentFightException;
+        }
+        [$winner, $loser] = $fight->end()->getWinnerAndLoser();
         return compact('fight', 'winner', 'loser');
     }
 
