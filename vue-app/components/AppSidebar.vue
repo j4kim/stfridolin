@@ -19,6 +19,10 @@ const groups = [
                 title: "Voter",
                 name: "vote",
             },
+            {
+                title: "Ajouter",
+                name: "add-to-queue",
+            },
         ],
     },
     {
