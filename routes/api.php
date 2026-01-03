@@ -24,7 +24,6 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 Route::get('spotify/search-tracks', [SpotifyController::class, 'searchTracks'])->name('spotify.search-tracks');
-Route::get('master-client-id', [MasterController::class, 'getMasterClientId'])->name('master-client-id.get');
 Route::get('fights/current', [FightController::class, 'current'])->name('fights.current');
 Route::post('votes/{fight}/{track}', [VoteController::class, 'vote'])->name('votes.vote');
 Route::post('tracks/{spotifyUri}', [TrackController::class, 'store'])->name('tracks.store');

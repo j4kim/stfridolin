@@ -1,4 +1,4 @@
-import { get, post } from "@/api";
+import { post } from "@/api";
 import { pusher } from "@/broadcasting";
 import { useSessionStorage } from "@vueuse/core";
 import { defineStore } from "pinia";
@@ -8,11 +8,7 @@ import { useMainStore } from "./main";
 export const useClientStore = defineStore("client", () => {
     const clientId = useSessionStorage("clientId", makeid(16));
 
-    const masterId = ref(null);
-
-    async function getMasterClientId() {
-        masterId.value = await get("master-client-id.get");
-    }
+    const masterId = ref(document.body.dataset.masterClientId);
 
     async function setAsMaster() {
         await post("master-client-id.set", { clientId: clientId.value });
@@ -35,7 +31,6 @@ export const useClientStore = defineStore("client", () => {
     return {
         clientId,
         masterId,
-        getMasterClientId,
         setAsMaster,
         isMaster,
     };
