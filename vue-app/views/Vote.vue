@@ -24,7 +24,7 @@ async function vote(track) {
     <Layout>
         <h2 class="my-2 px-4 font-bold">
             Combat en cours
-            <span class="opacity-50" v-if="fightStore.fight.is_ended">
+            <span class="opacity-50" v-if="fightStore.fight?.is_ended">
                 (terminé)
             </span>
         </h2>
