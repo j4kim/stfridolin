@@ -6,7 +6,7 @@ import { computed, ref, watch } from "vue";
 import { useMainStore } from "./main";
 
 export const useClientStore = defineStore("client", () => {
-    const clientId = useSessionStorage("clientId", sessionStorage.clientId);
+    const clientId = useSessionStorage("clientId", makeid(16));
 
     const masterId = ref(null);
 
@@ -40,3 +40,17 @@ export const useClientStore = defineStore("client", () => {
         isMaster,
     };
 });
+
+// https://stackoverflow.com/a/1349426/8345160
+function makeid(length) {
+    var result = "";
+    var characters =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    var charactersLength = characters.length;
+    for (var i = 0; i < length; i++) {
+        result += characters.charAt(
+            Math.floor(Math.random() * charactersLength),
+        );
+    }
+    return result;
+}
