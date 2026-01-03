@@ -53,7 +53,7 @@ async function playTrack(uri) {
                             variant="ghost"
                             size="icon"
                             class="rounded-full"
-                            @click="playTrack(track.uri)"
+                            @click="playTrack(track.spotify_uri)"
                         >
                             <Play />
                         </Button>
