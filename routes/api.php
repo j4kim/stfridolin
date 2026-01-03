@@ -14,14 +14,13 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('spotify/play/{trackUri}', [SpotifyController::class, 'playTrack'])->name('spotify.play-track');
     Route::put('spotify/pause', [SpotifyController::class, 'pause'])->name('spotify.pause');
     Route::put('spotify/select-device/{deviceId}', [SpotifyController::class, 'selectDevice'])->name('spotify.select-device');
-    Route::get('spotify/search-tracks', [SpotifyController::class, 'searchTracks'])->name('spotify.search-tracks');
     Route::post('master-client-id', [MasterController::class, 'setMasterClientId'])->name('master-client-id.set');
     Route::put('fights/end', [FightController::class, 'end'])->name('fights.end');
     Route::post('fights/create-next', [FightController::class, 'createNext'])->name('fights.create-next');
 });
 
+Route::get('spotify/search-tracks', [SpotifyController::class, 'searchTracks'])->name('spotify.search-tracks');
 Route::get('master-client-id', [MasterController::class, 'getMasterClientId'])->name('master-client-id.get');
-
 Route::get('fights/current', [FightController::class, 'current'])->name('fights.current');
 Route::post('votes/{fight}/{track}', [VoteController::class, 'vote'])->name('votes.vote');
 Route::post('tracks/', [TrackController::class, 'store'])->name('tracks.store');
