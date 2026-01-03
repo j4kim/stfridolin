@@ -5,7 +5,7 @@ import ValidationDrawer from "@/components/ValidationDrawer.vue";
 import Search from "@/spotify/Search.vue";
 
 async function add(track) {
-    await post("tracks.store", null, track);
+    await post("tracks.store", track.spotify_uri);
 }
 </script>
 

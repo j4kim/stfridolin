@@ -38,7 +38,7 @@ async function vote(track) {
             >
                 <ItemMedia>
                     <img
-                        class="rounded-box size-10"
+                        class="size-10 rounded"
                         :src="track.img_thumbnail_url"
                     />
                 </ItemMedia>

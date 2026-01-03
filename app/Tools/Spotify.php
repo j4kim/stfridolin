@@ -104,6 +104,12 @@ class Spotify
         return $response->json();
     }
 
+    public static function getTrack(string $spotifyUri): array
+    {
+        $id = explode(":", $spotifyUri)[2];
+        return self::apiRequest()->get("tracks/$id")->throw()->json();
+    }
+
     public static function searchTracks(string $q, int $offset = 0): array
     {
         return self::apiRequest()

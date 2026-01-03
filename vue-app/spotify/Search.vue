@@ -65,14 +65,14 @@ async function searchMore() {
                 <Item>
                     <ItemMedia>
                         <img
-                            class="rounded-box size-10"
-                            :src="track.album.images[2].url"
+                            class="size-10 rounded"
+                            :src="track.img_thumbnail_url"
                         />
                     </ItemMedia>
-                    <ItemContent class="gap-1">
+                    <ItemContent>
                         <ItemTitle>{{ track.name }}</ItemTitle>
                         <ItemDescription>
-                            {{ track.artists.map((a) => a.name).join(", ") }}
+                            {{ track.artist_name }}
                         </ItemDescription>
                     </ItemContent>
                     <ItemActions>
