@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Tools\Spotify;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -28,14 +29,21 @@ class Track extends Model
         return $this->hasMany(Vote::class);
     }
 
-    public static function createFromSpotifyData(array $data, int $priority = 0)
+    public static function formatSpotifyData(array $data): array
     {
-        return self::create([
+        return [
             'name' => $data['name'],
             'artist_name' => collect($data['artists'])->map(fn(array $a) => $a['name'])->join(', '),
             'spotify_uri' => $data['uri'],
             'img_url' => $data['album']['images'][0]['url'],
             'img_thumbnail_url' => $data['album']['images'][2]['url'],
+        ];
+    }
+
+    public static function createFromSpotifyData(array $data, int $priority = 0)
+    {
+        return self::create([
+            ...self::formatSpotifyData($data),
             'spotify_data' => $data,
             'priority' => $priority,
         ]);
