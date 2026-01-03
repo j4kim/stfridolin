@@ -1,5 +1,6 @@
 import axios from "axios";
 import { route } from "../vendor/tightenco/ziggy";
+import { toast } from "vue-sonner";
 
 async function refreshTokenAndRetry(config) {
     await get("sanctum.csrf-cookie");
@@ -18,11 +19,14 @@ export async function axiosRequest(config, isRetry = false) {
         if (error.response?.status === 419 && !isRetry) {
             return await refreshTokenAndRetry(config);
         }
-        if (
-            error.response?.status === 401 &&
-            confirm("Vous êtes déconnecté, aller à la page de login ?")
-        ) {
-            redirectToLogin(location.href);
+        if (error.response?.status === 401) {
+            toast.error("Vous êtes déconnecté", {
+                description: "Aller à la page de login ?",
+                action: {
+                    label: "Login",
+                    onClick: () => redirectToLogin(location.href),
+                },
+            });
         }
         throw error;
     }
