@@ -14,9 +14,9 @@ export const useClockStore = defineStore("clock", () => {
     const t0 = ref(null);
 
     watch(
-        () => spotify.isPlaying,
+        () => spotify.playback,
         (value) => {
-            t0.value = value ? Date.now() : null;
+            t0.value = value.is_playing ? Date.now() : null;
         },
     );
 
@@ -31,7 +31,11 @@ export const useClockStore = defineStore("clock", () => {
     });
 
     watch(progress, (value) => {
-        if (value?.percent === 100 && spotify.isPlaying) {
+        if (!value || !spotify.playback?.is_playing) {
+            return;
+        }
+
+        if (value.percent === 100) {
             spotify.getPlaybackState();
         }
     });

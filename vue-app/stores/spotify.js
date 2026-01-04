@@ -17,11 +17,11 @@ export const useSpotifyStore = defineStore("spotify", () => {
     }
 
     async function getPlaybackState() {
-        playback.value = null;
         playbackError.value = null;
         try {
             playback.value = await api("spotify.playback-state").get();
         } catch (e) {
+            playback.value = null;
             if (e.response?.data?.exception) {
                 playbackError.value = e.response.data.exception;
             } else {
@@ -47,8 +47,6 @@ export const useSpotifyStore = defineStore("spotify", () => {
         };
     });
 
-    const isPlaying = computed(() => playback.value?.is_playing ?? false);
-
     return {
         devices,
         playback,
@@ -58,6 +56,5 @@ export const useSpotifyStore = defineStore("spotify", () => {
         getPlaybackState,
         playTrack,
         track,
-        isPlaying,
     };
 });

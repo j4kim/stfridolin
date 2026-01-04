@@ -31,9 +31,11 @@ async function pause() {
                     variant="outline"
                     size="icon"
                     class="rounded-full"
-                    @click="spotify.isPlaying ? pause() : play()"
+                    @click="spotify.playback?.is_playing ? pause() : play()"
                 >
-                    <component :is="spotify.isPlaying ? Pause : Play" />
+                    <component
+                        :is="spotify.playback?.is_playing ? Pause : Play"
+                    />
                 </Button>
             </div>
         </div>
