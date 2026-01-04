@@ -30,6 +30,11 @@ export const useSpotifyStore = defineStore("spotify", () => {
         }
     }
 
+    async function playTrack(uri) {
+        const data = await put("spotify.play-track", uri);
+        setTimeout(async () => await spotify.getPlaybackState(), 500);
+    }
+
     const track = computed(() => {
         if (!playback.value) return null;
         const item = playback.value.item;
@@ -51,6 +56,7 @@ export const useSpotifyStore = defineStore("spotify", () => {
         getDevices,
         selectDevice,
         getPlaybackState,
+        playTrack,
         track,
         isPlaying,
     };

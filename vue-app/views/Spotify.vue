@@ -6,16 +6,10 @@ import Layout from "@/components/Layout.vue";
 import { Button } from "@/components/ui/button";
 import { Play } from "lucide-vue-next";
 import { useSpotifyStore } from "@/stores/spotify";
-import { put } from "@/api";
 import { useClientStore } from "@/stores/client";
 
 const spotify = useSpotifyStore();
 const client = useClientStore();
-
-async function playTrack(uri) {
-    const data = await put("spotify.play-track", uri);
-    setTimeout(async () => await spotify.getPlaybackState(), 500);
-}
 </script>
 
 <template>
@@ -53,7 +47,7 @@ async function playTrack(uri) {
                             variant="ghost"
                             size="icon"
                             class="rounded-full"
-                            @click="playTrack(track.spotify_uri)"
+                            @click="spotify.playTrack(track.spotify_uri)"
                         >
                             <Play />
                         </Button>
