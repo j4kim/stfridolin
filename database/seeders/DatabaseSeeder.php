@@ -25,7 +25,7 @@ class DatabaseSeeder extends Seeder
         Guest::factory(10)->create();
 
         $trackDir = __DIR__ . '/tracks';
-        $trackFiles = scandir($trackDir);
+        $trackFiles = collect(scandir($trackDir))->shuffle();
         foreach ($trackFiles as $filename) {
             $path = $trackDir . '/' . $filename;
             if (!is_file($path)) {
