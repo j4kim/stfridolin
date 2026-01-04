@@ -150,4 +150,12 @@ class Spotify
             ->withQueryParameters(['device_id' => self::getSelectedDeviceId()])
             ->put("/me/player/play", ['position_ms' => 0, 'uris' => [$trackUri]]);
     }
+
+    public static function addToQueue(string $trackUri): Response
+    {
+        return self::apiRequest()
+            ->withQueryParameters(['device_id' => self::getSelectedDeviceId(), 'uri' => $trackUri])
+            ->put("/me/player/queue")
+            ->throw();
+    }
 }

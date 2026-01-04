@@ -55,6 +55,11 @@ class SpotifyController extends Controller
         Spotify::playTrack($trackUri);
     }
 
+    public function addToQueue(string $trackUri)
+    {
+        Spotify::addToQueue($trackUri);
+    }
+
     public function pause()
     {
         return Spotify::apiRequest()
