@@ -32,7 +32,7 @@ export const useSpotifyStore = defineStore("spotify", () => {
 
     async function playTrack(uri) {
         const data = await api("spotify.play-track").params(uri).put();
-        setTimeout(async () => await spotify.getPlaybackState(), 500);
+        setTimeout(async () => await getPlaybackState(), 500);
     }
 
     const track = computed(() => {
