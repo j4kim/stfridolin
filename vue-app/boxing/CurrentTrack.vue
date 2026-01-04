@@ -6,6 +6,7 @@ import { useSpotifyStore } from "@/stores/spotify";
 const spotify = useSpotifyStore();
 const clock = useClockStore();
 
+console.log("CurrentTrack component, call getPlaybackState");
 spotify.getPlaybackState();
 </script>
 

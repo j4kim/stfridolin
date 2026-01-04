@@ -17,6 +17,7 @@ export const useSpotifyStore = defineStore("spotify", () => {
     }
 
     async function getPlaybackState() {
+        console.log("getPlaybackState");
         playback.value = null;
         playbackError.value = null;
         try {
@@ -31,8 +32,12 @@ export const useSpotifyStore = defineStore("spotify", () => {
     }
 
     async function playTrack(uri) {
+        console.log("playTrack");
         const data = await put("spotify.play-track", uri);
-        setTimeout(async () => await spotify.getPlaybackState(), 500);
+        setTimeout(async () => {
+            console.log("playTrack, call getPlaybackState after 500ms");
+            await getPlaybackState();
+        }, 500);
     }
 
     const track = computed(() => {

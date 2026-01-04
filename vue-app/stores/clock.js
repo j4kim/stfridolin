@@ -1,9 +1,13 @@
 import { defineStore } from "pinia";
 import { computed, ref, watch } from "vue";
 import { useSpotifyStore } from "./spotify";
+import { useClientStore } from "./client";
+import { useFightStore } from "./fight";
 
 export const useClockStore = defineStore("clock", () => {
     const spotify = useSpotifyStore();
+    const client = useClientStore();
+    const fight = useFightStore();
 
     const time = ref(Date.now());
 
@@ -31,8 +35,31 @@ export const useClockStore = defineStore("clock", () => {
     });
 
     watch(progress, (value) => {
-        if (value?.percent === 100 && spotify.isPlaying) {
+        if (!value || !spotify.isPlaying) {
+            return;
+        }
+
+        if (value.percent === 100) {
+            console.log("100%, call getPlaybackState");
             spotify.getPlaybackState();
+        }
+
+        if (
+            !client.isMaster ||
+            value.rest > 30_000 ||
+            fight.fight.is_ending ||
+            fight.fight.is_ended
+        ) {
+            return;
+        }
+
+        // from here, we deal with the end of the fight
+        console.log("rest", value.rest);
+
+        if (value.rest > 5_000) {
+            fight.endFightAsap(value.rest);
+        } else {
+            fight.tossEndFight(value.rest);
         }
     });
 

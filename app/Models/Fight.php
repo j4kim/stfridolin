@@ -75,15 +75,20 @@ class Fight extends Model
         return $fight;
     }
 
-    public function end(): Fight
+    public function end(bool $toss = false): Fight
     {
         $this->ensureVotesAreLoaded();
         $leftVotes = $this->leftTrack->votes_count;
         $rightVotes = $this->rightTrack->votes_count;
         if ($leftVotes === $rightVotes) {
-            throw new NoWinnerException;
+            if ($toss) {
+                $winner = collect(['left', 'right'])->random();
+            } else {
+                throw new NoWinnerException;
+            }
+        } else {
+            $winner = $leftVotes > $rightVotes ? 'left' : 'right';
         }
-        $winner = $leftVotes > $rightVotes ? 'left' : 'right';
         $this->leftTrack->update(['won' => $winner === 'left']);
         $this->rightTrack->update(['won' => $winner === 'right']);
         $this->update(['ended_at' => now()]);
