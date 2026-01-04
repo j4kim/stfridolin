@@ -1,5 +1,5 @@
 <script setup>
-import { get } from "@/api";
+import { api } from "@/api";
 import Button from "@/components/ui/button/Button.vue";
 import Layout from "@/components/Layout.vue";
 import { computed, ref } from "vue";
@@ -12,7 +12,7 @@ const loading = ref(false);
 
 async function load() {
     loading.value = true;
-    tracks.value = await get("tracks.queue");
+    tracks.value = await api("tracks.queue").get();
     tracks.value.slice(0, 2).map((t) => (t.isNext = true));
     loading.value = false;
 }

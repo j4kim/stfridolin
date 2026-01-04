@@ -1,4 +1,4 @@
-import { post } from "@/api";
+import { api } from "@/api";
 import { pusher } from "@/broadcasting";
 import { useSessionStorage } from "@vueuse/core";
 import { defineStore } from "pinia";
@@ -11,7 +11,9 @@ export const useClientStore = defineStore("client", () => {
     const masterId = ref(document.body.dataset.masterClientId);
 
     async function setAsMaster() {
-        await post("master-client-id.set", { clientId: clientId.value });
+        await api("master-client-id.set")
+            .params({ clientId: clientId.value })
+            .post();
     }
 
     const isMaster = computed(() => clientId.value == masterId.value);

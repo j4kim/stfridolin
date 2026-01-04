@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from "vue";
-import { get } from "@/api";
+import { api } from "@/api";
 import { watchDebounced } from "@vueuse/core";
 import {
     InputGroup,
@@ -17,16 +17,20 @@ watchDebounced(searchQuery, searchTracks, { debounce: 500 });
 const searchResults = ref(null);
 
 async function searchTracks() {
-    searchResults.value = await get("spotify.search-tracks", {
-        q: searchQuery.value,
-    });
+    searchResults.value = await api("spotify.search-tracks")
+        .params({
+            q: searchQuery.value,
+        })
+        .get();
 }
 
 async function searchMore() {
-    const data = await get("spotify.search-tracks", {
-        q: searchQuery.value,
-        offset: searchResults.value.offset + 10,
-    });
+    const data = await api("spotify.search-tracks")
+        .params({
+            q: searchQuery.value,
+            offset: searchResults.value.offset + 10,
+        })
+        .get();
     searchResults.value = {
         ...data,
         items: searchResults.value.items.concat(data.items),

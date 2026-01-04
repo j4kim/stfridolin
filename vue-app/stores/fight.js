@@ -1,22 +1,22 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
-import { get, post, put } from "@/api";
+import { api } from "@/api";
 import { pusher } from "@/broadcasting";
 
 export const useFightStore = defineStore("fight", () => {
     const fight = ref(null);
 
     async function fetchCurrentFight() {
-        fight.value = await get("fights.current");
+        fight.value = await api("fights.current").get();
     }
 
     async function endFight() {
-        const data = await put("fights.end");
+        const data = await api("fights.end").put();
         console.log("fight ended", data);
     }
 
     async function createNext() {
-        const data = await post("fights.create-next");
+        const data = await api("fights.create-next").post();
         console.log("new fight created", data);
     }
 

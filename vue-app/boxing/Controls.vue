@@ -1,5 +1,5 @@
 <script setup>
-import { post } from "@/api";
+import { api } from "@/api";
 import Button from "@/components/ui/button/Button.vue";
 import { useFightStore } from "@/stores/fight";
 
@@ -11,7 +11,7 @@ async function vote(side) {
         throw new Error("There is no fight");
     }
     const track = fight[`${side}_track`];
-    return await post("votes.vote", [fight.id, track.id]);
+    return await api("votes.vote").params([fight.id, track.id]).post();
 }
 </script>
 

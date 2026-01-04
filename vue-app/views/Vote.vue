@@ -1,5 +1,5 @@
 <script setup>
-import { post } from "@/api";
+import { api } from "@/api";
 import { useFightStore } from "@/stores/fight";
 import Button from "@/components/ui/button/Button.vue";
 import ValidationDrawer from "@/components/ValidationDrawer.vue";
@@ -11,7 +11,9 @@ const fightStore = useFightStore();
 fightStore.fetchCurrentFight();
 
 async function vote(track) {
-    return await post("votes.vote", [fightStore.fight.id, track.id]);
+    return await api("votes.vote")
+        .params([fightStore.fight.id, track.id])
+        .post();
 }
 </script>
 

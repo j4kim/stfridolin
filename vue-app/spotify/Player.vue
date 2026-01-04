@@ -1,5 +1,5 @@
 <script setup>
-import { put } from "@/api";
+import { api } from "@/api";
 import Button from "@/components/ui/button/Button.vue";
 import Progress from "@/components/ui/progress/Progress.vue";
 import { useClockStore } from "@/stores/clock";
@@ -10,12 +10,12 @@ const spotify = useSpotifyStore();
 const clock = useClockStore();
 
 async function play(params = null) {
-    await put("spotify.play", params);
+    await api("spotify.play").params(params).put();
     spotify.playback.is_playing = true;
 }
 
 async function pause() {
-    await put("spotify.pause");
+    await api("spotify.pause").put();
     spotify.playback.is_playing = false;
 }
 </script>
