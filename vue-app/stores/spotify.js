@@ -6,6 +6,7 @@ export const useSpotifyStore = defineStore("spotify", () => {
     const devices = ref([]);
     const playback = ref(null);
     const playbackError = ref(null);
+    const playbackInterval = ref(null);
 
     async function getDevices() {
         devices.value = await api("spotify.devices").get();
@@ -28,6 +29,14 @@ export const useSpotifyStore = defineStore("spotify", () => {
                 throw e;
             }
         }
+    }
+
+    function setPlaybackInterval() {
+        playbackInterval.value = setInterval(getPlaybackState, 12_000);
+    }
+
+    function clearPlaybackInterval() {
+        clearInterval(playbackInterval.value);
     }
 
     async function playTrack(uri) {
@@ -54,6 +63,8 @@ export const useSpotifyStore = defineStore("spotify", () => {
         getDevices,
         selectDevice,
         getPlaybackState,
+        setPlaybackInterval,
+        clearPlaybackInterval,
         playTrack,
         track,
     };

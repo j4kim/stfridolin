@@ -2,11 +2,15 @@
 import Progress from "@/components/ui/progress/Progress.vue";
 import { useClockStore } from "@/stores/clock";
 import { useSpotifyStore } from "@/stores/spotify";
+import { onMounted, onUnmounted } from "vue";
 
 const spotify = useSpotifyStore();
 const clock = useClockStore();
 
 spotify.getPlaybackState();
+
+onMounted(() => spotify.setPlaybackInterval());
+onUnmounted(() => spotify.clearPlaybackInterval());
 </script>
 
 <template>
