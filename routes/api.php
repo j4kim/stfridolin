@@ -17,6 +17,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::middleware(EnsureMasterClient::class)->group(function () {
         Route::put('spotify/play', [SpotifyController::class, 'play'])->name('spotify.play');
         Route::put('spotify/play/{trackUri}', [SpotifyController::class, 'playTrack'])->name('spotify.play-track');
+        Route::post('spotify/skip', [SpotifyController::class, 'skip'])->name('spotify.skip');
         Route::post('spotify/queue/{trackUri}', [SpotifyController::class, 'addToQueue'])->name('spotify.add-to-queue');
         Route::put('spotify/pause', [SpotifyController::class, 'pause'])->name('spotify.pause');
         Route::put('fights/end', [FightController::class, 'end'])->name('fights.end');

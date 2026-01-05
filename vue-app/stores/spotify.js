@@ -44,6 +44,11 @@ export const useSpotifyStore = defineStore("spotify", () => {
         setTimeout(async () => await getPlaybackState(), 500);
     }
 
+    async function skipToNext(uri) {
+        const data = await api("spotify.skip").params(uri).post();
+        setTimeout(async () => await getPlaybackState(), 500);
+    }
+
     async function addToQueue(track) {
         await api("spotify.add-to-queue").params(track.spotify_uri).post();
     }
@@ -70,6 +75,7 @@ export const useSpotifyStore = defineStore("spotify", () => {
         setPlaybackInterval,
         clearPlaybackInterval,
         playTrack,
+        skipToNext,
         addToQueue,
         track,
     };

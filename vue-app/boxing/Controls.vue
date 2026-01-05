@@ -2,8 +2,10 @@
 import { api } from "@/api";
 import Button from "@/components/ui/button/Button.vue";
 import { useFightStore } from "@/stores/fight";
+import { useSpotifyStore } from "@/stores/spotify";
 
 const fightStore = useFightStore();
+const spotify = useSpotifyStore();
 
 async function vote(side) {
     const fight = fightStore.fight;
@@ -28,6 +30,9 @@ async function vote(side) {
         </Button>
         <Button size="sm" variant="outline" @click="fightStore.createNext">
             Create next
+        </Button>
+        <Button size="sm" variant="outline" @click="spotify.skipToNext">
+            Skip to next track
         </Button>
     </div>
 </template>
