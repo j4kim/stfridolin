@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Track;
 use App\Tools\Spotify;
 use Illuminate\Http\Request;
 
@@ -26,7 +27,7 @@ class SpotifyController extends Controller
 
         Spotify::requestAccessToken($request->code);
 
-        return redirect()->intended('spotify-devices');
+        return redirect()->intended();
     }
 
     public function devices()
@@ -48,10 +49,19 @@ class SpotifyController extends Controller
         return $spotifyRequest->put("/me/player/play", ['position_ms' => 0]);
     }
 
-
     public function playTrack(string $trackUri)
     {
         Spotify::playTrack($trackUri);
+    }
+
+    public function skip()
+    {
+        Spotify::skip();
+    }
+
+    public function addToQueue(string $trackUri)
+    {
+        Spotify::addToQueue($trackUri);
     }
 
     public function pause()
@@ -71,6 +81,10 @@ class SpotifyController extends Controller
         if (!$request->q) {
             return ['items' => []];
         }
-        return Spotify::searchTracks($request->q);
+        $res = Spotify::searchTracks($request->q, $request->offset ?? 0);
+        return [
+            'items' => array_map(fn(array $data) => Track::formatSpotifyData($data), $res['items']),
+            'offset' => $res['offset'],
+        ];
     }
 }

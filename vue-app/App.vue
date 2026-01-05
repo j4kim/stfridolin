@@ -1,7 +1,9 @@
-<script setup></script>
+<script setup lang="ts">
+import "vue-sonner/style.css";
+import { Toaster } from "@/components/ui/sonner";
+</script>
 
 <template>
-    <main>
-        <RouterView></RouterView>
-    </main>
+    <RouterView></RouterView>
+    <Toaster richColors />
 </template>

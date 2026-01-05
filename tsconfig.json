@@ -1,0 +1,13 @@
+{
+  "extends": "@vue/tsconfig/tsconfig.dom.json",
+  "include": ["vue-app/**/*.ts","vue-app/**/*.js", "vue-app/**/*.tsx", "vue-app/**/*.vue"],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "allowJs": true,
+    "paths": {
+      "@/*": [
+        "./vue-app/*"
+      ]
+    }
+  }
+}

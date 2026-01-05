@@ -2,7 +2,14 @@
 
 namespace App\Models;
 
+use App\Events\EndFight;
+use App\Events\NewFight;
+use App\Exceptions\FightNotEndedException;
+use App\Exceptions\NotEnoughTracksInQueueException;
+use App\Exceptions\NoWinnerException;
 use Exception;
+use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -24,42 +31,79 @@ class Fight extends Model
         return $this->belongsTo(Track::class, 'right_track_id');
     }
 
-    public static function current(): Fight
+    #[Scope]
+    protected function current(Builder $query): void
     {
-        return Fight::whereNotNull('started_at')
-            ->whereNull('ended_at')
-            ->first();
+        $query->whereNotNull('started_at')->whereNull('ended_at');
+    }
+
+    public static function getCurrent(): ?Fight
+    {
+        $fight = Fight::query()->current()->first();
+        $fight?->ensureVotesAreLoaded();
+        return $fight;
+    }
+
+    public function loadVotes(): Fight
+    {
+        $this->leftTrack->loadCount('votes');
+        $this->rightTrack->loadCount('votes');
+        return $this;
+    }
+
+    public function ensureVotesAreLoaded(): Fight
+    {
+        if (!isset($this->leftTrack->votes_count)) {
+            $this->loadVotes();
+        }
+        return $this;
     }
 
     public static function createNext(): Fight
     {
         $tracks = Track::getCandidates();
         if ($tracks->count() != 2) {
-            throw new Exception("There are no 2 candidates");
+            throw new NotEnoughTracksInQueueException;
         }
-        return Fight::create([
+        $fight = Fight::create([
             'left_track_id' => $tracks[0]->id,
             'right_track_id' => $tracks[1]->id,
+            'started_at' => now(),
         ]);
-    }
-
-    public function start(): Fight
-    {
-        $this->started_at = now();
-        $this->save();
-        return $this;
+        $tracks->each(fn(Track $t) => $t->update(['used' => true]));
+        NewFight::dispatch($fight);
+        return $fight;
     }
 
     public function end(): Fight
     {
-        $leftVotes = $this->leftTrack->votes()->count();
-        $rightVotes = $this->rightTrack->votes()->count();
+        $this->ensureVotesAreLoaded();
+        $leftVotes = $this->leftTrack->votes_count;
+        $rightVotes = $this->rightTrack->votes_count;
         if ($leftVotes === $rightVotes) {
-            throw new Exception("No winner");
+            $this->draw = true;
+            $winner = collect(['left', 'right'])->random();
+        } else {
+            $winner = $leftVotes > $rightVotes ? 'left' : 'right';
         }
-        $this->leftTrack->update(['won' => $leftVotes > $rightVotes]);
-        $this->rightTrack->update(['won' => $rightVotes > $leftVotes]);
-        $this->update(['ended_at' => now()]);
+        $this->leftTrack->update(['won' => $winner === 'left']);
+        $this->rightTrack->update(['won' => $winner === 'right']);
+        $this->ended_at = now();
+        $this->save();
+        EndFight::dispatch($winner, $this->draw);
         return $this;
+    }
+
+    public function getWinnerAndLoser(): array
+    {
+        if (!$this->ended_at) {
+            throw new FightNotEndedException;
+        }
+        if ($this->leftTrack->won) {
+            return [$this->leftTrack, $this->rightTrack];
+        } else if ($this->rightTrack->won) {
+            return [$this->rightTrack, $this->leftTrack];
+        }
+        throw new NoWinnerException;
     }
 }

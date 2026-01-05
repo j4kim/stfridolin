@@ -1,15 +1,27 @@
 import { createRouter, createWebHistory } from "vue-router";
-import { useMainStore } from "../stores/main";
-import { redirectToLogin } from "../api";
-import Spotify from "../views/Spotify.vue";
-import Boxing from "../views/Boxing.vue";
-import Vote from "../views/Vote.vue";
+import { useMainStore } from "@/stores/main";
+import { redirectToLogin } from "@/api";
+import Spotify from "@/views/Spotify.vue";
+import Boxing from "@/views/Boxing.vue";
+import Vote from "@/views/Vote.vue";
+import AddToQueue from "@/views/AddToQueue.vue";
+import Queue from "@/views/Queue.vue";
 
 const routes = [
     {
         path: "/",
         name: "vote",
         component: Vote,
+    },
+    {
+        path: "/queue",
+        name: "queue",
+        component: Queue,
+    },
+    {
+        path: "/add-to-queue",
+        name: "add-to-queue",
+        component: AddToQueue,
     },
     {
         path: "/spotify",
@@ -23,11 +35,14 @@ const routes = [
         path: "/boxing",
         name: "boxing",
         component: Boxing,
+        meta: {
+            requireAuth: true,
+        },
     },
 ];
 
 const router = createRouter({
-    history: createWebHistory(import.meta.env.BASE_URL),
+    history: createWebHistory(),
     routes,
 });
 

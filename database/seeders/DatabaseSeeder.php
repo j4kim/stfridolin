@@ -2,11 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\Fight;
 use App\Models\Guest;
 use App\Models\Track;
 use App\Models\User;
-use App\Models\Vote;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -27,7 +25,7 @@ class DatabaseSeeder extends Seeder
         Guest::factory(10)->create();
 
         $trackDir = __DIR__ . '/tracks';
-        $trackFiles = scandir($trackDir);
+        $trackFiles = collect(scandir($trackDir))->shuffle();
         foreach ($trackFiles as $filename) {
             $path = $trackDir . '/' . $filename;
             if (!is_file($path)) {
@@ -38,14 +36,5 @@ class DatabaseSeeder extends Seeder
             Track::createFromSpotifyData($json);
         }
         Track::orderByDesc('id')->first()->update(['priority' => 1]);
-
-        $fight = Fight::createNext();
-        $fight->start();
-        Vote::create([
-            'track_id' => $fight->leftTrack->id,
-            'fight_id' => $fight->id,
-        ]);
-        $fight->end();
-        Fight::createNext()->start();
     }
 }

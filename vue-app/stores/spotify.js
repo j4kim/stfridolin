@@ -1,32 +1,56 @@
 import { defineStore } from "pinia";
-import { computed, ref, watch } from "vue";
-import { get } from "../api";
+import { computed, ref } from "vue";
+import { api } from "@/api";
 
 export const useSpotifyStore = defineStore("spotify", () => {
+    const devices = ref([]);
     const playback = ref(null);
-    const error = ref(null);
+    const playbackError = ref(null);
+    const playbackInterval = ref(null);
 
-    const t0 = ref(Date.now());
-    const clockInterval = ref(null);
+    async function getDevices() {
+        devices.value = await api("spotify.devices").get();
+    }
+
+    async function selectDevice(deviceId) {
+        await api("spotify.select-device").params(deviceId).put();
+        await getDevices();
+    }
 
     async function getPlaybackState() {
-        playback.value = null;
-        error.value = null;
+        playbackError.value = null;
         try {
-            playback.value = await get("spotify.playback-state");
-            if (playback.value.is_playing) {
-                restartClock();
-            } else {
-                clearInterval(clockInterval.value);
-            }
-            computeProgressRatio();
+            playback.value = await api("spotify.playback-state").get();
         } catch (e) {
+            playback.value = null;
             if (e.response?.data?.exception) {
-                error.value = e.response.data.exception;
+                playbackError.value = e.response.data.exception;
             } else {
                 throw e;
             }
         }
+    }
+
+    function setPlaybackInterval() {
+        playbackInterval.value = setInterval(getPlaybackState, 12_000);
+    }
+
+    function clearPlaybackInterval() {
+        clearInterval(playbackInterval.value);
+    }
+
+    async function playTrack(uri) {
+        const data = await api("spotify.play-track").params(uri).put();
+        setTimeout(async () => await getPlaybackState(), 500);
+    }
+
+    async function skipToNext(uri) {
+        const data = await api("spotify.skip").params(uri).post();
+        setTimeout(async () => await getPlaybackState(), 500);
+    }
+
+    async function addToQueue(track) {
+        await api("spotify.add-to-queue").params(track.spotify_uri).post();
     }
 
     const track = computed(() => {
@@ -34,34 +58,25 @@ export const useSpotifyStore = defineStore("spotify", () => {
         const item = playback.value.item;
         return {
             img_url: item?.album.images[0].url,
+            img_thumbnail_url: item?.album.images[2].url,
             name: item?.name,
             artist_name: item?.artists.map((a) => a.name).join(", "),
             duration: item?.duration_ms,
-            progress: playback.value.progress_ms,
-            is_playing: playback.value.is_playing,
         };
     });
 
-    const progressRatio = ref(0);
-
-    function computeProgressRatio() {
-        const delta = Date.now() - t0.value;
-        const progress = track.value.progress + delta;
-        progressRatio.value = progress / track.value.duration;
-    }
-
-    function restartClock() {
-        t0.value = Date.now();
-        clearInterval(clockInterval.value);
-        clockInterval.value = setInterval(computeProgressRatio, 1000);
-    }
-
-    watch(progressRatio, (ratio) => {
-        if (ratio >= 1) {
-            clearInterval(clockInterval.value);
-            getPlaybackState();
-        }
-    });
-
-    return { playback, getPlaybackState, track, progressRatio };
+    return {
+        devices,
+        playback,
+        playbackError,
+        getDevices,
+        selectDevice,
+        getPlaybackState,
+        setPlaybackInterval,
+        clearPlaybackInterval,
+        playTrack,
+        skipToNext,
+        addToQueue,
+        track,
+    };
 });

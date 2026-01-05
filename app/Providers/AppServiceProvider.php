@@ -32,8 +32,9 @@ class AppServiceProvider extends ServiceProvider
                 $magnitude = $log < 0 ? 0 : round($log);
                 $warnChars = str_pad(str_repeat(">", $magnitude), 5, " ");
                 $seconds = number_format($query->time / 1000, 3);
+                $route = request()?->route()?->getName() ?? '?';
                 Log::channel("db")->info(
-                    "$warnChars ($seconds) | $sql"
+                    "$warnChars ($seconds) | $route | $sql"
                 );
             });
         }
