@@ -4,6 +4,8 @@ import { useSpotifyStore } from "./spotify";
 import { useFightStore } from "./fight";
 import { useClientStore } from "./client";
 
+const END_BUFFER_TIME = 10_000;
+
 export const useClockStore = defineStore("clock", () => {
     const spotify = useSpotifyStore();
     const fight = useFightStore();
@@ -46,7 +48,11 @@ export const useClockStore = defineStore("clock", () => {
             }
         }
 
-        if (!client.isMaster || value.rest > 20_000 || fight.fight.is_ended) {
+        if (
+            !client.isMaster ||
+            value.rest > END_BUFFER_TIME ||
+            fight.fight.is_ended
+        ) {
             return;
         }
 
