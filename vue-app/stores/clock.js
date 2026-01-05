@@ -29,7 +29,7 @@ export const useClockStore = defineStore("clock", () => {
         const delta = t0.value ? time.value - t0.value : 0;
         const progress = spotify.playback.progress_ms + delta;
         const ratio = progress / spotify.track.duration;
-        const percent = Math.min(100, 100 * ratio);
+        const percent = Math.max(0, Math.min(100, 100 * ratio));
         const rest = spotify.track.duration - progress;
         return { progress, rest, percent };
     });
