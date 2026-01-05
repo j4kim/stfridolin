@@ -2,8 +2,11 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 import { api } from "@/api";
 import { pusher } from "@/broadcasting";
+import { useSpotifyStore } from "./spotify";
 
 export const useFightStore = defineStore("fight", () => {
+    const spotify = useSpotifyStore();
+
     const fight = ref(null);
 
     async function fetchCurrentFight() {
@@ -12,12 +15,13 @@ export const useFightStore = defineStore("fight", () => {
 
     async function endFight() {
         const data = await api("fights.end").put();
-        console.log("fight ended", data);
+        if (data.winner) {
+            await spotify.addToQueue(data.winner);
+        }
     }
 
     async function createNext() {
         const data = await api("fights.create-next").post();
-        console.log("new fight created", data);
     }
 
     pusher.subscribe("fights").bind("EndFight", (data) => {
