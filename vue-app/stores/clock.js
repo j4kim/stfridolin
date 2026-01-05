@@ -41,6 +41,9 @@ export const useClockStore = defineStore("clock", () => {
 
         if (value.percent === 100) {
             spotify.getPlaybackState();
+            if (client.isMaster) {
+                fight.createNext();
+            }
         }
 
         if (!client.isMaster || value.rest > 20_000 || fight.fight.is_ended) {
