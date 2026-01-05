@@ -62,8 +62,8 @@ export class Request {
         return this;
     }
 
-    noToast() {
-        this.toast = false;
+    noToast(value = true) {
+        this.toast = !value;
         return this;
     }
 
