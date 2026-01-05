@@ -81,9 +81,11 @@ class Fight extends Model
         $leftVotes = $this->leftTrack->votes_count;
         $rightVotes = $this->rightTrack->votes_count;
         if ($leftVotes === $rightVotes) {
-            throw new NoWinnerException;
+            $this->draw = true;
+            $winner = collect(['left', 'right'])->random();
+        } else {
+            $winner = $leftVotes > $rightVotes ? 'left' : 'right';
         }
-        $winner = $leftVotes > $rightVotes ? 'left' : 'right';
         $this->leftTrack->update(['won' => $winner === 'left']);
         $this->rightTrack->update(['won' => $winner === 'right']);
         $this->update(['ended_at' => now()]);
