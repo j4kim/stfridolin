@@ -155,7 +155,7 @@ class Spotify
     {
         return self::apiRequest()
             ->withQueryParameters(['device_id' => self::getSelectedDeviceId(), 'uri' => $trackUri])
-            ->put("/me/player/queue")
+            ->post("/me/player/queue")
             ->throw();
     }
 }
