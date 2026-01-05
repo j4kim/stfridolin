@@ -12,6 +12,7 @@ export class Request {
         this.routeName = routeName;
         this.routeParams = null;
         this.config = { headers: { "X-Client-Id": useClientStore().clientId } };
+        this.toast = true;
     }
 
     async send(method) {
@@ -45,7 +46,7 @@ export class Request {
                     onClick: () => redirectToLogin(location.href),
                 },
             });
-        } else if (msg) {
+        } else if (msg && this.toast) {
             toast.error(msg);
         }
         throw error;
@@ -58,6 +59,11 @@ export class Request {
 
     data(data) {
         this.config.data = data;
+        return this;
+    }
+
+    noToast() {
+        this.toast = false;
         return this;
     }
 
