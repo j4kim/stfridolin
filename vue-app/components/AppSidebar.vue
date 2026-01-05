@@ -9,7 +9,10 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { useMainStore } from "@/stores/main";
 import { useRoute } from "vue-router";
+
+const mainStore = useMainStore();
 
 const groups = [
     {
@@ -31,6 +34,7 @@ const groups = [
     },
     {
         label: "Admin",
+        requiresAuth: true,
         links: [
             {
                 title: "Combat",
@@ -50,26 +54,32 @@ const route = useRoute();
 <template>
     <Sidebar>
         <SidebarContent>
-            <SidebarGroup v-for="group in groups">
-                <SidebarGroupLabel>{{ group.label }}</SidebarGroupLabel>
-                <SidebarGroupContent>
-                    <SidebarMenu>
-                        <SidebarMenuItem
-                            v-for="link in group.links"
-                            :key="link.title"
-                        >
-                            <SidebarMenuButton
-                                as-child
-                                :is-active="route.name === link.name"
+            <template v-for="group in groups">
+                <SidebarGroup v-if="!group.requiresAuth || mainStore.user">
+                    <SidebarGroupLabel>{{ group.label }}</SidebarGroupLabel>
+                    <SidebarGroupContent>
+                        <SidebarMenu>
+                            <template
+                                v-for="link in group.links"
+                                :key="link.title"
                             >
-                                <RouterLink :to="{ name: link.name }">
-                                    <span>{{ link.title }}</span>
-                                </RouterLink>
-                            </SidebarMenuButton>
-                        </SidebarMenuItem>
-                    </SidebarMenu>
-                </SidebarGroupContent>
-            </SidebarGroup>
+                                <SidebarMenuItem
+                                    v-if="!group.requiresAuth || mainStore.user"
+                                >
+                                    <SidebarMenuButton
+                                        as-child
+                                        :is-active="route.name === link.name"
+                                    >
+                                        <RouterLink :to="{ name: link.name }">
+                                            <span>{{ link.title }}</span>
+                                        </RouterLink>
+                                    </SidebarMenuButton>
+                                </SidebarMenuItem>
+                            </template>
+                        </SidebarMenu>
+                    </SidebarGroupContent>
+                </SidebarGroup>
+            </template>
         </SidebarContent>
     </Sidebar>
 </template>
