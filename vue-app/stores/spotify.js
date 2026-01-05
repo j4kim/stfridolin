@@ -44,6 +44,10 @@ export const useSpotifyStore = defineStore("spotify", () => {
         setTimeout(async () => await getPlaybackState(), 500);
     }
 
+    async function addToQueue(track) {
+        await api("spotify.add-to-queue").params(track.spotify_uri).post();
+    }
+
     const track = computed(() => {
         if (!playback.value) return null;
         const item = playback.value.item;
@@ -66,6 +70,7 @@ export const useSpotifyStore = defineStore("spotify", () => {
         setPlaybackInterval,
         clearPlaybackInterval,
         playTrack,
+        addToQueue,
         track,
     };
 });
