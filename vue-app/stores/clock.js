@@ -50,7 +50,7 @@ export const useClockStore = defineStore("clock", () => {
             return;
         }
 
-        fight.endFight(true);
+        fight.endFight();
     });
 
     return { startClock, time, progress };
