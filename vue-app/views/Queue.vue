@@ -5,6 +5,7 @@ import Layout from "@/components/Layout.vue";
 import { computed, ref } from "vue";
 import Tracks from "@/components/Tracks.vue";
 import Badge from "@/components/ui/badge/Badge.vue";
+import IfAuth from "@/components/IfAuth.vue";
 
 const tracks = ref([]);
 
@@ -29,7 +30,9 @@ const backupTracks = computed(() =>
     <Layout>
         <h2 class="my-2 px-4 font-bold">File d'attente</h2>
 
-        <p class="my-2 px-4">Morceaux ajoutés par les invités:</p>
+        <IfAuth>
+            <p class="my-2 px-4">Morceaux ajoutés par les invités:</p>
+        </IfAuth>
         <Tracks :tracks="guestTracks">
             <template #actions="{ track }">
                 <Badge v-if="track.isNext" variant="secondary">
@@ -46,13 +49,15 @@ const backupTracks = computed(() =>
             </RouterLink>
         </div>
 
-        <p class="my-2 mt-8 px-4">Morceaux en réserve:</p>
-        <Tracks :tracks="backupTracks">
-            <template #actions="{ track }">
-                <Badge v-if="track.isNext" variant="secondary">
-                    prochain combat
-                </Badge>
-            </template>
-        </Tracks>
+        <IfAuth>
+            <p class="my-2 mt-8 px-4">Morceaux en réserve:</p>
+            <Tracks :tracks="backupTracks">
+                <template #actions="{ track }">
+                    <Badge v-if="track.isNext" variant="secondary">
+                        prochain combat
+                    </Badge>
+                </template>
+            </Tracks>
+        </IfAuth>
     </Layout>
 </template>
