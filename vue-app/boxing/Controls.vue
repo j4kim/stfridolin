@@ -23,7 +23,11 @@ async function vote(side) {
         <Button size="sm" variant="outline" @click="vote('right')">
             Vote right
         </Button>
-        <Button size="sm" variant="outline" @click="fightStore.endFight">
+        <Button
+            size="sm"
+            variant="outline"
+            @click="() => fightStore.endFight()"
+        >
             End fight
         </Button>
         <Button size="sm" variant="outline" @click="fightStore.createNext">
