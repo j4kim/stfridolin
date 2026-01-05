@@ -25,6 +25,7 @@
         data-app-version="{{ config('app.version') }}"
         data-app-name="{{ config('app.name') }}"
         data-user="{{ json_encode(auth()->user()) }}"
+        data-master-client-id="{{ cache('master-client-id') }}"
     >
         <div id="app"></div>
     </body>

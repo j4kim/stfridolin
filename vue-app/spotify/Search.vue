@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from "vue";
-import { get } from "@/api";
+import { api } from "@/api";
 import { watchDebounced } from "@vueuse/core";
 import {
     InputGroup,
@@ -8,17 +8,8 @@ import {
     InputGroupInput,
 } from "@/components/ui/input-group";
 import { Search } from "lucide-vue-next";
-import {
-    ItemGroup,
-    Item,
-    ItemMedia,
-    ItemContent,
-    ItemTitle,
-    ItemDescription,
-    ItemActions,
-    ItemSeparator,
-} from "@/components/ui/item";
 import Button from "@/components/ui/button/Button.vue";
+import Tracks from "@/components/Tracks.vue";
 
 const searchQuery = ref("");
 watchDebounced(searchQuery, searchTracks, { debounce: 500 });
@@ -26,16 +17,20 @@ watchDebounced(searchQuery, searchTracks, { debounce: 500 });
 const searchResults = ref(null);
 
 async function searchTracks() {
-    searchResults.value = await get("spotify.search-tracks", {
-        q: searchQuery.value,
-    });
+    searchResults.value = await api("spotify.search-tracks")
+        .params({
+            q: searchQuery.value,
+        })
+        .get();
 }
 
 async function searchMore() {
-    const data = await get("spotify.search-tracks", {
-        q: searchQuery.value,
-        offset: searchResults.value.offset + 10,
-    });
+    const data = await api("spotify.search-tracks")
+        .params({
+            q: searchQuery.value,
+            offset: searchResults.value.offset + 10,
+        })
+        .get();
     searchResults.value = {
         ...data,
         items: searchResults.value.items.concat(data.items),
@@ -45,7 +40,7 @@ async function searchMore() {
 
 <template>
     <div>
-        <div class="px-4">
+        <div class="mb-4 px-4">
             <InputGroup>
                 <InputGroupInput
                     placeholder="Rechercher un morceau"
@@ -57,33 +52,17 @@ async function searchMore() {
             </InputGroup>
         </div>
 
-        <ItemGroup v-if="searchResults?.items.length">
-            <template
-                v-for="(track, index) in searchResults.items"
-                :key="track.id"
-            >
-                <Item>
-                    <ItemMedia>
-                        <img
-                            class="rounded-box size-10"
-                            :src="track.album.images[2].url"
-                        />
-                    </ItemMedia>
-                    <ItemContent class="gap-1">
-                        <ItemTitle>{{ track.name }}</ItemTitle>
-                        <ItemDescription>
-                            {{ track.artists.map((a) => a.name).join(", ") }}
-                        </ItemDescription>
-                    </ItemContent>
-                    <ItemActions>
-                        <slot :track="track" name="actions"></slot>
-                    </ItemActions>
-                </Item>
-                <ItemSeparator v-if="index !== track.length - 1" />
+        <Tracks :tracks="searchResults?.items">
+            <template #actions="{ track }">
+                <slot :track="track" name="actions"></slot>
             </template>
-            <Button variant="ghost" class="my-4" @click="searchMore">
-                Charger plus
-            </Button>
-        </ItemGroup>
+            <template #after>
+                <div class="my-4 px-4">
+                    <Button variant="ghost" class="w-full" @click="searchMore">
+                        Charger plus
+                    </Button>
+                </div>
+            </template>
+        </Tracks>
     </div>
 </template>

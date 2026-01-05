@@ -5,17 +5,17 @@ import { importFrames } from "@/boxing/utils";
 import App from "@/App.vue";
 import router from "@/router";
 import "@/broadcasting";
-import { useClientStore } from "./stores/client";
 import { useClockStore } from "./stores/clock";
+import { useMainStore } from "./stores/main";
 
 const app = createApp(App);
 
 app.use(createPinia());
 app.use(router);
 
-useClientStore().getMasterClientId();
-useClockStore().startClock();
-
-await importFrames();
+if (useMainStore().user) {
+    useClockStore().startClock();
+    await importFrames();
+}
 
 app.mount("#app");

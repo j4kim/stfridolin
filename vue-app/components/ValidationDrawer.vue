@@ -18,6 +18,7 @@ const props = defineProps<{
     title: string;
     action: Function;
     submitBtn: string;
+    disabled?: boolean;
 }>();
 
 const open = ref(false);
@@ -38,7 +39,7 @@ async function submit() {
 <template>
     <Drawer v-model:open="open">
         <DrawerTrigger as-child>
-            <Button> {{ trigger }} </Button>
+            <Button :disabled> {{ trigger }} </Button>
         </DrawerTrigger>
         <DrawerContent>
             <DrawerHeader>

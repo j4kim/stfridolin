@@ -1,11 +1,11 @@
 <script setup>
-import { post } from "@/api";
+import { api } from "@/api";
 import Layout from "@/components/Layout.vue";
 import ValidationDrawer from "@/components/ValidationDrawer.vue";
 import Search from "@/spotify/Search.vue";
 
 async function add(track) {
-    await post("tracks.store", null, track);
+    await api("tracks.store").params(track.spotify_uri).post();
 }
 </script>
 

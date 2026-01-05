@@ -5,12 +5,18 @@ import Spotify from "@/views/Spotify.vue";
 import Boxing from "@/views/Boxing.vue";
 import Vote from "@/views/Vote.vue";
 import AddToQueue from "@/views/AddToQueue.vue";
+import Queue from "@/views/Queue.vue";
 
 const routes = [
     {
         path: "/",
         name: "vote",
         component: Vote,
+    },
+    {
+        path: "/queue",
+        name: "queue",
+        component: Queue,
     },
     {
         path: "/add-to-queue",

@@ -1,6 +1,7 @@
 <script setup>
 import SvgBoxer from "./SvgBoxer.vue";
 import { useBoxingStore } from "../stores/boxing";
+import TossAnimation from "./TossAnimation.vue";
 
 const boxingStore = useBoxingStore();
 </script>
@@ -9,6 +10,9 @@ const boxingStore = useBoxingStore();
     <Transition>
         <div v-if="boxingStore.running">
             <SvgBoxer v-for="fighter in boxingStore.fighters" :fighter />
+            <Transition>
+                <TossAnimation v-if="boxingStore.tossAnimation" />
+            </Transition>
         </div>
     </Transition>
 </template>

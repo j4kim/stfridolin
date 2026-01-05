@@ -19,6 +19,14 @@ const groups = [
                 title: "Voter",
                 name: "vote",
             },
+            {
+                title: "File d'attente",
+                name: "queue",
+            },
+            {
+                title: "Ajouter",
+                name: "add-to-queue",
+            },
         ],
     },
     {

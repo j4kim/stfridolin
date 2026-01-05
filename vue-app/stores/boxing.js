@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { LeftFighter, RightFighter } from "@/boxing/Fighter";
+import { Fighter, LeftFighter, RightFighter } from "@/boxing/Fighter";
 import { ref } from "vue";
 import { pusher } from "@/broadcasting";
 import { useFightStore } from "./fight";
@@ -8,11 +8,19 @@ export const useBoxingStore = defineStore("boxing", () => {
     const running = ref(true);
     const finished = ref(false);
 
+    const tossAnimation = ref(null);
+
+    const fightStore = useFightStore();
+
     const fighters = {
         left: new LeftFighter(),
         right: new RightFighter(),
     };
 
+    /**
+     * @param {'left' | 'right'} side
+     * @returns {Fighter[]}
+     */
     function getSorted(side) {
         const f1 = fighters[side];
         const f2 = fighters[side === "left" ? "right" : "left"];
@@ -32,25 +40,53 @@ export const useBoxingStore = defineStore("boxing", () => {
         finished.value = true;
     }
 
+    function startToss(winnerSide) {
+        tossAnimation.value = winnerSide;
+        setTimeout(() => {
+            win(winnerSide);
+            tossAnimation.value = null;
+        }, 4_000);
+    }
+
     function run() {
+        const fight = fightStore.fight;
+        if (!fight) {
+            throw new Error("There is no current fight");
+        }
+        fighters.left.imgUrl.value = fight.left_track.img_url;
+        fighters.right.imgUrl.value = fight.right_track.img_url;
         running.value = true;
         finished.value = false;
     }
 
     pusher.subscribe("votes").bind("VoteCreated", (data) => {
-        const fight = useFightStore().fight;
+        const fight = fightStore.fight;
+        if (!fightStore.fight) {
+            throw new Error("There is no current fight");
+        }
         const trackId = data.model.track_id;
         const side = fight.left_track.id == trackId ? "left" : "right";
         fight[`${side}_track`].votes_count++;
         punch(side);
-        if (fight[`${side}_track`].votes_count % 5 === 0) {
-            setTimeout(() => win(side), 1000);
+    });
+
+    pusher.subscribe("fights").bind("EndFight", (data) => {
+        if (data.draw) {
+            startToss(data.winner);
+        } else {
+            win(data.winner);
         }
+    });
+
+    pusher.subscribe("fights").bind("NewFight", (data) => {
+        running.value = false;
+        setTimeout(() => run(), 200);
     });
 
     return {
         running,
         finished,
+        tossAnimation,
         fighters,
         punch,
         win,

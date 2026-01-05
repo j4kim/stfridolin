@@ -104,6 +104,12 @@ class Spotify
         return $response->json();
     }
 
+    public static function getTrack(string $spotifyUri): array
+    {
+        $id = explode(":", $spotifyUri)[2];
+        return self::apiRequest()->get("tracks/$id")->throw()->json();
+    }
+
     public static function searchTracks(string $q, int $offset = 0): array
     {
         return self::apiRequest()
@@ -143,5 +149,20 @@ class Spotify
         return self::apiRequest()
             ->withQueryParameters(['device_id' => self::getSelectedDeviceId()])
             ->put("/me/player/play", ['position_ms' => 0, 'uris' => [$trackUri]]);
+    }
+
+    public static function skip(): Response
+    {
+        return self::apiRequest()
+            ->withQueryParameters(['device_id' => self::getSelectedDeviceId()])
+            ->post("/me/player/next");
+    }
+
+    public static function addToQueue(string $trackUri): Response
+    {
+        return self::apiRequest()
+            ->withQueryParameters(['device_id' => self::getSelectedDeviceId(), 'uri' => $trackUri])
+            ->post("/me/player/queue")
+            ->throw();
     }
 }

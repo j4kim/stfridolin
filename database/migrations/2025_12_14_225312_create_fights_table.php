@@ -18,6 +18,7 @@ return new class extends Migration
             $table->dateTime('ended_at')->nullable();
             $table->foreignId('left_track_id')->constrained('tracks');
             $table->foreignId('right_track_id')->constrained('tracks');
+            $table->boolean('draw')->nullable();
         });
     }
 

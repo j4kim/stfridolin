@@ -6,16 +6,9 @@ import Layout from "@/components/Layout.vue";
 import { Button } from "@/components/ui/button";
 import { Play } from "lucide-vue-next";
 import { useSpotifyStore } from "@/stores/spotify";
-import { put } from "@/api";
-import { useClientStore } from "@/stores/client";
+import SetAsMasterButton from "@/components/SetAsMasterButton.vue";
 
 const spotify = useSpotifyStore();
-const client = useClientStore();
-
-async function playTrack(uri) {
-    const data = await put("spotify.play-track", uri);
-    setTimeout(async () => await spotify.getPlaybackState(), 500);
-}
 </script>
 
 <template>
@@ -27,12 +20,7 @@ async function playTrack(uri) {
                     The master client is the tab that is responsible of managing
                     the playback and the state of the fight.
                 </p>
-                <Button v-if="client.isMaster" size="sm" disabled>
-                    This client is master
-                </Button>
-                <Button v-else @click="client.setAsMaster" size="sm">
-                    Set this client as master
-                </Button>
+                <SetAsMasterButton />
             </div>
 
             <div>
@@ -53,7 +41,7 @@ async function playTrack(uri) {
                             variant="ghost"
                             size="icon"
                             class="rounded-full"
-                            @click="playTrack(track.uri)"
+                            @click="spotify.playTrack(track.spotify_uri)"
                         >
                             <Play />
                         </Button>

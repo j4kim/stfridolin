@@ -1,33 +1,56 @@
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
-import { get, put } from "@/api";
+import { api } from "@/api";
 
 export const useSpotifyStore = defineStore("spotify", () => {
     const devices = ref([]);
     const playback = ref(null);
     const playbackError = ref(null);
+    const playbackInterval = ref(null);
 
     async function getDevices() {
-        get("spotify.devices").then((data) => (devices.value = data));
+        devices.value = await api("spotify.devices").get();
     }
 
     async function selectDevice(deviceId) {
-        await put("spotify.select-device", deviceId);
+        await api("spotify.select-device").params(deviceId).put();
         await getDevices();
     }
 
     async function getPlaybackState() {
-        playback.value = null;
         playbackError.value = null;
         try {
-            playback.value = await get("spotify.playback-state");
+            playback.value = await api("spotify.playback-state").get();
         } catch (e) {
+            playback.value = null;
             if (e.response?.data?.exception) {
                 playbackError.value = e.response.data.exception;
             } else {
                 throw e;
             }
         }
+    }
+
+    function setPlaybackInterval() {
+        playbackInterval.value = setInterval(getPlaybackState, 12_000);
+    }
+
+    function clearPlaybackInterval() {
+        clearInterval(playbackInterval.value);
+    }
+
+    async function playTrack(uri) {
+        const data = await api("spotify.play-track").params(uri).put();
+        setTimeout(async () => await getPlaybackState(), 500);
+    }
+
+    async function skipToNext(uri) {
+        const data = await api("spotify.skip").params(uri).post();
+        setTimeout(async () => await getPlaybackState(), 500);
+    }
+
+    async function addToQueue(track) {
+        await api("spotify.add-to-queue").params(track.spotify_uri).post();
     }
 
     const track = computed(() => {
@@ -42,8 +65,6 @@ export const useSpotifyStore = defineStore("spotify", () => {
         };
     });
 
-    const isPlaying = computed(() => playback.value?.is_playing ?? false);
-
     return {
         devices,
         playback,
@@ -51,7 +72,11 @@ export const useSpotifyStore = defineStore("spotify", () => {
         getDevices,
         selectDevice,
         getPlaybackState,
+        setPlaybackInterval,
+        clearPlaybackInterval,
+        playTrack,
+        skipToNext,
+        addToQueue,
         track,
-        isPlaying,
     };
 });
