@@ -6,10 +6,9 @@ import Layout from "@/components/Layout.vue";
 import { Button } from "@/components/ui/button";
 import { Play } from "lucide-vue-next";
 import { useSpotifyStore } from "@/stores/spotify";
-import { useClientStore } from "@/stores/client";
+import SetAsMasterButton from "@/components/SetAsMasterButton.vue";
 
 const spotify = useSpotifyStore();
-const client = useClientStore();
 </script>
 
 <template>
@@ -21,12 +20,7 @@ const client = useClientStore();
                     The master client is the tab that is responsible of managing
                     the playback and the state of the fight.
                 </p>
-                <Button v-if="client.isMaster" size="sm" disabled>
-                    This client is master
-                </Button>
-                <Button v-else @click="client.setAsMaster" size="sm">
-                    Set this client as master
-                </Button>
+                <SetAsMasterButton />
             </div>
 
             <div>
