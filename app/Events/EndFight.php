@@ -18,7 +18,7 @@ class EndFight implements ShouldBroadcastNow
     /**
      * Create a new event instance.
      */
-    public function __construct(public string $winner) {}
+    public function __construct(public string $winner, public ?bool $draw) {}
 
     /**
      * Get the channels the event should broadcast on.

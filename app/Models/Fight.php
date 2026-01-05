@@ -88,8 +88,9 @@ class Fight extends Model
         }
         $this->leftTrack->update(['won' => $winner === 'left']);
         $this->rightTrack->update(['won' => $winner === 'right']);
-        $this->update(['ended_at' => now()]);
-        EndFight::dispatch($winner);
+        $this->ended_at = now();
+        $this->save();
+        EndFight::dispatch($winner, $this->draw);
         return $this;
     }
 

@@ -38,6 +38,11 @@ export const useBoxingStore = defineStore("boxing", () => {
         finished.value = true;
     }
 
+    function drawAnimation(winnerSide) {
+        console.log("(todo) Tirage au sort...");
+        setTimeout(() => win(winnerSide), 5000);
+    }
+
     function run() {
         const fight = fightStore.fight;
         if (!fight) {
@@ -61,7 +66,11 @@ export const useBoxingStore = defineStore("boxing", () => {
     });
 
     pusher.subscribe("fights").bind("EndFight", (data) => {
-        win(data.winner);
+        if (data.draw) {
+            drawAnimation(data.winner);
+        } else {
+            win(data.winner);
+        }
     });
 
     pusher.subscribe("fights").bind("NewFight", (data) => {
