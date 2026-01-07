@@ -33,6 +33,16 @@ export const useClockStore = defineStore("clock", () => {
         const ratio = progress / spotify.track.duration;
         const percent = Math.max(0, Math.min(100, 100 * ratio));
         const rest = spotify.track.duration - progress;
+        const s = progress / 1000;
+        const intS = Math.floor(s);
+        const msRest = 1000 * (s - intS);
+        setTimeout(() => {
+            const nextS = intS + 1;
+            const m = Math.floor(nextS / 60);
+            const restS = nextS % 60;
+            const t = `${m}:${restS}`;
+            console.log(t);
+        }, 1000 - msRest);
         return { progress, rest, percent };
     });
 
