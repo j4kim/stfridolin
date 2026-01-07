@@ -36,27 +36,31 @@ export const useClockStore = defineStore("clock", () => {
         return { progress, rest, percent };
     });
 
-    watch(progress, (value) => {
-        if (!value || !spotify.playback?.is_playing) {
+    const approachingEnd = computed(
+        () => progress.value.rest < END_BUFFER_TIME,
+    );
+
+    watch(progress, (value, oldValue) => {
+        if (!value || value.percent === oldValue?.percent) {
             return;
         }
 
         if (value.percent === 100) {
             spotify.getPlaybackState();
-            if (client.isMaster) {
+            if (client.isMaster && fight.isEnded && !fight.isFinished) {
                 fight.createNext();
             }
-        }
-
-        if (
-            !client.isMaster ||
-            value.rest > END_BUFFER_TIME ||
-            fight.fight.is_ended
-        ) {
             return;
         }
 
-        fight.endFight();
+        if (
+            client.isMaster &&
+            approachingEnd.value &&
+            !fight.isEnding &&
+            value.percent !== 100
+        ) {
+            fight.endFight();
+        }
     });
 
     return { startClock, time, progress };

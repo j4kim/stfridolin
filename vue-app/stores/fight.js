@@ -9,31 +9,44 @@ export const useFightStore = defineStore("fight", () => {
 
     const fight = ref(null);
 
+    const isEnded = ref(false);
+    const isEnding = ref(false);
+    const isFinished = ref(false);
+
     async function fetchCurrentFight() {
-        fight.value = await api("fights.current").get();
+        fight.value = await api("fights.current").noToast().get();
     }
 
     async function endFight() {
-        const data = await api("fights.end").put();
-        if (data.winner) {
-            await spotify.addToQueue(data.winner);
-        }
+        isEnding.value = true;
+        await api("fights.end").params(fight.value.id).put();
     }
 
     async function createNext() {
-        const data = await api("fights.create-next").post();
+        if (fight.value) {
+            isFinished.value = true;
+            await api("fights.create-next").params(fight.value.id).post();
+        } else {
+            await api("fights.create-first").post();
+        }
     }
 
     pusher.subscribe("fights").bind("EndFight", (data) => {
-        fight.value.is_ended = true;
+        isEnded.value = true;
     });
 
     pusher.subscribe("fights").bind("NewFight", (data) => {
         fight.value = data.fight;
+        isEnded.value = false;
+        isEnding.value = false;
+        isFinished.value = false;
     });
 
     return {
         fight,
+        isEnded,
+        isEnding,
+        isFinished,
         fetchCurrentFight,
         endFight,
         createNext,
