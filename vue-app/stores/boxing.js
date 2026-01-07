@@ -80,7 +80,7 @@ export const useBoxingStore = defineStore("boxing", () => {
 
     pusher.subscribe("fights").bind("NewFight", (data) => {
         running.value = false;
-        setTimeout(() => run(), 200);
+        setTimeout(() => run(), 1000);
     });
 
     return {
