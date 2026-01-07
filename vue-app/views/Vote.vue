@@ -21,7 +21,7 @@ async function vote(track) {
     <Layout>
         <h2 class="my-2 px-4 font-bold">
             Combat en cours
-            <span class="opacity-50" v-if="fightStore.fight?.is_ended">
+            <span class="opacity-50" v-if="fightStore.isEnded">
                 (terminé)
             </span>
         </h2>
@@ -39,7 +39,7 @@ async function vote(track) {
                     :title="`Voter pour ${track.name} ?`"
                     :action="() => vote(track)"
                     submitBtn="Dépenser 1 jeton"
-                    :disabled="fightStore.fight.is_ended ?? false"
+                    :disabled="fightStore.isEnded"
                 ></ValidationDrawer>
             </template>
             <template #after>

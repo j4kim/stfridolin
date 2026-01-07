@@ -94,15 +94,15 @@ class Fight extends Model
         return $this;
     }
 
-    public function getWinnerAndLoser(): array
+    public function getWinner(): Track
     {
         if (!$this->ended_at) {
             throw new FightNotEndedException;
         }
         if ($this->leftTrack->won) {
-            return [$this->leftTrack, $this->rightTrack];
+            return $this->leftTrack;
         } else if ($this->rightTrack->won) {
-            return [$this->rightTrack, $this->leftTrack];
+            return $this->rightTrack;
         }
         throw new NoWinnerException;
     }
