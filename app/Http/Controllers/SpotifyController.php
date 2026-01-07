@@ -77,8 +77,12 @@ class SpotifyController extends Controller
             return ['items' => []];
         }
         $res = Spotify::searchTracks($request->q, $request->offset ?? 0);
+        $twelveMinutes = 12 * 60 * 1000;
+        $items = collect($res['items'])
+            ->filter(fn(array $data) => $data['duration_ms'] < $twelveMinutes)
+            ->map(fn(array $data) => Track::formatSpotifyData($data));
         return [
-            'items' => array_map(fn(array $data) => Track::formatSpotifyData($data), $res['items']),
+            'items' => $items->values(),
             'offset' => $res['offset'],
         ];
     }
