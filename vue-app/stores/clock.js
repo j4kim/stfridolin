@@ -43,11 +43,7 @@ export const useClockStore = defineStore("clock", () => {
 
         if (value.percent === 100) {
             spotify.getPlaybackState();
-            if (
-                client.isMaster &&
-                fight.fight.is_ended &&
-                !fight.fight.is_finished
-            ) {
+            if (client.isMaster && fight.isEnded && !fight.isFinished) {
                 fight.createNext();
             }
         }
@@ -55,8 +51,8 @@ export const useClockStore = defineStore("clock", () => {
         if (
             !client.isMaster ||
             value.rest > END_BUFFER_TIME ||
-            fight.fight.is_ended ||
-            fight.fight.is_ending
+            fight.isEnded ||
+            fight.isEnding
         ) {
             return;
         }
