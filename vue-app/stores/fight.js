@@ -19,17 +19,13 @@ export const useFightStore = defineStore("fight", () => {
 
     async function endFight() {
         isEnding.value = true;
-        try {
-            await api("fights.end", fight.value.id).put();
-        } catch (error) {
-            isEnding.value = false;
-        }
+        await api("fights.end").params(fight.value.id).put();
     }
 
     async function createNext() {
         if (fight.value) {
             isFinished.value = true;
-            await api("fights.create-next", fight.value.id).post();
+            await api("fights.create-next").params(fight.value.id).post();
         } else {
             await api("fights.create-first").post();
         }
