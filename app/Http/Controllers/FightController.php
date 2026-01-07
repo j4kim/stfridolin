@@ -25,7 +25,7 @@ class FightController extends Controller
         if ($fight->ended_at) {
             throw new FightEndedException;
         }
-        [$winner, $loser] = $fight->end()->getWinnerAndLoser();
+        $winner = $fight->end()->getWinner();
         Spotify::addToQueue($winner->spotify_uri); // todo: defer after response is sent
         return $fight;
     }
