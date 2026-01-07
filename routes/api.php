@@ -19,8 +19,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('spotify/play/{trackUri}', [SpotifyController::class, 'playTrack'])->name('spotify.play-track');
         Route::post('spotify/skip', [SpotifyController::class, 'skip'])->name('spotify.skip');
         Route::put('spotify/pause', [SpotifyController::class, 'pause'])->name('spotify.pause');
-        Route::put('fights/end', [FightController::class, 'end'])->name('fights.end');
-        Route::post('fights/create-next', [FightController::class, 'createNext'])->name('fights.create-next');
+        Route::put('fights/{fight}/end', [FightController::class, 'end'])->name('fights.end');
+        Route::post('fights/{fight}/create-next', [FightController::class, 'createNext'])->name('fights.create-next');
     });
 });
 

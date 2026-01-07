@@ -14,11 +14,11 @@ export const useFightStore = defineStore("fight", () => {
     }
 
     async function endFight() {
-        const data = await api("fights.end").put();
+        const data = await api("fights.end", fight.value.id).put();
     }
 
     async function createNext() {
-        const data = await api("fights.create-next").post();
+        const data = await api("fights.create-next", fight.value.id).post();
     }
 
     pusher.subscribe("fights").bind("EndFight", (data) => {
