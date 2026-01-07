@@ -15,9 +15,6 @@ export const useFightStore = defineStore("fight", () => {
 
     async function endFight() {
         const data = await api("fights.end").put();
-        if (data.winner) {
-            await spotify.addToQueue(data.winner);
-        }
     }
 
     async function createNext() {

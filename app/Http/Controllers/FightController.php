@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exceptions\FightNotEndedException;
 use App\Exceptions\NoCurrentFightException;
 use App\Models\Fight;
+use App\Tools\Spotify;
 use Illuminate\Http\Request;
 
 class FightController extends Controller
@@ -22,7 +23,8 @@ class FightController extends Controller
             throw new NoCurrentFightException;
         }
         [$winner, $loser] = $fight->end()->getWinnerAndLoser();
-        return compact('fight', 'winner', 'loser');
+        Spotify::addToQueue($winner->uri); // todo: defer after response is sent
+        return $fight;
     }
 
     public function createNext()
