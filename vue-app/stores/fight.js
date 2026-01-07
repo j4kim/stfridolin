@@ -10,7 +10,7 @@ export const useFightStore = defineStore("fight", () => {
     const fight = ref(null);
 
     async function fetchCurrentFight() {
-        fight.value = await api("fights.current").get();
+        fight.value = await api("fights.current").noToast().get();
     }
 
     async function endFight() {

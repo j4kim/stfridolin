@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\FightEndedException;
 use App\Exceptions\FightNotEndedException;
+use App\Exceptions\NoCurrentFightException;
 use App\Models\Fight;
 use App\Tools\Spotify;
 use Illuminate\Http\Request;
@@ -13,6 +14,9 @@ class FightController extends Controller
     public function current()
     {
         $fight = Fight::getCurrent();
+        if (!$fight) {
+            throw new NoCurrentFightException;
+        }
         return $fight;
     }
 
