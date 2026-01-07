@@ -5,9 +5,10 @@ import { watchDebounced } from "@vueuse/core";
 import {
     InputGroup,
     InputGroupAddon,
+    InputGroupButton,
     InputGroupInput,
 } from "@/components/ui/input-group";
-import { Search } from "lucide-vue-next";
+import { Search, X } from "lucide-vue-next";
 import Button from "@/components/ui/button/Button.vue";
 import Tracks from "@/components/Tracks.vue";
 
@@ -48,6 +49,14 @@ async function searchMore() {
                 />
                 <InputGroupAddon>
                     <Search />
+                </InputGroupAddon>
+                <InputGroupAddon align="inline-end">
+                    <InputGroupButton
+                        class="rounded-full"
+                        @click="searchQuery = ''"
+                    >
+                        <X />
+                    </InputGroupButton>
                 </InputGroupAddon>
             </InputGroup>
         </div>
