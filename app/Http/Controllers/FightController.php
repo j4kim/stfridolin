@@ -9,6 +9,8 @@ use App\Models\Fight;
 use App\Tools\Spotify;
 use Illuminate\Http\Request;
 
+use function Illuminate\Support\defer;
+
 class FightController extends Controller
 {
     public function current()
@@ -26,7 +28,7 @@ class FightController extends Controller
             throw new FightEndedException;
         }
         $winner = $fight->end()->getWinner();
-        Spotify::addToQueue($winner->spotify_uri); // todo: defer after response is sent
+        defer(fn() => Spotify::addToQueue($winner->spotify_uri));
         return $fight;
     }
 
