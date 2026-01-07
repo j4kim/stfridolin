@@ -53,7 +53,12 @@ export const useClockStore = defineStore("clock", () => {
             return;
         }
 
-        if (client.isMaster && approachingEnd.value && !fight.isEnding) {
+        if (
+            client.isMaster &&
+            approachingEnd.value &&
+            !fight.isEnding &&
+            value.percent !== 100
+        ) {
             fight.endFight();
         }
     });
