@@ -23,7 +23,7 @@ export const useSpotifyStore = defineStore("spotify", () => {
             const t0 = Date.now();
             playback.value = await api("spotify.playback-state").get();
             const dt = Date.now() - t0;
-            playback.value.progress_ms += dt;
+            playback.value.progress_ms += dt / 2;
         } catch (e) {
             playback.value = null;
             if (e.response?.data?.exception) {
