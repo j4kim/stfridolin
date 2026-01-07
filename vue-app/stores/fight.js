@@ -23,8 +23,12 @@ export const useFightStore = defineStore("fight", () => {
     }
 
     async function createNext() {
-        fight.value.is_finished = true;
-        const data = await api("fights.create-next", fight.value.id).post();
+        if (fight.value) {
+            fight.value.is_finished = true;
+            await api("fights.create-next", fight.value.id).post();
+        } else {
+            await api("fights.create-first").post();
+        }
     }
 
     pusher.subscribe("fights").bind("EndFight", (data) => {

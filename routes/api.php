@@ -20,6 +20,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('spotify/skip', [SpotifyController::class, 'skip'])->name('spotify.skip');
         Route::put('spotify/pause', [SpotifyController::class, 'pause'])->name('spotify.pause');
         Route::put('fights/{fight}/end', [FightController::class, 'end'])->name('fights.end');
+        Route::post('fights/create-first', [FightController::class, 'createFirst'])->name('fights.create-first');
         Route::post('fights/{fight}/create-next', [FightController::class, 'createNext'])->name('fights.create-next');
     });
 });

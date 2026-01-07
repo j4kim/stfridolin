@@ -26,6 +26,11 @@ class FightController extends Controller
         return $fight;
     }
 
+    public function createFirst()
+    {
+        return Fight::createNext();
+    }
+
     public function createNext(Fight $fight)
     {
         if (!$fight->ended_at) {
