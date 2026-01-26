@@ -3,5 +3,5 @@ import Layout from "@/components/Layout.vue";
 </script>
 
 <template>
-    <Layout> Guest auth form </Layout>
+    <Layout simple> Guest auth form </Layout>
 </template>
