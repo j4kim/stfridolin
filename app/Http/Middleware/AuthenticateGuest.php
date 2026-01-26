@@ -16,7 +16,7 @@ class AuthenticateGuest
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!$request->header('X-Guest-Key')) {
+        if (!$request->header('X-Guest-Id')) {
             throw new NoGuestException;
         }
         return $next($request);
