@@ -8,6 +8,11 @@ export function redirectToLogin(intended?: string): void {
   location.assign(route("filament.admin.auth.login", { intended }));
 }
 
+export function getErrorMsg(error: any): string | undefined {
+    const r = error?.response;
+    return r?.data?.message ?? r?.statusText ?? error?.message;
+}
+
 export class Request {
   routeName: string;
   routeParams?: any;
@@ -29,7 +34,7 @@ export class Request {
       return response.data;
     } catch (error: any) {
       const r = error?.response;
-      const msg = r?.data?.message ?? r?.statusText;
+      const msg = getErrorMsg(error)
       if (r?.status === 419 && !this.retry) {
         return await this.refreshTokenAndRetry(method);
       }
