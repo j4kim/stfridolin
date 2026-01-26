@@ -8,6 +8,10 @@ export function redirectToLogin(intended?: string): void {
   location.assign(route("filament.admin.auth.login", { intended }));
 }
 
+export function redirectToGuestLogin(intended?: string): void {
+  location.assign(route("guests.login", { intended }));
+}
+
 export class Request {
   routeName: string;
   routeParams?: any;
@@ -45,7 +49,9 @@ export class Request {
   }
 
   handleError(response: any, msg: string | undefined, error: unknown): never {
-    if (response?.status === 401) {
+    if (response?.data?.exception === 'App\\Exceptions\\NoGuestException') {
+      redirectToGuestLogin(location.href)
+    } else if (response?.status === 401) {
       toast.error("Vous êtes déconnecté", {
         description: "Aller à la page de login ?",
         action: {
