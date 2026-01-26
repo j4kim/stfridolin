@@ -16,8 +16,15 @@ import {
 } from "@/components/ui/input-otp";
 import { ref } from "vue";
 import { REGEXP_ONLY_DIGITS_AND_CHARS } from "vue-input-otp";
+import { useRouter } from "vue-router";
 
-const value = ref("");
+const key = ref("");
+
+const router = useRouter();
+
+function moveToGuestPage() {
+    router.push({ name: "guest-page", params: { key: key.value } });
+}
 </script>
 
 <template>
@@ -30,9 +37,9 @@ const value = ref("");
                 </CardDescription>
             </CardHeader>
             <CardContent>
-                <form>
+                <form @submit="moveToGuestPage">
                     <InputOTP
-                        v-model="value"
+                        v-model="key"
                         :maxlength="4"
                         :pattern="REGEXP_ONLY_DIGITS_AND_CHARS"
                     >
@@ -46,7 +53,9 @@ const value = ref("");
                 </form>
             </CardContent>
             <CardFooter class="flex flex-col gap-2">
-                <Button class="w-full"> Valider </Button>
+                <Button class="w-full" @click="moveToGuestPage">
+                    Valider
+                </Button>
             </CardFooter>
         </Card>
     </Layout>

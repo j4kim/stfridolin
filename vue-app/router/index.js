@@ -8,12 +8,18 @@ import AddToQueue from "@/views/AddToQueue.vue";
 import Queue from "@/views/Queue.vue";
 import { useGuestStore } from "@/stores/guest";
 import GuestAuthForm from "@/views/GuestAuthForm.vue";
+import GuestPage from "@/views/GuestPage.vue";
 
 const routes = [
     {
         path: "/guest/auth",
         name: "guest-auth-form",
         component: GuestAuthForm,
+    },
+    {
+        path: "/guest/:key",
+        name: "guest-page",
+        component: GuestPage,
     },
     {
         path: "/",
@@ -67,7 +73,7 @@ router.beforeEach((to) => {
         redirectToLogin(to.href);
         return false;
     }
-    if (to.meta?.requireGuest && !useGuestStore().guest) {
+    if (to.meta?.requireGuest && !useGuestStore().guest.id) {
         return { name: "guest-auth-form" };
     }
 });

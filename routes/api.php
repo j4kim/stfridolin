@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\FightController;
+use App\Http\Controllers\GuestController;
 use App\Http\Controllers\MasterController;
 use App\Http\Controllers\SpotifyController;
 use App\Http\Controllers\TrackController;
@@ -33,3 +34,5 @@ Route::middleware(AuthenticateGuest::class)->group(function () {
     Route::post('tracks/{spotifyUri}', [TrackController::class, 'store'])->name('tracks.store');
     Route::get('tracks/queue', [TrackController::class, 'queue'])->name('tracks.queue');
 });
+
+Route::get('guests/{key}', [GuestController::class, 'get'])->name('guests.get');
