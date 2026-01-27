@@ -11,7 +11,6 @@ export const useGuestStore = defineStore("guest", () => {
         error.value = "";
         try {
             guest.value = await api("guests.get").params(key).get();
-            console.log("guest", guest.value);
         } catch (error) {
             error.value = getErrorMsg(error);
         }
