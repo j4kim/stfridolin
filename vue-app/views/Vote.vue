@@ -5,6 +5,8 @@ import Button from "@/components/ui/button/Button.vue";
 import ValidationDrawer from "@/components/ValidationDrawer.vue";
 import Layout from "@/components/Layout.vue";
 import Tracks from "@/components/Tracks.vue";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { TriangleAlert } from "lucide-vue-next";
 
 const fightStore = useFightStore();
 
@@ -42,15 +44,22 @@ async function vote(track) {
                     :disabled="fightStore.isEnded"
                 ></ValidationDrawer>
             </template>
-            <template #after>
-                <div class="my-4 px-4">
-                    <RouterLink :to="{ name: 'add-to-queue' }">
-                        <Button class="w-full" variant="outline">
-                            Ajouter un morceau en file d'attente
-                        </Button>
-                    </RouterLink>
-                </div>
-            </template>
         </Tracks>
+        <div v-else-if="fightStore.error" class="my-4 px-4">
+            <Alert>
+                <TriangleAlert />
+                <AlertDescription>
+                    {{ fightStore.error }}
+                </AlertDescription>
+            </Alert>
+        </div>
+
+        <div class="my-4 px-4">
+            <RouterLink :to="{ name: 'add-to-queue' }">
+                <Button class="w-full" variant="outline">
+                    Ajouter un morceau en file d'attente
+                </Button>
+            </RouterLink>
+        </div>
     </Layout>
 </template>

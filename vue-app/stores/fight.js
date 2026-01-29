@@ -1,20 +1,23 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
-import { api } from "@/api";
+import { api, getErrorMsg } from "@/api";
 import { pusher } from "@/broadcasting";
-import { useSpotifyStore } from "./spotify";
 
 export const useFightStore = defineStore("fight", () => {
-    const spotify = useSpotifyStore();
-
     const fight = ref(null);
+    const error = ref("");
 
     const isEnded = ref(false);
     const isEnding = ref(false);
     const isFinished = ref(false);
 
     async function fetchCurrentFight() {
-        fight.value = await api("fights.current").noToast().get();
+        error.value = "";
+        try {
+            fight.value = await api("fights.current").noToast().get();
+        } catch (e) {
+            error.value = getErrorMsg(e);
+        }
     }
 
     async function endFight() {
@@ -44,6 +47,7 @@ export const useFightStore = defineStore("fight", () => {
 
     return {
         fight,
+        error,
         isEnded,
         isEnding,
         isFinished,

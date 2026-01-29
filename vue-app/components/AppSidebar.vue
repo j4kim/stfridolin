@@ -9,26 +9,62 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { useGuestStore } from "@/stores/guest";
 import { useMainStore } from "@/stores/main";
+import {
+    HandFist,
+    Home,
+    ListMusic,
+    ListPlus,
+    Play,
+    TvMinimalPlay,
+    User,
+} from "lucide-vue-next";
+import { computed } from "vue";
 import { useRoute } from "vue-router";
 
 const mainStore = useMainStore();
 
-const groups = [
+const guestStore = useGuestStore();
+
+const groups = computed(() => [
+    {
+        label: "St-Fridolin",
+        links: [
+            {
+                title: "Accueil",
+                to: { name: "home" },
+                icon: Home,
+            },
+            {
+                title: "Profil",
+                to: guestStore.guest.id
+                    ? {
+                          name: "guest-page",
+                          params: { key: guestStore.guest.key },
+                      }
+                    : { name: "guest-auth-form" },
+                icon: User,
+            },
+        ],
+    },
     {
         label: "Jukeboxe",
         links: [
             {
                 title: "Voter",
-                name: "vote",
+                to: { name: "vote" },
+                icon: HandFist,
             },
             {
                 title: "File d'attente",
-                name: "queue",
+                to: { name: "queue" },
+                icon: ListMusic,
             },
             {
                 title: "Ajouter",
-                name: "add-to-queue",
+                to: { name: "add-to-queue" },
+                icon: ListPlus,
             },
         ],
     },
@@ -38,15 +74,17 @@ const groups = [
         links: [
             {
                 title: "Combat",
-                name: "boxing",
+                to: { name: "boxing" },
+                icon: TvMinimalPlay,
             },
             {
                 title: "Spotify",
-                name: "spotify",
+                to: { name: "spotify" },
+                icon: Play,
             },
         ],
     },
-];
+]);
 
 const route = useRoute();
 </script>
@@ -68,9 +106,13 @@ const route = useRoute();
                                 >
                                     <SidebarMenuButton
                                         as-child
-                                        :is-active="route.name === link.name"
+                                        :is-active="route.name === link.to.name"
                                     >
-                                        <RouterLink :to="{ name: link.name }">
+                                        <RouterLink :to="link.to">
+                                            <component
+                                                v-if="link.icon"
+                                                :is="link.icon"
+                                            />
                                             <span>{{ link.title }}</span>
                                         </RouterLink>
                                     </SidebarMenuButton>
