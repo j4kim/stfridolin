@@ -14,19 +14,24 @@ guestStore.fetchGuest(route.params.key);
 <template>
     <Layout simple>
         <div>
-            <h1 class="p-8 text-center text-4xl">
+            <h1 class="mt-8 text-center text-4xl">
                 {{ guestStore.guest.name }}
             </h1>
-            <div class="flex justify-evenly">
-                <Card class="w-1/3">
+            <h2
+                class="mt-2 mb-8 text-center font-mono text-2xl font-light tracking-widest opacity-50"
+            >
+                {{ guestStore.guest.key }}
+            </h2>
+            <div class="flex justify-evenly gap-4 px-4">
+                <Card class="w-full">
                     <CardHeader>Jetons</CardHeader>
-                    <CardContent class="text-4xl font-black">
+                    <CardContent class="text-3xl font-bold">
                         {{ guestStore.guest.tokens }}
                     </CardContent>
                 </Card>
-                <Card class="w-1/3">
+                <Card class="w-full">
                     <CardHeader>Points</CardHeader>
-                    <CardContent class="text-4xl font-black">
+                    <CardContent class="text-3xl font-bold">
                         {{ guestStore.guest.points }}
                     </CardContent>
                 </Card>
