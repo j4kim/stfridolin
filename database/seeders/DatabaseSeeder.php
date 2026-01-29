@@ -22,7 +22,13 @@ class DatabaseSeeder extends Seeder
             'email' => 'test@example.com',
         ]);
 
+
         Guest::factory(10)->create();
+        Guest::create([
+            'name' => 'Joaquim',
+            'key' => '0000',
+            'tokens' => 100,
+        ]);
 
         $trackDir = __DIR__ . '/tracks';
         $trackFiles = collect(scandir($trackDir))->shuffle();
