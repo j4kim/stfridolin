@@ -12,7 +12,7 @@ guestStore.fetchGuest(route.params.key);
 </script>
 
 <template>
-    <Layout simple>
+    <Layout v-if="guestStore.guest.id">
         <div>
             <h1 class="mt-8 text-center text-4xl">
                 {{ guestStore.guest.name }}

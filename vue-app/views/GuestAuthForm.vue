@@ -1,5 +1,7 @@
 <script setup>
+import { getErrorMsg } from "@/api";
 import Layout from "@/components/Layout.vue";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import {
     Card,
@@ -14,6 +16,8 @@ import {
     InputOTPGroup,
     InputOTPSlot,
 } from "@/components/ui/input-otp";
+import { useGuestStore } from "@/stores/guest";
+import { TriangleAlert } from "lucide-vue-next";
 import { ref } from "vue";
 import { REGEXP_ONLY_DIGITS_AND_CHARS } from "vue-input-otp";
 import { useRouter } from "vue-router";
@@ -21,6 +25,8 @@ import { useRouter } from "vue-router";
 const key = ref("");
 
 const router = useRouter();
+
+const guestStore = useGuestStore();
 
 function moveToGuestPage() {
     router.push({ name: "guest-page", params: { key: key.value } });
@@ -51,6 +57,19 @@ function moveToGuestPage() {
                         </InputOTPGroup>
                     </InputOTP>
                 </form>
+                <Alert
+                    class="mt-4"
+                    variant="destructive"
+                    v-if="guestStore.error"
+                >
+                    <TriangleAlert />
+                    <AlertDescription v-if="guestStore.error.status === 404">
+                        Code non reconnu
+                    </AlertDescription>
+                    <AlertDescription v-else>
+                        {{ getErrorMsg(guestStore.error) }}
+                    </AlertDescription>
+                </Alert>
             </CardContent>
             <CardFooter class="flex flex-col gap-2">
                 <Button class="w-full" @click="moveToGuestPage">
