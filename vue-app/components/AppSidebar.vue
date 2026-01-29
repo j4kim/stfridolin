@@ -24,6 +24,8 @@ import { useRoute } from "vue-router";
 
 const mainStore = useMainStore();
 
+const guestStore = useGuestStore();
+
 const groups = [
     {
         label: "St-Fridolin",
@@ -35,10 +37,12 @@ const groups = [
             },
             {
                 title: "Profil",
-                to: {
-                    name: "guest-page",
-                    params: { key: useGuestStore().guest.key },
-                },
+                to: guestStore.guest.id
+                    ? {
+                          name: "guest-page",
+                          params: { key: useGuestStore().guest.key },
+                      }
+                    : { name: "guest-auth-form" },
                 icon: User,
             },
         ],
