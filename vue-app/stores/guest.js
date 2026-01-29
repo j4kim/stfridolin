@@ -9,11 +9,11 @@ export const useGuestStore = defineStore("guest", () => {
     const error = ref(null);
 
     async function fetchGuest(key) {
-        guest.value = {};
         error.value = null;
         try {
             guest.value = await api("guests.get").params(key).noToast().get();
         } catch (e) {
+            guest.value = {};
             error.value = e;
             router.push({ name: "guest-auth-form", replace: true });
         }
