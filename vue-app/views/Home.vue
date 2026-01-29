@@ -5,6 +5,6 @@ import titleSvg from "@/title.svg";
 
 <template>
     <Layout>
-        <img class="p-12" :src="titleSvg" />
+        <img class="mx-auto max-w-xl p-12" :src="titleSvg" />
     </Layout>
 </template>
