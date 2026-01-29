@@ -9,6 +9,7 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { useGuestStore } from "@/stores/guest";
 import { useMainStore } from "@/stores/main";
 import {
     HandFist,
@@ -17,6 +18,7 @@ import {
     ListPlus,
     Play,
     TvMinimalPlay,
+    User,
 } from "lucide-vue-next";
 import { useRoute } from "vue-router";
 
@@ -28,8 +30,16 @@ const groups = [
         links: [
             {
                 title: "Accueil",
-                name: "home",
+                to: { name: "home" },
                 icon: Home,
+            },
+            {
+                title: "Profil",
+                to: {
+                    name: "guest-page",
+                    params: { key: useGuestStore().guest.key },
+                },
+                icon: User,
             },
         ],
     },
@@ -38,17 +48,17 @@ const groups = [
         links: [
             {
                 title: "Voter",
-                name: "vote",
+                to: { name: "vote" },
                 icon: HandFist,
             },
             {
                 title: "File d'attente",
-                name: "queue",
+                to: { name: "queue" },
                 icon: ListMusic,
             },
             {
                 title: "Ajouter",
-                name: "add-to-queue",
+                to: { name: "add-to-queue" },
                 icon: ListPlus,
             },
         ],
@@ -59,12 +69,12 @@ const groups = [
         links: [
             {
                 title: "Combat",
-                name: "boxing",
+                to: { name: "boxing" },
                 icon: TvMinimalPlay,
             },
             {
                 title: "Spotify",
-                name: "spotify",
+                to: { name: "spotify" },
                 icon: Play,
             },
         ],
@@ -91,9 +101,9 @@ const route = useRoute();
                                 >
                                     <SidebarMenuButton
                                         as-child
-                                        :is-active="route.name === link.name"
+                                        :is-active="route.name === link.to.name"
                                     >
-                                        <RouterLink :to="{ name: link.name }">
+                                        <RouterLink :to="link.to">
                                             <component
                                                 v-if="link.icon"
                                                 :is="link.icon"
