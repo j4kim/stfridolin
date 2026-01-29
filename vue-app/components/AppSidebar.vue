@@ -10,7 +10,14 @@ import {
     SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { useMainStore } from "@/stores/main";
-import { Home } from "lucide-vue-next";
+import {
+    HandFist,
+    Home,
+    ListMusic,
+    ListPlus,
+    Play,
+    TvMinimalPlay,
+} from "lucide-vue-next";
 import { useRoute } from "vue-router";
 
 const mainStore = useMainStore();
@@ -32,14 +39,17 @@ const groups = [
             {
                 title: "Voter",
                 name: "vote",
+                icon: HandFist,
             },
             {
                 title: "File d'attente",
                 name: "queue",
+                icon: ListMusic,
             },
             {
                 title: "Ajouter",
                 name: "add-to-queue",
+                icon: ListPlus,
             },
         ],
     },
@@ -50,10 +60,12 @@ const groups = [
             {
                 title: "Combat",
                 name: "boxing",
+                icon: TvMinimalPlay,
             },
             {
                 title: "Spotify",
                 name: "spotify",
+                icon: Play,
             },
         ],
     },
