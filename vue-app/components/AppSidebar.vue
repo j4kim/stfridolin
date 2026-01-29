@@ -20,13 +20,14 @@ import {
     TvMinimalPlay,
     User,
 } from "lucide-vue-next";
+import { computed } from "vue";
 import { useRoute } from "vue-router";
 
 const mainStore = useMainStore();
 
 const guestStore = useGuestStore();
 
-const groups = [
+const groups = computed(() => [
     {
         label: "St-Fridolin",
         links: [
@@ -40,7 +41,7 @@ const groups = [
                 to: guestStore.guest.id
                     ? {
                           name: "guest-page",
-                          params: { key: useGuestStore().guest.key },
+                          params: { key: guestStore.guest.key },
                       }
                     : { name: "guest-auth-form" },
                 icon: User,
@@ -83,7 +84,7 @@ const groups = [
             },
         ],
     },
-];
+]);
 
 const route = useRoute();
 </script>
