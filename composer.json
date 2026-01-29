@@ -1,6 +1,6 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "j4kim/jukeboxe",
+    "name": "j4kim/stfridolin",
     "type": "project",
     "description": "Two tracks in a ring, fighting for who is the next the DJ will play",
     "keywords": [

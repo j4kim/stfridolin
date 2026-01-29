@@ -1,4 +1,4 @@
-# Jukeboxe
+# St-Fridolin
 
 - [Wireframe](https://www.tldraw.com/p/pp12CO_xCTQlyz75N76Ra?d=v44.-192.2076.1369.9w22Wbx_xOmkwdZr8EY-F)
 - [Data model](https://www.tldraw.com/p/pp12CO_xCTQlyz75N76Ra?d=v66.-260.1932.1274.page)
