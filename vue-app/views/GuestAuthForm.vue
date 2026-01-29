@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/input-otp";
 import { useGuestStore } from "@/stores/guest";
 import { TriangleAlert } from "lucide-vue-next";
-import { ref } from "vue";
+import { onMounted, ref, useTemplateRef } from "vue";
 import { REGEXP_ONLY_DIGITS_AND_CHARS } from "vue-input-otp";
 import { useRouter } from "vue-router";
 
@@ -29,8 +29,15 @@ const router = useRouter();
 const guestStore = useGuestStore();
 
 function moveToGuestPage() {
+    guestStore.guest = {};
     router.push({ name: "guest-page", params: { key: key.value } });
 }
+
+const form = useTemplateRef("form");
+
+onMounted(() => {
+    form.value.querySelector("input").focus();
+});
 </script>
 
 <template>
@@ -43,7 +50,7 @@ function moveToGuestPage() {
                 </CardDescription>
             </CardHeader>
             <CardContent>
-                <form @submit="moveToGuestPage">
+                <form @submit="moveToGuestPage" ref="form">
                     <InputOTP
                         v-model="key"
                         :maxlength="4"
