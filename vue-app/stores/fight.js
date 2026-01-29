@@ -2,11 +2,8 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 import { api } from "@/api";
 import { pusher } from "@/broadcasting";
-import { useSpotifyStore } from "./spotify";
 
 export const useFightStore = defineStore("fight", () => {
-    const spotify = useSpotifyStore();
-
     const fight = ref(null);
 
     const isEnded = ref(false);
