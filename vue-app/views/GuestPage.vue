@@ -2,6 +2,7 @@
 import Layout from "@/components/Layout.vue";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { useGuestStore } from "@/stores/guest";
+import { CircleStar, Coins, Ticket } from "lucide-vue-next";
 import { useRoute } from "vue-router";
 
 const route = useRoute();
@@ -18,19 +19,25 @@ guestStore.fetchGuest(route.params.key);
                 {{ guestStore.guest.name }}
             </h1>
             <h2
-                class="mt-2 mb-8 text-center font-mono text-2xl font-light tracking-widest opacity-50"
+                class="mt-2 mb-8 text-center font-mono text-2xl tracking-widest opacity-50"
             >
                 {{ guestStore.guest.key }}
             </h2>
             <div class="flex justify-evenly gap-4 px-4">
                 <Card class="w-full">
-                    <CardHeader>Jetons</CardHeader>
+                    <CardHeader class="flex">
+                        <CircleStar />
+                        Jetons
+                    </CardHeader>
                     <CardContent class="text-3xl font-bold">
                         {{ guestStore.guest.tokens }}
                     </CardContent>
                 </Card>
                 <Card class="w-full">
-                    <CardHeader>Points</CardHeader>
+                    <CardHeader class="flex">
+                        <Ticket />
+                        Points
+                    </CardHeader>
                     <CardContent class="text-3xl font-bold">
                         {{ guestStore.guest.points }}
                     </CardContent>
