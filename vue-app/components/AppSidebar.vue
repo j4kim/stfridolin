@@ -10,11 +10,22 @@ import {
     SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { useMainStore } from "@/stores/main";
+import { Home } from "lucide-vue-next";
 import { useRoute } from "vue-router";
 
 const mainStore = useMainStore();
 
 const groups = [
+    {
+        label: "St-Fridolin",
+        links: [
+            {
+                title: "Accueil",
+                name: "home",
+                icon: Home,
+            },
+        ],
+    },
     {
         label: "Jukeboxe",
         links: [
@@ -71,6 +82,10 @@ const route = useRoute();
                                         :is-active="route.name === link.name"
                                     >
                                         <RouterLink :to="{ name: link.name }">
+                                            <component
+                                                v-if="link.icon"
+                                                :is="link.icon"
+                                            />
                                             <span>{{ link.title }}</span>
                                         </RouterLink>
                                     </SidebarMenuButton>

@@ -9,6 +9,7 @@ import Queue from "@/views/Queue.vue";
 import { useGuestStore } from "@/stores/guest";
 import GuestAuthForm from "@/views/GuestAuthForm.vue";
 import GuestPage from "@/views/GuestPage.vue";
+import Home from "@/views/Home.vue";
 
 const routes = [
     {
@@ -23,6 +24,14 @@ const routes = [
     },
     {
         path: "/",
+        name: "home",
+        component: Home,
+        meta: {
+            requireGuest: true,
+        },
+    },
+    {
+        path: "/vote",
         name: "vote",
         component: Vote,
         meta: {
