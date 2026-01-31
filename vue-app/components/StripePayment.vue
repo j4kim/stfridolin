@@ -1,6 +1,7 @@
 <script setup>
 import { loadStripe } from "@stripe/stripe-js";
 import { onMounted, useTemplateRef } from "vue";
+import { Button } from "./ui/button";
 
 const props = defineProps({
     intent: Object,
@@ -26,20 +27,32 @@ onMounted(() => {
         layout: {
             type: "accordion",
             radios: true,
+            defaultCollapsed: false,
         },
     };
     const paymentElement = elements.create("payment", options);
     paymentElement.mount(paymentContainer.value);
 });
+
+async function submit() {
+    await stripe.confirmPayment({
+        elements,
+        confirmParams: {
+            return_url: "http://localhost:8000/payment-callback",
+        },
+    });
+}
 </script>
 
 <template>
-    <div class="flex flex-col gap-2">
+    <form class="mb-8 flex flex-col gap-2" @submit.prevent="submit">
         <div>Achat de {{ intent.metadata.tokens }} jetons</div>
         <div class="text-xl">
             Total: <span class="font-bold">{{ intent.metadata.chf }} CHF</span>
         </div>
         <hr />
         <div ref="paymentContainer"></div>
-    </div>
+        <hr />
+        <Button type="submit">Continuer</Button>
+    </form>
 </template>
