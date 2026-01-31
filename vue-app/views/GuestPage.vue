@@ -1,5 +1,6 @@
 <script setup>
 import Layout from "@/components/Layout.vue";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { useGuestStore } from "@/stores/guest";
 import { CircleStar, Coins, Ticket } from "lucide-vue-next";
@@ -42,6 +43,14 @@ guestStore.fetchGuest(route.params.key);
                         {{ guestStore.guest.points }}
                     </CardContent>
                 </Card>
+            </div>
+            <div class="p-4">
+                <RouterLink :to="{ name: 'buy-tokens' }">
+                    <Button class="w-full" size="lg">
+                        <CircleStar />
+                        Acheter des jetons
+                    </Button>
+                </RouterLink>
             </div>
         </div>
     </Layout>
