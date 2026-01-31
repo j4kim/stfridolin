@@ -13,11 +13,13 @@ class PaymentController extends Controller
         $stripe = new StripeClient(env('STRIPE_SK'));
 
         $intent = $stripe->paymentIntents->create([
-            'amount' => $request->amount * 100,
+            'amount' => $request->chf * 100,
             'currency' => 'chf',
             'metadata' => [
                 'guest_id' => Guest::fromRequest()->id,
                 'purpose' => 'tokens',
+                'tokens' => $request->tokens,
+                'chf' => $request->chf,
             ],
         ]);
 
