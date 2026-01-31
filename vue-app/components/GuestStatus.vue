@@ -11,7 +11,7 @@ const guestStore = useGuestStore();
         v-if="guestStore.guest.id"
         :to="{ name: 'guest-page', params: { key: guestStore.guest.key } }"
     >
-        <Button size="sm" class="rounded-full" variant="outline">
+        <Button size="sm" class="h-7 rounded-full text-xs" variant="outline">
             {{ guestStore.guest.tokens }} <CircleStar />
             <span class="opacity-50">/</span>
             {{ guestStore.guest.points }} <Ticket />
