@@ -55,7 +55,8 @@ async function submit() {
     <form class="mb-8 flex flex-col gap-2 px-4" @submit.prevent="submit">
         <div>Achat de {{ intent.metadata.tokens }} jetons</div>
         <div class="text-xl">
-            Total: <span class="font-bold">{{ intent.metadata.chf }} CHF</span>
+            Total:
+            <span class="font-bold">{{ intent.metadata.amount }} CHF</span>
         </div>
         <hr />
         <div ref="paymentContainer"></div>

@@ -8,7 +8,7 @@ use Stripe\StripeClient;
 
 class Stripe
 {
-    public static function createPaymentIntent(int $amount, string $purpose): PaymentIntent
+    public static function createPaymentIntent(int $amount, string $purpose, int $tokens): PaymentIntent
     {
         $stripe = new StripeClient(config('services.stripe.sk'));
 
@@ -19,6 +19,7 @@ class Stripe
                 'guest_id' => Guest::fromRequest()->id,
                 'purpose' => $purpose,
                 'amount' => $amount,
+                'tokens' => $tokens,
             ],
         ]);
     }
