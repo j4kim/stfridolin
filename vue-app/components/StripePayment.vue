@@ -1,16 +1,15 @@
 <script setup>
 import { loadStripe } from "@stripe/stripe-js";
-import { onMounted, ref, useTemplateRef } from "vue";
+import { onMounted, useTemplateRef } from "vue";
 import { Button } from "./ui/button";
 import { Alert, AlertDescription } from "./ui/alert";
 import { TriangleAlert } from "lucide-vue-next";
 import { route } from "../../vendor/tightenco/ziggy";
+import { toast } from "vue-sonner";
 
 const props = defineProps({
     intent: Object,
 });
-
-const err = ref("");
 
 const stripe = await loadStripe(import.meta.env.VITE_STRIPE_PK);
 
@@ -40,14 +39,15 @@ onMounted(() => {
 });
 
 async function submit() {
-    err.value = "";
     const { error } = await stripe.confirmPayment({
         elements,
         confirmParams: {
             return_url: route("payments.stripe-callback"),
         },
     });
-    err.value = error.message;
+    toast.error("Y a un souci", {
+        description: error.message,
+    });
 }
 </script>
 
@@ -59,12 +59,6 @@ async function submit() {
         </div>
         <hr />
         <div ref="paymentContainer"></div>
-        <Alert class="mt-4" variant="destructive" v-if="err">
-            <TriangleAlert />
-            <AlertDescription>
-                {{ err }}
-            </AlertDescription>
-        </Alert>
         <hr />
         <Button type="submit">Continuer</Button>
     </form>
