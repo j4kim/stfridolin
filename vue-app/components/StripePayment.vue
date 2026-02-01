@@ -2,6 +2,7 @@
 import { loadStripe } from "@stripe/stripe-js";
 import { onMounted, useTemplateRef } from "vue";
 import { Button } from "./ui/button";
+import { route } from "../../vendor/tightenco/ziggy";
 
 const props = defineProps({
     intent: Object,
@@ -38,7 +39,7 @@ async function submit() {
     await stripe.confirmPayment({
         elements,
         confirmParams: {
-            return_url: "http://localhost:8000/payment-callback",
+            return_url: route("payments.stripe-callback"),
         },
     });
 }

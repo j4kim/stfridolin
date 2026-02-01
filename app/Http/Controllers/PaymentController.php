@@ -39,4 +39,9 @@ class PaymentController extends Controller
     {
         return $payment;
     }
+
+    public function stripeCallback(Request $request)
+    {
+        return $request->all();
+    }
 }
