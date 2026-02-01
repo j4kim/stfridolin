@@ -11,6 +11,7 @@ import GuestAuthForm from "@/views/GuestAuthForm.vue";
 import GuestPage from "@/views/GuestPage.vue";
 import Home from "@/views/Home.vue";
 import BuyTokens from "@/views/BuyTokens.vue";
+import Payment from "@/views/Payment.vue";
 
 const routes = [
     {
@@ -35,6 +36,14 @@ const routes = [
         path: "/buy-tokens",
         name: "buy-tokens",
         component: BuyTokens,
+        meta: {
+            requireGuest: true,
+        },
+    },
+    {
+        path: "/payment/:id",
+        name: "payment",
+        component: Payment,
         meta: {
             requireGuest: true,
         },

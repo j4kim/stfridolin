@@ -1,15 +1,16 @@
 <script setup>
-import { api } from "@/api";
 import Layout from "@/components/Layout.vue";
-import StripePayment from "@/components/StripePayment.vue";
 import Button from "@/components/ui/button/Button.vue";
+import { usePaymentStore } from "@/stores/payment";
 import { CircleStar } from "lucide-vue-next";
-import { ref } from "vue";
+import { useRouter } from "vue-router";
 
-const intent = ref(null);
+const paymentStore = usePaymentStore();
+const router = useRouter();
 
-async function createPaymentIntent(offer) {
-    intent.value = await api("payments.create-intent").data(offer).post();
+async function createPayment(offer) {
+    const payment = await paymentStore.createPayment(offer);
+    router.push({ name: "payment", params: { id: payment.id } });
 }
 </script>
 
@@ -22,14 +23,11 @@ async function createPaymentIntent(offer) {
                     { tokens: 40, chf: 10 },
                     { tokens: 100, chf: 20 },
                 ]"
-                @click="() => createPaymentIntent(offer)"
+                @click="() => createPayment(offer)"
             >
                 <CircleStar />
                 {{ offer.tokens }} jetons - {{ offer.chf }} CHF
             </Button>
-            <Suspense v-if="intent">
-                <StripePayment :intent />
-            </Suspense>
         </div>
     </Layout>
 </template>
