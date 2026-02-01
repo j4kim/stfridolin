@@ -22,4 +22,10 @@ class Stripe
             ],
         ]);
     }
+
+    public static function getPaymentIntent(string $paymentId): PaymentIntent
+    {
+        $stripe = new StripeClient(config('services.stripe.sk'));
+        return $stripe->paymentIntents->retrieve($paymentId, []);
+    }
 }
