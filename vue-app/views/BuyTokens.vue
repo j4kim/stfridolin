@@ -9,7 +9,11 @@ const paymentStore = usePaymentStore();
 const router = useRouter();
 
 async function createPayment(offer) {
-    const payment = await paymentStore.createPayment(offer);
+    const payment = await paymentStore.createPayment({
+        amount: offer.chf,
+        purpose: "buy-tokens",
+        tokens: offer.tokens,
+    });
     router.push({ name: "payment", params: { id: payment.id } });
 }
 </script>
