@@ -4,9 +4,9 @@ import { onMounted, ref, useTemplateRef } from "vue";
 import { Button } from "./ui/button";
 import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
 import { TriangleAlert } from "lucide-vue-next";
-import { route } from "../../vendor/tightenco/ziggy";
 import { toast } from "vue-sonner";
 import Spinner from "./ui/spinner/Spinner.vue";
+import { useRouter } from "vue-router";
 
 const props = defineProps({
     intent: Object,
@@ -39,21 +39,26 @@ onMounted(() => {
     paymentElement.mount(paymentContainer.value);
 });
 
+const router = useRouter();
+
 const loading = ref(false);
 
 async function submit() {
     loading.value = true;
+    const redirectRoute = router.resolve({ name: "payment-status" });
+    const return_url = location.origin + redirectRoute.href;
     const { error } = await stripe.confirmPayment({
         elements,
-        confirmParams: {
-            return_url: route("payments.stripe-callback"),
-        },
+        confirmParams: { return_url },
+        redirect: "if_required",
     });
     loading.value = false;
     if (error) {
         toast.error("Y a un souci", {
             description: error.message,
         });
+    } else {
+        router.push(redirectRoute);
     }
 }
 </script>
