@@ -1,11 +1,12 @@
 <script setup>
 import { loadStripe } from "@stripe/stripe-js";
-import { onMounted, useTemplateRef } from "vue";
+import { onMounted, ref, useTemplateRef } from "vue";
 import { Button } from "./ui/button";
 import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
 import { TriangleAlert } from "lucide-vue-next";
 import { route } from "../../vendor/tightenco/ziggy";
 import { toast } from "vue-sonner";
+import Spinner from "./ui/spinner/Spinner.vue";
 
 const props = defineProps({
     intent: Object,
@@ -38,16 +39,22 @@ onMounted(() => {
     paymentElement.mount(paymentContainer.value);
 });
 
+const loading = ref(false);
+
 async function submit() {
+    loading.value = true;
     const { error } = await stripe.confirmPayment({
         elements,
         confirmParams: {
             return_url: route("payments.stripe-callback"),
         },
     });
-    toast.error("Y a un souci", {
-        description: error.message,
-    });
+    loading.value = false;
+    if (error) {
+        toast.error("Y a un souci", {
+            description: error.message,
+        });
+    }
 }
 </script>
 
@@ -69,6 +76,9 @@ async function submit() {
                 amusez-vous bien !
             </AlertDescription>
         </Alert>
-        <Button type="submit">Continuer</Button>
+        <Button type="submit" :disabled="loading">
+            <Spinner v-if="loading" />
+            Continuer
+        </Button>
     </form>
 </template>
