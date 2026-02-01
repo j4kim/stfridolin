@@ -11,7 +11,7 @@ class PaymentController extends Controller
 {
     public function store(Request $request)
     {
-        $stripe = new StripeClient(env('STRIPE_SK'));
+        $stripe = new StripeClient(config('services.stripe.sk'));
 
         $intent = $stripe->paymentIntents->create([
             'amount' => $request->chf * 100,
