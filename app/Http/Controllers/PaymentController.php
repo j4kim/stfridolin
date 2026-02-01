@@ -37,4 +37,9 @@ class PaymentController extends Controller
         $payment->save();
         return redirect()->route('vue-app', "payment/$payment->id/status");
     }
+
+    public function stripeWebhook(Request $request)
+    {
+        info("stripe webhook", $request->all());
+    }
 }
