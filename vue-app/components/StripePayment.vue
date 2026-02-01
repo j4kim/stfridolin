@@ -2,7 +2,7 @@
 import { loadStripe } from "@stripe/stripe-js";
 import { onMounted, useTemplateRef } from "vue";
 import { Button } from "./ui/button";
-import { Alert, AlertDescription } from "./ui/alert";
+import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
 import { TriangleAlert } from "lucide-vue-next";
 import { route } from "../../vendor/tightenco/ziggy";
 import { toast } from "vue-sonner";
@@ -60,6 +60,14 @@ async function submit() {
         <hr />
         <div ref="paymentContainer"></div>
         <hr />
+        <Alert>
+            <TriangleAlert />
+            <AlertTitle>Attention</AlertTitle>
+            <AlertDescription>
+                Les jetons ne sont pas remboursables. Merci pour votre soutien,
+                amusez-vous bien !
+            </AlertDescription>
+        </Alert>
         <Button type="submit">Continuer</Button>
     </form>
 </template>
