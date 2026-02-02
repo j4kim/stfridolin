@@ -30,15 +30,6 @@ class PaymentController extends Controller
         return $payment;
     }
 
-    public function stripeCallback(Request $request)
-    {
-        $paymentIntent = Stripe::getPaymentIntent($request->payment_intent);
-        $payment = Payment::firstWhere('stripe_id', $paymentIntent->id);
-        $payment->stripe_data = $paymentIntent->toArray();
-        $payment->save();
-        return redirect()->route('vue-app', "payment/$payment->id/status");
-    }
-
     public function stripeWebhook(Request $request)
     {
         if (!in_array($request->type, [
