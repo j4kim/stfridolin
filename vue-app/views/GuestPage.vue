@@ -1,9 +1,10 @@
 <script setup>
+import AnimatedCount from "@/components/AnimatedCount.vue";
 import Layout from "@/components/Layout.vue";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { useGuestStore } from "@/stores/guest";
-import { CircleStar, Coins, Ticket } from "lucide-vue-next";
+import { CircleStar, Ticket } from "lucide-vue-next";
 import { useRoute } from "vue-router";
 
 const route = useRoute();
@@ -31,7 +32,7 @@ guestStore.fetchGuest(route.params.key);
                         Jetons
                     </CardHeader>
                     <CardContent class="text-3xl font-bold">
-                        {{ guestStore.guest.tokens }}
+                        <AnimatedCount :value="guestStore.guest.tokens" />
                     </CardContent>
                 </Card>
                 <Card class="w-full">
@@ -40,7 +41,7 @@ guestStore.fetchGuest(route.params.key);
                         Points
                     </CardHeader>
                     <CardContent class="text-3xl font-bold">
-                        {{ guestStore.guest.points }}
+                        <AnimatedCount :value="guestStore.guest.points" />
                     </CardContent>
                 </Card>
             </div>

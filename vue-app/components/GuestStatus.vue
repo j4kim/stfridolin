@@ -2,6 +2,7 @@
 import { CircleStar, Ticket } from "lucide-vue-next";
 import { Button } from "./ui/button";
 import { useGuestStore } from "@/stores/guest";
+import AnimatedCount from "./AnimatedCount.vue";
 
 const guestStore = useGuestStore();
 </script>
@@ -12,9 +13,9 @@ const guestStore = useGuestStore();
         :to="{ name: 'guest-page', params: { key: guestStore.guest.key } }"
     >
         <Button size="sm" class="h-7 rounded-full text-xs" variant="outline">
-            {{ guestStore.guest.tokens }} <CircleStar />
+            <AnimatedCount :value="guestStore.guest.tokens" /> <CircleStar />
             <span class="opacity-50">/</span>
-            {{ guestStore.guest.points }} <Ticket />
+            <AnimatedCount :value="guestStore.guest.points" /> <Ticket />
         </Button>
     </RouterLink>
 </template>
