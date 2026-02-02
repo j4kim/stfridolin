@@ -1,30 +1,33 @@
 <script setup>
 import { loadStripe } from "@stripe/stripe-js";
-import { onMounted, ref, useTemplateRef } from "vue";
+import { computed, onMounted, ref, useTemplateRef } from "vue";
 import { Button } from "./ui/button";
 import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
 import { TriangleAlert } from "lucide-vue-next";
 import { toast } from "vue-sonner";
 import Spinner from "./ui/spinner/Spinner.vue";
 import { useRouter } from "vue-router";
+import { usePaymentStore } from "@/stores/payment";
 
-const props = defineProps({
-    intent: Object,
-});
+const paymentStore = usePaymentStore();
 
 const router = useRouter();
 
 const loading = ref(false);
 const loadingStripe = ref(true);
 
+let stripe = null;
 let elements = null;
 
 const paymentContainer = useTemplateRef("paymentContainer");
 
-onMounted(async () => {
-    const stripe = await loadStripe(import.meta.env.VITE_STRIPE_PK);
+const intent = computed(() => paymentStore.payment.stripe_data);
 
-    const clientSecret = props.intent.client_secret;
+onMounted(async () => {
+    stripe = await loadStripe(import.meta.env.VITE_STRIPE_PK);
+
+    const clientSecret = intent.value.client_secret;
+
     const appearance = {
         theme: "night",
         labels: "floating",
@@ -49,7 +52,10 @@ onMounted(async () => {
 
 async function submit() {
     loading.value = true;
-    const redirectRoute = router.resolve({ name: "payment-status" });
+    const redirectRoute = router.resolve({
+        name: "payment-status",
+        params: { id: paymentStore.payment.id },
+    });
     const return_url = location.origin + redirectRoute.href;
     const { error } = await stripe.confirmPayment({
         elements,
@@ -69,7 +75,7 @@ async function submit() {
 
 <template>
     <form class="mb-8 flex flex-col gap-2 px-4" @submit.prevent="submit">
-        <div>Achat de {{ intent.metadata.tokens }} jetons</div>
+        <div>{{ intent.metadata.tokens }} jetons</div>
         <div class="text-xl">
             Total:
             <span class="font-bold">{{ intent.metadata.amount }} CHF</span>
@@ -85,6 +91,9 @@ async function submit() {
                 amusez-vous bien !
             </AlertDescription>
         </Alert>
+        <Button class="w-full" variant="outline" @click="paymentStore.cancel()">
+            Annuler
+        </Button>
         <Button type="submit" :disabled="loading || loadingStripe">
             <Spinner v-if="loading" />
             Continuer

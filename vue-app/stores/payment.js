@@ -5,6 +5,10 @@ import { ref } from "vue";
 export const usePaymentStore = defineStore("payment", () => {
     const payment = ref(null);
 
+    function cancel() {
+        payment.value = null;
+    }
+
     async function createPayment(offer) {
         payment.value = await api("payments.store").data(offer).post();
         return payment.value;
@@ -16,5 +20,5 @@ export const usePaymentStore = defineStore("payment", () => {
         return payment.value;
     }
 
-    return { payment, createPayment, fetchPayment };
+    return { payment, cancel, createPayment, fetchPayment };
 });

@@ -56,12 +56,12 @@ const paymentError = computed(() => paymentIntent.value?.last_payment_error);
                     alors aller au kiosque pour payer en cash.
                     <RouterLink
                         class="mt-2 w-full"
-                        :to="{ name: 'payment' }"
+                        :to="{ name: 'buy-tokens' }"
                         v-if="paymentStore.payment"
                     >
                         <Button class="w-full">
                             <ArrowLeft />
-                            Retour à la page de paiement
+                            Retour à la page d'achat
                         </Button>
                     </RouterLink>
                 </AlertDescription>
