@@ -19,11 +19,7 @@ const loading = ref(false);
 function createPayment(article) {
     loading.value = true;
     paymentStore
-        .createPayment({
-            amount: article.price,
-            purpose: "buy-tokens",
-            tokens: article.meta.tokens,
-        })
+        .createPayment(article, "buy-tokens")
         .finally(() => (loading.value = false));
 }
 </script>

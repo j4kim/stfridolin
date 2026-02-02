@@ -34,7 +34,7 @@ Route::middleware(AuthenticateGuest::class)->group(function () {
     Route::post('votes/{fight}/{track}', [VoteController::class, 'vote'])->name('votes.vote');
     Route::post('tracks/{spotifyUri}', [TrackController::class, 'store'])->name('tracks.store');
     Route::get('tracks/queue', [TrackController::class, 'queue'])->name('tracks.queue');
-    Route::post('payments', [PaymentController::class, 'store'])->name('payments.store');
+    Route::post('payments/{article}', [PaymentController::class, 'store'])->name('payments.store');
     Route::get('payments/{payment}', [PaymentController::class, 'get'])->name('payments.get');
 });
 

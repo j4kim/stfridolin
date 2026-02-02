@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\PaymentUpdated;
+use App\Models\Article;
 use App\Models\Guest;
 use App\Models\Payment;
 use App\Tools\Stripe;
@@ -11,16 +12,17 @@ use Stripe\Event;
 
 class PaymentController extends Controller
 {
-    public function store(Request $request)
+    public function store(Article $article, Request $request)
     {
-        $paymentIntent = Stripe::createPaymentIntent($request->amount, $request->purpose, $request->tokens);
+        $paymentIntent = Stripe::createPaymentIntent($article, $request->purpose);
 
         $payment = Payment::create([
             'guest_id' => Guest::fromRequest()?->id,
+            'article_id' => $article->id,
             'stripe_id' => $paymentIntent->id,
             'stripe_data' => $paymentIntent->toArray(),
             'purpose' => $request->purpose,
-            'amount' => $request->amount,
+            'amount' => $article->price,
         ]);
 
         return $payment;

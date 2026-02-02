@@ -1,16 +1,22 @@
 import { api } from "@/api";
 import { defineStore } from "pinia";
-import { ref } from "vue";
+import { computed, ref } from "vue";
+import { useArticlesStore } from "@/stores/articles";
 
 export const usePaymentStore = defineStore("payment", () => {
+    const articlesStore = useArticlesStore();
+
     const payment = ref(null);
 
     function cancel() {
         payment.value = null;
     }
 
-    async function createPayment(offer) {
-        payment.value = await api("payments.store").data(offer).post();
+    async function createPayment(article, purpose = null) {
+        payment.value = await api("payments.store")
+            .params(article.id)
+            .data({ purpose })
+            .post();
         return payment.value;
     }
 
@@ -28,5 +34,16 @@ export const usePaymentStore = defineStore("payment", () => {
         }
     }
 
-    return { payment, cancel, createPayment, fetchPayment, setPayment };
+    const article = computed(() =>
+        articlesStore.articles.find((a) => a.id == payment.value.article_id),
+    );
+
+    return {
+        payment,
+        cancel,
+        createPayment,
+        fetchPayment,
+        setPayment,
+        article,
+    };
 });

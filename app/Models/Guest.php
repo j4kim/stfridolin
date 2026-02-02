@@ -44,7 +44,8 @@ class Guest extends Model
 
     public function addTokens(Payment $payment)
     {
-        $tokens = $payment->stripe_data['metadata']['tokens'];
+        $article = $payment->article;
+        $tokens = $article->meta['tokens'];
         $this->tokens += $tokens;
         $this->save();
         $this->movements()->create([
