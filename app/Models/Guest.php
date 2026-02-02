@@ -38,4 +38,21 @@ class Guest extends Model
         if (!$id) return null;
         return self::cached($id);
     }
+
+    public function addTokens(Payment $payment)
+    {
+        $tokens = $payment->stripe_data['metadata']['tokens'];
+        $this->tokens += $tokens;
+        $this->save();
+        $this->movements()->create([
+            'payment_id' => $payment->id,
+            'type' => 'tokens',
+            'amount' => $tokens,
+            'meta' => [
+                'balance' => $this->tokens,
+                'description' => "Achat de $tokens jetons",
+                ...$payment->stripe_data['metadata'],
+            ]
+        ]);
+    }
 }

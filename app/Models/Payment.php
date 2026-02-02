@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Stripe\PaymentIntent;
 
 class Payment extends Model
@@ -12,6 +13,24 @@ class Payment extends Model
         return [
             'stripe_data' => 'array',
         ];
+    }
+
+    public function guest(): BelongsTo
+    {
+        return $this->belongsTo(Guest::class);
+    }
+
+    protected static function booted(): void
+    {
+        static::saved(function (Payment $payment) {
+            $oldStatus = $payment->getOriginal('stripe_status');
+            $newStatus = $payment->stripe_status;
+            if ($oldStatus !== $newStatus && $newStatus === "succeeded") {
+                if ($payment->purpose === 'buy-tokens') {
+                    $payment->guest->addTokens($payment);
+                }
+            }
+        });
     }
 
     public function updateFromStripe(PaymentIntent $paymentIntent)
