@@ -22,6 +22,12 @@ paymentStore
     .fetchPayment(route.params.id)
     .finally(() => (loading.value = false));
 
+const justCreated = computed(
+    () =>
+        paymentStore.payment &&
+        paymentStore.payment.created_at === paymentStore.payment.updated_at,
+);
+
 const paymentIntent = computed(() => paymentStore.payment?.stripe_data);
 
 const status = computed(() => paymentIntent.value?.status);
@@ -33,13 +39,16 @@ const paymentError = computed(() => paymentIntent.value?.last_payment_error);
     <Layout>
         <h2 class="my-2 px-4 font-bold">Statut du paiement</h2>
         <div class="flex flex-col justify-center gap-4 px-4">
-            <Spinner class="size-8" v-if="loading || status === 'processing'" />
+            <Spinner
+                class="mx-auto size-8"
+                v-if="loading || status === 'processing' || justCreated"
+            />
             <Alert v-if="status === 'succeeded'">
                 <CheckCircle2Icon />
                 <AlertTitle>Paiement réussi ! 🎉</AlertTitle>
                 <AlertDescription> Merci pour votre soutien !</AlertDescription>
             </Alert>
-            <Alert v-else-if="paymentIntent">
+            <Alert v-else-if="paymentError">
                 <TriangleAlert />
                 <AlertTitle>Paiement échoué</AlertTitle>
                 <AlertDescription v-if="status === 'requires_payment_method'">
