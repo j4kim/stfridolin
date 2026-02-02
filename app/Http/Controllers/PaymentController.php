@@ -25,8 +25,13 @@ class PaymentController extends Controller
         return $payment;
     }
 
-    public function get(Payment $payment)
+    public function get(Payment $payment, Request $request)
     {
+        if ($request->reload) {
+            $paymentIntent = Stripe::getPaymentIntent($request->payment_intent);
+            $payment->stripe_data = $paymentIntent->toArray();
+            $payment->save();
+        }
         return $payment;
     }
 
@@ -44,6 +49,5 @@ class PaymentController extends Controller
         $payment = Payment::firstWhere('stripe_id', $paymentIntent->id);
         $payment->stripe_data = $paymentIntent->toArray();
         $payment->save();
-        info("stripe webhook", $paymentIntent->toArray());
     }
 }
