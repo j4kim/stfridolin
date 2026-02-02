@@ -34,9 +34,12 @@ export const usePaymentStore = defineStore("payment", () => {
         }
     }
 
-    const article = computed(() =>
-        articlesStore.articles.find((a) => a.id == payment.value.article_id),
-    );
+    const article = computed(() => {
+        if (!payment.value) return null;
+        return articlesStore.articles.find(
+            (a) => a.id == payment.value.article_id,
+        );
+    });
 
     return {
         payment,
