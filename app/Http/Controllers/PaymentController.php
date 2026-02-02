@@ -32,7 +32,7 @@ class PaymentController extends Controller
             abort(403, "Ce paiement n'est pas associé à votre profil");
         }
         if ($request->reload) {
-            $paymentIntent = Stripe::getPaymentIntent($request->payment_intent);
+            $paymentIntent = Stripe::getPaymentIntent($payment->stripe_id);
             $payment->stripe_data = $paymentIntent->toArray();
             $payment->save();
         }
@@ -53,6 +53,6 @@ class PaymentController extends Controller
         $payment = Payment::firstWhere('stripe_id', $paymentIntent->id);
         $payment->stripe_data = $paymentIntent->toArray();
         $payment->save();
-        PaymentUpdated::dispatch($payment);
+        // PaymentUpdated::dispatch($payment);
     }
 }
