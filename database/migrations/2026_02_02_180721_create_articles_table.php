@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('description')->nullable();
             $table->string('currency');
-            $table->decimal('std_price', 8, 2);
+            $table->decimal('std_price', 8, 2)->nullable();
             $table->decimal('price', 8, 2);
             $table->json('meta')->nullable();
         });
