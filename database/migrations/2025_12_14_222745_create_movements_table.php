@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('movements', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->foreignId('guest_id')->constrained();
+            $table->foreignId('payment_id')->nullable()->constrained();
             $table->integer('amount');
             $table->string('type');
             $table->json('meta')->nullable();
