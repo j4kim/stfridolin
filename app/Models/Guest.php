@@ -44,7 +44,8 @@ class Guest extends Model
 
     public function addTokens(Payment $payment)
     {
-        $article = $payment->article;
+        $metadata = $payment->stripe_data['metadata'];
+        $article = Article::findOrFail($metadata['article_id']);
         $tokens = $article->meta['tokens'];
         $this->tokens += $tokens;
         $this->save();
@@ -54,8 +55,8 @@ class Guest extends Model
             'amount' => $tokens,
             'meta' => [
                 'balance' => $this->tokens,
-                'description' => "Achat de $tokens jetons",
-                ...$payment->stripe_data['metadata'],
+                'description' => "Paiement pour " . $article->description,
+                ...$metadata,
             ]
         ]);
     }

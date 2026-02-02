@@ -20,6 +20,7 @@ class Stripe
                 'guest_id' => Guest::fromRequest()?->id,
                 'article_id' => $article->id,
                 'purpose' => $purpose,
+                'article_description' => $article->description,
             ],
         ]);
     }

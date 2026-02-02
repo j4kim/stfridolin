@@ -18,7 +18,6 @@ class PaymentController extends Controller
 
         $payment = Payment::create([
             'guest_id' => Guest::fromRequest()?->id,
-            'article_id' => $article->id,
             'stripe_id' => $paymentIntent->id,
             'stripe_data' => $paymentIntent->toArray(),
             'purpose' => $request->purpose,

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->timestamps();
             $table->foreignId('guest_id')->constrained();
             $table->foreignId('payment_id')->nullable()->constrained();
+            $table->foreignId('article_id')->nullable()->constrained();
             $table->integer('amount');
             $table->string('type');
             $table->json('meta')->nullable();

@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->foreignId('article_id')->constrained();
             $table->foreignId('guest_id')->constrained();
             $table->string('stripe_id')->unique();
             $table->string('stripe_status')->nullable();

@@ -32,7 +32,9 @@ class Payment extends Model
             $newStatus = $payment->stripe_status;
             if ($oldStatus !== $newStatus && $newStatus === "succeeded") {
                 if ($payment->purpose === 'buy-tokens') {
-                    $payment->guest->addTokens($payment);
+                    /** @var Guest $guest */
+                    $guest = $payment->guest;
+                    $guest->addTokens($payment);
                 }
             }
         });
