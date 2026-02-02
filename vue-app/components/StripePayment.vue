@@ -12,22 +12,27 @@ const props = defineProps({
     intent: Object,
 });
 
-const stripe = await loadStripe(import.meta.env.VITE_STRIPE_PK);
+const router = useRouter();
 
-const appearance = {
-    theme: "night",
-    labels: "floating",
-    inputs: "condensed",
-};
+const loading = ref(false);
+const loadingStripe = ref(true);
 
-const elements = stripe.elements({
-    clientSecret: props.intent.client_secret,
-    appearance: appearance,
-});
+let elements = null;
 
 const paymentContainer = useTemplateRef("paymentContainer");
 
-onMounted(() => {
+onMounted(async () => {
+    const stripe = await loadStripe(import.meta.env.VITE_STRIPE_PK);
+
+    const clientSecret = props.intent.client_secret;
+    const appearance = {
+        theme: "night",
+        labels: "floating",
+        inputs: "condensed",
+    };
+
+    elements = stripe.elements({ clientSecret, appearance });
+
     const options = {
         layout: {
             type: "accordion",
@@ -35,13 +40,12 @@ onMounted(() => {
             defaultCollapsed: false,
         },
     };
+
     const paymentElement = elements.create("payment", options);
     paymentElement.mount(paymentContainer.value);
+
+    loadingStripe.value = false;
 });
-
-const router = useRouter();
-
-const loading = ref(false);
 
 async function submit() {
     loading.value = true;
@@ -81,7 +85,7 @@ async function submit() {
                 amusez-vous bien !
             </AlertDescription>
         </Alert>
-        <Button type="submit" :disabled="loading">
+        <Button type="submit" :disabled="loading || loadingStripe">
             <Spinner v-if="loading" />
             Continuer
         </Button>
