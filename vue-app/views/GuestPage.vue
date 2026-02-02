@@ -1,8 +1,7 @@
 <script setup>
-import AnimatedCount from "@/components/AnimatedCount.vue";
 import Layout from "@/components/Layout.vue";
+import NumberCard from "@/components/NumberCard.vue";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { useGuestStore } from "@/stores/guest";
 import { CircleStar, Gift } from "lucide-vue-next";
 import { useRoute } from "vue-router";
@@ -26,24 +25,16 @@ guestStore.fetchGuest(route.params.key);
                 {{ guestStore.guest.key }}
             </h2>
             <div class="flex justify-evenly gap-4 px-4">
-                <Card class="w-full">
-                    <CardHeader class="flex">
-                        <CircleStar />
-                        Jetons
-                    </CardHeader>
-                    <CardContent class="text-3xl font-bold">
-                        <AnimatedCount :value="guestStore.guest.tokens" />
-                    </CardContent>
-                </Card>
-                <Card class="w-full">
-                    <CardHeader class="flex">
-                        <Gift />
-                        Points
-                    </CardHeader>
-                    <CardContent class="text-3xl font-bold">
-                        <AnimatedCount :value="guestStore.guest.points" />
-                    </CardContent>
-                </Card>
+                <NumberCard
+                    header="Jetons"
+                    :value="guestStore.guest.tokens"
+                    :icon="CircleStar"
+                />
+                <NumberCard
+                    header="Points"
+                    :value="guestStore.guest.points"
+                    :icon="Gift"
+                />
             </div>
             <div class="p-4">
                 <RouterLink :to="{ name: 'buy-tokens' }">
