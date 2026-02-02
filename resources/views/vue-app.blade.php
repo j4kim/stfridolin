@@ -26,6 +26,7 @@
         data-app-name="{{ config('app.name') }}"
         data-user="{{ json_encode(auth()->user()) }}"
         data-master-client-id="{{ cache('master-client-id') }}"
+        data-articles="{{ json_encode(App\Models\Article::all()) }}"
     >
         <div id="app"></div>
     </body>
