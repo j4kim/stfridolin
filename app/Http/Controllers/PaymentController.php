@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\PaymentUpdated;
 use App\Models\Guest;
 use App\Models\Payment;
 use App\Tools\Stripe;
@@ -52,5 +53,6 @@ class PaymentController extends Controller
         $payment = Payment::firstWhere('stripe_id', $paymentIntent->id);
         $payment->stripe_data = $paymentIntent->toArray();
         $payment->save();
+        PaymentUpdated::dispatch($payment);
     }
 }

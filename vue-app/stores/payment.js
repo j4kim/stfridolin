@@ -20,5 +20,11 @@ export const usePaymentStore = defineStore("payment", () => {
         return payment.value;
     }
 
-    return { payment, cancel, createPayment, fetchPayment };
+    function setPayment(updatedPayment) {
+        if (updatedPayment.id == payment.value.id) {
+            payment.value = updatedPayment;
+        }
+    }
+
+    return { payment, cancel, createPayment, fetchPayment, setPayment };
 });
