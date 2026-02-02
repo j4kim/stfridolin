@@ -3,23 +3,26 @@ import Layout from "@/components/Layout.vue";
 import StripePayment from "@/components/StripePayment.vue";
 import Button from "@/components/ui/button/Button.vue";
 import Spinner from "@/components/ui/spinner/Spinner.vue";
+import { useArticlesStore } from "@/stores/articles";
 import { usePaymentStore } from "@/stores/payment";
 import { CircleStar } from "lucide-vue-next";
 import { ref } from "vue";
 
 const paymentStore = usePaymentStore();
 
+const articlesStore = useArticlesStore();
+
 paymentStore.payment = null;
 
 const loading = ref(false);
 
-function createPayment(offer) {
+function createPayment(article) {
     loading.value = true;
     paymentStore
         .createPayment({
-            amount: offer.chf,
+            amount: article.price,
             purpose: "buy-tokens",
-            tokens: offer.tokens,
+            tokens: article.meta.tokens,
         })
         .finally(() => (loading.value = false));
 }
@@ -32,14 +35,11 @@ function createPayment(offer) {
         <StripePayment v-else-if="paymentStore.payment" />
         <div v-else class="flex flex-col gap-4 px-4">
             <Button
-                v-for="offer in [
-                    { tokens: 40, chf: 10 },
-                    { tokens: 100, chf: 20 },
-                ]"
-                @click="() => createPayment(offer)"
+                v-for="article in articlesStore.tokenPackages"
+                @click="() => createPayment(article)"
             >
                 <CircleStar />
-                {{ offer.tokens }} jetons - {{ offer.chf }} CHF
+                {{ article.description }} - {{ article.price }} CHF
             </Button>
         </div>
     </Layout>
