@@ -33,8 +33,7 @@ class PaymentController extends Controller
         }
         if ($request->reload) {
             $paymentIntent = Stripe::getPaymentIntent($payment->stripe_id);
-            $payment->stripe_data = $paymentIntent->toArray();
-            $payment->save();
+            $payment->updateFromStripe($paymentIntent);
         }
         return $payment;
     }
@@ -51,8 +50,7 @@ class PaymentController extends Controller
         $event = Event::constructFrom($request->all());
         $paymentIntent = $event->data->object;
         $payment = Payment::firstWhere('stripe_id', $paymentIntent->id);
-        $payment->stripe_data = $paymentIntent->toArray();
-        $payment->save();
+        $payment->updateFromStripe($paymentIntent);
         PaymentUpdated::dispatch($payment);
     }
 }

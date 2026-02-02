@@ -16,6 +16,7 @@ return new class extends Migration
             $table->timestamps();
             $table->foreignId('guest_id')->constrained();
             $table->string('stripe_id')->unique();
+            $table->string('stripe_status')->nullable();
             $table->json('stripe_data');
             $table->string('purpose')->nullable();
             $table->integer('amount');
