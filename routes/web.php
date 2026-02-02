@@ -14,4 +14,4 @@ Route::get('spotify-callback', [SpotifyController::class, 'callback'])->name('sp
 Route::get('spotify-devices', [SpotifyController::class, 'devices'])->name('spotify-devices');
 
 Route::get('payments/stripe-callback', [PaymentController::class, 'stripeCallback'])->name('payments.stripe-callback');
-Route::post('stripe-webhook', [PaymentController::class, 'stripeWebhook'])->name('payments.stripe-webhook')->withoutMiddleware(VerifyCsrfToken::class);
+Route::post('payments/stripe-webhook', [PaymentController::class, 'stripeWebhook'])->name('payments.stripe-webhook')->withoutMiddleware(VerifyCsrfToken::class);
