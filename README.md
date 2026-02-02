@@ -49,3 +49,11 @@ Pusher is used as Websockets server.
 - Create an app from your [Pusher dashboard](https://dashboard.pusher.com/)
 - Copy the credentials in `PUSHER_*` variables in `.env`
 - Set `BROADCAST_CONNECTION=pusher` in `.env`
+
+## Stripe
+
+- Create a Stripe account and a test environment from https://dashboard.stripe.com/
+- Copy your public and secret API keys into `STRIPE_PK` and `STRIPE_SK` in `.env`
+- Install [Stripe CLI](https://docs.stripe.com/stripe-cli#install)
+- `stripe login`
+- `stripe listen --forward-to localhost:8000/payments/stripe-webhook` to redirect webhook events to your local server
