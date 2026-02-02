@@ -41,6 +41,10 @@ export const useGuestStore = defineStore("guest", () => {
     function subscribeToBroadcastEvents(channelName) {
         const channel = pusher.subscribe(channelName);
 
+        channel.bind("GuestUpdated", (data) => {
+            guest.value = data.model;
+        });
+
         channel.bind("PaymentUpdated", (data) => {
             const paymentStore = usePaymentStore();
             paymentStore.setPayment(data.payment);

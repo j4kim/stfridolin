@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Broadcasting\Channel;
+use Illuminate\Database\Eloquent\BroadcastsEvents;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -11,6 +13,7 @@ class Guest extends Model
 {
     /** @use HasFactory<\Database\Factories\GuestFactory> */
     use HasFactory;
+    use BroadcastsEvents;
 
     public function movements(): HasMany
     {
@@ -54,5 +57,12 @@ class Guest extends Model
                 ...$payment->stripe_data['metadata'],
             ]
         ]);
+    }
+
+    public function broadcastOn(string $event): array
+    {
+        return [
+            new Channel("guest-$this->id"),
+        ];
     }
 }
