@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('currency');
             $table->decimal('std_price', 8, 2);
             $table->decimal('price', 8, 2);
+            $table->json('meta')->nullable();
         });
     }
 

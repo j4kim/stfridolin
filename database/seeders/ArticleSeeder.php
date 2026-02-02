@@ -54,6 +54,7 @@ class ArticleSeeder extends Seeder
                 'currency' => 'CHF',
                 'std_price' => $stdPrice,
                 'price' => $price,
+                'meta' => ['tokens' => $tokens],
             ]);
         }
     }
