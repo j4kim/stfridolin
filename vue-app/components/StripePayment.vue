@@ -1,32 +1,41 @@
 <script setup>
 import { loadStripe } from "@stripe/stripe-js";
-import { onMounted, useTemplateRef } from "vue";
+import { computed, onMounted, ref, useTemplateRef } from "vue";
 import { Button } from "./ui/button";
 import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
 import { TriangleAlert } from "lucide-vue-next";
-import { route } from "../../vendor/tightenco/ziggy";
 import { toast } from "vue-sonner";
+import Spinner from "./ui/spinner/Spinner.vue";
+import { useRouter } from "vue-router";
+import { usePaymentStore } from "@/stores/payment";
 
-const props = defineProps({
-    intent: Object,
-});
+const paymentStore = usePaymentStore();
 
-const stripe = await loadStripe(import.meta.env.VITE_STRIPE_PK);
+const router = useRouter();
 
-const appearance = {
-    theme: "night",
-    labels: "floating",
-    inputs: "condensed",
-};
+const loading = ref(false);
+const loadingStripe = ref(true);
 
-const elements = stripe.elements({
-    clientSecret: props.intent.client_secret,
-    appearance: appearance,
-});
+let stripe = null;
+let elements = null;
 
 const paymentContainer = useTemplateRef("paymentContainer");
 
-onMounted(() => {
+const intent = computed(() => paymentStore.payment.stripe_data);
+
+onMounted(async () => {
+    stripe = await loadStripe(import.meta.env.VITE_STRIPE_PK);
+
+    const clientSecret = intent.value.client_secret;
+
+    const appearance = {
+        theme: "night",
+        labels: "floating",
+        inputs: "condensed",
+    };
+
+    elements = stripe.elements({ clientSecret, appearance });
+
     const options = {
         layout: {
             type: "accordion",
@@ -34,26 +43,39 @@ onMounted(() => {
             defaultCollapsed: false,
         },
     };
+
     const paymentElement = elements.create("payment", options);
     paymentElement.mount(paymentContainer.value);
+
+    loadingStripe.value = false;
 });
 
 async function submit() {
+    loading.value = true;
+    const redirectRoute = router.resolve({
+        name: "payment-status",
+        params: { id: paymentStore.payment.id },
+    });
+    const return_url = location.origin + redirectRoute.href;
     const { error } = await stripe.confirmPayment({
         elements,
-        confirmParams: {
-            return_url: route("payments.stripe-callback"),
-        },
+        confirmParams: { return_url },
+        redirect: "if_required",
     });
-    toast.error("Y a un souci", {
-        description: error.message,
-    });
+    loading.value = false;
+    if (error) {
+        toast.error("Y a un souci", {
+            description: error.message,
+        });
+    } else {
+        router.push(redirectRoute);
+    }
 }
 </script>
 
 <template>
     <form class="mb-8 flex flex-col gap-2 px-4" @submit.prevent="submit">
-        <div>Achat de {{ intent.metadata.tokens }} jetons</div>
+        <div>{{ intent.metadata.tokens }} jetons</div>
         <div class="text-xl">
             Total:
             <span class="font-bold">{{ intent.metadata.amount }} CHF</span>
@@ -69,6 +91,12 @@ async function submit() {
                 amusez-vous bien !
             </AlertDescription>
         </Alert>
-        <Button type="submit">Continuer</Button>
+        <Button class="w-full" variant="outline" @click="paymentStore.cancel()">
+            Annuler
+        </Button>
+        <Button type="submit" :disabled="loading || loadingStripe">
+            <Spinner v-if="loading" />
+            Continuer
+        </Button>
     </form>
 </template>

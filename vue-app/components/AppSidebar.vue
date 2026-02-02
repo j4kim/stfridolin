@@ -12,6 +12,7 @@ import {
 import { useGuestStore } from "@/stores/guest";
 import { useMainStore } from "@/stores/main";
 import {
+    CircleStar,
     HandFist,
     Home,
     ListMusic,
@@ -45,6 +46,11 @@ const groups = computed(() => [
                       }
                     : { name: "guest-auth-form" },
                 icon: User,
+            },
+            {
+                title: "Acheter des jetons",
+                to: { name: "buy-tokens" },
+                icon: CircleStar,
             },
         ],
     },
