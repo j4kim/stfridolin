@@ -16,7 +16,7 @@ class Stripe
             'amount' => $amount * 100,
             'currency' => 'chf',
             'metadata' => [
-                'guest_id' => Guest::fromRequest()->id,
+                'guest_id' => Guest::fromRequest()?->id,
                 'purpose' => $purpose,
                 'amount' => $amount,
                 'tokens' => $tokens,

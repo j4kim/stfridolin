@@ -15,7 +15,7 @@ class PaymentController extends Controller
         $paymentIntent = Stripe::createPaymentIntent($request->amount, $request->purpose, $request->tokens);
 
         $payment = Payment::create([
-            'guest_id' => Guest::fromRequest()->id,
+            'guest_id' => Guest::fromRequest()?->id,
             'stripe_id' => $paymentIntent->id,
             'stripe_data' => $paymentIntent->toArray(),
             'purpose' => $request->purpose,
@@ -27,6 +27,9 @@ class PaymentController extends Controller
 
     public function get(Payment $payment, Request $request)
     {
+        if ($payment->guest_id != Guest::fromRequest()?->id) {
+            abort(403, "Ce paiement n'est pas associé à votre profil");
+        }
         if ($request->reload) {
             $paymentIntent = Stripe::getPaymentIntent($request->payment_intent);
             $payment->stripe_data = $paymentIntent->toArray();
