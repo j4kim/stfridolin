@@ -57,5 +57,29 @@ class ArticleSeeder extends Seeder
                 'meta' => ['tokens' => $tokens],
             ]);
         }
+
+        Article::create([
+            'type' => 'registration',
+            'name' => "registration",
+            'description' => "Frais d'inscription",
+            'currency' => 'CHF',
+            'price' => 30,
+        ]);
+
+        Article::create([
+            'type' => 'jukeboxe',
+            'name' => "add-to-queue",
+            'description' => "Ajout d'un morceau en file d'attente",
+            'currency' => 'tokens',
+            'price' => 5,
+        ]);
+
+        Article::create([
+            'type' => 'jukeboxe',
+            'name' => "vote",
+            'description' => "Vote au Jukeboxe",
+            'currency' => 'tokens',
+            'price' => 3,
+        ]);
     }
 }
