@@ -4,7 +4,7 @@ import Layout from "@/components/Layout.vue";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { useGuestStore } from "@/stores/guest";
-import { CircleStar, Ticket } from "lucide-vue-next";
+import { CircleStar, Gift } from "lucide-vue-next";
 import { useRoute } from "vue-router";
 
 const route = useRoute();
@@ -37,7 +37,7 @@ guestStore.fetchGuest(route.params.key);
                 </Card>
                 <Card class="w-full">
                     <CardHeader class="flex">
-                        <Ticket />
+                        <Gift />
                         Points
                     </CardHeader>
                     <CardContent class="text-3xl font-bold">
