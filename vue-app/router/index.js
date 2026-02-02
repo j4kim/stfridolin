@@ -10,6 +10,8 @@ import { useGuestStore } from "@/stores/guest";
 import GuestAuthForm from "@/views/GuestAuthForm.vue";
 import GuestPage from "@/views/GuestPage.vue";
 import Home from "@/views/Home.vue";
+import BuyTokens from "@/views/BuyTokens.vue";
+import PaymentStatus from "@/views/PaymentStatus.vue";
 
 const routes = [
     {
@@ -26,6 +28,22 @@ const routes = [
         path: "/",
         name: "home",
         component: Home,
+        meta: {
+            requireGuest: true,
+        },
+    },
+    {
+        path: "/buy-tokens",
+        name: "buy-tokens",
+        component: BuyTokens,
+        meta: {
+            requireGuest: true,
+        },
+    },
+    {
+        path: "/payment/:id/status",
+        name: "payment-status",
+        component: PaymentStatus,
         meta: {
             requireGuest: true,
         },
