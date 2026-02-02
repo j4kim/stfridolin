@@ -53,6 +53,6 @@ class PaymentController extends Controller
         $payment = Payment::firstWhere('stripe_id', $paymentIntent->id);
         $payment->stripe_data = $paymentIntent->toArray();
         $payment->save();
-        // PaymentUpdated::dispatch($payment);
+        PaymentUpdated::dispatch($payment);
     }
 }
