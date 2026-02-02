@@ -6,6 +6,7 @@ use App\Models\Guest;
 use App\Models\Payment;
 use App\Tools\Stripe;
 use Illuminate\Http\Request;
+use Stripe\Event;
 
 class PaymentController extends Controller
 {
@@ -40,6 +41,18 @@ class PaymentController extends Controller
 
     public function stripeWebhook(Request $request)
     {
-        info("stripe webhook", $request->all());
+        if (!in_array($request->type, [
+            'payment_intent.succeeded',
+            'payment_intent.processing',
+            'payment_intent.payment_failed',
+        ])) {
+            return;
+        }
+        $event = Event::constructFrom($request->all());
+        $paymentIntent = $event->data->object;
+        $payment = Payment::firstWhere('stripe_id', $paymentIntent->id);
+        $payment->stripe_data = $paymentIntent->toArray();
+        $payment->save();
+        info("stripe webhook", $paymentIntent->toArray());
     }
 }
