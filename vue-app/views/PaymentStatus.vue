@@ -8,6 +8,7 @@ import {
     ArrowLeft,
     CheckCircle2Icon,
     Home,
+    RefreshCcw,
     TriangleAlert,
 } from "lucide-vue-next";
 import { computed, ref } from "vue";
@@ -18,9 +19,14 @@ const route = useRoute();
 
 const loading = ref(true);
 
-paymentStore
-    .fetchPayment(route.params.id)
-    .finally(() => (loading.value = false));
+function fetch(reload = false) {
+    loading.value = true;
+    paymentStore
+        .fetchPayment(route.params.id, reload)
+        .finally(() => (loading.value = false));
+}
+
+fetch();
 
 const justCreated = computed(
     () =>
@@ -33,17 +39,38 @@ const paymentIntent = computed(() => paymentStore.payment?.stripe_data);
 const status = computed(() => paymentIntent.value?.status);
 
 const paymentError = computed(() => paymentIntent.value?.last_payment_error);
+
+const waiting = computed(
+    () => loading.value || status.value === "processing" || justCreated.value,
+);
+
+const showReloadButton = ref(false);
+
+setTimeout(() => {
+    if (waiting.value) {
+        showReloadButton.value = true;
+    }
+}, 5000);
 </script>
 
 <template>
     <Layout>
         <h2 class="my-2 px-4 font-bold">Statut du paiement</h2>
         <div class="flex flex-col justify-center gap-4 px-4">
-            <Spinner
-                class="mx-auto size-8"
-                v-if="loading || status === 'processing' || justCreated"
-            />
-            <Alert v-if="status === 'succeeded'">
+            <Alert v-if="waiting">
+                <Spinner />
+                <AlertTitle>En attente...</AlertTitle>
+                <AlertDescription v-if="showReloadButton">
+                    On dirait qu'on est bloqué... Cliquez ci-dessous pour
+                    recharger le statut de paiement.
+                    <Button class="mt-2 w-full" @click="() => fetch(true)">
+                        <Spinner v-if="loading" />
+                        <RefreshCcw v-else />
+                        Recharger
+                    </Button>
+                </AlertDescription>
+            </Alert>
+            <Alert v-else-if="status === 'succeeded'">
                 <CheckCircle2Icon />
                 <AlertTitle>Paiement réussi ! 🎉</AlertTitle>
                 <AlertDescription> Merci pour votre soutien !</AlertDescription>

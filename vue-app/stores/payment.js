@@ -14,9 +14,11 @@ export const usePaymentStore = defineStore("payment", () => {
         return payment.value;
     }
 
-    async function fetchPayment(id) {
+    async function fetchPayment(id, reload = false) {
         payment.value = null;
-        payment.value = await api("payments.get").params(id).get();
+        payment.value = await api("payments.get")
+            .params({ payment: id, reload })
+            .get();
         return payment.value;
     }
 
