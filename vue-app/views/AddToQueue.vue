@@ -20,7 +20,7 @@ async function add(track) {
                     trigger="Ajouter"
                     :title="`Ajouter ${track.name} à la file d'attente ?`"
                     :action="() => add(track)"
-                    submitBtn="Dépenser 1 jeton"
+                    articleName="add-to-queue"
                 ></ValidationDrawer>
             </template>
         </Search>

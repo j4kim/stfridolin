@@ -40,7 +40,7 @@ async function vote(track) {
                     trigger="Voter"
                     :title="`Voter pour ${track.name} ?`"
                     :action="() => vote(track)"
-                    submitBtn="Dépenser 1 jeton"
+                    articleName="vote"
                     :disabled="fightStore.isEnded"
                 ></ValidationDrawer>
             </template>
