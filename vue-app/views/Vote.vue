@@ -6,7 +6,7 @@ import ValidationDrawer from "@/components/ValidationDrawer.vue";
 import Layout from "@/components/Layout.vue";
 import Tracks from "@/components/Tracks.vue";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { TriangleAlert } from "lucide-vue-next";
+import { ListMusic, ListPlus, TriangleAlert } from "lucide-vue-next";
 
 const fightStore = useFightStore();
 
@@ -54,10 +54,17 @@ async function vote(track) {
             </Alert>
         </div>
 
-        <div class="my-4 px-4">
+        <div class="my-4 flex flex-col gap-2 px-4">
             <RouterLink :to="{ name: 'add-to-queue' }">
                 <Button class="w-full" variant="outline">
+                    <ListPlus />
                     Ajouter un morceau en file d'attente
+                </Button>
+            </RouterLink>
+            <RouterLink :to="{ name: 'queue' }">
+                <Button class="w-full" variant="outline">
+                    <ListMusic />
+                    Voir la file d'attente
                 </Button>
             </RouterLink>
         </div>

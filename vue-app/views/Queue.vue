@@ -44,6 +44,7 @@ const backupTracks = computed(() =>
         <div class="my-4 px-4">
             <RouterLink :to="{ name: 'add-to-queue' }">
                 <Button class="w-full" variant="outline">
+                    <ListPlus />
                     Ajouter un morceau en file d'attente
                 </Button>
             </RouterLink>
