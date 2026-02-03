@@ -12,6 +12,8 @@ import GuestPage from "@/views/GuestPage.vue";
 import Home from "@/views/Home.vue";
 import BuyTokens from "@/views/BuyTokens.vue";
 import PaymentStatus from "@/views/PaymentStatus.vue";
+import RegistrationPayment from "@/views/RegistrationPayment.vue";
+import RegistrationPaymentStatus from "@/views/RegistrationPaymentStatus.vue";
 
 const routes = [
     {
@@ -23,6 +25,16 @@ const routes = [
         path: "/guest/:key",
         name: "guest-page",
         component: GuestPage,
+    },
+    {
+        path: "/registration-payment",
+        name: "registration-payment",
+        component: RegistrationPayment,
+    },
+    {
+        path: "/registration-payment/:id/status",
+        name: "registration-payment-status",
+        component: RegistrationPaymentStatus,
     },
     {
         path: "/",
