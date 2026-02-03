@@ -15,6 +15,13 @@ class Guest extends Model
     use HasFactory;
     use BroadcastsEvents;
 
+    protected static function booted(): void
+    {
+        static::updated(function (Guest $guest) {
+            Cache::forget("guest-$guest->id");
+        });
+    }
+
     public function movements(): HasMany
     {
         return $this->hasMany(Movement::class);
