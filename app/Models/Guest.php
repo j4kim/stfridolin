@@ -51,6 +51,7 @@ class Guest extends Model
         $this->save();
         $this->movements()->create([
             'payment_id' => $payment->id,
+            'article_id' => $article->id,
             'type' => 'tokens',
             'amount' => $tokens,
             'meta' => [
