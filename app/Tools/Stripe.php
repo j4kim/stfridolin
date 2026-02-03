@@ -17,6 +17,7 @@ class Stripe
             'amount' => $article->price * 100,
             'currency' => 'chf',
             'description' => $article->description,
+            'statement_descriptor_suffix' => $article->description,
             'metadata' => [
                 'guest_id' => Guest::fromRequest()?->id,
                 'article_id' => $article->id,
