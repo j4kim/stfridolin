@@ -18,7 +18,7 @@ async function add(track) {
             <template #actions="{ track }">
                 <ValidationDrawer
                     trigger="Ajouter"
-                    :title="`Ajouter ${track.name} à la file d'attente ?`"
+                    :title="`Ajouter ${track.name} à la file d'attente&nbsp;?`"
                     :action="() => add(track)"
                     articleName="add-to-queue"
                 ></ValidationDrawer>
