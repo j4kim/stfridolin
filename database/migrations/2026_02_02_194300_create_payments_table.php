@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('stripe_status')->nullable();
             $table->json('stripe_data');
             $table->string('purpose')->nullable();
-            $table->integer('amount');
+            $table->decimal('amount', 8, 2);
         });
     }
 
