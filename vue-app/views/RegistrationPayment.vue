@@ -25,7 +25,7 @@ const name = ref("");
 
 const total = ref(30);
 
-async function createPayment() {
+async function submit() {
     loading.value = true;
     try {
         await guestStore.createGuest(name.value);
@@ -50,11 +50,7 @@ async function createPayment() {
             :cancelable="false"
             redirectRouteName="registration-payment-status"
         />
-        <form
-            v-else
-            class="flex flex-col gap-4"
-            @submit.prevent="createPayment"
-        >
+        <form v-else class="flex flex-col gap-4" @submit.prevent="submit">
             <Input
                 v-model="name"
                 type="text"
