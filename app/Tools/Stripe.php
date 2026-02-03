@@ -9,7 +9,7 @@ use Stripe\StripeClient;
 
 class Stripe
 {
-    public static function createPaymentIntent(Article $article, array $metadata = []): PaymentIntent
+    public static function createPaymentIntent(Article $article, string $purpose): PaymentIntent
     {
         $stripe = new StripeClient(config('services.stripe.sk'));
 
@@ -19,8 +19,8 @@ class Stripe
             'metadata' => [
                 'guest_id' => Guest::fromRequest()?->id,
                 'article_id' => $article->id,
+                'purpose' => $purpose,
                 'article_description' => $article->description,
-                ...$metadata
             ],
         ]);
     }

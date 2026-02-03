@@ -12,10 +12,10 @@ export const usePaymentStore = defineStore("payment", () => {
         payment.value = null;
     }
 
-    async function createPayment(article, data = {}) {
+    async function createPayment(article, purpose = null) {
         payment.value = await api("payments.store")
             .params(article.id)
-            .data(data)
+            .data({ purpose })
             .post();
         return payment.value;
     }

@@ -29,9 +29,7 @@ async function submit() {
     loading.value = true;
     try {
         await guestStore.createGuest(name.value);
-        await paymentStore.createPayment(article.value, {
-            purpose: "registration",
-        });
+        await paymentStore.createPayment(article.value, "registration");
     } finally {
         loading.value = false;
     }

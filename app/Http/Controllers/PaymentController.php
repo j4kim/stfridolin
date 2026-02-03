@@ -14,7 +14,7 @@ class PaymentController extends Controller
 {
     public function store(Article $article, Request $request)
     {
-        $paymentIntent = Stripe::createPaymentIntent($article, $request->all());
+        $paymentIntent = Stripe::createPaymentIntent($article, $request->purpose);
 
         $payment = Payment::create([
             'guest_id' => Guest::fromRequest()?->id,

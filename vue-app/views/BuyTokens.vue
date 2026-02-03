@@ -31,7 +31,7 @@ const loading = ref(false);
 function buy(article) {
     loading.value = true;
     paymentStore
-        .createPayment(article, { purpose: "buy-tokens" })
+        .createPayment(article, "buy-tokens")
         .finally(() => (loading.value = false));
 }
 </script>
