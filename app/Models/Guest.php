@@ -70,6 +70,23 @@ class Guest extends Model
         ]);
     }
 
+    public function spendTokens(string $articleName): Movement
+    {
+        $article = Article::where('name', $articleName)->firstOrFail();
+        $tokens = $article->price;
+        $this->tokens = $this->tokens - $article->price;
+        $this->save();
+        return $this->movements()->create([
+            'article_id' => $article->id,
+            'type' => 'spend-tokens',
+            'amount' => $tokens,
+            'meta' => [
+                'balance' => $this->tokens,
+                'description' => $articleName,
+            ]
+        ]);
+    }
+
     public function broadcastOn(string $event): array
     {
         return [
