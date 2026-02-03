@@ -55,22 +55,12 @@ const groups = computed(() => [
         ],
     },
     {
-        label: "Jukeboxe",
+        label: "Jeux",
         links: [
             {
-                title: "Voter",
+                title: "Jukeboxe",
                 to: { name: "vote" },
                 icon: HandFist,
-            },
-            {
-                title: "File d'attente",
-                to: { name: "queue" },
-                icon: ListMusic,
-            },
-            {
-                title: "Ajouter",
-                to: { name: "add-to-queue" },
-                icon: ListPlus,
             },
         ],
     },
