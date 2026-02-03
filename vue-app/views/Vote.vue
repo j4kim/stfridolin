@@ -38,9 +38,9 @@ async function vote(track) {
             <template #actions="{ track }">
                 <ValidationDrawer
                     trigger="Voter"
-                    :title="`Voter pour ${track.name} ?`"
+                    :title="`Voter pour ${track.name}&nbsp;?`"
                     :action="() => vote(track)"
-                    submitBtn="Dépenser 1 jeton"
+                    articleName="vote"
                     :disabled="fightStore.isEnded"
                 ></ValidationDrawer>
             </template>

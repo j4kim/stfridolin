@@ -75,15 +75,15 @@ async function submit() {
 
 <template>
     <form class="mb-8 flex flex-col gap-2 px-4" @submit.prevent="submit">
-        <div>{{ intent.metadata.tokens }} jetons</div>
+        <div>{{ intent.metadata.article_description }}</div>
         <div class="text-xl">
             Total:
-            <span class="font-bold">{{ intent.metadata.amount }} CHF</span>
+            <span class="font-bold">{{ intent.amount / 100 }} CHF</span>
         </div>
         <hr />
         <div ref="paymentContainer"></div>
         <hr />
-        <Alert>
+        <Alert v-if="paymentStore.payment.purpose === 'buy-tokens'">
             <TriangleAlert />
             <AlertTitle>Attention</AlertTitle>
             <AlertDescription>

@@ -18,7 +18,9 @@ defineProps({
             <header class="bg-sidebar flex items-center gap-2 px-2 h-10">
                 <SidebarTrigger v-if="!simple"/>
                 <h1 class="font-bold tracking-widest uppercase">
-                    {{ mainStore.appName }}
+                    <RouterLink :to="{name: 'home'}">
+                        {{ mainStore.appName }}
+                    </RouterLink>
                 </h1>
                 <div class="grow"></div>
                 <GuestStatus/>

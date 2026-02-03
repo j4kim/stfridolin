@@ -22,7 +22,6 @@ class DatabaseSeeder extends Seeder
             'email' => 'test@example.com',
         ]);
 
-
         Guest::factory(10)->create();
         Guest::create([
             'name' => 'Joaquim',
@@ -42,5 +41,7 @@ class DatabaseSeeder extends Seeder
             Track::createFromSpotifyData($json);
         }
         Track::orderByDesc('id')->first()->update(['priority' => 1]);
+
+        $this->call(ArticleSeeder::class);
     }
 }

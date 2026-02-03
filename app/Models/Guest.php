@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Broadcasting\Channel;
+use Illuminate\Database\Eloquent\BroadcastsEvents;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -11,6 +13,14 @@ class Guest extends Model
 {
     /** @use HasFactory<\Database\Factories\GuestFactory> */
     use HasFactory;
+    use BroadcastsEvents;
+
+    protected static function booted(): void
+    {
+        static::updated(function (Guest $guest) {
+            Cache::forget("guest-$guest->id");
+        });
+    }
 
     public function movements(): HasMany
     {
@@ -37,5 +47,50 @@ class Guest extends Model
         $id = request()->header('X-Guest-Id');
         if (!$id) return null;
         return self::cached($id);
+    }
+
+    public function addTokens(Payment $payment)
+    {
+        $metadata = $payment->stripe_data['metadata'];
+        $article = Article::findOrFail($metadata['article_id']);
+        $tokens = $article->meta['tokens'];
+        $this->tokens += $tokens;
+        $this->save();
+        $this->movements()->create([
+            'payment_id' => $payment->id,
+            'article_id' => $article->id,
+            'type' => 'buy-tokens',
+            'amount' => $payment->amount,
+            'meta' => [
+                'tokens' => $tokens,
+                'balance' => $this->tokens,
+                'description' => "Paiement pour " . $article->description,
+                ...$metadata,
+            ]
+        ]);
+    }
+
+    public function spendTokens(string $articleName): Movement
+    {
+        $article = Article::where('name', $articleName)->firstOrFail();
+        $tokens = $article->price;
+        $this->tokens = $this->tokens - $article->price;
+        $this->save();
+        return $this->movements()->create([
+            'article_id' => $article->id,
+            'type' => 'spend-tokens',
+            'amount' => $tokens,
+            'meta' => [
+                'balance' => $this->tokens,
+                'description' => $articleName,
+            ]
+        ]);
+    }
+
+    public function broadcastOn(string $event): array
+    {
+        return [
+            new Channel("guest-$this->id"),
+        ];
     }
 }
