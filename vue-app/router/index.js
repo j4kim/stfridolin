@@ -15,6 +15,7 @@ import PaymentStatus from "@/views/PaymentStatus.vue";
 import RegistrationPayment from "@/views/RegistrationPayment.vue";
 import RegistrationPaymentStatus from "@/views/RegistrationPaymentStatus.vue";
 import GuestCards from "@/views/GuestCards.vue";
+import Tbi from "@/views/Tbi.vue";
 
 const routes = [
     {
@@ -81,6 +82,30 @@ const routes = [
         path: "/add-to-queue",
         name: "add-to-queue",
         component: AddToQueue,
+        meta: {
+            requireGuest: true,
+        },
+    },
+    {
+        path: "/marble-race",
+        name: "marble-race",
+        component: Tbi,
+        meta: {
+            requireGuest: true,
+        },
+    },
+    {
+        path: "/olympics",
+        name: "olympics",
+        component: Tbi,
+        meta: {
+            requireGuest: true,
+        },
+    },
+    {
+        path: "/joes-weight",
+        name: "joes-weight",
+        component: Tbi,
         meta: {
             requireGuest: true,
         },

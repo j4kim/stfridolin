@@ -12,14 +12,15 @@ import {
 import { useGuestStore } from "@/stores/guest";
 import { useMainStore } from "@/stores/main";
 import {
+    CirclePile,
     CircleStar,
     HandFist,
     Home,
-    ListMusic,
-    ListPlus,
     Play,
+    Trophy,
     TvMinimalPlay,
     User,
+    Weight,
 } from "lucide-vue-next";
 import { computed } from "vue";
 import { useRoute } from "vue-router";
@@ -61,6 +62,21 @@ const groups = computed(() => [
                 title: "Jukeboxe",
                 to: { name: "vote" },
                 icon: HandFist,
+            },
+            {
+                title: "Course de billes",
+                to: { name: "marble-race" },
+                icon: CirclePile,
+            },
+            {
+                title: "Les Joes Olympiques",
+                to: { name: "olympics" },
+                icon: Trophy,
+            },
+            {
+                title: "Poinds de Joe",
+                to: { name: "joes-weight" },
+                icon: Weight,
             },
         ],
     },
