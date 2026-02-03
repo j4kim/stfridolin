@@ -11,17 +11,21 @@ import {
 import { Search, X } from "lucide-vue-next";
 import Button from "@/components/ui/button/Button.vue";
 import Tracks from "@/components/Tracks.vue";
+import { useRoute, useRouter } from "vue-router";
 
-const searchQuery = ref("");
-watchDebounced(searchQuery, searchTracks, { debounce: 500 });
+const router = useRouter();
+const route = useRoute();
+
+const searchQuery = ref(route.query.q);
+watchDebounced(searchQuery, searchTracks, { debounce: 500, immediate: true });
 
 const searchResults = ref(null);
 
 async function searchTracks() {
+    const params = { q: searchQuery.value };
+    router.replace({ query: params });
     searchResults.value = await api("spotify.search-tracks")
-        .params({
-            q: searchQuery.value,
-        })
+        .params(params)
         .get();
 }
 
