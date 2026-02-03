@@ -36,6 +36,7 @@ Route::middleware(AuthenticateGuest::class)->group(function () {
     Route::get('tracks/queue', [TrackController::class, 'queue'])->name('tracks.queue');
     Route::post('payments/{article}', [PaymentController::class, 'store'])->name('payments.store');
     Route::get('payments/{payment}', [PaymentController::class, 'get'])->name('payments.get');
+    Route::put('payments/{payment}/toggle-cover-fees', [PaymentController::class, 'toggleCoverFees'])->name('payments.toggle-cover-fees');
 });
 
 Route::get('guests/{key}', [GuestController::class, 'get'])->name('guests.get');

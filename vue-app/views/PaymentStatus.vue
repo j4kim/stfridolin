@@ -28,17 +28,15 @@ function fetch(reload = false) {
 
 fetch();
 
-const justCreated = computed(
-    () =>
-        paymentStore.payment &&
-        paymentStore.payment.created_at === paymentStore.payment.updated_at,
-);
-
 const paymentIntent = computed(() => paymentStore.payment?.stripe_data);
 
 const status = computed(() => paymentIntent.value?.status);
 
 const paymentError = computed(() => paymentIntent.value?.last_payment_error);
+
+const justCreated = computed(
+    () => status.value === "requires_payment_method" && !paymentError.value,
+);
 
 const waiting = computed(
     () => loading.value || status.value === "processing" || justCreated.value,
