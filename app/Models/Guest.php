@@ -52,9 +52,10 @@ class Guest extends Model
         $this->movements()->create([
             'payment_id' => $payment->id,
             'article_id' => $article->id,
-            'type' => 'tokens',
-            'amount' => $tokens,
+            'type' => 'buy-tokens',
+            'amount' => $payment->amount,
             'meta' => [
+                'tokens' => $tokens,
                 'balance' => $this->tokens,
                 'description' => "Paiement pour " . $article->description,
                 ...$metadata,
