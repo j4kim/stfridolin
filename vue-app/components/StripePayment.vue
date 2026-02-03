@@ -17,6 +17,10 @@ const props = defineProps({
         type: Boolean,
         default: true,
     },
+    redirectRouteName: {
+        type: String,
+        default: "payment-status",
+    },
 });
 
 const paymentStore = usePaymentStore();
@@ -63,7 +67,7 @@ onMounted(async () => {
 async function submit() {
     loading.value = true;
     const redirectRoute = router.resolve({
-        name: "payment-status",
+        name: props.redirectRouteName,
         params: { id: paymentStore.payment.id },
     });
     const return_url = location.origin + redirectRoute.href;
