@@ -40,7 +40,7 @@ function createPayment(article) {
     <Layout>
         <h2 class="my-2 px-4 font-bold">Acheter des jetons</h2>
         <Spinner v-if="loading" class="mx-auto size-8" />
-        <StripePayment v-else-if="paymentStore.payment" />
+        <StripePayment v-else-if="paymentStore.payment" class="px-4" />
         <div v-else>
             <TokenPackages
                 :articles="stdPackages"
