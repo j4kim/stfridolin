@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class GuestController extends Controller
 {
+    public function index()
+    {
+        return Guest::all();
+    }
+
     public function get(string $key)
     {
         $guest = Guest::where('key', $key)->firstOrFail();

@@ -14,6 +14,7 @@ import BuyTokens from "@/views/BuyTokens.vue";
 import PaymentStatus from "@/views/PaymentStatus.vue";
 import RegistrationPayment from "@/views/RegistrationPayment.vue";
 import RegistrationPaymentStatus from "@/views/RegistrationPaymentStatus.vue";
+import GuestCards from "@/views/GuestCards.vue";
 
 const routes = [
     {
@@ -96,6 +97,14 @@ const routes = [
         path: "/boxing",
         name: "boxing",
         component: Boxing,
+        meta: {
+            requireAuth: true,
+        },
+    },
+    {
+        path: "/guest-cards",
+        name: "guest-cards",
+        component: GuestCards,
         meta: {
             requireAuth: true,
         },
