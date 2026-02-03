@@ -1,6 +1,6 @@
 <script setup>
 import { loadStripe } from "@stripe/stripe-js";
-import { computed, onMounted, ref, useTemplateRef } from "vue";
+import { computed, onMounted, ref, useTemplateRef, watch } from "vue";
 import { Button } from "./ui/button";
 import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
 import { TriangleAlert } from "lucide-vue-next";
@@ -10,6 +10,7 @@ import { useRouter } from "vue-router";
 import { usePaymentStore } from "@/stores/payment";
 import Switch from "./ui/switch/Switch.vue";
 import Label from "./ui/label/Label.vue";
+import { api } from "@/api";
 
 const paymentStore = usePaymentStore();
 
@@ -73,6 +74,18 @@ async function submit() {
         router.push(redirectRoute);
     }
 }
+
+const coverFees = ref(false);
+const toggling = ref(false);
+
+watch(coverFees, (newValue) => {
+    toggling.value = true;
+    api("payments.toggle-cover-fees")
+        .params({ payment: paymentStore.payment.id })
+        .data({ coverFees: newValue })
+        .put()
+        .finally(() => (toggling.value = false));
+});
 </script>
 
 <template>
@@ -80,12 +93,19 @@ async function submit() {
         <div>{{ intent.metadata.article_description }}</div>
         <div class="text-xl">
             Total:
+            <Spinner v-if="toggling" class="mr-1 inline" />
             <span class="font-bold">{{ intent.amount / 100 }} CHF</span>
         </div>
         <div class="flex items-center space-x-2">
-            <Switch id="cover-fees" />
+            <Switch id="cover-fees" v-model="coverFees" :disabled="toggling" />
             <Label for="cover-fees" class="font-normal">
                 Couvrir les frais de transaction
+                <span
+                    :class="{ invisible: !coverFees || toggling }"
+                    class="opacity-80"
+                >
+                    Merci 🙏
+                </span>
             </Label>
         </div>
         <hr />
@@ -102,8 +122,8 @@ async function submit() {
         <Button class="w-full" variant="outline" @click="paymentStore.cancel()">
             Annuler
         </Button>
-        <Button type="submit" :disabled="loading || loadingStripe">
-            <Spinner v-if="loading" />
+        <Button type="submit" :disabled="loading || loadingStripe || toggling">
+            <Spinner v-if="loading || toggling" />
             Continuer
         </Button>
     </form>
