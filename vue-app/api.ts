@@ -3,9 +3,15 @@ import type { AxiosRequestConfig } from "axios";
 import { route } from "../vendor/tightenco/ziggy";
 import { toast } from "vue-sonner";
 import { useClientStore } from "./stores/client";
+import { useGuestStore } from "./stores/guest";
 
 export function redirectToLogin(intended?: string): void {
   location.assign(route("filament.admin.auth.login", { intended }));
+}
+
+export function getErrorMsg(error: any): string | undefined {
+  const r = error?.response;
+  return r?.data?.message ?? r?.statusText ?? error?.message;
 }
 
 export class Request {
@@ -17,8 +23,14 @@ export class Request {
 
   constructor(routeName: string) {
     this.routeName = routeName;
-    const clientId = useClientStore()?.clientId;
-    this.config = { headers: { "X-Client-Id": clientId } } as AxiosRequestConfig;
+    const clientId = useClientStore().clientId;
+    const guest = useGuestStore().guest as { id: number }
+    this.config = {
+      headers: {
+        "X-Client-Id": clientId,
+        "X-Guest-Id": guest.id,
+      },
+    } as AxiosRequestConfig;
   }
 
   async send(method: AxiosRequestConfig["method"]): Promise<any> {
@@ -29,7 +41,7 @@ export class Request {
       return response.data;
     } catch (error: any) {
       const r = error?.response;
-      const msg = r?.data?.message ?? r?.statusText;
+      const msg = getErrorMsg(error);
       if (r?.status === 419 && !this.retry) {
         return await this.refreshTokenAndRetry(method);
       }
@@ -37,7 +49,9 @@ export class Request {
     }
   }
 
-  async refreshTokenAndRetry(method: AxiosRequestConfig["method"]): Promise<any> {
+  async refreshTokenAndRetry(
+    method: AxiosRequestConfig["method"],
+  ): Promise<any> {
     // call the API to refresh CSRF cookie then retry
     await api("sanctum.csrf-cookie").get();
     this.retry = true;

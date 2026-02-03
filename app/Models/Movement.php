@@ -7,6 +7,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Movement extends Model
 {
+    protected function casts(): array
+    {
+        return [
+            'meta' => 'array',
+        ];
+    }
+
     public function guest(): BelongsTo
     {
         return $this->belongsTo(Guest::class);

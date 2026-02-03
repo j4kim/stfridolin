@@ -1,0 +1,43 @@
+<?php
+
+namespace App\Tools;
+
+use App\Models\Article;
+use App\Models\Guest;
+use Stripe\PaymentIntent;
+use Stripe\StripeClient;
+
+class Stripe
+{
+    public static function createPaymentIntent(Article $article, string $purpose): PaymentIntent
+    {
+        $stripe = new StripeClient(config('services.stripe.sk'));
+
+        return $stripe->paymentIntents->create([
+            'amount' => $article->price * 100,
+            'currency' => 'chf',
+            'description' => $article->description,
+            'statement_descriptor_suffix' => str($article->description)->slug(),
+            'metadata' => [
+                'guest_id' => Guest::fromRequest()?->id,
+                'article_id' => $article->id,
+                'purpose' => $purpose,
+            ],
+        ]);
+    }
+
+    public static function getPaymentIntent(string $paymentId): PaymentIntent
+    {
+        $stripe = new StripeClient(config('services.stripe.sk'));
+        return $stripe->paymentIntents->retrieve($paymentId, []);
+    }
+
+    public static function updateAmount(string $paymentIntentId, float $newAmount): PaymentIntent
+    {
+        $stripe = new StripeClient(config('services.stripe.sk'));
+        return $stripe->paymentIntents->update(
+            $paymentIntentId,
+            ['amount' => (int) ($newAmount * 100)]
+        );
+    }
+}

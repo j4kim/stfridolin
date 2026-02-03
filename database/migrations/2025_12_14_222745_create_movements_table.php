@@ -14,7 +14,10 @@ return new class extends Migration
         Schema::create('movements', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->integer('amount');
+            $table->foreignId('guest_id')->constrained();
+            $table->foreignId('payment_id')->nullable()->constrained();
+            $table->foreignId('article_id')->nullable()->constrained();
+            $table->decimal('amount', 8, 2);
             $table->string('type');
             $table->json('meta')->nullable();
         });

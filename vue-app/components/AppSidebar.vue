@@ -9,26 +9,74 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { useGuestStore } from "@/stores/guest";
 import { useMainStore } from "@/stores/main";
+import {
+    CirclePile,
+    CircleStar,
+    HandFist,
+    Home,
+    Play,
+    Trophy,
+    TvMinimalPlay,
+    User,
+    Weight,
+} from "lucide-vue-next";
+import { computed } from "vue";
 import { useRoute } from "vue-router";
 
 const mainStore = useMainStore();
 
-const groups = [
+const guestStore = useGuestStore();
+
+const groups = computed(() => [
     {
-        label: "Jukeboxe",
+        label: "St-Fridolin",
         links: [
             {
-                title: "Voter",
-                name: "vote",
+                title: "Accueil",
+                to: { name: "home" },
+                icon: Home,
             },
             {
-                title: "File d'attente",
-                name: "queue",
+                title: "Profil",
+                to: guestStore.guest.id
+                    ? {
+                          name: "guest-page",
+                          params: { key: guestStore.guest.key },
+                      }
+                    : { name: "guest-auth-form" },
+                icon: User,
             },
             {
-                title: "Ajouter",
-                name: "add-to-queue",
+                title: "Acheter des jetons",
+                to: { name: "buy-tokens" },
+                icon: CircleStar,
+            },
+        ],
+    },
+    {
+        label: "Jeux",
+        links: [
+            {
+                title: "Jukeboxe",
+                to: { name: "vote" },
+                icon: HandFist,
+            },
+            {
+                title: "Course de billes",
+                to: { name: "marble-race" },
+                icon: CirclePile,
+            },
+            {
+                title: "Les Joes Olympiques",
+                to: { name: "olympics" },
+                icon: Trophy,
+            },
+            {
+                title: "Poinds de Joe",
+                to: { name: "joes-weight" },
+                icon: Weight,
             },
         ],
     },
@@ -38,15 +86,17 @@ const groups = [
         links: [
             {
                 title: "Combat",
-                name: "boxing",
+                to: { name: "boxing" },
+                icon: TvMinimalPlay,
             },
             {
                 title: "Spotify",
-                name: "spotify",
+                to: { name: "spotify" },
+                icon: Play,
             },
         ],
     },
-];
+]);
 
 const route = useRoute();
 </script>
@@ -68,9 +118,13 @@ const route = useRoute();
                                 >
                                     <SidebarMenuButton
                                         as-child
-                                        :is-active="route.name === link.name"
+                                        :is-active="route.name === link.to.name"
                                     >
-                                        <RouterLink :to="{ name: link.name }">
+                                        <RouterLink :to="link.to">
+                                            <component
+                                                v-if="link.icon"
+                                                :is="link.icon"
+                                            />
                                             <span>{{ link.title }}</span>
                                         </RouterLink>
                                     </SidebarMenuButton>

@@ -1,6 +1,6 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "j4kim/jukeboxe",
+    "name": "j4kim/stfridolin",
     "type": "project",
     "description": "Two tracks in a ring, fighting for who is the next the DJ will play",
     "keywords": [
@@ -15,6 +15,7 @@
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.10.1",
         "pusher/pusher-php-server": "^7.2",
+        "stripe/stripe-php": "^19.3",
         "tightenco/ziggy": "^2.6"
     },
     "require-dev": {
