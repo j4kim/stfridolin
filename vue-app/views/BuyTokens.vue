@@ -28,7 +28,7 @@ const discountPackages = computed(() =>
 
 const loading = ref(false);
 
-function createPayment(article) {
+function buy(article) {
     loading.value = true;
     paymentStore
         .createPayment(article, "buy-tokens")
@@ -40,18 +40,18 @@ function createPayment(article) {
     <Layout>
         <h2 class="my-2 px-4 font-bold">Acheter des jetons</h2>
         <Spinner v-if="loading" class="mx-auto size-8" />
-        <StripePayment v-else-if="paymentStore.payment" />
+        <StripePayment v-else-if="paymentStore.payment" class="px-4" />
         <div v-else>
             <TokenPackages
                 :articles="stdPackages"
-                @select="(article) => createPayment(article)"
+                @select="(article) => buy(article)"
             />
             <h2 class="mt-6 mb-2 px-4 font-medium italic">
                 Offres spéciales de la Saint-Fridolin :
             </h2>
             <TokenPackages
                 :articles="discountPackages"
-                @select="(article) => createPayment(article)"
+                @select="(article) => buy(article)"
             />
         </div>
     </Layout>

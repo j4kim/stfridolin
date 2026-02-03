@@ -12,6 +12,17 @@ import Switch from "./ui/switch/Switch.vue";
 import Label from "./ui/label/Label.vue";
 import { api } from "@/api";
 
+const props = defineProps({
+    cancelable: {
+        type: Boolean,
+        default: true,
+    },
+    redirectRouteName: {
+        type: String,
+        default: "payment-status",
+    },
+});
+
 const paymentStore = usePaymentStore();
 
 const router = useRouter();
@@ -56,7 +67,7 @@ onMounted(async () => {
 async function submit() {
     loading.value = true;
     const redirectRoute = router.resolve({
-        name: "payment-status",
+        name: props.redirectRouteName,
         params: { id: paymentStore.payment.id },
     });
     const return_url = location.origin + redirectRoute.href;
@@ -89,7 +100,7 @@ watch(coverFees, (newValue) => {
 </script>
 
 <template>
-    <form class="mb-8 flex flex-col gap-2 px-4" @submit.prevent="submit">
+    <form class="mb-8 flex flex-col gap-2" @submit.prevent="submit">
         <div>{{ intent.metadata.article_description }}</div>
         <div class="text-xl">
             Total:
@@ -119,7 +130,12 @@ watch(coverFees, (newValue) => {
                 amusez-vous bien !
             </AlertDescription>
         </Alert>
-        <Button class="w-full" variant="outline" @click="paymentStore.cancel()">
+        <Button
+            v-if="cancelable"
+            class="w-full"
+            variant="outline"
+            @click="paymentStore.cancel()"
+        >
             Annuler
         </Button>
         <Button type="submit" :disabled="loading || loadingStripe || toggling">

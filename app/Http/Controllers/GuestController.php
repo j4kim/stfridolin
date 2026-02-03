@@ -12,4 +12,13 @@ class GuestController extends Controller
         $guest = Guest::where('key', $key)->firstOrFail();
         return $guest;
     }
+
+    public function store(Request $request)
+    {
+        return Guest::create([
+            'name' => $request->name,
+            'key' => str()->random(4),
+            'tokens' => 20,
+        ]);
+    }
 }
