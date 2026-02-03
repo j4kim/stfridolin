@@ -21,6 +21,11 @@ export const useGuestStore = defineStore("guest", () => {
         }
     }
 
+    async function createGuest(name) {
+        guest.value = await api("guests.store").data({ name }).post();
+        return guest.value;
+    }
+
     const channelName = computed(() => {
         return guest.value.id ? `guest-${guest.value.id}` : null;
     });
@@ -51,5 +56,5 @@ export const useGuestStore = defineStore("guest", () => {
         });
     }
 
-    return { guest, error, fetchGuest };
+    return { guest, error, createGuest, fetchGuest };
 });

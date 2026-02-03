@@ -4,9 +4,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Spinner from "@/components/ui/spinner/Spinner.vue";
 import { useArticlesStore } from "@/stores/articles";
+import { useGuestStore } from "@/stores/guest";
 import { usePaymentStore } from "@/stores/payment";
 import titleSvg from "@/title.svg";
 import { computed, ref } from "vue";
+
+const guestStore = useGuestStore();
 
 const paymentStore = usePaymentStore();
 
@@ -22,14 +25,16 @@ const name = ref("");
 
 const total = ref(30);
 
-function createPayment() {
+async function createPayment() {
     loading.value = true;
-    paymentStore
-        .createPayment(article.value, {
+    try {
+        await guestStore.createGuest(name.value);
+        await paymentStore.createPayment(article.value, {
             purpose: "registration",
-            name: name.value,
-        })
-        .finally(() => (loading.value = false));
+        });
+    } finally {
+        loading.value = false;
+    }
 }
 </script>
 
