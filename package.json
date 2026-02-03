@@ -26,7 +26,7 @@
     },
     "dependencies": {
         "@stripe/stripe-js": "^8.7.0",
-        "@vueuse/core": "^14.1.0",
+        "@vueuse/core": "^14.2.0",
         "class-variance-authority": "^0.7.1",
         "clsx": "^2.1.1",
         "countup.js": "^2.9.0",
@@ -34,7 +34,7 @@
         "lodash-es": "^4.17.23",
         "lucide-vue-next": "^0.562.0",
         "pinia": "^3.0.4",
-        "reka-ui": "^2.7.0",
+        "reka-ui": "^2.8.0",
         "tailwind-merge": "^3.4.0",
         "vaul-vue": "^0.4.1",
         "vue": "^3.5.24",

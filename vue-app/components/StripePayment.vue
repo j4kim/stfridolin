@@ -8,6 +8,8 @@ import { toast } from "vue-sonner";
 import Spinner from "./ui/spinner/Spinner.vue";
 import { useRouter } from "vue-router";
 import { usePaymentStore } from "@/stores/payment";
+import Switch from "./ui/switch/Switch.vue";
+import Label from "./ui/label/Label.vue";
 
 const paymentStore = usePaymentStore();
 
@@ -79,6 +81,12 @@ async function submit() {
         <div class="text-xl">
             Total:
             <span class="font-bold">{{ intent.amount / 100 }} CHF</span>
+        </div>
+        <div class="flex items-center space-x-2">
+            <Switch id="cover-fees" />
+            <Label for="cover-fees" class="font-normal">
+                Couvrir les frais de transaction
+            </Label>
         </div>
         <hr />
         <div ref="paymentContainer"></div>
