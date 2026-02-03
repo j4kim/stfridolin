@@ -101,7 +101,7 @@ watch(coverFees, (newValue) => {
 
 <template>
     <form class="mb-8 flex flex-col gap-2" @submit.prevent="submit">
-        <div>{{ intent.metadata.article_description }}</div>
+        <div>{{ intent.description }}</div>
         <div class="text-xl">
             Total:
             <Spinner v-if="toggling" class="mr-1 inline" />

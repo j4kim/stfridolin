@@ -16,11 +16,11 @@ class Stripe
         return $stripe->paymentIntents->create([
             'amount' => $article->price * 100,
             'currency' => 'chf',
+            'description' => $article->description,
             'metadata' => [
                 'guest_id' => Guest::fromRequest()?->id,
                 'article_id' => $article->id,
                 'purpose' => $purpose,
-                'article_description' => $article->description,
             ],
         ]);
     }
