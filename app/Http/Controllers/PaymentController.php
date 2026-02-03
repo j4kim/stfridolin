@@ -39,6 +39,19 @@ class PaymentController extends Controller
         return $payment;
     }
 
+    public function toggleCoverFees(Payment $payment, Request $request)
+    {
+        $article = Article::findOrFail($payment->stripe_data['metadata']['article_id']);
+        if ($request->coverFees) {
+            $newPrice = ($article->price + 0.30) / (1 - 0.024);
+        } else {
+            $newPrice = $article->price;
+        }
+        $paymentIntent = Stripe::updateAmount($payment->stripe_id, $newPrice);
+        $payment->updateFromStripe($paymentIntent);
+        PaymentUpdated::dispatch($payment);
+    }
+
     public function stripeWebhook(Request $request)
     {
         if (!in_array($request->type, [

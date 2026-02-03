@@ -44,6 +44,7 @@ class Payment extends Model
     {
         $this->stripe_data = $paymentIntent->toArray();
         $this->stripe_status = $paymentIntent->status;
+        $this->amount = $paymentIntent->amount / 100;
         $this->save();
     }
 }
