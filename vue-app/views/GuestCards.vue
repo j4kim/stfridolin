@@ -1,12 +1,6 @@
 <script setup>
 import { api } from "@/api";
-import Controls from "@/boxing/Controls.vue";
-import Ring from "@/boxing/Ring.vue";
-import Layout from "@/components/Layout.vue";
 import QrCode from "@/components/QrCode.vue";
-import SetAsMasterButton from "@/components/SetAsMasterButton.vue";
-import { Button } from "@/components/ui/button";
-import { useFullscreen, useWakeLock } from "@vueuse/core";
 import { onMounted, ref } from "vue";
 
 const guests = ref([]);
