@@ -14,7 +14,7 @@ onMounted(() => {
 });
 
 function guetAuthUrl(guest) {
-    return `${location.origin}/auth/${guest.key}`;
+    return `${location.origin}/guest/${guest.key}`;
 }
 </script>
 
