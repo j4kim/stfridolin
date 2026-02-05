@@ -29,6 +29,11 @@ const routes = [
         component: GuestPage,
     },
     {
+        path: "/auth/:key",
+        redirect: { name: "guest-page" },
+        component: GuestPage,
+    },
+    {
         path: "/registration-payment",
         name: "registration-payment",
         component: RegistrationPayment,
