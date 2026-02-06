@@ -15,7 +15,7 @@ const loading = ref(true);
 function fetch(reload = false) {
     loading.value = true;
     paymentStore
-        .fetchPayment(route.params.id, reload)
+        .fetchPayment(route.params.id, reload, route.query.guest)
         .finally(() => (loading.value = false));
 }
 
