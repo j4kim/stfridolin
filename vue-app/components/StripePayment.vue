@@ -38,7 +38,7 @@ const paymentContainer = useTemplateRef("paymentContainer");
 const intent = computed(() => paymentStore.payment.stripe_data);
 
 onMounted(async () => {
-    stripe = await loadStripe(import.meta.env.VITE_STRIPE_PK);
+    stripe = await loadStripe(paymentStore.stripePk);
 
     const clientSecret = intent.value.client_secret;
 

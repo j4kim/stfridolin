@@ -27,6 +27,7 @@
         data-user="{{ json_encode(auth()->user()) }}"
         data-master-client-id="{{ cache('master-client-id') }}"
         data-articles="{{ json_encode(App\Models\Article::all()) }}"
+        data-stripe-pk={{ config('services.stripe.pk') }}
     >
         <div id="app"></div>
     </body>

@@ -6,6 +6,8 @@ import { useArticlesStore } from "@/stores/articles";
 export const usePaymentStore = defineStore("payment", () => {
     const articlesStore = useArticlesStore();
 
+    const stripePk = document.body.dataset.stripePk;
+
     const payment = ref(null);
 
     function cancel() {
@@ -41,6 +43,7 @@ export const usePaymentStore = defineStore("payment", () => {
     });
 
     return {
+        stripePk,
         payment,
         cancel,
         createPayment,
