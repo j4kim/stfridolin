@@ -11,6 +11,12 @@
             content="width=device-width, initial-scale=1, maximum-scale=1,  user-scalable=0"
         >
 
+        <link
+            rel="icon"
+            href="{{ asset('favicon.svg') }}"
+            type="image/svg+xml"
+        >
+
         <title>{{ config('app.name', 'Laravel') }}</title>
 
         @routes()
