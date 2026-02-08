@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->string('name');
-            $table->string('key')->unique();
+            $table->string('key')->unique()->collation('utf8mb4_bin');
             $table->string('pictureUrl', 2048)->nullable();
             $table->integer('tokens')->default(0);
             $table->integer('points')->default(0);
