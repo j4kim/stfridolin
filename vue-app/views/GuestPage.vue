@@ -3,14 +3,20 @@ import Layout from "@/components/Layout.vue";
 import NumberCard from "@/components/NumberCard.vue";
 import { Button } from "@/components/ui/button";
 import { useGuestStore } from "@/stores/guest";
-import { CircleStar, Gift } from "lucide-vue-next";
-import { useRoute } from "vue-router";
+import { CircleStar, Gift, Power } from "lucide-vue-next";
+import { useRoute, useRouter } from "vue-router";
 
 const route = useRoute();
+const router = useRouter();
 
 const guestStore = useGuestStore();
 
 guestStore.fetchGuest(route.params.key);
+
+function logOut() {
+    guestStore.guest = {};
+    router.push({ name: "guest-auth-form" });
+}
 </script>
 
 <template>
@@ -36,13 +42,17 @@ guestStore.fetchGuest(route.params.key);
                     :icon="Gift"
                 />
             </div>
-            <div class="p-4">
+            <div class="flex flex-col gap-4 p-4">
                 <RouterLink :to="{ name: 'buy-tokens' }">
                     <Button class="w-full" size="lg">
                         <CircleStar />
                         Acheter des jetons
                     </Button>
                 </RouterLink>
+                <Button size="lg" variant="outline" @click="logOut">
+                    <Power />
+                    Se déconnecter
+                </Button>
             </div>
         </div>
     </Layout>
