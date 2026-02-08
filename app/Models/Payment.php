@@ -12,6 +12,7 @@ class Payment extends Model
     {
         return [
             'stripe_data' => 'array',
+            'amount' => 'float',
         ];
     }
 

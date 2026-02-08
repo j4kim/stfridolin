@@ -11,6 +11,7 @@ class Movement extends Model
     {
         return [
             'meta' => 'array',
+            'amount' => 'float',
         ];
     }
 
