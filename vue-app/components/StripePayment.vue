@@ -21,6 +21,7 @@ const props = defineProps({
         type: String,
         default: "payment-status",
     },
+    guest: Object,
 });
 
 const paymentStore = usePaymentStore();
@@ -68,7 +69,8 @@ async function submit() {
     loading.value = true;
     const redirectRoute = router.resolve({
         name: props.redirectRouteName,
-        params: { id: paymentStore.payment.id },
+        params: { id: paymentStore.payment.id, guest: props.guest?.id },
+        query: props.guest ? { guest: props.guest.id } : undefined,
     });
     const return_url = location.origin + redirectRoute.href;
     const { error } = await stripe.confirmPayment({

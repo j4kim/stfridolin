@@ -22,8 +22,7 @@ export const useGuestStore = defineStore("guest", () => {
     }
 
     async function createGuest(name) {
-        guest.value = await api("guests.store").data({ name }).post();
-        return guest.value;
+        return await api("guests.store").data({ name }).post();
     }
 
     const channelName = computed(() => {
