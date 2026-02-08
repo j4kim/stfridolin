@@ -55,6 +55,7 @@ onMounted(() => {
                         v-model="key"
                         :maxlength="4"
                         :pattern="REGEXP_ONLY_DIGITS_AND_CHARS"
+                        inputmode="text"
                     >
                         <InputOTPGroup class="mx-auto">
                             <InputOTPSlot :index="0" />
