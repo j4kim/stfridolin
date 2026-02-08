@@ -30,6 +30,7 @@ const router = useRouter();
 
 const loading = ref(false);
 const loadingStripe = ref(true);
+const ready = ref(false);
 
 let stripe = null;
 let elements = null;
@@ -60,6 +61,10 @@ onMounted(async () => {
 
     const paymentElement = elements.create("payment", options);
     paymentElement.mount(paymentContainer.value);
+
+    paymentElement.on("change", ({ complete, collapsed }) => {
+        ready.value = complete && !collapsed;
+    });
 
     loadingStripe.value = false;
 });
@@ -139,7 +144,10 @@ watch(coverFees, (newValue) => {
         >
             Annuler
         </Button>
-        <Button type="submit" :disabled="loading || loadingStripe || toggling">
+        <Button
+            type="submit"
+            :disabled="loading || loadingStripe || toggling || !ready"
+        >
             <Spinner v-if="loading || toggling" />
             Continuer
         </Button>
