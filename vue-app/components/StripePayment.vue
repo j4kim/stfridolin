@@ -137,19 +137,20 @@ watch(coverFees, (newValue) => {
             </AlertDescription>
         </Alert>
         <Button
-            v-if="cancelable"
-            class="w-full"
-            variant="outline"
-            @click="paymentStore.cancel()"
-        >
-            Annuler
-        </Button>
-        <Button
             type="submit"
+            size="lg"
             :disabled="loading || loadingStripe || toggling || !ready"
         >
             <Spinner v-if="loading || toggling" />
             Continuer
+        </Button>
+        <Button
+            v-if="cancelable"
+            class="w-full"
+            variant="ghost"
+            @click="paymentStore.cancel()"
+        >
+            Annuler
         </Button>
     </form>
 </template>
