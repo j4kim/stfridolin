@@ -107,11 +107,14 @@ watch(coverFees, (newValue) => {
 
 <template>
     <form class="mb-8 flex flex-col gap-2" @submit.prevent="submit">
-        <div>{{ intent.description }}</div>
-        <div class="text-xl">
-            Total:
-            <Spinner v-if="toggling" class="mr-1 inline" />
-            <span class="font-bold">{{ intent.amount / 100 }} CHF</span>
+        <div class="flex justify-between gap-2 text-lg">
+            <div>{{ intent.description }}</div>
+            <div>
+                <Spinner v-if="toggling" class="mr-1 mb-1 inline" />
+                <span class="font-extrabold"
+                    >{{ intent.amount / 100 }}&nbsp;CHF</span
+                >
+            </div>
         </div>
         <div class="flex items-center space-x-2">
             <Switch id="cover-fees" v-model="coverFees" :disabled="toggling" />
