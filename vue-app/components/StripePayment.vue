@@ -106,7 +106,7 @@ watch(coverFees, (newValue) => {
 </script>
 
 <template>
-    <form class="mb-8 flex flex-col gap-2" @submit.prevent="submit">
+    <form class="mb-8 flex flex-col gap-3" @submit.prevent="submit">
         <div class="flex justify-between gap-2 text-lg">
             <div>{{ intent.description }}</div>
             <div>
@@ -128,9 +128,7 @@ watch(coverFees, (newValue) => {
                 </span>
             </Label>
         </div>
-        <hr />
         <div ref="paymentContainer"></div>
-        <hr />
         <Alert v-if="paymentStore.payment.purpose === 'buy-tokens'">
             <TriangleAlert />
             <div class="col-start-2">
