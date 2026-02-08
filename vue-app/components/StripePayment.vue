@@ -53,9 +53,8 @@ onMounted(async () => {
 
     const options = {
         layout: {
-            type: "accordion",
-            radios: true,
-            defaultCollapsed: false,
+            type: "tabs",
+            defaultCollapsed: true,
         },
     };
 
