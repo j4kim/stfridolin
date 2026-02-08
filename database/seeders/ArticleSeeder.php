@@ -50,7 +50,7 @@ class ArticleSeeder extends Seeder
             Article::create([
                 'type' => 'tokens-package',
                 'name' => "$tokens-tokens",
-                'description' => number_format($tokens, thousands_separator: ' ') . " jetons",
+                'description' => number_format($tokens, thousands_separator: '’') . " jetons",
                 'currency' => 'CHF',
                 'std_price' => $stdPrice,
                 'price' => $price,

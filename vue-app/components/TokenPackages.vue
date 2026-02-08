@@ -26,11 +26,11 @@ defineEmits(["select"]);
             </div>
             <div v-else>
                 <span class="text-xs line-through opacity-50">
-                    {{ p.std_price.toLocaleString() }} CHF
+                    {{ p.std_price.toLocaleString("de-CH") }} CHF
                 </span>
                 <div>
                     <span class="text-2xl font-bold">{{
-                        p.price.toLocaleString()
+                        p.price.toLocaleString("de-CH")
                     }}</span>
                     <span class="text-xs"> CHF</span>
                 </div>
