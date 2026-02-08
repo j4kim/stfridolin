@@ -122,7 +122,7 @@ watch(coverFees, (newValue) => {
                 Couvrir les frais de transaction
                 <span
                     :class="{ invisible: !coverFees || toggling }"
-                    class="opacity-80"
+                    class="text-muted-foreground"
                 >
                     Merci 🙏
                 </span>
@@ -133,18 +133,19 @@ watch(coverFees, (newValue) => {
         <hr />
         <Alert v-if="paymentStore.payment.purpose === 'buy-tokens'">
             <TriangleAlert />
-            <AlertTitle>Attention</AlertTitle>
-            <AlertDescription>
-                Les jetons ne sont pas remboursables. Merci pour votre soutien,
-                amusez-vous bien !
-            </AlertDescription>
+            <div class="col-start-2">
+                <span> Attention: </span>
+                <span class="text-muted-foreground">
+                    Les jetons ne sont pas remboursables. Amusez-vous bien !
+                </span>
+            </div>
         </Alert>
         <Button
             type="submit"
             size="lg"
             :disabled="loading || loadingStripe || toggling || !ready"
         >
-            <Spinner v-if="loading || toggling" />
+            <Spinner v-if="loading" />
             Continuer
         </Button>
         <Button
