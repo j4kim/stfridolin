@@ -55,7 +55,7 @@ onMounted(async () => {
     const options = {
         layout: {
             type: "tabs",
-            defaultCollapsed: true,
+            defaultCollapsed: false,
         },
     };
 
