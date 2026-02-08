@@ -51,6 +51,7 @@ function moveToGuestPage() {
                         :pattern="REGEXP_ONLY_DIGITS_AND_CHARS"
                         inputmode="text"
                         required
+                        autocapitalize="none"
                     >
                         <InputOTPGroup class="mx-auto">
                             <InputOTPSlot :index="0" />
