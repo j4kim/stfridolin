@@ -45,11 +45,12 @@ class Payment extends Model
         });
     }
 
-    public function updateFromStripe(PaymentIntent $paymentIntent)
+    public function fillFromStripePI(PaymentIntent $paymentIntent): Payment
     {
+        $this->stripe_id = $paymentIntent->id;
         $this->stripe_data = $paymentIntent->toArray();
         $this->stripe_status = $paymentIntent->status;
         $this->amount = $paymentIntent->amount / 100;
-        $this->save();
+        return $this;
     }
 }

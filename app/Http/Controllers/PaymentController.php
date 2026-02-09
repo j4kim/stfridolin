@@ -18,13 +18,11 @@ class PaymentController extends Controller
 
         $paymentIntent = Stripe::createPaymentIntent($article, $request->all());
 
-        $payment = Payment::create([
-            'guest_id' => Guest::fromRequest()?->id,
-            'stripe_id' => $paymentIntent->id,
-            'stripe_data' => $paymentIntent->toArray(),
-            'purpose' => $request->purpose,
-            'amount' => $paymentIntent->amount / 100,
-        ]);
+        $payment = new Payment;
+        $payment->guest_id = Guest::fromRequest()?->id;
+        $payment->purpose = $request->purpose;
+        $payment->fillFromStripePI($paymentIntent);
+        $payment->save();
 
         return $payment;
     }
@@ -36,7 +34,7 @@ class PaymentController extends Controller
         }
         if ($request->reload) {
             $paymentIntent = Stripe::getPaymentIntent($payment->stripe_id);
-            $payment->updateFromStripe($paymentIntent);
+            $payment->fillFromStripePI($paymentIntent)->save();
         }
         return $payment;
     }
@@ -50,7 +48,7 @@ class PaymentController extends Controller
             $newAmount = $originalAmount;
         }
         $paymentIntent = Stripe::updateAmount($payment->stripe_id, $newAmount);
-        $payment->updateFromStripe($paymentIntent);
+        $payment->fillFromStripePI($paymentIntent)->save();
         return $payment;
     }
 
@@ -66,7 +64,7 @@ class PaymentController extends Controller
         $event = Event::constructFrom($request->all());
         $paymentIntent = $event->data->object;
         $payment = Payment::firstWhere('stripe_id', $paymentIntent->id);
-        $payment->updateFromStripe($paymentIntent);
+        $payment->fillFromStripePI($paymentIntent)->save();
         PaymentUpdated::dispatch($payment);
     }
 }
