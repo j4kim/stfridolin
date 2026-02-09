@@ -17,8 +17,16 @@ const paymentStore = usePaymentStore();
             <PaymentFeedback>
                 <template #requires_payment_method_error>
                     <AlertDescription>
-                        Vous pouvez réessayer avec un autre moyen de paiement.
-                        Ou alors faire un virement bancaire.
+                        <p>
+                            Vous pouvez réessayer avec un autre moyen de
+                            paiement. Ou alors faire
+                            <a
+                                class="link"
+                                href="/facture-inscription-st-fridolin.pdf"
+                                target="_blank"
+                                >un virement bancaire</a
+                            >.
+                        </p>
                         <RouterLink
                             class="mt-2 w-full"
                             :to="{ name: 'registration-payment' }"
