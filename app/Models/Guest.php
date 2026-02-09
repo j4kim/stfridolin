@@ -70,6 +70,23 @@ class Guest extends Model
         ]);
     }
 
+    public function register(Payment $payment)
+    {
+        $metadata = $payment->stripe_data['metadata'];
+        $article = Article::findOrFail($metadata['article_id']);
+        $this->tokens += 20;
+        $this->save();
+        $this->movements()->create([
+            'payment_id' => $payment->id,
+            'article_id' => $article->id,
+            'type' => 'registration',
+            'amount' => $article->price,
+            'meta' => [
+                'balance' => $this->tokens,
+            ]
+        ]);
+    }
+
     public function spendTokens(string $articleName): Movement
     {
         $article = Article::where('name', $articleName)->firstOrFail();

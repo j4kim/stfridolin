@@ -36,6 +36,10 @@ class Payment extends Model
                     /** @var Guest $guest */
                     $guest = $payment->guest;
                     $guest->addTokens($payment);
+                } else if ($payment->purpose === "registration") {
+                    $guestIds = str($payment->stripe_data['metadata']['guestIds'])->explode(';');
+                    $guests = Guest::whereIn('id', $guestIds)->get();
+                    $guests->each(fn(Guest $guest) => $guest->register($payment));
                 }
             }
         });

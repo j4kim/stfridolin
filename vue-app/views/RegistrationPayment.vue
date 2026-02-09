@@ -33,7 +33,11 @@ async function submit() {
     try {
         const guests = await guestStore.createGuests(names.value);
         guest.value = guests[0];
-        const data = { purpose: "registration", names: names.value.join(";") };
+        const data = {
+            purpose: "registration",
+            guestNames: names.value.join(";"),
+            guestIds: guests.map((g) => g.id).join(";"),
+        };
         if (names.value.length > 1) {
             data.quantity = names.value.length;
             data.description = `${article.value.description} pour ${data.quantity} personnes`;
