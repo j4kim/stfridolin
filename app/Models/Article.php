@@ -10,6 +10,8 @@ class Article extends Model
     {
         return [
             'meta' => 'array',
+            'std_price' => 'float',
+            'price' => 'float',
         ];
     }
 }

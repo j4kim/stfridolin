@@ -29,12 +29,12 @@ const routes = [
         component: GuestPage,
     },
     {
-        path: "/registration-payment",
+        path: "/thunasse",
         name: "registration-payment",
         component: RegistrationPayment,
     },
     {
-        path: "/registration-payment/:id/status",
+        path: "/thunasse/:id/status",
         name: "registration-payment-status",
         component: RegistrationPaymentStatus,
     },

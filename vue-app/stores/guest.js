@@ -21,9 +21,8 @@ export const useGuestStore = defineStore("guest", () => {
         }
     }
 
-    async function createGuest(name) {
-        guest.value = await api("guests.store").data({ name }).post();
-        return guest.value;
+    async function createGuests(names) {
+        return await api("guests.storeMany").data({ names }).post();
     }
 
     const channelName = computed(() => {
@@ -47,7 +46,9 @@ export const useGuestStore = defineStore("guest", () => {
         const channel = pusher.subscribe(channelName);
 
         channel.bind("GuestUpdated", (data) => {
-            guest.value = data.model;
+            if (guest.value.id == data.model.id) {
+                guest.value = data.model;
+            }
         });
 
         channel.bind("PaymentUpdated", (data) => {
@@ -56,5 +57,11 @@ export const useGuestStore = defineStore("guest", () => {
         });
     }
 
-    return { guest, error, createGuest, fetchGuest };
+    return {
+        guest,
+        error,
+        createGuests,
+        fetchGuest,
+        subscribeToBroadcastEvents,
+    };
 });

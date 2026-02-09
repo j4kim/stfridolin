@@ -126,3 +126,7 @@
 a.link {
     @apply underline hover:no-underline;
 }
+
+button {
+    touch-action: manipulation;
+}

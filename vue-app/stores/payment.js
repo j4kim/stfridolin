@@ -6,23 +6,27 @@ import { useArticlesStore } from "@/stores/articles";
 export const usePaymentStore = defineStore("payment", () => {
     const articlesStore = useArticlesStore();
 
+    const stripePk = document.body.dataset.stripePk;
+
     const payment = ref(null);
 
     function cancel() {
         payment.value = null;
     }
 
-    async function createPayment(article, purpose = null) {
+    async function createPayment(article, data = {}, guest = null) {
         payment.value = await api("payments.store")
+            .asGuest(guest?.id)
             .params(article.id)
-            .data({ purpose })
+            .data(data)
             .post();
         return payment.value;
     }
 
-    async function fetchPayment(id, reload = false) {
+    async function fetchPayment(id, reload = false, guestId = null) {
         payment.value = null;
         payment.value = await api("payments.get")
+            .asGuest(guestId)
             .params({ payment: id, reload })
             .get();
         return payment.value;
@@ -41,6 +45,7 @@ export const usePaymentStore = defineStore("payment", () => {
     });
 
     return {
+        stripePk,
         payment,
         cancel,
         createPayment,

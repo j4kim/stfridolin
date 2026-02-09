@@ -20,20 +20,22 @@ export class Request {
   config: AxiosRequestConfig;
   toast = true;
   retry = false;
+  guestId?: Number;
+  clientId?: string;
 
   constructor(routeName: string) {
     this.routeName = routeName;
-    const clientId = useClientStore().clientId;
-    const guest = useGuestStore().guest as { id: number }
-    this.config = {
-      headers: {
-        "X-Client-Id": clientId,
-        "X-Guest-Id": guest.id,
-      },
-    } as AxiosRequestConfig;
+    this.clientId = useClientStore().clientId;
+    const guest = useGuestStore().guest as { id?: number }
+    this.guestId = guest?.id;
+    this.config = {}
   }
 
   async send(method: AxiosRequestConfig["method"]): Promise<any> {
+    this.config.headers = {
+      "X-Client-Id": this.clientId,
+      "X-Guest-Id": this.guestId?.toString(),
+    }
     this.config.method = method;
     this.config.url = route(this.routeName, this.routeParams ?? undefined);
     try {
@@ -71,6 +73,13 @@ export class Request {
       toast.error(msg);
     }
     throw error as any;
+  }
+
+  asGuest(guestId: Number | null): this {
+    if (guestId) {
+      this.guestId = guestId;
+    }
+    return this;
   }
 
   params(params: any): this {

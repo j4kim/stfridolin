@@ -19,7 +19,7 @@ onMounted(() => {
     countUp = new CountUp(countEl.value, props.value, {
         startVal: props.value,
         duration: 1,
-        separator: "'",
+        separator: "’",
     });
 });
 </script>

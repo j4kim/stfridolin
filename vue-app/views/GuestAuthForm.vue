@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/input-otp";
 import { useGuestStore } from "@/stores/guest";
 import { TriangleAlert } from "lucide-vue-next";
-import { onMounted, ref, useTemplateRef } from "vue";
+import { ref } from "vue";
 import { REGEXP_ONLY_DIGITS_AND_CHARS } from "vue-input-otp";
 import { useRouter } from "vue-router";
 
@@ -32,29 +32,26 @@ function moveToGuestPage() {
     guestStore.guest = {};
     router.push({ name: "guest-page", params: { key: key.value } });
 }
-
-const form = useTemplateRef("form");
-
-onMounted(() => {
-    form.value.querySelector("input").focus();
-});
 </script>
 
 <template>
     <Layout simple>
-        <Card class="mx-auto mt-4 w-full max-w-sm">
-            <CardHeader>
-                <CardTitle>Authentification</CardTitle>
-                <CardDescription>
-                    Entre ton code de 4 caractères
-                </CardDescription>
-            </CardHeader>
-            <CardContent>
-                <form @submit="moveToGuestPage" ref="form">
+        <form @submit="moveToGuestPage" ref="form">
+            <Card class="mx-auto mt-4 w-full max-w-sm">
+                <CardHeader>
+                    <CardTitle>Authentification</CardTitle>
+                    <CardDescription>
+                        Entre ton code de 4 caractères
+                    </CardDescription>
+                </CardHeader>
+                <CardContent>
                     <InputOTP
                         v-model="key"
                         :maxlength="4"
                         :pattern="REGEXP_ONLY_DIGITS_AND_CHARS"
+                        inputmode="text"
+                        required
+                        autocapitalize="none"
                     >
                         <InputOTPGroup class="mx-auto">
                             <InputOTPSlot :index="0" />
@@ -63,26 +60,26 @@ onMounted(() => {
                             <InputOTPSlot :index="3" />
                         </InputOTPGroup>
                     </InputOTP>
-                </form>
-                <Alert
-                    class="mt-4"
-                    variant="destructive"
-                    v-if="guestStore.error"
-                >
-                    <TriangleAlert />
-                    <AlertDescription v-if="guestStore.error.status === 404">
-                        Code non reconnu
-                    </AlertDescription>
-                    <AlertDescription v-else>
-                        {{ getErrorMsg(guestStore.error) }}
-                    </AlertDescription>
-                </Alert>
-            </CardContent>
-            <CardFooter class="flex flex-col gap-2">
-                <Button class="w-full" @click="moveToGuestPage">
-                    Valider
-                </Button>
-            </CardFooter>
-        </Card>
+                    <Alert
+                        class="mt-4"
+                        variant="destructive"
+                        v-if="guestStore.error"
+                    >
+                        <TriangleAlert />
+                        <AlertDescription
+                            v-if="guestStore.error.status === 404"
+                        >
+                            Code non reconnu
+                        </AlertDescription>
+                        <AlertDescription v-else>
+                            {{ getErrorMsg(guestStore.error) }}
+                        </AlertDescription>
+                    </Alert>
+                </CardContent>
+                <CardFooter class="flex flex-col gap-2">
+                    <Button class="w-full" type="submit"> Valider </Button>
+                </CardFooter>
+            </Card>
+        </form>
     </Layout>
 </template>

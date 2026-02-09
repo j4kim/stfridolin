@@ -11,6 +11,12 @@
             content="width=device-width, initial-scale=1, maximum-scale=1,  user-scalable=0"
         >
 
+        <link
+            rel="icon"
+            href="{{ asset('favicon.svg') }}"
+            type="image/svg+xml"
+        >
+
         <title>{{ config('app.name', 'Laravel') }}</title>
 
         @routes()
@@ -27,6 +33,7 @@
         data-user="{{ json_encode(auth()->user()) }}"
         data-master-client-id="{{ cache('master-client-id') }}"
         data-articles="{{ json_encode(App\Models\Article::all()) }}"
+        data-stripe-pk={{ config('services.stripe.pk') }}
     >
         <div id="app"></div>
     </body>

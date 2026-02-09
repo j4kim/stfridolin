@@ -14,14 +14,16 @@ class PaymentController extends Controller
 {
     public function store(Article $article, Request $request)
     {
-        $paymentIntent = Stripe::createPaymentIntent($article, $request->purpose);
+        $request->validate(['purpose' => 'required']);
+
+        $paymentIntent = Stripe::createPaymentIntent($article, $request->all());
 
         $payment = Payment::create([
             'guest_id' => Guest::fromRequest()?->id,
             'stripe_id' => $paymentIntent->id,
             'stripe_data' => $paymentIntent->toArray(),
             'purpose' => $request->purpose,
-            'amount' => $article->price,
+            'amount' => $paymentIntent->amount / 100,
         ]);
 
         return $payment;
@@ -41,13 +43,13 @@ class PaymentController extends Controller
 
     public function toggleCoverFees(Payment $payment, Request $request)
     {
-        $article = Article::findOrFail($payment->stripe_data['metadata']['article_id']);
+        $originalAmount = +$payment->stripe_data['metadata']['original_amount'];
         if ($request->coverFees) {
-            $newPrice = ($article->price + 0.30) / (1 - 0.024);
+            $newAmount = ($originalAmount + 0.30) / (1 - 0.024);
         } else {
-            $newPrice = $article->price;
+            $newAmount = $originalAmount;
         }
-        $paymentIntent = Stripe::updateAmount($payment->stripe_id, $newPrice);
+        $paymentIntent = Stripe::updateAmount($payment->stripe_id, $newAmount);
         $payment->updateFromStripe($paymentIntent);
         PaymentUpdated::dispatch($payment);
     }

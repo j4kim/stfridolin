@@ -7,6 +7,7 @@ import { useArticlesStore } from "@/stores/articles";
 import { useGuestStore } from "@/stores/guest";
 import { usePaymentStore } from "@/stores/payment";
 import titleSvg from "@/title.svg";
+import { Minus, Plus } from "lucide-vue-next";
 import { computed, ref } from "vue";
 
 const guestStore = useGuestStore();
@@ -21,15 +22,24 @@ const article = computed(() => articlesStore.byName["registration"]);
 
 const loading = ref(false);
 
-const name = ref("");
+const names = ref([""]);
 
-const total = ref(30);
+const total = computed(() => 30 * names.value.length);
+
+const guest = ref(null);
 
 async function submit() {
     loading.value = true;
     try {
-        await guestStore.createGuest(name.value);
-        await paymentStore.createPayment(article.value, "registration");
+        const guests = await guestStore.createGuests(names.value);
+        guest.value = guests[0];
+        const data = { purpose: "registration", names: names.value.join(";") };
+        if (names.value.length > 1) {
+            data.quantity = names.value.length;
+            data.description = `${article.value.description} pour ${data.quantity} personnes`;
+        }
+        await paymentStore.createPayment(article.value, data, guest.value);
+        guestStore.subscribeToBroadcastEvents(`guest-${guest.value.id}`);
     } finally {
         loading.value = false;
     }
@@ -45,16 +55,47 @@ async function submit() {
         <Spinner v-if="loading" class="mx-auto size-8" />
         <StripePayment
             v-else-if="paymentStore.payment"
-            :cancelable="false"
             redirectRouteName="registration-payment-status"
+            :guest="guest"
+            cancelButtonText="Retour"
         />
         <form v-else class="flex flex-col gap-4" @submit.prevent="submit">
-            <Input
-                v-model="name"
-                type="text"
-                placeholder="Nom Complet"
-                required
-            />
+            <p class="flex items-center gap-2">
+                Je paye pour
+                <Button
+                    variant="outline"
+                    size="icon"
+                    @click="names.length--"
+                    type="button"
+                    :disabled="names.length < 2"
+                >
+                    <Minus />
+                </Button>
+                <span class="inline-block w-4 text-center font-bold">{{
+                    names.length
+                }}</span>
+                <Button
+                    variant="outline"
+                    size="icon"
+                    @click="names.length++"
+                    type="button"
+                >
+                    <Plus />
+                </Button>
+                personne(s)
+            </p>
+            <template v-for="(name, i) in names">
+                <Input
+                    v-model="names[i]"
+                    type="text"
+                    :placeholder="
+                        i === 0
+                            ? 'Ton prénom et nom'
+                            : `Prénom et nom de la ${i + 1}ème personne`
+                    "
+                    required
+                />
+            </template>
             <Button :disabled="!article || loading" type="submit">
                 Payer {{ total }} CHF
             </Button>
