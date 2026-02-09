@@ -75,7 +75,7 @@ async function submit() {
     loading.value = true;
     const redirectRoute = router.resolve({
         name: props.redirectRouteName,
-        params: { id: paymentStore.payment.id, guest: props.guest?.id },
+        params: { id: paymentStore.payment.id },
         query: props.guest ? { guest: props.guest.id } : undefined,
     });
     const return_url = location.origin + redirectRoute.href;
