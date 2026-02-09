@@ -15,21 +15,20 @@ export const usePaymentStore = defineStore("payment", () => {
     }
 
     async function createPayment(article, data = {}, guest = null) {
-        const request = api("payments.store");
-        if (guest) {
-            request.config.headers["X-Guest-Id"] = guest.id;
-        }
-        payment.value = await request.params(article.id).data(data).post();
+        payment.value = await api("payments.store")
+            .asGuest(guest?.id)
+            .params(article.id)
+            .data(data)
+            .post();
         return payment.value;
     }
 
     async function fetchPayment(id, reload = false, guestId = null) {
         payment.value = null;
-        const request = api("payments.get");
-        if (guestId) {
-            request.config.headers["X-Guest-Id"] = guestId;
-        }
-        payment.value = await request.params({ payment: id, reload }).get();
+        payment.value = await api("payments.get")
+            .asGuest(guestId)
+            .params({ payment: id, reload })
+            .get();
         return payment.value;
     }
 
