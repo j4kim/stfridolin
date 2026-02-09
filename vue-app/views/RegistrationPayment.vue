@@ -3,6 +3,7 @@ import StripePayment from "@/components/StripePayment.vue";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Spinner from "@/components/ui/spinner/Spinner.vue";
+import Textarea from "@/components/ui/textarea/Textarea.vue";
 import { useArticlesStore } from "@/stores/articles";
 import { useGuestStore } from "@/stores/guest";
 import { usePaymentStore } from "@/stores/payment";
@@ -23,6 +24,7 @@ const article = computed(() => articlesStore.byName["registration"]);
 const loading = ref(false);
 
 const names = ref([""]);
+const remarks = ref("");
 
 const total = computed(() => 30 * names.value.length);
 
@@ -37,6 +39,7 @@ async function submit() {
             purpose: "registration",
             guestNames: names.value.join(";"),
             guestIds: guests.map((g) => g.id).join(";"),
+            remarks: remarks.value,
         };
         if (names.value.length > 1) {
             data.quantity = names.value.length;
@@ -100,6 +103,7 @@ async function submit() {
                     required
                 />
             </template>
+            <Textarea v-model="remarks" placeholder="Remarques (optionnel)" />
             <Button :disabled="!article || loading" type="submit">
                 Payer {{ total }} CHF
             </Button>
