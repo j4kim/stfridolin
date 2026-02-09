@@ -19,4 +19,9 @@ class Movement extends Model
     {
         return $this->belongsTo(Guest::class);
     }
+
+    public function article(): BelongsTo
+    {
+        return $this->belongsTo(Article::class);
+    }
 }

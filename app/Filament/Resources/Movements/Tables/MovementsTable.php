@@ -7,6 +7,7 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
 class MovementsTable
@@ -15,12 +16,16 @@ class MovementsTable
     {
         return $table
             ->columns([
-                TextColumn::make('created_at')
-                    ->dateTime()
+                TextColumn::make('id')
+                    ->numeric()
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(),
+                TextColumn::make('created_at')
+                    ->dateTime("d.m.Y H:i")
+                    ->sortable()
+                    ->toggleable(),
                 TextColumn::make('updated_at')
-                    ->dateTime()
+                    ->dateTime("d.m.Y H:i")
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('guest.name')
@@ -28,9 +33,8 @@ class MovementsTable
                 TextColumn::make('payment_id')
                     ->numeric()
                     ->sortable(),
-                TextColumn::make('article_id')
-                    ->numeric()
-                    ->sortable(),
+                TextColumn::make('article.name')
+                    ->searchable(),
                 TextColumn::make('amount')
                     ->numeric()
                     ->sortable(),
@@ -38,7 +42,10 @@ class MovementsTable
                     ->searchable(),
             ])
             ->filters([
-                //
+                SelectFilter::make('guest')
+                    ->relationship('guest', 'name'),
+                SelectFilter::make('article')
+                    ->relationship('article', 'name'),
             ])
             ->recordActions([
                 ViewAction::make(),
