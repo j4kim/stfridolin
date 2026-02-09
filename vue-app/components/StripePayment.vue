@@ -97,7 +97,11 @@ const toggling = ref(false);
 
 watch(coverFees, (newValue) => {
     toggling.value = true;
-    api("payments.toggle-cover-fees")
+    const request = api("payments.toggle-cover-fees");
+    if (props.guest) {
+        request.config.headers["X-Guest-Id"] = props.guest.id;
+    }
+    request
         .params({ payment: paymentStore.payment.id })
         .data({ coverFees: newValue })
         .put()
