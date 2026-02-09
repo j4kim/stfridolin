@@ -19,8 +19,6 @@ class GuestInfolist
                     ->placeholder('-'),
                 TextEntry::make('name'),
                 TextEntry::make('key'),
-                TextEntry::make('pictureUrl')
-                    ->placeholder('-'),
                 TextEntry::make('tokens')
                     ->numeric(),
                 TextEntry::make('points')

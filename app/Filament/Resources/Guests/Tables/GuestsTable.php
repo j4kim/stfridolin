@@ -27,8 +27,6 @@ class GuestsTable
                     ->searchable(),
                 TextColumn::make('key')
                     ->searchable(),
-                TextColumn::make('pictureUrl')
-                    ->searchable(),
                 TextColumn::make('tokens')
                     ->numeric()
                     ->sortable(),

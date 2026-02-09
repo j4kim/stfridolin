@@ -15,7 +15,6 @@ class GuestForm
                     ->required(),
                 TextInput::make('key')
                     ->required(),
-                TextInput::make('pictureUrl'),
                 TextInput::make('tokens')
                     ->required()
                     ->numeric()
