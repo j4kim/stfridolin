@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('tracks', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->foreignId('proposed_by')->nullable()->constrained('guests');
+            $table->foreignId('proposed_by')->nullable()->constrained('guests')->nullOnDelete();
             $table->string('name');
             $table->string('artist_name');
             $table->string('spotify_uri');

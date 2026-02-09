@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('movements', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->foreignId('guest_id')->constrained();
-            $table->foreignId('payment_id')->nullable()->constrained();
-            $table->foreignId('article_id')->nullable()->constrained();
+            $table->foreignId('guest_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('payment_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignId('article_id')->nullable()->constrained()->nullOnDelete();
             $table->decimal('amount', 8, 2);
             $table->string('type');
             $table->json('meta')->nullable();
