@@ -14,6 +14,8 @@ class PaymentController extends Controller
 {
     public function store(Article $article, Request $request)
     {
+        $request->validate(['purpose' => 'required']);
+
         $paymentIntent = Stripe::createPaymentIntent($article, $request->all());
 
         $payment = Payment::create([
