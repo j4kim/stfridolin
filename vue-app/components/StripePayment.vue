@@ -130,15 +130,8 @@ watch(coverFees, (newValue) => {
             </Label>
         </div>
         <div ref="paymentContainer"></div>
-        <Alert v-if="paymentStore.payment.purpose === 'buy-tokens'">
-            <TriangleAlert />
-            <div class="col-start-2">
-                <span> Attention: </span>
-                <span class="text-muted-foreground">
-                    Les jetons ne sont pas remboursables. Amusez-vous bien !
-                </span>
-            </div>
-        </Alert>
+
+        <slot name="before-submit"></slot>
         <Button
             type="submit"
             size="lg"

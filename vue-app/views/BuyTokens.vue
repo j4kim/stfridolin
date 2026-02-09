@@ -2,8 +2,10 @@
 import Layout from "@/components/Layout.vue";
 import StripePayment from "@/components/StripePayment.vue";
 import TokenPackages from "@/components/TokenPackages.vue";
+import { Alert } from "@/components/ui/alert";
 import Spinner from "@/components/ui/spinner/Spinner.vue";
 import { useArticlesStore } from "@/stores/articles";
+import { TriangleAlert } from "lucide-vue-next";
 import { usePaymentStore } from "@/stores/payment";
 import { computed, ref } from "vue";
 
@@ -40,7 +42,20 @@ function buy(article) {
     <Layout>
         <h2 class="my-2 px-4 font-bold">Acheter des jetons</h2>
         <Spinner v-if="loading" class="mx-auto size-8" />
-        <StripePayment v-else-if="paymentStore.payment" class="px-4" />
+        <StripePayment v-else-if="paymentStore.payment" class="px-4">
+            <template #before-submit>
+                <Alert>
+                    <TriangleAlert />
+                    <div class="col-start-2">
+                        <span> Attention: </span>
+                        <span class="text-muted-foreground">
+                            Les jetons ne sont pas remboursables. Amusez-vous
+                            bien !
+                        </span>
+                    </div>
+                </Alert>
+            </template>
+        </StripePayment>
         <div v-else>
             <TokenPackages
                 :articles="stdPackages"
