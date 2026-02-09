@@ -20,7 +20,7 @@ class Stripe
             'amount' => $article->price * 100 * $quantity,
             'currency' => 'chf',
             'description' => $description,
-            'statement_descriptor_suffix' => str($description)->slug(),
+            'statement_descriptor_suffix' => str($description)->slug()->substr(0, 22),
             'metadata' => [
                 ...$metadata,
                 'guest_id' => Guest::fromRequest()?->id,
