@@ -6,6 +6,7 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -47,6 +48,12 @@ class GuestsTable
                     ->label("Movements")
                     ->counts('movements')
                     ->numeric()
+                    ->sortable()
+                    ->toggleable(),
+                IconColumn::make('registration_movements_count')
+                    ->boolean()
+                    ->label("Registered")
+                    ->counts('registrationMovements')
                     ->sortable()
                     ->toggleable(),
             ])
