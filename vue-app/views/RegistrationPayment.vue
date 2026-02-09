@@ -55,9 +55,9 @@ async function submit() {
         <Spinner v-if="loading" class="mx-auto size-8" />
         <StripePayment
             v-else-if="paymentStore.payment"
-            :cancelable="false"
             redirectRouteName="registration-payment-status"
             :guest="guest"
+            cancelButtonText="Retour"
         />
         <form v-else class="flex flex-col gap-4" @submit.prevent="submit">
             <p class="flex items-center gap-2">

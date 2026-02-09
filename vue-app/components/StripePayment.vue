@@ -2,8 +2,6 @@
 import { loadStripe } from "@stripe/stripe-js";
 import { computed, onMounted, ref, useTemplateRef, watch } from "vue";
 import { Button } from "./ui/button";
-import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
-import { TriangleAlert } from "lucide-vue-next";
 import { toast } from "vue-sonner";
 import Spinner from "./ui/spinner/Spinner.vue";
 import { useRouter } from "vue-router";
@@ -16,6 +14,10 @@ const props = defineProps({
     cancelable: {
         type: Boolean,
         default: true,
+    },
+    cancelButtonText: {
+        type: String,
+        default: "Annuler",
     },
     redirectRouteName: {
         type: String,
@@ -146,7 +148,7 @@ watch(coverFees, (newValue) => {
             variant="ghost"
             @click="paymentStore.cancel()"
         >
-            Annuler
+            {{ cancelButtonText }}
         </Button>
     </form>
 </template>
