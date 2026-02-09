@@ -34,7 +34,7 @@ async function submit() {
         guest.value = await guestStore.createGuest(names.value[0]);
         await paymentStore.createPayment(
             article.value,
-            "registration",
+            { purpose: "registration" },
             guest.value,
         );
     } finally {

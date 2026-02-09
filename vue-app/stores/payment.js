@@ -14,15 +14,12 @@ export const usePaymentStore = defineStore("payment", () => {
         payment.value = null;
     }
 
-    async function createPayment(article, purpose = null, guest = null) {
+    async function createPayment(article, data = {}, guest = null) {
         const request = api("payments.store");
         if (guest) {
             request.config.headers["X-Guest-Id"] = guest.id;
         }
-        payment.value = await request
-            .params(article.id)
-            .data({ purpose })
-            .post();
+        payment.value = await request.params(article.id).data(data).post();
         return payment.value;
     }
 
