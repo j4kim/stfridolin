@@ -48,7 +48,15 @@ class Payment extends Model
     public function fillFromStripePI(PaymentIntent $paymentIntent): Payment
     {
         $this->stripe_id = $paymentIntent->id;
-        $this->stripe_data = $paymentIntent->toArray();
+        $this->stripe_data = collect($paymentIntent->toArray())->only([
+            'created',
+            'metadata',
+            'description',
+            'client_secret',
+            'payment_method',
+            'amount_received',
+            'last_payment_error',
+        ])->toArray();
         $this->stripe_status = $paymentIntent->status;
         $this->amount = $paymentIntent->amount / 100;
         return $this;
