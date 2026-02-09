@@ -32,11 +32,12 @@ async function submit() {
     loading.value = true;
     try {
         guest.value = await guestStore.createGuest(names.value[0]);
-        await paymentStore.createPayment(
-            article.value,
-            { purpose: "registration" },
-            guest.value,
-        );
+        const data = { purpose: "registration", names: names.value.join(";") };
+        if (names.value.length > 1) {
+            data.quantity = names.value.length;
+            data.description = `${article.value.description} pour ${data.quantity} personnes`;
+        }
+        await paymentStore.createPayment(article.value, data, guest.value);
     } finally {
         loading.value = false;
     }
