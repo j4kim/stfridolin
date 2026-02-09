@@ -15,9 +15,10 @@ class Stripe
 
         $quantity = $metadata['quantity'] ?? 1;
         $description = $metadata['description'] ?? $article->description;
+        $amount = $article->price * 100 * $quantity;
 
         return $stripe->paymentIntents->create([
-            'amount' => $article->price * 100 * $quantity,
+            'amount' => $amount,
             'currency' => 'chf',
             'description' => $description,
             'statement_descriptor_suffix' => str($description)->slug()->substr(0, 22),
@@ -25,6 +26,7 @@ class Stripe
                 ...$metadata,
                 'guest_id' => Guest::fromRequest()?->id,
                 'article_id' => $article->id,
+                'original_amount' => $amount,
             ],
         ]);
     }
@@ -40,7 +42,7 @@ class Stripe
         $stripe = new StripeClient(config('services.stripe.sk'));
         return $stripe->paymentIntents->update(
             $paymentIntentId,
-            ['amount' => (int) ($newAmount * 100)]
+            ['amount' => (int) $newAmount]
         );
     }
 }
