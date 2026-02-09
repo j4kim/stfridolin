@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Filament\Resources\Movements\MovementResource;
+use App\Filament\Resources\Payments\PaymentResource;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Database\Eloquent\BroadcastsEvents;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -25,6 +27,16 @@ class Guest extends Model
     public function movements(): HasMany
     {
         return $this->hasMany(Movement::class);
+    }
+
+    public function registrationMovements(): HasMany
+    {
+        return $this->movements()->where('type', 'registration');
+    }
+
+    public function payments(): HasMany
+    {
+        return $this->hasMany(Payment::class);
     }
 
     public function votes(): HasMany
@@ -109,5 +121,19 @@ class Guest extends Model
         return [
             new Channel("guest-$this->id"),
         ];
+    }
+
+    public function movementsUrl(): string
+    {
+        return MovementResource::getUrl('index', [
+            'filters' => ['guest' => ['value' => $this->id]]
+        ]);
+    }
+
+    public function paymentsUrl(): string
+    {
+        return PaymentResource::getUrl('index', [
+            'filters' => ['guest' => ['value' => $this->id]]
+        ]);
     }
 }
