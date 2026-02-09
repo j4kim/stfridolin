@@ -27,5 +27,5 @@ defineProps({
             </header>
             <slot />
         </main>
-    </component :is="simple ? 'div' : SidebarProvider">
+    </component>
 </template>
