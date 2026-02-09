@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Guests\Tables;
 
+use App\Models\Guest;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -49,7 +50,8 @@ class GuestsTable
                     ->counts('movements')
                     ->numeric()
                     ->sortable()
-                    ->toggleable(),
+                    ->toggleable()
+                    ->url(fn(int $state, Guest $guest): ?string => $state ? $guest->movementsUrl() : null),
                 IconColumn::make('registration_movements_count')
                     ->boolean()
                     ->label("Registered")

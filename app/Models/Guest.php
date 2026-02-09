@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Filament\Resources\Movements\MovementResource;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Database\Eloquent\BroadcastsEvents;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -119,5 +120,12 @@ class Guest extends Model
         return [
             new Channel("guest-$this->id"),
         ];
+    }
+
+    public function movementsUrl(): string
+    {
+        return MovementResource::getUrl('index', [
+            'filters' => ['guest' => ['value' => $this->id]]
+        ]);
     }
 }
