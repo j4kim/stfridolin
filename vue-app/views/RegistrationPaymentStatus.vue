@@ -3,8 +3,8 @@ import { Button } from "@/components/ui/button";
 import { usePaymentStore } from "@/stores/payment";
 import titleSvg from "@/title.svg";
 import PaymentFeedback from "./PaymentFeedback.vue";
-import AlertDescription from "@/components/ui/alert/AlertDescription.vue";
 import { ArrowLeft } from "lucide-vue-next";
+import { AlertTitle, AlertDescription } from "@/components/ui/alert";
 
 const paymentStore = usePaymentStore();
 </script>
@@ -29,6 +29,12 @@ const paymentStore = usePaymentStore();
                                 Retour à la page de paiement
                             </Button>
                         </RouterLink>
+                    </AlertDescription>
+                </template>
+                <template #success_alert_content>
+                    <AlertTitle>Paiement réussi ! 🎉</AlertTitle>
+                    <AlertDescription>
+                        Merci beaucoup ! On se retrouve le 6 mars à 18h au Bik !
                     </AlertDescription>
                 </template>
             </PaymentFeedback>

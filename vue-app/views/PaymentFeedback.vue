@@ -61,8 +61,10 @@ setTimeout(() => {
 
     <Alert v-else-if="status === 'succeeded'">
         <CheckCircle2Icon />
-        <AlertTitle>Paiement réussi ! 🎉</AlertTitle>
-        <AlertDescription> Merci pour votre soutien !</AlertDescription>
+        <slot name="success_alert_content">
+            <AlertTitle>Paiement réussi ! 🎉</AlertTitle>
+            <AlertDescription> Merci pour votre soutien !</AlertDescription>
+        </slot>
     </Alert>
 
     <Alert v-else-if="paymentError">
