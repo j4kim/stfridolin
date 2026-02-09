@@ -31,13 +31,14 @@ const guest = ref(null);
 async function submit() {
     loading.value = true;
     try {
-        guest.value = await guestStore.createGuest(names.value[0]);
+        guest.value = await guestStore.createGuest(names.value[0]); // todo create many guests
         const data = { purpose: "registration", names: names.value.join(";") };
         if (names.value.length > 1) {
             data.quantity = names.value.length;
             data.description = `${article.value.description} pour ${data.quantity} personnes`;
         }
         await paymentStore.createPayment(article.value, data, guest.value);
+        guestStore.subscribeToBroadcastEvents(`guest-${guest.value.id}`);
     } finally {
         loading.value = false;
     }

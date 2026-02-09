@@ -46,7 +46,9 @@ export const useGuestStore = defineStore("guest", () => {
         const channel = pusher.subscribe(channelName);
 
         channel.bind("GuestUpdated", (data) => {
-            guest.value = data.model;
+            if (guest.value.id == data.model.id) {
+                guest.value = data.model;
+            }
         });
 
         channel.bind("PaymentUpdated", (data) => {
@@ -55,5 +57,11 @@ export const useGuestStore = defineStore("guest", () => {
         });
     }
 
-    return { guest, error, createGuest, fetchGuest };
+    return {
+        guest,
+        error,
+        createGuest,
+        fetchGuest,
+        subscribeToBroadcastEvents,
+    };
 });
