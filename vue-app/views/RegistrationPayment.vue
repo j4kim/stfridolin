@@ -31,7 +31,8 @@ const guest = ref(null);
 async function submit() {
     loading.value = true;
     try {
-        guest.value = await guestStore.createGuest(names.value[0]); // todo create many guests
+        const guests = await guestStore.createGuests(names.value);
+        guest.value = guests[0];
         const data = { purpose: "registration", names: names.value.join(";") };
         if (names.value.length > 1) {
             data.quantity = names.value.length;

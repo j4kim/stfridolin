@@ -18,12 +18,16 @@ class GuestController extends Controller
         return $guest;
     }
 
-    public function store(Request $request)
+    public function storeMany(Request $request)
     {
-        return Guest::create([
-            'name' => $request->name,
-            'key' => str()->random(4),
-            'tokens' => 20,
-        ]);
+        $guests = [];
+        foreach ($request->names as $name) {
+            $guests[] = Guest::create([
+                'name' => $name,
+                'key' => str()->random(4),
+                'tokens' => 20,
+            ]);
+        }
+        return $guests;
     }
 }
