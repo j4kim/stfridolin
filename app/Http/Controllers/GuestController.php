@@ -25,7 +25,6 @@ class GuestController extends Controller
             $guests[] = Guest::create([
                 'name' => $name,
                 'key' => str()->random(4),
-                'tokens' => 20,
             ]);
         }
         return $guests;
