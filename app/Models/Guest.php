@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Filament\Resources\Movements\MovementResource;
+use App\Filament\Resources\Payments\PaymentResource;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Database\Eloquent\BroadcastsEvents;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -125,6 +126,13 @@ class Guest extends Model
     public function movementsUrl(): string
     {
         return MovementResource::getUrl('index', [
+            'filters' => ['guest' => ['value' => $this->id]]
+        ]);
+    }
+
+    public function paymentsUrl(): string
+    {
+        return PaymentResource::getUrl('index', [
             'filters' => ['guest' => ['value' => $this->id]]
         ]);
     }

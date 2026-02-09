@@ -44,7 +44,8 @@ class GuestsTable
                     ->counts('payments')
                     ->numeric()
                     ->sortable()
-                    ->toggleable(),
+                    ->toggleable()
+                    ->url(fn(int $state, Guest $guest): ?string => $state ? $guest->paymentsUrl() : null),
                 TextColumn::make('movements_count')
                     ->label("Movements")
                     ->counts('movements')
