@@ -13,8 +13,6 @@ const paymentStore = usePaymentStore();
     <div class="mx-auto max-w-xl p-8">
         <img class="mx-auto max-w-xl p-12" :src="titleSvg" />
 
-        <h2 class="my-4 text-xl font-bold">Statut du paiement</h2>
-
         <div class="flex flex-col justify-center gap-4">
             <PaymentFeedback>
                 <template #requires_payment_method_error>
