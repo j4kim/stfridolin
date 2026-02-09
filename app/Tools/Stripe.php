@@ -13,11 +13,14 @@ class Stripe
     {
         $stripe = new StripeClient(config('services.stripe.sk'));
 
+        $quantity = $metadata['quantity'] ?? 1;
+        $description = $metadata['description'] ?? $article->description;
+
         return $stripe->paymentIntents->create([
-            'amount' => $article->price * 100,
+            'amount' => $article->price * 100 * $quantity,
             'currency' => 'chf',
-            'description' => $article->description,
-            'statement_descriptor_suffix' => str($article->description)->slug(),
+            'description' => $description,
+            'statement_descriptor_suffix' => str($description)->slug(),
             'metadata' => [
                 ...$metadata,
                 'guest_id' => Guest::fromRequest()?->id,

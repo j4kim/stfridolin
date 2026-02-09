@@ -21,7 +21,7 @@ class PaymentController extends Controller
             'stripe_id' => $paymentIntent->id,
             'stripe_data' => $paymentIntent->toArray(),
             'purpose' => $request->purpose,
-            'amount' => $article->price,
+            'amount' => $paymentIntent->amount / 100,
         ]);
 
         return $payment;
