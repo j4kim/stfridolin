@@ -33,7 +33,7 @@ class MovementsTable
                 TextColumn::make('payment_id')
                     ->numeric()
                     ->sortable(),
-                TextColumn::make('article.name')
+                TextColumn::make('article.description')
                     ->searchable(),
                 TextColumn::make('amount')
                     ->numeric()
@@ -45,7 +45,7 @@ class MovementsTable
                 SelectFilter::make('guest')
                     ->relationship('guest', 'name'),
                 SelectFilter::make('article')
-                    ->relationship('article', 'name'),
+                    ->relationship('article', 'description'),
             ])
             ->recordActions([
                 ViewAction::make(),
