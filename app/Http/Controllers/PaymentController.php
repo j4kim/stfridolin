@@ -51,7 +51,7 @@ class PaymentController extends Controller
         }
         $paymentIntent = Stripe::updateAmount($payment->stripe_id, $newAmount);
         $payment->updateFromStripe($paymentIntent);
-        PaymentUpdated::dispatch($payment);
+        return $payment;
     }
 
     public function stripeWebhook(Request $request)

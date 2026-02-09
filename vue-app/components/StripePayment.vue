@@ -104,6 +104,9 @@ watch(coverFees, (newValue) => {
         .params({ payment: paymentStore.payment.id })
         .data({ coverFees: newValue })
         .put()
+        .then((payment) => {
+            paymentStore.payment = payment;
+        })
         .finally(() => (toggling.value = false));
 });
 </script>
