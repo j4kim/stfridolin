@@ -9,19 +9,24 @@ use Stripe\StripeClient;
 
 class Stripe
 {
-    public static function createPaymentIntent(Article $article, string $purpose): PaymentIntent
+    public static function createPaymentIntent(Article $article, array $metadata = []): PaymentIntent
     {
         $stripe = new StripeClient(config('services.stripe.sk'));
 
+        $quantity = $metadata['quantity'] ?? 1;
+        $description = $metadata['description'] ?? $article->description;
+        $amount = $article->price * 100 * $quantity;
+
         return $stripe->paymentIntents->create([
-            'amount' => $article->price * 100,
+            'amount' => $amount,
             'currency' => 'chf',
-            'description' => $article->description,
-            'statement_descriptor_suffix' => str($article->description)->slug(),
+            'description' => $description,
+            'statement_descriptor_suffix' => str($description)->slug()->substr(0, 22),
             'metadata' => [
+                ...$metadata,
                 'guest_id' => Guest::fromRequest()?->id,
                 'article_id' => $article->id,
-                'purpose' => $purpose,
+                'original_amount' => $amount,
             ],
         ]);
     }
@@ -37,7 +42,7 @@ class Stripe
         $stripe = new StripeClient(config('services.stripe.sk'));
         return $stripe->paymentIntents->update(
             $paymentIntentId,
-            ['amount' => (int) ($newAmount * 100)]
+            ['amount' => (int) $newAmount]
         );
     }
 }

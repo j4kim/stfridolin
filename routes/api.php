@@ -40,5 +40,5 @@ Route::middleware(AuthenticateGuest::class)->group(function () {
     Route::put('payments/{payment}/toggle-cover-fees', [PaymentController::class, 'toggleCoverFees'])->name('payments.toggle-cover-fees');
 });
 
-Route::post('guests', [GuestController::class, 'store'])->name('guests.store');
+Route::post('guests', [GuestController::class, 'storeMany'])->name('guests.storeMany');
 Route::get('guests/{key}', [GuestController::class, 'get'])->name('guests.get');
