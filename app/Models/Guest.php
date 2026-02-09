@@ -27,6 +27,11 @@ class Guest extends Model
         return $this->hasMany(Movement::class);
     }
 
+    public function payments(): HasMany
+    {
+        return $this->hasMany(Payment::class);
+    }
+
     public function votes(): HasMany
     {
         return $this->hasMany(Vote::class);

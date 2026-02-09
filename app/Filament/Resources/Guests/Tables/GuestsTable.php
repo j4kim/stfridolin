@@ -37,6 +37,18 @@ class GuestsTable
                 TextColumn::make('points')
                     ->numeric()
                     ->sortable(),
+                TextColumn::make('payments_count')
+                    ->label("Payments")
+                    ->counts('payments')
+                    ->numeric()
+                    ->sortable()
+                    ->toggleable(),
+                TextColumn::make('movements_count')
+                    ->label("Movements")
+                    ->counts('movements')
+                    ->numeric()
+                    ->sortable()
+                    ->toggleable(),
             ])
             ->persistSortInSession()
             ->filters([
