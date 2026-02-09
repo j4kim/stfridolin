@@ -59,6 +59,7 @@ onMounted(async () => {
             type: "tabs",
             defaultCollapsed: false,
         },
+        paymentMethodOrder: ["twint", "apple_pay", "google_pay", "card"],
     };
 
     const paymentElement = elements.create("payment", options);
