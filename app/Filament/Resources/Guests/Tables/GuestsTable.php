@@ -15,12 +15,16 @@ class GuestsTable
     {
         return $table
             ->columns([
-                TextColumn::make('created_at')
-                    ->dateTime()
+                TextColumn::make('id')
+                    ->numeric()
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(),
+                TextColumn::make('created_at')
+                    ->dateTime("d.m.Y H:i")
+                    ->sortable()
+                    ->toggleable(),
                 TextColumn::make('updated_at')
-                    ->dateTime()
+                    ->dateTime("d.m.Y H:i")
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('name')
@@ -34,6 +38,7 @@ class GuestsTable
                     ->numeric()
                     ->sortable(),
             ])
+            ->persistSortInSession()
             ->filters([
                 //
             ])
