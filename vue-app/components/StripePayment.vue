@@ -119,7 +119,7 @@ watch(coverFees, (newValue) => {
             <div>
                 <Spinner v-if="toggling" class="mr-1 mb-1 inline" />
                 <span class="font-extrabold"
-                    >{{ intent.amount / 100 }}&nbsp;CHF</span
+                    >{{ paymentStore.payment.amount }}&nbsp;CHF</span
                 >
             </div>
         </div>
