@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Guests\Tables;
 
+use App\Filament\Tools\ColumnTools;
 use App\Models\Guest;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
@@ -17,18 +18,7 @@ class GuestsTable
     {
         return $table
             ->columns([
-                TextColumn::make('id')
-                    ->numeric()
-                    ->sortable()
-                    ->toggleable(),
-                TextColumn::make('created_at')
-                    ->dateTime("d.m.Y H:i")
-                    ->sortable()
-                    ->toggleable(),
-                TextColumn::make('updated_at')
-                    ->dateTime("d.m.Y H:i")
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                ...ColumnTools::systemColumns(),
                 TextColumn::make('name')
                     ->searchable(),
                 TextColumn::make('key')
