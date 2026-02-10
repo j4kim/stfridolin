@@ -39,10 +39,10 @@ class GuestsTable
                 TextColumn::make('points')
                     ->numeric()
                     ->sortable(),
-                TextColumn::make('payments_count')
-                    ->label("Payments")
-                    ->counts('payments')
-                    ->numeric()
+                TextColumn::make('payments_sum_amount')
+                    ->label("Spent")
+                    ->sum('payments', 'amount')
+                    ->money('CHF')
                     ->sortable()
                     ->toggleable()
                     ->url(fn(int $state, Guest $guest): ?string => $state ? $guest->paymentsUrl() : null),
