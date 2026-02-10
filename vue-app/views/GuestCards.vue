@@ -12,10 +12,6 @@ api("guests.index")
 onMounted(() => {
     document.documentElement.classList.remove("dark");
 });
-
-function guetAuthUrl(guest) {
-    return `${location.origin}/guest/${guest.key}`;
-}
 </script>
 
 <template>
@@ -29,9 +25,9 @@ function guetAuthUrl(guest) {
             >
                 {{ guest.key }}
             </h2>
-            <QrCode :value="guetAuthUrl(guest)" class="mx-auto" />
+            <QrCode :value="guest.auth_url" class="mx-auto" />
             <div class="-mt-4 mb-8 text-center font-mono opacity-50">
-                {{ guetAuthUrl(guest) }}
+                {{ guest.auth_url }}
             </div>
         </div>
     </div>
