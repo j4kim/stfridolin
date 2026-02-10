@@ -9,10 +9,6 @@ const vouchers = ref([]);
 api("vouchers.index")
     .get()
     .then((data) => (vouchers.value = data));
-
-function getUrl(voucher) {
-    return `${location.origin}/voucher/${voucher.id}`;
-}
 </script>
 
 <template>
@@ -24,7 +20,7 @@ function getUrl(voucher) {
             <h2 class="text-center text-xl opacity-50">
                 CHF {{ voucher.article.price }}
             </h2>
-            <QrCode :value="getUrl(voucher)" :width="120" class="mx-auto" />
+            <QrCode :value="voucher.url" :width="120" class="mx-auto" />
         </template>
     </PrintableCards>
 </template>
