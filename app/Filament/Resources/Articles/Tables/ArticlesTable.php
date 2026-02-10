@@ -15,12 +15,16 @@ class ArticlesTable
     {
         return $table
             ->columns([
-                TextColumn::make('created_at')
-                    ->dateTime()
+                TextColumn::make('id')
+                    ->numeric()
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(),
+                TextColumn::make('created_at')
+                    ->dateTime("d.m.Y H:i")
+                    ->sortable()
+                    ->toggleable(),
                 TextColumn::make('updated_at')
-                    ->dateTime()
+                    ->dateTime("d.m.Y H:i")
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('type')
@@ -32,10 +36,10 @@ class ArticlesTable
                 TextColumn::make('currency')
                     ->searchable(),
                 TextColumn::make('std_price')
-                    ->money()
+                    ->money('CHF')
                     ->sortable(),
                 TextColumn::make('price')
-                    ->money()
+                    ->money('CHF')
                     ->sortable(),
             ])
             ->filters([
