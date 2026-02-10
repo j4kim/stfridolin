@@ -18,12 +18,14 @@ class ArticlesTable
             ->columns([
                 ...ColumnTools::systemColumns(),
                 TextColumn::make('type')
+                    ->badge()
                     ->searchable(),
                 TextColumn::make('name')
                     ->searchable(),
                 TextColumn::make('description')
                     ->searchable(),
                 TextColumn::make('currency')
+                    ->badge()
                     ->searchable(),
                 TextColumn::make('std_price')
                     ->money('CHF')

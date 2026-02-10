@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\PaymentPurpose;
+use App\Enums\PaymentStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Stripe\PaymentIntent;
@@ -13,6 +15,8 @@ class Payment extends Model
         return [
             'stripe_data' => 'array',
             'amount' => 'float',
+            'purpose' => PaymentPurpose::class,
+            'stripe_status' => PaymentStatus::class,
         ];
     }
 
@@ -31,12 +35,12 @@ class Payment extends Model
         static::saved(function (Payment $payment) {
             $oldStatus = $payment->getOriginal('stripe_status');
             $newStatus = $payment->stripe_status;
-            if ($oldStatus !== $newStatus && $newStatus === "succeeded") {
-                if ($payment->purpose === 'buy-tokens') {
+            if ($oldStatus !== $newStatus && $newStatus === PaymentStatus::succeeded) {
+                if ($payment->purpose === PaymentPurpose::BuyTokens) {
                     /** @var Guest $guest */
                     $guest = $payment->guest;
                     $guest->addTokens($payment);
-                } else if ($payment->purpose === "registration") {
+                } else if ($payment->purpose === PaymentPurpose::Registration) {
                     $guestIds = str($payment->stripe_data['metadata']['guestIds'])->explode(';');
                     $guests = Guest::whereIn('id', $guestIds)->get();
                     $guests->each(fn(Guest $guest) => $guest->register($payment));

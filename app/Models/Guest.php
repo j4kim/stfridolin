@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\MovementType;
 use App\Filament\Resources\Movements\MovementResource;
 use App\Filament\Resources\Payments\PaymentResource;
 use Illuminate\Broadcasting\Channel;
@@ -71,7 +72,7 @@ class Guest extends Model
         $this->movements()->create([
             'payment_id' => $payment->id,
             'article_id' => $article->id,
-            'type' => 'buy-tokens',
+            'type' => MovementType::BuyTokens,
             'amount' => $payment->amount,
             'meta' => [
                 'tokens' => $tokens,
@@ -91,7 +92,7 @@ class Guest extends Model
         $this->movements()->create([
             'payment_id' => $payment->id,
             'article_id' => $article->id,
-            'type' => 'registration',
+            'type' => MovementType::Registration,
             'amount' => $article->price,
             'meta' => [
                 'balance' => $this->tokens,
@@ -107,7 +108,7 @@ class Guest extends Model
         $this->save();
         return $this->movements()->create([
             'article_id' => $article->id,
-            'type' => 'spend-tokens',
+            'type' => MovementType::SpendTokens,
             'amount' => $tokens,
             'meta' => [
                 'balance' => $this->tokens,

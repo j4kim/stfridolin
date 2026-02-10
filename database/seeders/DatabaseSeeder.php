@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'test@example.com',
         ]);
 
-        Guest::factory(10)->create();
+        // Guest::factory(10)->create();
         Guest::create([
             'name' => 'Joaquim',
             'key' => '0000',

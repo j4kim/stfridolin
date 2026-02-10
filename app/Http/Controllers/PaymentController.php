@@ -2,19 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\PaymentPurpose;
 use App\Events\PaymentUpdated;
 use App\Models\Article;
 use App\Models\Guest;
 use App\Models\Payment;
 use App\Tools\Stripe;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Stripe\Event;
 
 class PaymentController extends Controller
 {
     public function store(Article $article, Request $request)
     {
-        $request->validate(['purpose' => 'required']);
+        $request->validate(['purpose' => [Rule::enum(PaymentPurpose::class)]]);
 
         $paymentIntent = Stripe::createPaymentIntent($article, $request->all());
 

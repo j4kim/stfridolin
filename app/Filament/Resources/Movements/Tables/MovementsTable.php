@@ -29,6 +29,7 @@ class MovementsTable
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('type')
+                    ->badge()
                     ->searchable(),
             ])
             ->filters([

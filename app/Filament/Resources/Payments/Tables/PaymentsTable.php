@@ -21,8 +21,10 @@ class PaymentsTable
                 TextColumn::make('guest.name')
                     ->searchable(),
                 TextColumn::make('stripe_status')
+                    ->badge()
                     ->searchable(),
                 TextColumn::make('purpose')
+                    ->badge()
                     ->searchable(),
                 TextColumn::make('amount')
                     ->numeric()

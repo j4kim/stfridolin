@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\ArticleType;
+use App\Enums\Currency;
 use Illuminate\Database\Eloquent\Model;
 
 class Article extends Model
@@ -12,6 +14,8 @@ class Article extends Model
             'meta' => 'array',
             'std_price' => 'float',
             'price' => 'float',
+            'type' => ArticleType::class,
+            'currency' => Currency::class,
         ];
     }
 }
