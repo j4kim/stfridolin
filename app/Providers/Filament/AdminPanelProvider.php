@@ -58,7 +58,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->renderHook(
                 PanelsRenderHook::GLOBAL_SEARCH_BEFORE,
-                fn(): string => Blade::render("<x-filament::link href=\"/\" target=\"_blank\">Vers app</x-filament::link>"),
+                fn(): string => Blade::render("<x-filament::link href=\"/\">Vers app</x-filament::link>"),
             );;
     }
 }
