@@ -30,19 +30,19 @@ function getUrl(voucher) {
                     CHF {{ voucher.article.price }}
                 </h2>
                 <QrCode :value="getUrl(voucher)" :width="120" class="mx-auto" />
-                <template v-for="x in ['left', 'right']">
-                    <template v-for="y in ['top', 'bottom']">
-                        <template v-for="type in ['horizontal', 'vertical']">
-                            <div
-                                class="cut-line"
-                                :data-x="x"
-                                :data-y="y"
-                                :data-type="type"
-                            ></div>
-                        </template>
-                    </template>
-                </template>
             </div>
+            <template v-for="x in ['left', 'right']">
+                <div
+                    v-for="y in ['top', 'bottom']"
+                    class="cut-line"
+                    :style="{
+                        [x]: 0,
+                        [y]: 0,
+                        [`border-${x}`]: 0,
+                        [`border-${y}`]: 0,
+                    }"
+                ></div>
+            </template>
         </div>
     </div>
 </template>
@@ -52,56 +52,18 @@ function getUrl(voucher) {
     --width: 55mm;
     --height: 85mm;
     --margin: 3mm;
-    --p: 1mm;
-    --s: 2mm;
     break-inside: avoid;
+    position: relative;
 }
 .card {
     width: var(--width);
     height: var(--height);
     margin: var(--margin);
-    position: relative;
 }
 .cut-line {
-    height: 0.1mm;
-    width: 0.1mm;
-    background-color: grey;
+    height: var(--margin);
+    width: var(--margin);
+    border: 1px dashed grey;
     position: absolute;
-
-    &[data-type="vertical"] {
-        height: var(--s);
-
-        &[data-x="right"] {
-            left: var(--width);
-        }
-
-        &[data-y="top"] {
-            bottom: calc(var(--height) + var(--p));
-        }
-
-        &[data-y="bottom"] {
-            bottom: calc(-1 * calc(var(--s) + var(--p)));
-        }
-    }
-
-    &[data-type="horizontal"] {
-        width: var(--s);
-
-        &[data-x="left"] {
-            left: calc(-1 * calc(var(--s) + var(--p)));
-        }
-
-        &[data-x="right"] {
-            left: calc(var(--width) + var(--p));
-        }
-
-        &[data-y="top"] {
-            bottom: calc(var(--height));
-        }
-
-        &[data-y="bottom"] {
-            bottom: 0;
-        }
-    }
 }
 </style>
