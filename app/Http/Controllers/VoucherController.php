@@ -23,4 +23,9 @@ class VoucherController extends Controller
         $voucher->use(Guest::fromRequest());
         return $voucher;
     }
+
+    public function index()
+    {
+        return Voucher::with('article')->get();
+    }
 }

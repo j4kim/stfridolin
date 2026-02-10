@@ -17,6 +17,7 @@ import RegistrationPaymentStatus from "@/views/RegistrationPaymentStatus.vue";
 import GuestCards from "@/views/GuestCards.vue";
 import Tbi from "@/views/Tbi.vue";
 import Voucher from "@/views/Voucher.vue";
+import VoucherCards from "@/views/VoucherCards.vue";
 
 const routes = [
     {
@@ -139,6 +140,14 @@ const routes = [
         path: "/guest-cards",
         name: "guest-cards",
         component: GuestCards,
+        meta: {
+            requireAuth: true,
+        },
+    },
+    {
+        path: "/voucher-cards",
+        name: "voucher-cards",
+        component: VoucherCards,
         meta: {
             requireAuth: true,
         },
