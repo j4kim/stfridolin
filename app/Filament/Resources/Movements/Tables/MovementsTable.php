@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Movements\Tables;
 
+use App\Enums\MovementType;
 use App\Filament\Tools\ColumnTools;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
@@ -37,6 +38,8 @@ class MovementsTable
                     ->relationship('guest', 'name'),
                 SelectFilter::make('article')
                     ->relationship('article', 'description'),
+                SelectFilter::make('type')
+                    ->options(MovementType::class),
             ])
             ->recordActions([
                 ViewAction::make(),

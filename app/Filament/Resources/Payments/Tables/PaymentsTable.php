@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\Payments\Tables;
 
+use App\Enums\PaymentPurpose;
+use App\Enums\PaymentStatus;
 use App\Filament\Tools\ColumnTools;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
@@ -33,6 +35,11 @@ class PaymentsTable
             ->filters([
                 SelectFilter::make('guest')
                     ->relationship('guest', 'name'),
+                SelectFilter::make('stripe_status')
+                    ->default(PaymentStatus::succeeded)
+                    ->options(PaymentStatus::class),
+                SelectFilter::make('purpose')
+                    ->options(PaymentPurpose::class),
             ])
             ->recordActions([
                 ViewAction::make(),

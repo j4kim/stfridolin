@@ -2,12 +2,14 @@
 
 namespace App\Filament\Resources\Articles\Tables;
 
+use App\Enums\ArticleType;
 use App\Filament\Tools\ColumnTools;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
 class ArticlesTable
@@ -35,7 +37,8 @@ class ArticlesTable
                     ->sortable(),
             ])
             ->filters([
-                //
+                SelectFilter::make('type')
+                    ->options(ArticleType::class),
             ])
             ->recordActions([
                 ViewAction::make(),
