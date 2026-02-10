@@ -2,27 +2,36 @@
 import { api } from "@/api";
 import Layout from "@/components/Layout.vue";
 import { Button } from "@/components/ui/button";
-import {
-    Card,
-    CardContent,
-    CardFooter,
-    CardHeader,
-} from "@/components/ui/card";
+import { Card, CardFooter, CardHeader } from "@/components/ui/card";
 import Spinner from "@/components/ui/spinner/Spinner.vue";
 import { CircleStar } from "lucide-vue-next";
 import { ref } from "vue";
 import { useRoute } from "vue-router";
+import { toast } from "vue-sonner";
 
 const route = useRoute();
 
 const voucher = ref(null);
 const loading = ref(true);
+const submitting = ref(false);
 
 api("vouchers.get")
     .params(route.params.id)
     .get()
     .then((data) => (voucher.value = data))
     .finally(() => (loading.value = false));
+
+async function submit() {
+    submitting.value = true;
+    try {
+        voucher.value = await api("vouchers.use")
+            .params(route.params.id)
+            .post();
+        toast.success("Jetons ajoutés");
+    } finally {
+        submitting.value = false;
+    }
+}
 </script>
 
 <template>
@@ -44,7 +53,14 @@ api("vouchers.get")
                     </div>
                 </CardHeader>
                 <CardFooter>
-                    <Button v-if="!voucher.guest_id" size="lg" class="w-full">
+                    <Button
+                        v-if="!voucher.guest_id"
+                        size="lg"
+                        class="w-full"
+                        :disabled="submitting"
+                        @click="submit"
+                    >
+                        <Spinner v-if="submitting"></Spinner>
                         Utiliser
                     </Button>
                     <Button v-else size="lg" class="w-full" disabled>
