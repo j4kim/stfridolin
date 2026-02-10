@@ -49,10 +49,13 @@ function getUrl(voucher) {
 </template>
 
 <style scoped lang="scss">
+@page {
+    margin: 6mm;
+}
 .card-container {
     --width: 55mm;
     --height: 85mm;
-    --margin: 3mm;
+    --margin: 5mm;
     break-inside: avoid;
     position: relative;
 }
@@ -65,7 +68,7 @@ function getUrl(voucher) {
     height: var(--margin);
     width: var(--margin);
     position: absolute;
-    --length: 1mm;
+    --length: 2mm;
     div {
         position: absolute;
         background-color: grey;
