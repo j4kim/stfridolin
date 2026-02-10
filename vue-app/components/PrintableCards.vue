@@ -13,8 +13,8 @@ onMounted(() => {
 <template>
     <div class="flex flex-wrap">
         <div v-for="item in items" class="card-container">
-            <div class="card flex flex-col justify-center">
-                <img class="mx-auto mb-[4mm] w-[10mm]" src="/favicon.svg" />
+            <div class="card flex flex-col justify-center p-[5mm]">
+                <img class="mx-auto mb-[2mm] w-[10mm]" src="/favicon.svg" />
                 <slot name="item" v-bind="item"></slot>
             </div>
             <template v-for="x in ['left', 'right']">
