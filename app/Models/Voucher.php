@@ -22,4 +22,11 @@ class Voucher extends Model
     {
         return $this->belongsTo(Guest::class);
     }
+
+    public function use(Guest $guest)
+    {
+        $this->guest_id = $guest->id;
+        $guest->addTokens($this->article, null, ['voucher_id' => $this->id]);
+        $this->save();
+    }
 }

@@ -62,18 +62,16 @@ class Guest extends Model
         return self::cached($id);
     }
 
-    public function addTokens(Payment $payment)
+    public function addTokens(Article $article, ?int $paymentId = null, array $metadata = []): Movement
     {
-        $metadata = $payment->stripe_data['metadata'];
-        $article = Article::findOrFail($metadata['article_id']);
         $tokens = $article->meta['tokens'];
         $this->tokens += $tokens;
         $this->save();
-        $this->movements()->create([
-            'payment_id' => $payment->id,
+        return $this->movements()->create([
+            'payment_id' => $paymentId,
             'article_id' => $article->id,
             'type' => MovementType::BuyTokens,
-            'amount' => $payment->amount,
+            'amount' => $article->price,
             'meta' => [
                 'tokens' => $tokens,
                 'balance' => $this->tokens,
@@ -81,6 +79,13 @@ class Guest extends Model
                 ...$metadata,
             ]
         ]);
+    }
+
+    public function addTokensFromPayment(Payment $payment): Movement
+    {
+        $metadata = $payment->stripe_data['metadata'];
+        $article = Article::findOrFail($metadata['article_id']);
+        return $this->addTokens($article, $payment->id, $metadata);
     }
 
     public function register(Payment $payment)

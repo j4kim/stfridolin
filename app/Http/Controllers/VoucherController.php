@@ -20,8 +20,7 @@ class VoucherController extends Controller
             abort(400, "La carte a déjà été utilisée");
         }
         $voucher->load('article');
-        $voucher->guest_id = Guest::fromRequest()->id;
-        $voucher->save();
+        $voucher->use(Guest::fromRequest());
         return $voucher;
     }
 }
