@@ -43,5 +43,6 @@ class DatabaseSeeder extends Seeder
         Track::orderByDesc('id')->first()->update(['priority' => 1]);
 
         $this->call(ArticleSeeder::class);
+        $this->call(VoucherSeeder::class);
     }
 }
