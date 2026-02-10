@@ -11,6 +11,7 @@ use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class ArticlesTable
 {
@@ -26,15 +27,22 @@ class ArticlesTable
                     ->searchable(),
                 TextColumn::make('description')
                     ->searchable(),
+                TextColumn::make('std_price')
+                    ->numeric()
+                    ->sortable(),
+                TextColumn::make('price')
+                    ->numeric()
+                    ->sortable(),
                 TextColumn::make('currency')
                     ->badge()
                     ->searchable(),
-                TextColumn::make('std_price')
-                    ->money('CHF')
-                    ->sortable(),
-                TextColumn::make('price')
-                    ->money('CHF')
-                    ->sortable(),
+                TextColumn::make('discount')
+                    ->sortable(
+                        query: fn(Builder $query, string $direction): Builder =>
+                        $query
+                            ->orderByRaw("(ifnull(std_price, price) - price) / ifnull(std_price, price) $direction")
+                    )
+                    ->formatStateUsing(fn(float $state): string => "-$state%"),
             ])
             ->filters([
                 SelectFilter::make('type')
