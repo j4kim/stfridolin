@@ -9,6 +9,7 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 
 class VouchersTable
@@ -24,7 +25,10 @@ class VouchersTable
                     ->searchable(),
             ])
             ->filters([
-                //
+                TernaryFilter::make('guest_id')
+                    ->label("Utilisé")
+                    ->nullable()
+                    ->default(false)
             ])
             ->recordActions([
                 ViewAction::make(),
