@@ -38,10 +38,11 @@ function getUrl(voucher) {
                     :style="{
                         [x]: 0,
                         [y]: 0,
-                        [`border-${x}`]: 0,
-                        [`border-${y}`]: 0,
                     }"
-                ></div>
+                >
+                    <div class="horizontal" :class="`${x} ${y}`"></div>
+                    <div class="vertical" :class="`${x} ${y}`"></div>
+                </div>
             </template>
         </div>
     </div>
@@ -63,7 +64,27 @@ function getUrl(voucher) {
 .cut-line {
     height: var(--margin);
     width: var(--margin);
-    border: 1px dashed grey;
     position: absolute;
+    --length: 1mm;
+    div {
+        position: absolute;
+        background-color: grey;
+        height: 0.1mm;
+        width: 0.1mm;
+        &.horizontal {
+            width: var(--length);
+            left: calc((var(--margin) - var(--length)) / 2);
+            &.top {
+                bottom: 0;
+            }
+        }
+        &.vertical {
+            height: var(--length);
+            top: calc((var(--margin) - var(--length)) / 2);
+            &.left {
+                right: 0;
+            }
+        }
+    }
 }
 </style>
