@@ -7,6 +7,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\SpotifyController;
 use App\Http\Controllers\TrackController;
 use App\Http\Controllers\VoteController;
+use App\Http\Controllers\VoucherController;
 use App\Http\Middleware\AuthenticateGuest;
 use App\Http\Middleware\EnsureMasterClient;
 use Illuminate\Support\Facades\Route;
@@ -38,6 +39,7 @@ Route::middleware(AuthenticateGuest::class)->group(function () {
     Route::post('payments/{article}', [PaymentController::class, 'store'])->name('payments.store');
     Route::get('payments/{payment}', [PaymentController::class, 'get'])->name('payments.get');
     Route::put('payments/{payment}/toggle-cover-fees', [PaymentController::class, 'toggleCoverFees'])->name('payments.toggle-cover-fees');
+    Route::get('vouchers/{voucher}', [VoucherController::class, 'get'])->name('vouchers.get');
 });
 
 Route::post('guests', [GuestController::class, 'storeMany'])->name('guests.storeMany');
