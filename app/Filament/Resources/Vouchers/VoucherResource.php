@@ -2,8 +2,8 @@
 
 namespace App\Filament\Resources\Vouchers;
 
-use App\Filament\Resources\Payments\Pages\ViewVoucher;
-use App\Filament\Resources\Payments\Schemas\VoucherInfolist;
+use App\Filament\Resources\Vouchers\Pages\ViewVoucher;
+use App\Filament\Resources\Vouchers\Schemas\VoucherInfolist;
 use App\Filament\Resources\Vouchers\Pages\CreateVoucher;
 use App\Filament\Resources\Vouchers\Pages\EditVoucher;
 use App\Filament\Resources\Vouchers\Pages\ListVouchers;

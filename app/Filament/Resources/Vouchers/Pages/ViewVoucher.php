@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\Payments\Pages;
+namespace App\Filament\Resources\Vouchers\Pages;
 
 use App\Filament\Resources\Vouchers\VoucherResource;
 use Filament\Actions\DeleteAction;
