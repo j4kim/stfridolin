@@ -1,49 +1,33 @@
 import { createRouter, createWebHistory } from "vue-router";
 import { useMainStore } from "@/stores/main";
 import { redirectToLogin } from "@/api";
-import Spotify from "@/views/Spotify.vue";
-import Boxing from "@/views/Boxing.vue";
-import Vote from "@/views/Vote.vue";
-import AddToQueue from "@/views/AddToQueue.vue";
-import Queue from "@/views/Queue.vue";
 import { useGuestStore } from "@/stores/guest";
-import GuestAuthForm from "@/views/GuestAuthForm.vue";
-import GuestPage from "@/views/GuestPage.vue";
-import Home from "@/views/Home.vue";
-import BuyTokens from "@/views/BuyTokens.vue";
-import PaymentStatus from "@/views/PaymentStatus.vue";
-import RegistrationPayment from "@/views/RegistrationPayment.vue";
-import RegistrationPaymentStatus from "@/views/RegistrationPaymentStatus.vue";
-import GuestCards from "@/views/GuestCards.vue";
-import Tbi from "@/views/Tbi.vue";
-import Voucher from "@/views/Voucher.vue";
-import VoucherCards from "@/views/VoucherCards.vue";
 
 const routes = [
     {
         path: "/guest/auth",
         name: "guest-auth-form",
-        component: GuestAuthForm,
+        component: () => import("@/views/GuestAuthForm.vue"),
     },
     {
         path: "/guest/:key",
         name: "guest-page",
-        component: GuestPage,
+        component: () => import("@/views/GuestPage.vue"),
     },
     {
         path: "/thunasse",
         name: "registration-payment",
-        component: RegistrationPayment,
+        component: () => import("@/views/RegistrationPayment.vue"),
     },
     {
         path: "/thunasse/:id/status",
         name: "registration-payment-status",
-        component: RegistrationPaymentStatus,
+        component: () => import("@/views/RegistrationPaymentStatus.vue"),
     },
     {
         path: "/",
         name: "home",
-        component: Home,
+        component: () => import("@/views/Home.vue"),
         meta: {
             requireGuest: true,
         },
@@ -51,7 +35,7 @@ const routes = [
     {
         path: "/buy-tokens",
         name: "buy-tokens",
-        component: BuyTokens,
+        component: () => import("@/views/BuyTokens.vue"),
         meta: {
             requireGuest: true,
         },
@@ -59,7 +43,7 @@ const routes = [
     {
         path: "/payment/:id/status",
         name: "payment-status",
-        component: PaymentStatus,
+        component: () => import("@/views/PaymentStatus.vue"),
         meta: {
             requireGuest: true,
         },
@@ -67,7 +51,7 @@ const routes = [
     {
         path: "/vote",
         name: "vote",
-        component: Vote,
+        component: () => import("@/views/Vote.vue"),
         meta: {
             requireGuest: true,
         },
@@ -75,7 +59,7 @@ const routes = [
     {
         path: "/queue",
         name: "queue",
-        component: Queue,
+        component: () => import("@/views/Queue.vue"),
         meta: {
             requireGuest: true,
         },
@@ -83,7 +67,7 @@ const routes = [
     {
         path: "/add-to-queue",
         name: "add-to-queue",
-        component: AddToQueue,
+        component: () => import("@/views/AddToQueue.vue"),
         meta: {
             requireGuest: true,
         },
@@ -91,7 +75,7 @@ const routes = [
     {
         path: "/marble-race",
         name: "marble-race",
-        component: Tbi,
+        component: () => import("@/views/Tbi.vue"),
         meta: {
             requireGuest: true,
         },
@@ -99,7 +83,7 @@ const routes = [
     {
         path: "/olympics",
         name: "olympics",
-        component: Tbi,
+        component: () => import("@/views/Tbi.vue"),
         meta: {
             requireGuest: true,
         },
@@ -107,7 +91,7 @@ const routes = [
     {
         path: "/joes-weight",
         name: "joes-weight",
-        component: Tbi,
+        component: () => import("@/views/Tbi.vue"),
         meta: {
             requireGuest: true,
         },
@@ -115,7 +99,7 @@ const routes = [
     {
         path: "/voucher/:id",
         name: "voucher",
-        component: Voucher,
+        component: () => import("@/views/Voucher.vue"),
         meta: {
             requireGuest: true,
         },
@@ -123,7 +107,7 @@ const routes = [
     {
         path: "/spotify",
         name: "spotify",
-        component: Spotify,
+        component: () => import("@/views/Spotify.vue"),
         meta: {
             requireAuth: true,
         },
@@ -131,7 +115,7 @@ const routes = [
     {
         path: "/boxing",
         name: "boxing",
-        component: Boxing,
+        component: () => import("@/views/Boxing.vue"),
         meta: {
             requireAuth: true,
         },
@@ -139,7 +123,7 @@ const routes = [
     {
         path: "/guest-cards",
         name: "guest-cards",
-        component: GuestCards,
+        component: () => import("@/views/GuestCards.vue"),
         meta: {
             requireAuth: true,
         },
@@ -147,12 +131,14 @@ const routes = [
     {
         path: "/voucher-cards",
         name: "voucher-cards",
-        component: VoucherCards,
+        component: () => import("@/views/VoucherCards.vue"),
         meta: {
             requireAuth: true,
         },
     },
 ];
+
+// todo: bencmark before/after perf
 
 const router = createRouter({
     history: createWebHistory(),
