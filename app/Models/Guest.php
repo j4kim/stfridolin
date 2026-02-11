@@ -7,6 +7,7 @@ use App\Filament\Resources\Movements\MovementResource;
 use App\Filament\Resources\Payments\PaymentResource;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Database\Eloquent\BroadcastsEvents;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -17,6 +18,8 @@ class Guest extends Model
     /** @use HasFactory<\Database\Factories\GuestFactory> */
     use HasFactory;
     use BroadcastsEvents;
+
+    protected $appends = ['auth_url'];
 
     protected static function booted(): void
     {
@@ -62,18 +65,16 @@ class Guest extends Model
         return self::cached($id);
     }
 
-    public function addTokens(Payment $payment)
+    public function addTokens(Article $article, ?int $paymentId = null, array $metadata = []): Movement
     {
-        $metadata = $payment->stripe_data['metadata'];
-        $article = Article::findOrFail($metadata['article_id']);
         $tokens = $article->meta['tokens'];
         $this->tokens += $tokens;
         $this->save();
-        $this->movements()->create([
-            'payment_id' => $payment->id,
+        return $this->movements()->create([
+            'payment_id' => $paymentId,
             'article_id' => $article->id,
             'type' => MovementType::BuyTokens,
-            'amount' => $payment->amount,
+            'amount' => $article->price,
             'meta' => [
                 'tokens' => $tokens,
                 'balance' => $this->tokens,
@@ -81,6 +82,13 @@ class Guest extends Model
                 ...$metadata,
             ]
         ]);
+    }
+
+    public function addTokensFromPayment(Payment $payment): Movement
+    {
+        $metadata = $payment->stripe_data['metadata'];
+        $article = Article::findOrFail($metadata['article_id']);
+        return $this->addTokens($article, $payment->id, $metadata);
     }
 
     public function register(Payment $payment)
@@ -136,5 +144,12 @@ class Guest extends Model
         return PaymentResource::getUrl('index', [
             'filters' => ['guest' => ['value' => $this->id]]
         ]);
+    }
+
+    protected function authUrl(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => route('vue-app', "guest/$this->key"),
+        );
     }
 }
