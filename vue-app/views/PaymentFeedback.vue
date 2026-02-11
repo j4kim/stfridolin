@@ -23,7 +23,7 @@ fetch();
 
 const paymentIntent = computed(() => paymentStore.payment?.stripe_data);
 
-const status = computed(() => paymentIntent.value?.status);
+const status = computed(() => paymentStore.payment?.stripe_status);
 
 const paymentError = computed(() => paymentIntent.value?.last_payment_error);
 
@@ -61,8 +61,10 @@ setTimeout(() => {
 
     <Alert v-else-if="status === 'succeeded'">
         <CheckCircle2Icon />
-        <AlertTitle>Paiement réussi ! 🎉</AlertTitle>
-        <AlertDescription> Merci pour votre soutien !</AlertDescription>
+        <slot name="success_alert_content">
+            <AlertTitle>Paiement réussi ! 🎉</AlertTitle>
+            <AlertDescription> Merci pour votre soutien !</AlertDescription>
+        </slot>
     </Alert>
 
     <Alert v-else-if="paymentError">

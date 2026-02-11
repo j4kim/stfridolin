@@ -7,6 +7,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\SpotifyController;
 use App\Http\Controllers\TrackController;
 use App\Http\Controllers\VoteController;
+use App\Http\Controllers\VoucherController;
 use App\Http\Middleware\AuthenticateGuest;
 use App\Http\Middleware\EnsureMasterClient;
 use Illuminate\Support\Facades\Route;
@@ -17,6 +18,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('spotify/select-device/{deviceId}', [SpotifyController::class, 'selectDevice'])->name('spotify.select-device');
     Route::post('master-client-id', [MasterController::class, 'setMasterClientId'])->name('master-client-id.set');
     Route::get('guests', [GuestController::class, 'index'])->name('guests.index');
+    Route::get('vouchers', [VoucherController::class, 'index'])->name('vouchers.index');
 
     Route::middleware(EnsureMasterClient::class)->group(function () {
         Route::put('spotify/play', [SpotifyController::class, 'play'])->name('spotify.play');
@@ -38,6 +40,8 @@ Route::middleware(AuthenticateGuest::class)->group(function () {
     Route::post('payments/{article}', [PaymentController::class, 'store'])->name('payments.store');
     Route::get('payments/{payment}', [PaymentController::class, 'get'])->name('payments.get');
     Route::put('payments/{payment}/toggle-cover-fees', [PaymentController::class, 'toggleCoverFees'])->name('payments.toggle-cover-fees');
+    Route::get('vouchers/{voucher}', [VoucherController::class, 'get'])->name('vouchers.get');
+    Route::post('vouchers/{voucher}/use', [VoucherController::class, 'use'])->name('vouchers.use');
 });
 
 Route::post('guests', [GuestController::class, 'storeMany'])->name('guests.storeMany');

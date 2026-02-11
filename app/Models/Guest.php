@@ -2,8 +2,12 @@
 
 namespace App\Models;
 
+use App\Enums\MovementType;
+use App\Filament\Resources\Movements\MovementResource;
+use App\Filament\Resources\Payments\PaymentResource;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Database\Eloquent\BroadcastsEvents;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -15,6 +19,8 @@ class Guest extends Model
     use HasFactory;
     use BroadcastsEvents;
 
+    protected $appends = ['auth_url'];
+
     protected static function booted(): void
     {
         static::updated(function (Guest $guest) {
@@ -25,6 +31,16 @@ class Guest extends Model
     public function movements(): HasMany
     {
         return $this->hasMany(Movement::class);
+    }
+
+    public function registrationMovements(): HasMany
+    {
+        return $this->movements()->where('type', 'registration');
+    }
+
+    public function payments(): HasMany
+    {
+        return $this->hasMany(Payment::class);
     }
 
     public function votes(): HasMany
@@ -49,23 +65,45 @@ class Guest extends Model
         return self::cached($id);
     }
 
-    public function addTokens(Payment $payment)
+    public function addTokens(Article $article, ?int $paymentId = null, array $metadata = []): Movement
     {
-        $metadata = $payment->stripe_data['metadata'];
-        $article = Article::findOrFail($metadata['article_id']);
         $tokens = $article->meta['tokens'];
         $this->tokens += $tokens;
         $this->save();
-        $this->movements()->create([
-            'payment_id' => $payment->id,
+        return $this->movements()->create([
+            'payment_id' => $paymentId,
             'article_id' => $article->id,
-            'type' => 'buy-tokens',
-            'amount' => $payment->amount,
+            'type' => MovementType::BuyTokens,
+            'amount' => $article->price,
             'meta' => [
                 'tokens' => $tokens,
                 'balance' => $this->tokens,
                 'description' => "Paiement pour " . $article->description,
                 ...$metadata,
+            ]
+        ]);
+    }
+
+    public function addTokensFromPayment(Payment $payment): Movement
+    {
+        $metadata = $payment->stripe_data['metadata'];
+        $article = Article::findOrFail($metadata['article_id']);
+        return $this->addTokens($article, $payment->id, $metadata);
+    }
+
+    public function register(Payment $payment)
+    {
+        $metadata = $payment->stripe_data['metadata'];
+        $article = Article::findOrFail($metadata['article_id']);
+        $this->tokens += 20;
+        $this->save();
+        $this->movements()->create([
+            'payment_id' => $payment->id,
+            'article_id' => $article->id,
+            'type' => MovementType::Registration,
+            'amount' => $article->price,
+            'meta' => [
+                'balance' => $this->tokens,
             ]
         ]);
     }
@@ -78,7 +116,7 @@ class Guest extends Model
         $this->save();
         return $this->movements()->create([
             'article_id' => $article->id,
-            'type' => 'spend-tokens',
+            'type' => MovementType::SpendTokens,
             'amount' => $tokens,
             'meta' => [
                 'balance' => $this->tokens,
@@ -92,5 +130,26 @@ class Guest extends Model
         return [
             new Channel("guest-$this->id"),
         ];
+    }
+
+    public function movementsUrl(): string
+    {
+        return MovementResource::getUrl('index', [
+            'filters' => ['guest' => ['value' => $this->id]]
+        ]);
+    }
+
+    public function paymentsUrl(): string
+    {
+        return PaymentResource::getUrl('index', [
+            'filters' => ['guest' => ['value' => $this->id]]
+        ]);
+    }
+
+    protected function authUrl(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => route('vue-app', "guest/$this->key"),
+        );
     }
 }

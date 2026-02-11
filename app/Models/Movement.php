@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\MovementType;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -12,11 +13,17 @@ class Movement extends Model
         return [
             'meta' => 'array',
             'amount' => 'float',
+            'type' => MovementType::class,
         ];
     }
 
     public function guest(): BelongsTo
     {
         return $this->belongsTo(Guest::class);
+    }
+
+    public function article(): BelongsTo
+    {
+        return $this->belongsTo(Article::class);
     }
 }

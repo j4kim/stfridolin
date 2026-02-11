@@ -17,6 +17,7 @@ import {
     HandFist,
     Home,
     Play,
+    Settings,
     Trophy,
     TvMinimalPlay,
     User,
@@ -94,6 +95,11 @@ const groups = computed(() => [
                 to: { name: "spotify" },
                 icon: Play,
             },
+            {
+                title: "Admin panel",
+                href: "/admin",
+                icon: Settings,
+            },
         ],
     },
 ]);
@@ -118,15 +124,21 @@ const route = useRoute();
                                 >
                                     <SidebarMenuButton
                                         as-child
-                                        :is-active="route.name === link.to.name"
+                                        :is-active="
+                                            route.name === link.to?.name
+                                        "
                                     >
-                                        <RouterLink :to="link.to">
+                                        <component
+                                            :is="link.href ? 'a' : 'RouterLink'"
+                                            :to="link.to"
+                                            :href="link.href"
+                                        >
                                             <component
                                                 v-if="link.icon"
                                                 :is="link.icon"
                                             />
                                             <span>{{ link.title }}</span>
-                                        </RouterLink>
+                                        </component>
                                     </SidebarMenuButton>
                                 </SidebarMenuItem>
                             </template>

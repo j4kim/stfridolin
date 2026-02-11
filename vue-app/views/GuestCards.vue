@@ -1,38 +1,34 @@
 <script setup>
 import { api } from "@/api";
+import PrintableCards from "@/components/PrintableCards.vue";
 import QrCode from "@/components/QrCode.vue";
-import { onMounted, ref } from "vue";
+import { ref } from "vue";
 
 const guests = ref([]);
 
 api("guests.index")
     .get()
     .then((data) => (guests.value = data));
-
-onMounted(() => {
-    document.documentElement.classList.remove("dark");
-});
-
-function guetAuthUrl(guest) {
-    return `${location.origin}/guest/${guest.key}`;
-}
 </script>
 
 <template>
-    <div class="mx-auto flex max-w-md flex-col">
-        <div v-for="guest in guests">
-            <h1 class="mt-8 mb-4 text-center text-4xl">
+    <PrintableCards :items="guests">
+        <template #item="guest">
+            <h1 class="text-center text-xl font-bold">
                 {{ guest.name }}
             </h1>
             <h2
-                class="text-center font-mono text-3xl tracking-widest opacity-50"
+                class="text-center font-mono text-xl tracking-widest opacity-50"
             >
                 {{ guest.key }}
             </h2>
-            <QrCode :value="guetAuthUrl(guest)" class="mx-auto" />
-            <div class="-mt-4 mb-8 text-center font-mono opacity-50">
-                {{ guetAuthUrl(guest) }}
+            <QrCode :value="guest.auth_url" class="mx-auto" :width="120" />
+            <div
+                class="text-center font-mono text-[6pt] opacity-50"
+                style="word-break: break-word"
+            >
+                {{ guest.auth_url }}
             </div>
-        </div>
-    </div>
+        </template>
+    </PrintableCards>
 </template>

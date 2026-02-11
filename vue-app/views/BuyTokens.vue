@@ -16,16 +16,11 @@ paymentStore.payment = null;
 const articlesStore = useArticlesStore();
 
 const stdPackages = computed(() =>
-    articlesStore.tokenPackages.filter((p) => p.std_price === p.price),
+    articlesStore.tokenPackages.filter((p) => p.discount === null),
 );
 
 const discountPackages = computed(() =>
-    articlesStore.tokenPackages
-        .filter((p) => p.std_price !== p.price)
-        .map((p) => ({
-            ...p,
-            discount: (100 * (p.std_price - p.price)) / p.std_price,
-        })),
+    articlesStore.tokenPackages.filter((p) => p.discount !== null),
 );
 
 const loading = ref(false);

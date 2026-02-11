@@ -2,29 +2,29 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\PaymentPurpose;
 use App\Events\PaymentUpdated;
 use App\Models\Article;
 use App\Models\Guest;
 use App\Models\Payment;
 use App\Tools\Stripe;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Stripe\Event;
 
 class PaymentController extends Controller
 {
     public function store(Article $article, Request $request)
     {
-        $request->validate(['purpose' => 'required']);
+        $request->validate(['purpose' => [Rule::enum(PaymentPurpose::class)]]);
 
         $paymentIntent = Stripe::createPaymentIntent($article, $request->all());
 
-        $payment = Payment::create([
-            'guest_id' => Guest::fromRequest()?->id,
-            'stripe_id' => $paymentIntent->id,
-            'stripe_data' => $paymentIntent->toArray(),
-            'purpose' => $request->purpose,
-            'amount' => $paymentIntent->amount / 100,
-        ]);
+        $payment = new Payment;
+        $payment->guest_id = Guest::fromRequest()?->id;
+        $payment->purpose = $request->purpose;
+        $payment->fillFromStripePI($paymentIntent);
+        $payment->save();
 
         return $payment;
     }
@@ -36,7 +36,7 @@ class PaymentController extends Controller
         }
         if ($request->reload) {
             $paymentIntent = Stripe::getPaymentIntent($payment->stripe_id);
-            $payment->updateFromStripe($paymentIntent);
+            $payment->fillFromStripePI($paymentIntent)->save();
         }
         return $payment;
     }
@@ -50,8 +50,8 @@ class PaymentController extends Controller
             $newAmount = $originalAmount;
         }
         $paymentIntent = Stripe::updateAmount($payment->stripe_id, $newAmount);
-        $payment->updateFromStripe($paymentIntent);
-        PaymentUpdated::dispatch($payment);
+        $payment->fillFromStripePI($paymentIntent)->save();
+        return $payment;
     }
 
     public function stripeWebhook(Request $request)
@@ -66,7 +66,7 @@ class PaymentController extends Controller
         $event = Event::constructFrom($request->all());
         $paymentIntent = $event->data->object;
         $payment = Payment::firstWhere('stripe_id', $paymentIntent->id);
-        $payment->updateFromStripe($paymentIntent);
+        $payment->fillFromStripePI($paymentIntent)->save();
         PaymentUpdated::dispatch($payment);
     }
 }

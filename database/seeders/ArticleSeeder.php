@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Enums\ArticleType;
+use App\Enums\Currency;
 use App\Models\Article;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -48,10 +50,10 @@ class ArticleSeeder extends Seeder
             $stdPrice = $tokens * $tokenPrice;
             $price = $stdPrice * (1 - $discount);
             Article::create([
-                'type' => 'tokens-package',
+                'type' => ArticleType::TokensPackage,
                 'name' => "$tokens-tokens",
                 'description' => number_format($tokens, thousands_separator: '’') . " jetons",
-                'currency' => 'CHF',
+                'currency' => Currency::CHF,
                 'std_price' => $stdPrice,
                 'price' => $price,
                 'meta' => ['tokens' => $tokens],
@@ -59,15 +61,15 @@ class ArticleSeeder extends Seeder
         }
 
         Article::create([
-            'type' => 'registration',
+            'type' => ArticleType::Registration,
             'name' => "registration",
             'description' => "Frais d'inscription",
-            'currency' => 'CHF',
+            'currency' => Currency::CHF,
             'price' => 30,
         ]);
 
         Article::create([
-            'type' => 'jukeboxe',
+            'type' => ArticleType::Jukeboxe,
             'name' => "add-to-queue",
             'description' => "Ajout d'un morceau en file d'attente",
             'currency' => 'tokens',
@@ -75,7 +77,7 @@ class ArticleSeeder extends Seeder
         ]);
 
         Article::create([
-            'type' => 'jukeboxe',
+            'type' => ArticleType::Jukeboxe,
             'name' => "vote",
             'description' => "Vote au Jukeboxe",
             'currency' => 'tokens',

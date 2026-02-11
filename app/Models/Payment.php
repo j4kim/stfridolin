@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\PaymentPurpose;
+use App\Enums\PaymentStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Stripe\PaymentIntent;
@@ -13,6 +15,8 @@ class Payment extends Model
         return [
             'stripe_data' => 'array',
             'amount' => 'float',
+            'purpose' => PaymentPurpose::class,
+            'stripe_status' => PaymentStatus::class,
         ];
     }
 
@@ -31,21 +35,34 @@ class Payment extends Model
         static::saved(function (Payment $payment) {
             $oldStatus = $payment->getOriginal('stripe_status');
             $newStatus = $payment->stripe_status;
-            if ($oldStatus !== $newStatus && $newStatus === "succeeded") {
-                if ($payment->purpose === 'buy-tokens') {
+            if ($oldStatus !== $newStatus && $newStatus === PaymentStatus::succeeded) {
+                if ($payment->purpose === PaymentPurpose::BuyTokens) {
                     /** @var Guest $guest */
                     $guest = $payment->guest;
-                    $guest->addTokens($payment);
+                    $guest->addTokensFromPayment($payment);
+                } else if ($payment->purpose === PaymentPurpose::Registration) {
+                    $guestIds = str($payment->stripe_data['metadata']['guestIds'])->explode(';');
+                    $guests = Guest::whereIn('id', $guestIds)->get();
+                    $guests->each(fn(Guest $guest) => $guest->register($payment));
                 }
             }
         });
     }
 
-    public function updateFromStripe(PaymentIntent $paymentIntent)
+    public function fillFromStripePI(PaymentIntent $paymentIntent): Payment
     {
-        $this->stripe_data = $paymentIntent->toArray();
+        $this->stripe_id = $paymentIntent->id;
+        $this->stripe_data = collect($paymentIntent->toArray())->only([
+            'created',
+            'metadata',
+            'description',
+            'client_secret',
+            'payment_method',
+            'amount_received',
+            'last_payment_error',
+        ])->toArray();
         $this->stripe_status = $paymentIntent->status;
         $this->amount = $paymentIntent->amount / 100;
-        $this->save();
+        return $this;
     }
 }

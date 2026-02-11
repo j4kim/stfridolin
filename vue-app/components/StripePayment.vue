@@ -59,6 +59,7 @@ onMounted(async () => {
             type: "tabs",
             defaultCollapsed: false,
         },
+        paymentMethodOrder: ["twint", "apple_pay", "google_pay", "card"],
     };
 
     const paymentElement = elements.create("payment", options);
@@ -104,6 +105,9 @@ watch(coverFees, (newValue) => {
         .params({ payment: paymentStore.payment.id })
         .data({ coverFees: newValue })
         .put()
+        .then((payment) => {
+            paymentStore.payment = payment;
+        })
         .finally(() => (toggling.value = false));
 });
 </script>
@@ -115,7 +119,7 @@ watch(coverFees, (newValue) => {
             <div>
                 <Spinner v-if="toggling" class="mr-1 mb-1 inline" />
                 <span class="font-extrabold"
-                    >{{ intent.amount / 100 }}&nbsp;CHF</span
+                    >{{ paymentStore.payment.amount }}&nbsp;CHF</span
                 >
             </div>
         </div>
