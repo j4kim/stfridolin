@@ -27,8 +27,8 @@ const guestStore = useGuestStore();
             <img class="mx-auto max-w-xl p-12" :src="titleSvg" />
             <p class="mb-4 px-8 text-xl font-extralight">
                 Hello ! Bienvenue au PMU de soutien de la Saint-Fridolin. Une
-                soirée de soutien à Estelle Zamme avec plein de jeux de pari
-                rigolos.
+                soirée de taxation de votre héritage au profit d'Estelle Zamme,
+                agrémentée de plein de jeux de pari rigolos.
             </p>
             <p class="mb-2 px-8">
                 Cette application créée pour l'occasion permet de jouer aux
