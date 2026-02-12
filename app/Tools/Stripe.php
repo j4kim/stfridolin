@@ -4,6 +4,7 @@ namespace App\Tools;
 
 use App\Models\Article;
 use App\Models\Guest;
+use Stripe\Customer;
 use Stripe\PaymentIntent;
 use Stripe\StripeClient;
 
@@ -52,5 +53,14 @@ class Stripe
             $paymentIntentId,
             ['amount' => (int) ($newAmount * 100)]
         );
+    }
+
+    public static function createCustomer(Guest $guest): Customer
+    {
+        $stripe = new StripeClient(config('services.stripe.sk'));
+        return $stripe->customers->create([
+            'name' => $guest->name,
+            'description' => $guest->key,
+        ]);
     }
 }
