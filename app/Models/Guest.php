@@ -26,6 +26,12 @@ class Guest extends Model
         static::updated(function (Guest $guest) {
             Cache::forget("guest-$guest->id");
         });
+
+        static::creating(function (Guest $guest) {
+            if (!$guest->key) {
+                $guest->key = str()->random(4);
+            }
+        });
     }
 
     public function movements(): HasMany
