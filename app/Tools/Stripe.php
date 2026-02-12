@@ -17,18 +17,26 @@ class Stripe
         $description = $metadata['description'] ?? $article->description;
         $amount = $article->price * $quantity;
 
-        return $stripe->paymentIntents->create([
+        $guest = Guest::fromRequest();
+
+        $payload = [
             'amount' => $amount * 100,
             'currency' => 'chf',
             'description' => $description,
             'statement_descriptor_suffix' => str($description)->slug()->substr(0, 22),
             'metadata' => [
                 ...$metadata,
-                'guest_id' => Guest::fromRequest()?->id,
+                'guest_id' => $guest?->id,
                 'article_id' => $article->id,
                 'original_amount' => $amount,
             ],
-        ]);
+        ];
+
+        if ($guest?->stripe_customer_id) {
+            $payload['customer'] = $guest->stripe_customer_id;
+        }
+
+        return $stripe->paymentIntents->create($payload);
     }
 
     public static function getPaymentIntent(string $paymentId): PaymentIntent
