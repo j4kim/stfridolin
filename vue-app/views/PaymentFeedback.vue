@@ -14,12 +14,10 @@ const loading = ref(true);
 
 function fetch(reload = false) {
     loading.value = true;
-    paymentStore
+    return paymentStore
         .fetchPayment(route.params.id, reload, route.query.guest)
         .finally(() => (loading.value = false));
 }
-
-fetch();
 
 const paymentIntent = computed(() => paymentStore.payment?.stripe_data);
 
@@ -37,11 +35,24 @@ const waiting = computed(
 
 const showReloadButton = ref(false);
 
-setTimeout(() => {
-    if (waiting.value) {
-        showReloadButton.value = true;
-    }
-}, 5000);
+async function fetchAndRetry() {
+    await fetch();
+    if (!waiting.value) return; // all good
+    // payment is still waiting update
+    // wait for 2 seconds
+    setTimeout(async () => {
+        if (!waiting.value) return; // update received from websocket in the meantime
+        await fetch(); // retry if we missed update
+        if (!waiting.value) return; // all good now
+        // show manual reload button if we still don't have any update after 2 more seconds
+        setTimeout(() => {
+            if (!waiting.value) return;
+            showReloadButton.value = true;
+        }, 2000);
+    }, 2000);
+}
+
+fetchAndRetry();
 </script>
 
 <template>
