@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\MovementType;
 use App\Filament\Resources\Movements\MovementResource;
 use App\Filament\Resources\Payments\PaymentResource;
+use App\Tools\Stripe;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Database\Eloquent\BroadcastsEvents;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -12,6 +13,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Cache;
+
+use function Illuminate\Support\defer;
 
 class Guest extends Model
 {
@@ -157,5 +160,26 @@ class Guest extends Model
         return Attribute::make(
             get: fn() => route('vue-app', "guest/$this->key"),
         );
+    }
+
+    public function createStripeCustomer(): Guest
+    {
+        $customer = Stripe::createCustomer($this);
+        $this->stripe_customer_id = $customer->id;
+        return $this;
+    }
+
+    public static function createFromName(string $name, bool $deferStripeCustomerCreation = true): Guest
+    {
+        $guest = new Guest;
+        $guest->name = $name;
+        $guest->key = str()->random(4);
+        if ($deferStripeCustomerCreation) {
+            defer(fn() => $guest->createStripeCustomer()->save());
+        } else {
+            $guest->createStripeCustomer();
+        }
+        $guest->save();
+        return $guest;
     }
 }
