@@ -6,5 +6,5 @@ use Exception;
 
 class NoGuestException extends Exception
 {
-    protected $message = "Vous n'êtes pas authentifié";
+    protected $message = "On ne sait pas qui vous êtes. Veuillez re-scanner votre carte.";
 }
