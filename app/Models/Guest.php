@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\MovementType;
 use App\Filament\Resources\Movements\MovementResource;
 use App\Filament\Resources\Payments\PaymentResource;
+use App\Tools\Stripe;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Database\Eloquent\BroadcastsEvents;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -157,5 +158,16 @@ class Guest extends Model
         return Attribute::make(
             get: fn() => route('vue-app', "guest/$this->key"),
         );
+    }
+
+    public static function createStripeCustomerAndGuest(string $name): Guest
+    {
+        $guest = new Guest;
+        $guest->name = $name;
+        $guest->key = str()->random(4);
+        $customer = Stripe::createCustomer($guest);
+        $guest->stripe_customer_id = $customer->id;
+        $guest->save();
+        return $guest;
     }
 }

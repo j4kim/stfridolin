@@ -20,10 +20,8 @@ class GuestController extends Controller
 
     public function storeMany(Request $request)
     {
-        $guests = collect();
-        foreach ($request->names as $name) {
-            $guests->push(Guest::create(['name' => $name]));
-        }
+        $names = $request->collect('names');
+        $guests = $names->map(fn(string $name) => Guest::createStripeCustomerAndGuest($name));
         return $guests;
     }
 }
