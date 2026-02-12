@@ -14,8 +14,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Cache;
 
-use function Illuminate\Support\defer;
-
 class Guest extends Model
 {
     /** @use HasFactory<\Database\Factories\GuestFactory> */
@@ -162,23 +160,13 @@ class Guest extends Model
         );
     }
 
-    public function createStripeCustomer(): Guest
-    {
-        $customer = Stripe::createCustomer($this);
-        $this->stripe_customer_id = $customer->id;
-        return $this;
-    }
-
-    public static function createFromName(string $name, bool $deferStripeCustomerCreation = true): Guest
+    public static function createStripeCustomerAndGuest(string $name): Guest
     {
         $guest = new Guest;
         $guest->name = $name;
         $guest->key = str()->random(4);
-        if ($deferStripeCustomerCreation) {
-            defer(fn() => $guest->createStripeCustomer()->save());
-        } else {
-            $guest->createStripeCustomer();
-        }
+        $customer = Stripe::createCustomer($guest);
+        $guest->stripe_customer_id = $customer->id;
         $guest->save();
         return $guest;
     }
