@@ -36,7 +36,7 @@ function moveToGuestPage() {
 
 <template>
     <Layout simple>
-        <form @submit="moveToGuestPage" ref="form">
+        <form @submit.prevent="moveToGuestPage" ref="form">
             <Card class="mx-auto mt-4 w-full max-w-sm">
                 <CardHeader>
                     <CardTitle>Authentification</CardTitle>
