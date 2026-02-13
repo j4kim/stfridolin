@@ -4,6 +4,17 @@ import { redirectToLogin } from "@/api";
 import { useGuestStore } from "@/stores/guest";
 
 const routes = [
+    // Routes with no auth requested
+    {
+        path: "/",
+        name: "home",
+        component: () => import("@/views/Home.vue"),
+    },
+    {
+        path: "/page/:page",
+        name: "page",
+        component: () => import("@/views/PublicPage.vue"),
+    },
     {
         path: "/guest/auth",
         name: "guest-auth-form",
@@ -24,14 +35,7 @@ const routes = [
         name: "registration-payment-status",
         component: () => import("@/views/RegistrationPaymentStatus.vue"),
     },
-    {
-        path: "/",
-        name: "home",
-        component: () => import("@/views/Home.vue"),
-        meta: {
-            requireGuest: true,
-        },
-    },
+    // Routes requiring guest auth
     {
         path: "/buy-tokens",
         name: "buy-tokens",
@@ -104,6 +108,7 @@ const routes = [
             requireGuest: true,
         },
     },
+    // Routes requiring real auth
     {
         path: "/spotify",
         name: "spotify",
@@ -138,11 +143,13 @@ const routes = [
     },
 ];
 
-// todo: bencmark before/after perf
-
 const router = createRouter({
     history: createWebHistory(),
     routes,
+    scrollBehavior(to, from, savedPosition) {
+        // always scroll to top
+        return { top: 0 };
+    },
 });
 
 router.beforeEach((to) => {
