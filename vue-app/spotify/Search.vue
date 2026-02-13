@@ -17,9 +17,14 @@ const router = useRouter();
 const route = useRoute();
 
 const searchQuery = ref(route.query.q);
-watchDebounced(searchQuery, searchTracks, { debounce: 500, immediate: true });
 
 const searchResults = ref(null);
+
+watchDebounced(searchQuery, searchTracks, { debounce: 500 });
+
+if (searchQuery.value) {
+    searchTracks();
+}
 
 async function searchTracks() {
     const params = { q: searchQuery.value };
