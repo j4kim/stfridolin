@@ -4,7 +4,7 @@ import titleSvg from "@/title.svg";
 
 <template>
     <div class="mx-auto max-w-xl p-8">
-        <img class="mx-auto max-w-xl p-12" :src="titleSvg" />
+        <img class="mx-auto max-w-xl p-10 md:px-12" :src="titleSvg" />
         <slot></slot>
     </div>
 </template>
