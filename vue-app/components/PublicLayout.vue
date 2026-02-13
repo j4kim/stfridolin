@@ -4,7 +4,9 @@ import titleSvg from "@/title.svg";
 
 <template>
     <div class="mx-auto max-w-xl p-8">
-        <img class="mx-auto max-w-xl p-10 md:px-12" :src="titleSvg" />
+        <RouterLink :to="{ name: 'home' }">
+            <img class="mx-auto my-12 w-sm hover:opacity-80" :src="titleSvg" />
+        </RouterLink>
         <slot></slot>
     </div>
 </template>
