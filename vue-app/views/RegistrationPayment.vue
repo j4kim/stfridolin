@@ -1,4 +1,5 @@
 <script setup>
+import PublicLayout from "@/components/PublicLayout.vue";
 import StripePayment from "@/components/StripePayment.vue";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,7 +8,6 @@ import Textarea from "@/components/ui/textarea/Textarea.vue";
 import { useArticlesStore } from "@/stores/articles";
 import { useGuestStore } from "@/stores/guest";
 import { usePaymentStore } from "@/stores/payment";
-import titleSvg from "@/title.svg";
 import { Minus, Plus } from "lucide-vue-next";
 import { computed, ref } from "vue";
 
@@ -54,9 +54,7 @@ async function submit() {
 </script>
 
 <template>
-    <div class="mx-auto max-w-xl p-8">
-        <img class="mx-auto max-w-xl p-12" :src="titleSvg" />
-
+    <PublicLayout>
         <h2 class="my-4 text-xl font-bold">Paiement de l'inscription</h2>
 
         <Spinner v-if="loading" class="mx-auto size-8" />
@@ -108,5 +106,5 @@ async function submit() {
                 Payer {{ total }} CHF
             </Button>
         </form>
-    </div>
+    </PublicLayout>
 </template>
