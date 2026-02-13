@@ -31,7 +31,7 @@ const footerLinks = [
             <img class="mx-auto my-12 w-sm hover:opacity-80" :src="titleSvg" />
         </RouterLink>
         <slot></slot>
-        <footer class="prose dark:prose-invert prose-sm mt-20">
+        <footer class="prose dark:prose-invert prose-sm mt-24">
             <hr />
             <p>© 2026 Association Salut Zamme</p>
             <p>contact@estellezamme.com</p>
@@ -39,7 +39,8 @@ const footerLinks = [
                 <li v-for="{ page, text } in footerLinks">
                     <RouterLink
                         :to="{ name: 'page', params: { page } }"
-                        active-class="no-underline text-inherit"
+                        active-class="no-underline text-white"
+                        class="text-inherit"
                     >
                         {{ text }}
                     </RouterLink>
