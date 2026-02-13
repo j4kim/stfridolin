@@ -2,6 +2,8 @@
 
 namespace App\Filament\Tools;
 
+use App\Filament\Resources\Guests\GuestResource;
+use App\Models\Guest;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Components\Section;
 
@@ -32,5 +34,12 @@ class EntryTools
             ->columns(3)
             ->collapsible()
             ->persistCollapsed();
+    }
+
+    public static function guestLink(): TextEntry
+    {
+        return TextEntry::make('guest')
+            ->url(fn(Guest $state): string => GuestResource::getUrl('view', ['record' => $state]))
+            ->formatStateUsing(fn(Guest $state): string => $state->name);
     }
 }

@@ -21,9 +21,7 @@ class PaymentInfolist
                 EntryTools::systemSection(),
 
                 EntryTools::compactSection()->schema([
-                    TextEntry::make('guest')
-                        ->url(fn(Guest $state): string => GuestResource::getUrl('view', ['record' => $state]))
-                        ->formatStateUsing(fn(Guest $state): string => $state->name),
+                    EntryTools::guestLink(),
                     TextEntry::make('stripe_status')
                         ->badge(),
                     TextEntry::make('purpose')
