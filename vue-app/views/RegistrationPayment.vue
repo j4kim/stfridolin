@@ -101,7 +101,10 @@ async function submit() {
                     required
                 />
             </template>
-            <Textarea v-model="remarks" placeholder="Remarques (optionnel)" />
+            <Textarea
+                v-model="remarks"
+                placeholder="Remarques, allergies etc. (optionnel)"
+            />
             <Button :disabled="!article || loading" type="submit">
                 Payer {{ total }} CHF
             </Button>
