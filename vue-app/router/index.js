@@ -5,6 +5,11 @@ import { useGuestStore } from "@/stores/guest";
 
 const routes = [
     {
+        path: "/",
+        name: "home",
+        component: () => import("@/views/Home.vue"),
+    },
+    {
         path: "/guest/auth",
         name: "guest-auth-form",
         component: () => import("@/views/GuestAuthForm.vue"),
@@ -23,14 +28,6 @@ const routes = [
         path: "/thunasse/:id/status",
         name: "registration-payment-status",
         component: () => import("@/views/RegistrationPaymentStatus.vue"),
-    },
-    {
-        path: "/",
-        name: "home",
-        component: () => import("@/views/Home.vue"),
-        meta: {
-            requireGuest: true,
-        },
     },
     {
         path: "/buy-tokens",
