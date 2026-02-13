@@ -31,6 +31,14 @@ class PaymentsTable
                 TextColumn::make('amount')
                     ->numeric()
                     ->sortable(),
+                TextColumn::make('stripe_data.description')
+                    ->label("Description")
+                    ->sortable()
+                    ->toggleable(),
+                TextColumn::make('stripe_data.metadata.remarks')
+                    ->label("Remarks")
+                    ->sortable()
+                    ->toggleable(),
             ])
             ->filters([
                 SelectFilter::make('guest')
