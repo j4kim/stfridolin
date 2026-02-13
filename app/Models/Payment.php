@@ -25,11 +25,6 @@ class Payment extends Model
         return $this->belongsTo(Guest::class);
     }
 
-    public function article(): BelongsTo
-    {
-        return $this->belongsTo(Article::class);
-    }
-
     protected static function booted(): void
     {
         static::saved(function (Payment $payment) {
