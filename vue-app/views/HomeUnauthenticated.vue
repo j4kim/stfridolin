@@ -10,13 +10,13 @@ import Button from "@/components/ui/button/Button.vue";
                 Bienvenue sur la page officielle du PMU de soutien de la
                 Saint-Fridolin, qui aura lieu le 6 mars 2026 au Bikini Test. Une
                 soirée au profit d'Estelle Zamme agrémentée de plein de jeux de
-                pari rigolos. Votre participation financière contribuera aux
-                activités artistiques du collectif, notamment à financer la
-                tournée 2026 et les prochaines sorties musicales.
+                pari rigolos. Votre participation contribuera aux activités
+                artistiques du collectif, notamment à financer la tournée 2026
+                et les prochaines sorties musicales.
             </p>
             <p>
                 Vous pouvez valider votre inscription en cliquant sur le bouton
-                ci-dessous et payer les frais de 30 CHF par personne.
+                ci-dessous pour payer les frais de 30 CHF par personne.
             </p>
             <p>
                 <RouterLink :to="{ name: 'registration-payment' }">
