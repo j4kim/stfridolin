@@ -6,6 +6,7 @@ use App\Enums\PaymentPurpose;
 use App\Enums\PaymentStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Stripe\PaymentIntent;
 
 class Payment extends Model
@@ -23,6 +24,11 @@ class Payment extends Model
     public function guest(): BelongsTo
     {
         return $this->belongsTo(Guest::class);
+    }
+
+    public function movements(): HasMany
+    {
+        return $this->hasMany(Movement::class);
     }
 
     protected static function booted(): void

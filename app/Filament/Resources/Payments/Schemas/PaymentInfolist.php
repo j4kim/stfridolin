@@ -3,8 +3,10 @@
 namespace App\Filament\Resources\Payments\Schemas;
 
 use App\Filament\Resources\Guests\GuestResource;
+use App\Filament\Resources\Movements\MovementResource;
 use App\Filament\Tools\EntryTools;
 use App\Models\Guest;
+use App\Models\Movement;
 use App\Models\Payment;
 use Filament\Infolists\Components\KeyValueEntry;
 use Filament\Infolists\Components\TextEntry;
@@ -28,6 +30,11 @@ class PaymentInfolist
                         ->badge(),
                     TextEntry::make('amount')
                         ->numeric(),
+                    TextEntry::make('stripe_data.description'),
+                    TextEntry::make('movements')
+                        ->bulleted()
+                        ->formatStateUsing(fn(Movement $state) => "$state->id - {$state->guest->name} - {$state->article->name}")
+                        ->url(fn(Movement $state): string => MovementResource::getUrl('view', ['record' => $state])),
                 ]),
 
 
