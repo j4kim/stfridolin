@@ -2,8 +2,16 @@
 
 namespace App\Filament\Resources\Payments\Schemas;
 
+use App\Filament\Resources\Guests\GuestResource;
+use App\Filament\Tools\EntryTools;
+use App\Models\Guest;
+use App\Models\Payment;
+use Filament\Infolists\Components\KeyValueEntry;
 use Filament\Infolists\Components\TextEntry;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Text;
 use Filament\Schemas\Schema;
+use Filament\Support\Enums\TextSize;
 
 class PaymentInfolist
 {
@@ -11,21 +19,27 @@ class PaymentInfolist
     {
         return $schema
             ->components([
-                TextEntry::make('created_at')
-                    ->dateTime()
-                    ->placeholder('-'),
-                TextEntry::make('updated_at')
-                    ->dateTime()
-                    ->placeholder('-'),
-                TextEntry::make('guest.name')
-                    ->label('Guest'),
-                TextEntry::make('stripe_id'),
-                TextEntry::make('stripe_status')
-                    ->placeholder('-'),
-                TextEntry::make('purpose')
-                    ->placeholder('-'),
-                TextEntry::make('amount')
-                    ->numeric(),
+                EntryTools::systemSection(),
+
+                Section::make()->schema([
+                    TextEntry::make('guest')
+                        ->url(fn(Guest $state): string => GuestResource::getUrl('view', ['record' => $state]))
+                        ->formatStateUsing(fn(Guest $state): string => $state->name),
+                    TextEntry::make('stripe_status')
+                        ->badge(),
+                    TextEntry::make('purpose')
+                        ->badge(),
+                    TextEntry::make('amount')
+                        ->numeric(),
+                ])->compact()->columnSpanFull()->columns(2),
+
+
+                Section::make("Stripe data")->schema([
+                    TextEntry::make('stripe_id')->columnSpanFull(),
+                    KeyValueEntry::make('Stripe data')
+                        ->state(fn(Payment $payment) => collect($payment->stripe_data)->except('metadata')),
+                    KeyValueEntry::make('stripe_data.metadata'),
+                ])->compact()->columnSpanFull()->columns(2),
             ]);
     }
 }
