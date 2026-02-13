@@ -4,6 +4,7 @@ import { redirectToLogin } from "@/api";
 import { useGuestStore } from "@/stores/guest";
 
 const routes = [
+    // Routes with no auth requested
     {
         path: "/",
         name: "home",
@@ -29,6 +30,7 @@ const routes = [
         name: "registration-payment-status",
         component: () => import("@/views/RegistrationPaymentStatus.vue"),
     },
+    // Routes requiring guest auth
     {
         path: "/buy-tokens",
         name: "buy-tokens",
@@ -101,6 +103,7 @@ const routes = [
             requireGuest: true,
         },
     },
+    // Routes requiring real auth
     {
         path: "/spotify",
         name: "spotify",
@@ -134,8 +137,6 @@ const routes = [
         },
     },
 ];
-
-// todo: bencmark before/after perf
 
 const router = createRouter({
     history: createWebHistory(),
