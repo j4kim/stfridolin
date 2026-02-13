@@ -4,13 +4,22 @@ namespace App\Filament\Tools;
 
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Components\Section;
-use Filament\Tables\Columns\TextColumn;
 
 class EntryTools
 {
+
+    public static function compactSection(?string $heading = null): Section
+    {
+        return Section::make($heading)
+            ->compact()
+            ->columnSpanFull()
+            ->columns(2);
+    }
+
+
     public static function systemSection(): Section
     {
-        return Section::make('System data')
+        return self::compactSection('System data')
             ->schema([
                 TextEntry::make('id'),
                 TextEntry::make('created_at')
@@ -21,9 +30,7 @@ class EntryTools
                     ->placeholder('-'),
             ])
             ->columns(3)
-            ->columnSpanFull()
             ->collapsible()
-            ->persistCollapsed()
-            ->compact();
+            ->persistCollapsed();
     }
 }

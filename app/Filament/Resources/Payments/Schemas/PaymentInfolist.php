@@ -8,10 +8,7 @@ use App\Models\Guest;
 use App\Models\Payment;
 use Filament\Infolists\Components\KeyValueEntry;
 use Filament\Infolists\Components\TextEntry;
-use Filament\Schemas\Components\Section;
-use Filament\Schemas\Components\Text;
 use Filament\Schemas\Schema;
-use Filament\Support\Enums\TextSize;
 
 class PaymentInfolist
 {
@@ -21,7 +18,7 @@ class PaymentInfolist
             ->components([
                 EntryTools::systemSection(),
 
-                Section::make()->schema([
+                EntryTools::compactSection()->schema([
                     TextEntry::make('guest')
                         ->url(fn(Guest $state): string => GuestResource::getUrl('view', ['record' => $state]))
                         ->formatStateUsing(fn(Guest $state): string => $state->name),
@@ -31,15 +28,15 @@ class PaymentInfolist
                         ->badge(),
                     TextEntry::make('amount')
                         ->numeric(),
-                ])->compact()->columnSpanFull()->columns(2),
+                ]),
 
 
-                Section::make("Stripe data")->schema([
+                EntryTools::compactSection("Stripe data")->schema([
                     TextEntry::make('stripe_id')->columnSpanFull(),
                     KeyValueEntry::make('Stripe data')
                         ->state(fn(Payment $payment) => collect($payment->stripe_data)->except('metadata')),
                     KeyValueEntry::make('stripe_data.metadata'),
-                ])->compact()->columnSpanFull()->columns(2),
+                ]),
             ]);
     }
 }
