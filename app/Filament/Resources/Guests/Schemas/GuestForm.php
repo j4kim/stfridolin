@@ -15,14 +15,6 @@ class GuestForm
                     ->required(),
                 TextInput::make('key')
                     ->required(),
-                TextInput::make('tokens')
-                    ->required()
-                    ->numeric()
-                    ->default(0),
-                TextInput::make('points')
-                    ->required()
-                    ->numeric()
-                    ->default(0),
             ]);
     }
 }
