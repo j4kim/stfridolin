@@ -13,8 +13,7 @@ class GuestForm
             ->components([
                 TextInput::make('name')
                     ->required(),
-                TextInput::make('key')
-                    ->required(),
+                TextInput::make('key'),
             ]);
     }
 }
