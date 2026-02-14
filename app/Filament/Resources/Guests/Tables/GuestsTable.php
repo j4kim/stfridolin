@@ -50,6 +50,11 @@ class GuestsTable
                     ->counts('registrationMovements')
                     ->sortable()
                     ->toggleable(),
+                IconColumn::make('stripe_customer_id')
+                    ->boolean()
+                    ->label("Stripe customer")
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 TernaryFilter::make('registered')
