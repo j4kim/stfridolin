@@ -26,12 +26,18 @@ class MovementsTable
                     ->sortable(),
                 TextColumn::make('article.description')
                     ->searchable(),
-                TextColumn::make('amount')
-                    ->numeric()
-                    ->sortable(),
                 TextColumn::make('type')
                     ->badge()
                     ->searchable(),
+                TextColumn::make('chf')
+                    ->numeric()
+                    ->sortable(),
+                TextColumn::make('tokens')
+                    ->numeric()
+                    ->sortable(),
+                TextColumn::make('points')
+                    ->numeric()
+                    ->sortable(),
             ])
             ->filters([
                 SelectFilter::make('guest')

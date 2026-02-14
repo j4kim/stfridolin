@@ -26,8 +26,10 @@ class MovementInfolist
                     TextEntry::make('article')
                         ->formatStateUsing(fn(Article $state) => "$state->id - $state->name")
                         ->url(fn(Article $state): string => ArticleResource::getUrl('view', ['record' => $state])),
-                    TextEntry::make('amount')->numeric(),
                     TextEntry::make('type')->badge(),
+                    TextEntry::make('chf')->numeric(),
+                    TextEntry::make('tokens')->numeric(),
+                    TextEntry::make('points')->numeric(),
                 ]),
             ]);
     }
