@@ -3,7 +3,7 @@
 namespace App\Filament\Resources\Articles\Schemas;
 
 use App\Filament\Tools\EntryTools;
-use App\Models\Article;
+use App\Filament\Tools\Helpers;
 use Filament\Infolists\Components\KeyValueEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
@@ -20,14 +20,13 @@ class ArticleInfolist
                     TextEntry::make('type')->badge(),
                     TextEntry::make('name'),
                     TextEntry::make('description'),
-                    TextEntry::make('discount')->formatStateUsing(fn($state) => "-$state%"),
-                    TextEntry::make('std_price')
-                        ->formatStateUsing(
-                            fn($state, Article $article) => "$state {$article->currency->value}"
-                        ),
-                    TextEntry::make('price')->formatStateUsing(
-                        fn($state, Article $article) => "$state {$article->currency->value}"
-                    ),
+                    TextEntry::make('currency')->badge(),
+                    TextEntry::make('std_price')->numeric(),
+                    TextEntry::make('price')->numeric(),
+                    TextEntry::make('discount')
+                        ->formatStateUsing(fn($state) => "-$state%")
+                        ->badge()
+                        ->color(Helpers::discountColor()),
                     KeyValueEntry::make('meta'),
                 ]),
             ]);

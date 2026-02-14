@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Articles\Tables;
 
 use App\Enums\ArticleType;
 use App\Filament\Tools\ColumnTools;
+use App\Filament\Tools\Helpers;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -42,7 +43,9 @@ class ArticlesTable
                         $query
                             ->orderByRaw("(ifnull(std_price, price) - price) / ifnull(std_price, price) $direction")
                     )
-                    ->formatStateUsing(fn(float $state): string => "-$state%"),
+                    ->formatStateUsing(fn($state) => "-$state%")
+                    ->badge()
+                    ->color(Helpers::discountColor()),
             ])
             ->filters([
                 SelectFilter::make('type')
