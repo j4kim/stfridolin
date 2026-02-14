@@ -72,16 +72,21 @@ class Guest extends Model
         return self::cached($id);
     }
 
+    public function createMovement(array $data): Movement
+    {
+        $movement = $this->movements()->create($data);
+        $this->recomputeTokensAndPoints()->save();
+        return $movement;
+    }
+
     public function addTokens(Article $article, ?int $paymentId = null): Movement
     {
-        $movement = $this->movements()->create([
+        return $this->createMovement([
             'payment_id' => $paymentId,
             'article_id' => $article->id,
             'type' => MovementType::BuyTokens,
             'tokens' => $article->meta['tokens'],
         ]);
-        $this->recomputeTokensAndPoints()->save();
-        return $movement;
     }
 
     public function addTokensFromPayment(Payment $payment): Movement
@@ -95,27 +100,23 @@ class Guest extends Model
     {
         $metadata = $payment->stripe_data['metadata'];
         $article = Article::findOrFail($metadata['article_id']);
-        $movement = $this->movements()->create([
+        return $this->createMovement([
             'payment_id' => $payment->id,
             'article_id' => $article->id,
             'type' => MovementType::Registration,
             'chf' => -$article->price,
             'tokens' => 20,
         ]);
-        $this->recomputeTokensAndPoints()->save();
-        return $movement;
     }
 
     public function spendTokens(string $articleName): Movement
     {
         $article = Article::where('name', $articleName)->firstOrFail();
-        $movement = $this->movements()->create([
+        return $this->createMovement([
             'article_id' => $article->id,
             'type' => MovementType::SpendTokens,
             'tokens' => -$article->price,
         ]);
-        $this->recomputeTokensAndPoints()->save();
-        return $movement;
     }
 
     public function broadcastOn(string $event): array
