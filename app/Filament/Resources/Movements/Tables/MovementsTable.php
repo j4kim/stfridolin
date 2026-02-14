@@ -3,8 +3,13 @@
 namespace App\Filament\Resources\Movements\Tables;
 
 use App\Enums\MovementType;
+use App\Filament\Resources\Articles\ArticleResource;
+use App\Filament\Resources\Guests\GuestResource;
+use App\Filament\Resources\Payments\PaymentResource;
 use App\Filament\Tools\ColumnTools;
 use App\Filament\Tools\Helpers;
+use App\Models\Article;
+use App\Models\Guest;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -20,13 +25,16 @@ class MovementsTable
         return $table
             ->columns([
                 ...ColumnTools::systemColumns(),
-                TextColumn::make('guest.name')
-                    ->searchable(),
+                TextColumn::make('guest')
+                    ->url(fn(Guest $state): string => GuestResource::getUrl('view', ['record' => $state]))
+                    ->formatStateUsing(fn(Guest $state): string => $state->name),
                 TextColumn::make('payment_id')
                     ->numeric()
+                    ->url(fn(int $state): string => PaymentResource::getUrl('view', ['record' => $state]))
                     ->sortable(),
-                TextColumn::make('article.description')
-                    ->searchable(),
+                TextColumn::make('article')
+                    ->url(fn(Article $state): string => ArticleResource::getUrl('view', ['record' => $state]))
+                    ->formatStateUsing(fn(Article $state): string => $state->description),
                 TextColumn::make('type')
                     ->badge()
                     ->searchable(),
