@@ -28,7 +28,8 @@ class VouchersTable
                 TextColumn::make('article.description')
                     ->searchable(),
                 TextColumn::make('guest.name')
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable(),
             ])
             ->filters([
                 TernaryFilter::make('guest_id')
