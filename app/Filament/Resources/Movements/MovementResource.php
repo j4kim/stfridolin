@@ -52,7 +52,6 @@ class MovementResource extends Resource
             'index' => ListMovements::route('/'),
             'create' => CreateMovement::route('/create'),
             'view' => ViewMovement::route('/{record}'),
-            'edit' => EditMovement::route('/{record}/edit'),
         ];
     }
 }
