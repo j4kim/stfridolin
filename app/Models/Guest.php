@@ -170,4 +170,11 @@ class Guest extends Model
         $guest->save();
         return $guest;
     }
+
+    public function recomputeTokensAndPoints(): self
+    {
+        $this->tokens = $this->movements->sum('tokens');
+        $this->points = $this->movements->sum('points');
+        return $this;
+    }
 }
