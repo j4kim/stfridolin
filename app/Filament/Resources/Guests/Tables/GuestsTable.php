@@ -12,7 +12,9 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\Summarizers\Average;
 use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class GuestsTable
 {
@@ -55,7 +57,12 @@ class GuestsTable
             ])
             ->persistSortInSession()
             ->filters([
-                //
+                TernaryFilter::make('registered')
+                    ->queries(
+                        true: fn(Builder $query) => $query->has('registrationMovements'),
+                        false: fn(Builder $query) => $query->doesntHave('registrationMovements'),
+                        blank: fn(Builder $query) => $query,
+                    ),
             ])
             ->recordActions([
                 ViewAction::make(),
