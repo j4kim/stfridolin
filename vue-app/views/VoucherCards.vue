@@ -21,6 +21,9 @@ api("vouchers.index")
                 CHF {{ voucher.article.price }}
             </h2>
             <QrCode :value="voucher.url" :width="120" class="mx-auto" />
+            <div class="text-center font-mono text-[7pt] opacity-50">
+                {{ voucher.id }}
+            </div>
         </template>
     </PrintableCards>
 </template>
