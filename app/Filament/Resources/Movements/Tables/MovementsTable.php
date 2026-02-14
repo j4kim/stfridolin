@@ -6,9 +6,6 @@ use App\Enums\MovementType;
 use App\Filament\Resources\Guests\RelationManagers\MovementsRelationManager;
 use App\Filament\Tools\ColumnTools;
 use App\Filament\Tools\Helpers;
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteBulkAction;
-use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\Summarizers\Average;
 use Filament\Tables\Columns\Summarizers\Sum;
@@ -56,14 +53,6 @@ class MovementsTable
             ])
             ->recordActions([
                 ViewAction::make(),
-            ])
-            ->toolbarActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                ]),
-            ])
-            ->summaries(
-                pageCondition: false
-            );
+            ]);
     }
 }

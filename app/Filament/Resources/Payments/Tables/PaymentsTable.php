@@ -6,8 +6,6 @@ use App\Enums\PaymentPurpose;
 use App\Enums\PaymentStatus;
 use App\Filament\Resources\Guests\RelationManagers\PaymentsRelationManager;
 use App\Filament\Tools\ColumnTools;
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\Summarizers\Average;
 use Filament\Tables\Columns\Summarizers\Sum;
@@ -54,14 +52,6 @@ class PaymentsTable
             ])
             ->recordActions([
                 ViewAction::make(),
-            ])
-            ->toolbarActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                ]),
-            ])
-            ->summaries(
-                pageCondition: false
-            );
+            ]);
     }
 }

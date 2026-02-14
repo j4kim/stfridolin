@@ -4,10 +4,6 @@ namespace App\Filament\Resources\Guests\Tables;
 
 use App\Filament\Tools\ColumnTools;
 use App\Models\Guest;
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteBulkAction;
-use Filament\Actions\EditAction;
-use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\Summarizers\Average;
 use Filament\Tables\Columns\Summarizers\Sum;
@@ -55,7 +51,6 @@ class GuestsTable
                     ->sortable()
                     ->toggleable(),
             ])
-            ->persistSortInSession()
             ->filters([
                 TernaryFilter::make('registered')
                     ->queries(
@@ -63,18 +58,6 @@ class GuestsTable
                         false: fn(Builder $query) => $query->doesntHave('registrationMovements'),
                         blank: fn(Builder $query) => $query,
                     ),
-            ])
-            ->recordActions([
-                ViewAction::make(),
-                EditAction::make(),
-            ])
-            ->toolbarActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                ]),
-            ])
-            ->summaries(
-                pageCondition: false
-            );
+            ]);
     }
 }
