@@ -42,9 +42,7 @@ class GuestResource extends Resource
 
     public static function getRelations(): array
     {
-        return [
-            MovementsRelationManager::class,
-        ];
+        return [];
     }
 
     public static function getPages(): array
