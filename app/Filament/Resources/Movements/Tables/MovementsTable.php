@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Movements\Tables;
 
 use App\Enums\MovementType;
+use App\Filament\Resources\Guests\RelationManagers\MovementsRelationManager;
 use App\Filament\Tools\ColumnTools;
 use App\Filament\Tools\Helpers;
 use Filament\Actions\BulkActionGroup;
@@ -20,7 +21,8 @@ class MovementsTable
         return $table
             ->columns([
                 ...ColumnTools::systemColumns(),
-                ColumnTools::guestLinkColumn(),
+                ColumnTools::guestLinkColumn()
+                    ->hiddenOn(MovementsRelationManager::class),
                 ColumnTools::paymentLinkColumn(),
                 ColumnTools::articleLinkColumn(),
                 TextColumn::make('type')
