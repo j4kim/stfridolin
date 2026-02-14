@@ -85,6 +85,7 @@ class Guest extends Model
             'payment_id' => $paymentId,
             'article_id' => $article->id,
             'type' => MovementType::BuyTokens,
+            'chf' => -$article->price,
             'tokens' => $article->meta['tokens'],
         ]);
     }
