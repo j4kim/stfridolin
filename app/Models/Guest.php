@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\MovementType;
+use App\Enums\PaymentStatus;
 use App\Filament\Resources\Movements\MovementResource;
 use App\Filament\Resources\Payments\PaymentResource;
 use App\Tools\Stripe;
@@ -48,6 +49,11 @@ class Guest extends Model
     public function payments(): HasMany
     {
         return $this->hasMany(Payment::class);
+    }
+
+    public function succeededPayments(): HasMany
+    {
+        return $this->payments()->where('stripe_status', PaymentStatus::succeeded);
     }
 
     public function votes(): HasMany

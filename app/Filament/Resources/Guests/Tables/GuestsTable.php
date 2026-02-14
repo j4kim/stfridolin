@@ -29,9 +29,9 @@ class GuestsTable
                 TextColumn::make('points')
                     ->numeric()
                     ->sortable(),
-                TextColumn::make('payments_sum_amount')
+                TextColumn::make('succeeded_payments_sum_amount')
                     ->label("Spent")
-                    ->sum('payments', 'amount')
+                    ->sum('succeededPayments', 'amount')
                     ->money('CHF')
                     ->sortable()
                     ->toggleable()
