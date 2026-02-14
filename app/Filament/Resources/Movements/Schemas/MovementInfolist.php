@@ -20,13 +20,8 @@ class MovementInfolist
 
                 EntryTools::compactSection()->schema([
                     EntryTools::guestLink(),
-                    TextEntry::make('payment_id')
-                        ->numeric()
-                        ->url(fn(int $state): string => PaymentResource::getUrl('view', ['record' => $state]))
-                        ->placeholder('-'),
-                    TextEntry::make('article')
-                        ->formatStateUsing(fn(Article $state) => "$state->id - $state->name")
-                        ->url(fn(Article $state): string => ArticleResource::getUrl('view', ['record' => $state])),
+                    EntryTools::paymentLink(),
+                    EntryTools::articleLink(),
                     TextEntry::make('type')->badge(),
                     TextEntry::make('chf')->formatStateUsing(Helpers::signedFormatter()),
                     TextEntry::make('tokens')->formatStateUsing(Helpers::signedFormatter()),
