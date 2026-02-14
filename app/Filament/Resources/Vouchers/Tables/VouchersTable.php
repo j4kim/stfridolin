@@ -34,8 +34,7 @@ class VouchersTable
             ->filters([
                 TernaryFilter::make('guest_id')
                     ->label("Utilisé")
-                    ->nullable()
-                    ->default(false)
+                    ->nullable(),
             ]);
     }
 }
