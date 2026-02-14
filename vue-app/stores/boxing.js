@@ -3,6 +3,7 @@ import { Fighter, LeftFighter, RightFighter } from "@/boxing/Fighter";
 import { ref } from "vue";
 import { pusher } from "@/broadcasting";
 import { useFightStore } from "./fight";
+import { importFrames } from "@/boxing/utils";
 
 export const useBoxingStore = defineStore("boxing", () => {
     const running = ref(true);
@@ -13,9 +14,18 @@ export const useBoxingStore = defineStore("boxing", () => {
     const fightStore = useFightStore();
 
     const fighters = {
-        left: new LeftFighter(),
-        right: new RightFighter(),
+        left: null,
+        right: null,
     };
+
+    const initialized = ref(false);
+
+    async function initializeFighters() {
+        await importFrames();
+        fighters.left = new LeftFighter();
+        fighters.right = new RightFighter();
+        initialized.value = true;
+    }
 
     /**
      * @param {'left' | 'right'} side
@@ -88,6 +98,8 @@ export const useBoxingStore = defineStore("boxing", () => {
         finished,
         tossAnimation,
         fighters,
+        initialized,
+        initializeFighters,
         punch,
         win,
         run,

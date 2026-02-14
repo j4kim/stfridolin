@@ -69,7 +69,14 @@ onMounted(async () => {
         ready.value = complete && !collapsed;
     });
 
-    loadingStripe.value = false;
+    paymentElement.on("ready", () => {
+        loadingStripe.value = false;
+    });
+
+    paymentElement.on("loadError", (error) => {
+        loadingStripe.value = false;
+        toast.error("Erreur lors du chargement de Stripe");
+    });
 });
 
 async function submit() {
@@ -143,7 +150,7 @@ watch(coverFees, (newValue) => {
             size="lg"
             :disabled="loading || loadingStripe || toggling || !ready"
         >
-            <Spinner v-if="loading" />
+            <Spinner v-if="loading || loadingStripe" />
             Continuer
         </Button>
         <Button

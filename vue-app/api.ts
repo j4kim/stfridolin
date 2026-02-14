@@ -4,10 +4,7 @@ import { route } from "../vendor/tightenco/ziggy";
 import { toast } from "vue-sonner";
 import { useClientStore } from "./stores/client";
 import { useGuestStore } from "./stores/guest";
-
-export function redirectToLogin(intended?: string): void {
-  location.assign(route("filament.admin.auth.login", { intended }));
-}
+import { redirectToLogin } from "./tools";
 
 export function getErrorMsg(error: any): string | undefined {
   const r = error?.response;

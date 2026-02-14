@@ -7,6 +7,7 @@ const route = useRoute();
 const html = ref("");
 
 async function loadContent(pageName) {
+    html.value = "Chargement...";
     const mod = await import(`../pages/${pageName}.html?raw`);
     html.value = mod.default;
 }
