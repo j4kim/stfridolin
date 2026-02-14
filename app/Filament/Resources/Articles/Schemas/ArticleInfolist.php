@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Articles\Schemas;
 
 use App\Filament\Tools\EntryTools;
 use App\Models\Article;
+use Filament\Infolists\Components\KeyValueEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
 
@@ -27,6 +28,7 @@ class ArticleInfolist
                     TextEntry::make('price')->formatStateUsing(
                         fn($state, Article $article) => "$state {$article->currency->value}"
                     ),
+                    KeyValueEntry::make('meta'),
                 ]),
             ]);
     }
