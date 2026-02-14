@@ -19,8 +19,7 @@ class PaymentsTable
         return $table
             ->columns([
                 ...ColumnTools::systemColumns(),
-                TextColumn::make('guest.name')
-                    ->searchable(),
+                ColumnTools::guestLinkColumn(),
                 TextColumn::make('stripe_status')
                     ->badge()
                     ->searchable(),
