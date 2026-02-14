@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Payments\Tables;
 
 use App\Enums\PaymentPurpose;
 use App\Enums\PaymentStatus;
+use App\Filament\Resources\Guests\RelationManagers\PaymentsRelationManager;
 use App\Filament\Tools\ColumnTools;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
@@ -19,7 +20,8 @@ class PaymentsTable
         return $table
             ->columns([
                 ...ColumnTools::systemColumns(),
-                ColumnTools::guestLinkColumn(),
+                ColumnTools::guestLinkColumn()
+                    ->hiddenOn(PaymentsRelationManager::class),
                 TextColumn::make('stripe_status')
                     ->badge()
                     ->searchable(),
