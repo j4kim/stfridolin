@@ -10,6 +10,8 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
+use Filament\Tables\Columns\Summarizers\Average;
+use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
@@ -31,15 +33,18 @@ class MovementsTable
                 TextColumn::make('chf')
                     ->numeric()
                     ->sortable()
-                    ->formatStateUsing(Helpers::signedFormatter()),
+                    ->formatStateUsing(Helpers::signedFormatter())
+                    ->summarize([Sum::make(), Average::make()]),
                 TextColumn::make('tokens')
                     ->numeric()
                     ->sortable()
-                    ->formatStateUsing(Helpers::signedFormatter()),
+                    ->formatStateUsing(Helpers::signedFormatter())
+                    ->summarize([Sum::make(), Average::make()]),
                 TextColumn::make('points')
                     ->numeric()
                     ->sortable()
-                    ->formatStateUsing(Helpers::signedFormatter()),
+                    ->formatStateUsing(Helpers::signedFormatter())
+                    ->summarize([Sum::make(), Average::make()]),
             ])
             ->filters([
                 SelectFilter::make('guest')
@@ -57,6 +62,9 @@ class MovementsTable
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->summaries(
+                pageCondition: false
+            );
     }
 }

@@ -9,6 +9,8 @@ use App\Filament\Tools\ColumnTools;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\ViewAction;
+use Filament\Tables\Columns\Summarizers\Average;
+use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
@@ -30,7 +32,8 @@ class PaymentsTable
                     ->searchable(),
                 TextColumn::make('amount')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->summarize([Sum::make(), Average::make()]),
                 TextColumn::make('stripe_data.description')
                     ->label("Description")
                     ->sortable()
@@ -56,6 +59,9 @@ class PaymentsTable
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->summaries(
+                pageCondition: false
+            );
     }
 }

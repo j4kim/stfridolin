@@ -9,6 +9,8 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\Summarizers\Average;
+use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -35,7 +37,8 @@ class GuestsTable
                     ->money('CHF')
                     ->sortable()
                     ->toggleable()
-                    ->url(fn(int $state, Guest $guest): ?string => $state ? $guest->paymentsUrl() : null),
+                    ->url(fn(int $state, Guest $guest): ?string => $state ? $guest->paymentsUrl() : null)
+                    ->summarize([Sum::make(), Average::make()]),
                 TextColumn::make('movements_count')
                     ->label("Movements")
                     ->counts('movements')
@@ -62,6 +65,9 @@ class GuestsTable
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->summaries(
+                pageCondition: false
+            );
     }
 }
