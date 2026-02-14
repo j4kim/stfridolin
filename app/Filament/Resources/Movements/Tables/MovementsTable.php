@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Movements\Tables;
 
 use App\Enums\MovementType;
 use App\Filament\Tools\ColumnTools;
+use App\Filament\Tools\Helpers;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -31,13 +32,16 @@ class MovementsTable
                     ->searchable(),
                 TextColumn::make('chf')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->formatStateUsing(Helpers::signedFormatter()),
                 TextColumn::make('tokens')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->formatStateUsing(Helpers::signedFormatter()),
                 TextColumn::make('points')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->formatStateUsing(Helpers::signedFormatter()),
             ])
             ->filters([
                 SelectFilter::make('guest')
