@@ -1,7 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import { useMainStore } from "@/stores/main";
-import { redirectToLogin } from "@/api";
-import { useGuestStore } from "@/stores/guest";
+import { redirectToLogin } from "@/tools";
 
 const routes = [
     // Routes with no auth requested
@@ -152,11 +150,13 @@ const router = createRouter({
     },
 });
 
-router.beforeEach((to) => {
+router.beforeEach(async (to) => {
+    const { useMainStore } = await import("@/stores/main");
     if (to.meta?.requireAuth && !useMainStore().user) {
         redirectToLogin(to.href);
         return false;
     }
+    const { useGuestStore } = await import("@/stores/guest");
     if (to.meta?.requireGuest && !useGuestStore().guest.id) {
         return { name: "guest-auth-form" };
     }

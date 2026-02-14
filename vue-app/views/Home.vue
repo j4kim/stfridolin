@@ -1,9 +1,15 @@
 <script setup>
 import { useGuestStore } from "@/stores/guest";
-import HomeAuthenticated from "./HomeAuthenticated.vue";
-import HomeUnauthenticated from "./HomeUnauthenticated.vue";
+import { defineAsyncComponent } from "vue";
 
 const guestStore = useGuestStore();
+
+const HomeAuthenticated = defineAsyncComponent(
+    () => import("./HomeAuthenticated.vue"),
+);
+const HomeUnauthenticated = defineAsyncComponent(
+    () => import("./HomeUnauthenticated.vue"),
+);
 </script>
 
 <template>
