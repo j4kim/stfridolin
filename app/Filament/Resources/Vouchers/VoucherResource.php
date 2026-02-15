@@ -22,7 +22,7 @@ class VoucherResource extends Resource
 
     protected static ?string $model = Voucher::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::QrCode;
     protected static ?int $navigationSort = 600;
 
     protected static ?string $recordTitleAttribute = 'id';
