@@ -3,7 +3,8 @@
 namespace App\Filament\Resources\Movements\Tables;
 
 use App\Enums\MovementType;
-use App\Filament\Resources\Guests\RelationManagers\MovementsRelationManager;
+use App\Filament\Resources\Articles\RelationManagers\MovementsRelationManager as ArticlesMovementsRelationManager;
+use App\Filament\Resources\Guests\RelationManagers\MovementsRelationManager as GuestsMovementsRelationManager;
 use App\Filament\Tools\ColumnTools;
 use App\Filament\Tools\Helpers;
 use Filament\Actions\ViewAction;
@@ -36,9 +37,10 @@ class MovementsTable
             ->columns([
                 ...ColumnTools::systemColumns(),
                 ColumnTools::guestLinkColumn()
-                    ->hiddenOn(MovementsRelationManager::class),
+                    ->hiddenOn(GuestsMovementsRelationManager::class),
                 ColumnTools::paymentLinkColumn()->visibleFrom('sm'),
-                ColumnTools::articleLinkColumn(),
+                ColumnTools::articleLinkColumn()
+                    ->hiddenOn(ArticlesMovementsRelationManager::class),
                 TextColumn::make('type')
                     ->badge()
                     ->searchable(),
