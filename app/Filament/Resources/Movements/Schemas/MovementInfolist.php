@@ -19,14 +19,17 @@ class MovementInfolist
             ->components([
                 EntryTools::systemSection(),
 
+                EntryTools::compactSection('Détails')->schema([
+                    TextEntry::make('chf')->formatStateUsing(Helpers::signedFormatter()),
+                    TextEntry::make('tokens')->formatStateUsing(Helpers::signedFormatter()),
+                    TextEntry::make('points')->formatStateUsing(Helpers::signedFormatter()),
+                ])->columns(3),
+
                 EntryTools::compactSection()->schema([
                     EntryTools::guestLink(),
                     EntryTools::paymentLink(),
                     EntryTools::articleLink(),
                     TextEntry::make('type')->badge(),
-                    TextEntry::make('chf')->formatStateUsing(Helpers::signedFormatter()),
-                    TextEntry::make('tokens')->formatStateUsing(Helpers::signedFormatter()),
-                    TextEntry::make('points')->formatStateUsing(Helpers::signedFormatter()),
                     KeyValueEntry::make('meta'),
                 ]),
             ]);
