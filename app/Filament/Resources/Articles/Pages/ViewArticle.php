@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Articles\Pages;
 
 use App\Filament\Resources\Articles\ArticleResource;
+use App\Filament\Resources\Articles\RelationManagers\MovementsRelationManager;
 use Filament\Actions\EditAction;
 use Filament\Resources\Pages\ViewRecord;
 use Illuminate\Contracts\Support\Htmlable;
@@ -22,5 +23,12 @@ class ViewArticle extends ViewRecord
     {
         $record = $this->getRecord();
         return "Article #$record->id - $record->name";
+    }
+
+    public function getRelationManagers(): array
+    {
+        return [
+            MovementsRelationManager::class,
+        ];
     }
 }
