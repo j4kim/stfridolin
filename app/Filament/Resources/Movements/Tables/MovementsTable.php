@@ -3,8 +3,8 @@
 namespace App\Filament\Resources\Movements\Tables;
 
 use App\Enums\MovementType;
-use App\Filament\Resources\Articles\RelationManagers\MovementsRelationManager as ArticlesMovementsRelationManager;
-use App\Filament\Resources\Guests\RelationManagers\MovementsRelationManager as GuestsMovementsRelationManager;
+use App\Filament\Resources\Articles\RelationManagers\ArticlesMovementsRelationManager;
+use App\Filament\Resources\Guests\RelationManagers\GuestsMovementsRelationManager;
 use App\Filament\Tools\ColumnTools;
 use App\Filament\Tools\Helpers;
 use Filament\Actions\ViewAction;

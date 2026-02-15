@@ -3,7 +3,8 @@
 namespace App\Filament\Resources\Articles\Pages;
 
 use App\Filament\Resources\Articles\ArticleResource;
-use App\Filament\Resources\Articles\RelationManagers\MovementsRelationManager;
+use App\Filament\Resources\Articles\RelationManagers\ArticlesMovementsRelationManager;
+use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
 use Filament\Resources\Pages\ViewRecord;
 use Illuminate\Contracts\Support\Htmlable;
@@ -16,6 +17,7 @@ class ViewArticle extends ViewRecord
     {
         return [
             EditAction::make(),
+            DeleteAction::make(),
         ];
     }
 
@@ -28,7 +30,7 @@ class ViewArticle extends ViewRecord
     public function getRelationManagers(): array
     {
         return [
-            MovementsRelationManager::class,
+            ArticlesMovementsRelationManager::class,
         ];
     }
 }

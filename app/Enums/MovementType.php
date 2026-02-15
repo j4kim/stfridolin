@@ -12,10 +12,11 @@ enum MovementType: string implements HasLabel, HasColor
     case Registration = 'registration';
     case BuyTokens = 'buy-tokens';
     case SpendTokens = 'spend-tokens';
+    case Manual = 'manual';
 
     public function getLabel(): string | Htmlable | null
     {
-        return $this->name;
+        return __($this->value);
     }
 
     public function getColor(): string | array | null

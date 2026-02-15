@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\Movements\Pages;
 
 use App\Filament\Resources\Movements\MovementResource;
-use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
 
 class ListMovements extends ListRecords
@@ -12,8 +11,6 @@ class ListMovements extends ListRecords
 
     protected function getHeaderActions(): array
     {
-        return [
-            CreateAction::make(),
-        ];
+        return [];
     }
 }
