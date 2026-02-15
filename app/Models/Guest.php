@@ -138,6 +138,13 @@ class Guest extends Model
         );
     }
 
+    protected function descriptor(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => "$this->name - $this->key",
+        );
+    }
+
     public function createStripeCustomer(): Guest
     {
         $customer = Stripe::createCustomer($this);

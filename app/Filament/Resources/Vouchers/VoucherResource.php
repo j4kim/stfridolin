@@ -5,9 +5,7 @@ namespace App\Filament\Resources\Vouchers;
 use App\Filament\Resources\Vouchers\Pages\ViewVoucher;
 use App\Filament\Resources\Vouchers\Schemas\VoucherInfolist;
 use App\Filament\Resources\Vouchers\Pages\CreateVoucher;
-use App\Filament\Resources\Vouchers\Pages\EditVoucher;
 use App\Filament\Resources\Vouchers\Pages\ListVouchers;
-use App\Filament\Resources\Vouchers\Schemas\VoucherForm;
 use App\Filament\Resources\Vouchers\Tables\VouchersTable;
 use App\Models\Voucher;
 use BackedEnum;
@@ -26,11 +24,6 @@ class VoucherResource extends Resource
     protected static ?int $navigationSort = 600;
 
     protected static ?string $recordTitleAttribute = 'id';
-
-    public static function form(Schema $schema): Schema
-    {
-        return VoucherForm::configure($schema);
-    }
 
     public static function infolist(Schema $schema): Schema
     {
