@@ -7,6 +7,7 @@ use App\Filament\Resources\Guests\RelationManagers\MovementsRelationManager;
 use App\Filament\Resources\Guests\RelationManagers\PaymentsRelationManager;
 use Filament\Actions\EditAction;
 use Filament\Resources\Pages\ViewRecord;
+use Illuminate\Contracts\Support\Htmlable;
 
 class ViewGuest extends ViewRecord
 {
@@ -25,5 +26,11 @@ class ViewGuest extends ViewRecord
             MovementsRelationManager::class,
             PaymentsRelationManager::class,
         ];
+    }
+
+    public function getTitle(): string | Htmlable
+    {
+        $record = $this->getRecord();
+        return $record->name;
     }
 }
