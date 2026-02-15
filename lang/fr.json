@@ -1,0 +1,22 @@
+{
+    "name": "Nom",
+    "key": "Code",
+    "created_at": "Créé le",
+    "updated_at": "Modifié le",
+    "id": "ID",
+    "price": "Prix",
+    "std_price": "Prix de base",
+    "currency": "Monnaie",
+    "tokens": "Jetons",
+    "succeeded_payments_sum_amount": "Dépense",
+    "movements_count": "Mvmnts",
+    "registration_movements_count": "Inscrit",
+    "payment_id": "#Paiement",
+    "guest": "Invité",
+    "stripe_status": "Statut",
+    "purpose": "But",
+    "amount": "Montant",
+    "movement": "mouvement",
+    "payment": "paiement",
+    "voucher": "bon"
+}

@@ -37,7 +37,7 @@ class PaymentsTable
                     ->sortable()
                     ->toggleable(),
                 TextColumn::make('stripe_data.metadata.remarks')
-                    ->label("Remarks")
+                    ->label("Remarques")
                     ->sortable()
                     ->toggleable(),
             ])

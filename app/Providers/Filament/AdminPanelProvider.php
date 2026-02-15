@@ -3,18 +3,22 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Pages\Auth\Login;
+use App\Filament\Tools\Helpers;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
+use Filament\Forms\Components\Field;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Infolists\Components\Entry;
 use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use Filament\Tables\Columns\Column;
 use Filament\Tables\Table;
 use Filament\View\PanelsRenderHook;
 use Filament\Widgets\AccountWidget;
@@ -91,5 +95,9 @@ class AdminPanelProvider extends PanelProvider
                 ->deferColumnManager(false)
                 ->stackedOnMobile();
         });
+
+        Column::configureUsing(fn(Column $column) => Helpers::setLabel($column));
+        Entry::configureUsing(fn(Entry $entry) => Helpers::setLabel($entry));
+        Field::configureUsing(fn(Field $field) => Helpers::setLabel($field));
     }
 }

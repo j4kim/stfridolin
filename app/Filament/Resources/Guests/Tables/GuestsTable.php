@@ -30,7 +30,6 @@ class GuestsTable
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('succeeded_payments_sum_amount')
-                    ->label("Spent")
                     ->sum('succeededPayments', 'amount')
                     ->money('CHF')
                     ->sortable()
@@ -39,7 +38,6 @@ class GuestsTable
                     ->summarize([Sum::make(), Average::make()])
                     ->visibleFrom('sm'),
                 TextColumn::make('movements_count')
-                    ->label("Movements")
                     ->counts('movements')
                     ->numeric()
                     ->sortable()
@@ -48,14 +46,12 @@ class GuestsTable
                     ->visibleFrom('sm'),
                 IconColumn::make('registration_movements_count')
                     ->boolean()
-                    ->label("Registered")
                     ->counts('registrationMovements')
                     ->sortable()
                     ->toggleable()
                     ->visibleFrom('sm'),
                 IconColumn::make('stripe_customer_id')
                     ->boolean()
-                    ->label("Stripe customer")
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->visibleFrom('sm'),
