@@ -24,6 +24,7 @@ class GuestResource extends Resource
     protected static ?string $model = Guest::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static ?int $navigationSort = 200;
 
     protected static ?string $recordTitleAttribute = 'name';
 
