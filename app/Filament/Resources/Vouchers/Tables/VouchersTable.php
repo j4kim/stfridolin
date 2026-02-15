@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Vouchers\Tables;
 
 use App\Filament\Tools\ColumnTools;
+use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
@@ -34,6 +35,8 @@ class VouchersTable
                 TernaryFilter::make('guest_id')
                     ->label("Utilisé")
                     ->nullable(),
+            ])->recordActions([
+                ViewAction::make(),
             ]);
     }
 }
