@@ -8,7 +8,6 @@ use App\Filament\Resources\Guests\RelationManagers\GuestsMovementsRelationManage
 use App\Filament\Tools\ColumnTools;
 use App\Filament\Tools\Helpers;
 use Filament\Actions\ViewAction;
-use Filament\Tables\Columns\Summarizers\Average;
 use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
@@ -22,13 +21,9 @@ class MovementsTable
             ->numeric()
             ->sortable()
             ->formatStateUsing(Helpers::signedFormatter())
-            ->summarize([
-                Sum::make()
-                    ->formatStateUsing(fn($state) => "$state $name"),
-                Average::make()
-                    ->formatStateUsing(fn($state) => "$state $name")
-                    ->numeric(decimalPlaces: 1)
-            ]);
+            ->summarize(
+                Sum::make()->formatStateUsing(fn($state) => "$state $name")
+            );
     }
 
     public static function configure(Table $table): Table
