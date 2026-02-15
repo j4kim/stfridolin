@@ -31,14 +31,14 @@ class MovementsTable
                 ...ColumnTools::systemColumns(),
                 ColumnTools::guestLinkColumn()
                     ->hiddenOn(MovementsRelationManager::class),
-                ColumnTools::paymentLinkColumn(),
+                ColumnTools::paymentLinkColumn()->visibleFrom('sm'),
                 ColumnTools::articleLinkColumn(),
                 TextColumn::make('type')
                     ->badge()
                     ->searchable(),
-                self::currencyColumn('chf'),
-                self::currencyColumn('tokens'),
-                self::currencyColumn('points'),
+                self::currencyColumn('chf')->visibleFrom('sm'),
+                self::currencyColumn('tokens')->visibleFrom('sm'),
+                self::currencyColumn('points')->visibleFrom('sm'),
             ])
             ->filters([
                 SelectFilter::make('guest')
