@@ -83,7 +83,7 @@ class Guest extends Model
         return $movement;
     }
 
-    public function addTokens(Article $article, ?int $paymentId = null): Movement
+    public function addTokens(Article $article, ?int $paymentId = null, ?array $meta = null): Movement
     {
         return $this->createMovement([
             'payment_id' => $paymentId,
@@ -91,6 +91,7 @@ class Guest extends Model
             'type' => MovementType::BuyTokens,
             'chf' => -$article->price,
             'tokens' => $article->meta['tokens'],
+            'meta' => $meta
         ]);
     }
 
