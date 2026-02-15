@@ -7,6 +7,7 @@ use App\Filament\Resources\Payments\PaymentResource;
 use App\Filament\Tools\EntryTools;
 use App\Filament\Tools\Helpers;
 use App\Models\Article;
+use Filament\Infolists\Components\KeyValueEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
 
@@ -26,6 +27,7 @@ class MovementInfolist
                     TextEntry::make('chf')->formatStateUsing(Helpers::signedFormatter()),
                     TextEntry::make('tokens')->formatStateUsing(Helpers::signedFormatter()),
                     TextEntry::make('points')->formatStateUsing(Helpers::signedFormatter()),
+                    KeyValueEntry::make('meta'),
                 ]),
             ]);
     }
