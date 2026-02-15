@@ -23,5 +23,7 @@
     "registration": "Inscription",
     "buy-tokens": "Achat jetons",
     "tokens-package": "Package de jetons",
-    "spend-tokens": "Dépense jetons"
+    "spend-tokens": "Dépense jetons",
+    "manual": "Manuel",
+    "comment": "Commentaire"
 }
