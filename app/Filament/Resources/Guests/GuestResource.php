@@ -19,6 +19,8 @@ use Filament\Tables\Table;
 
 class GuestResource extends Resource
 {
+    use \App\Filament\Tools\TranslateModelLabel;
+
     protected static ?string $model = Guest::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;

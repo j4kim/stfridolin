@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Vouchers\Tables;
 
+use App\Filament\Tools\ColumnTools;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
@@ -27,9 +28,7 @@ class VouchersTable
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('article.description')
                     ->searchable(),
-                TextColumn::make('guest.name')
-                    ->searchable()
-                    ->sortable(),
+                ColumnTools::guestLinkColumn(),
             ])
             ->filters([
                 TernaryFilter::make('guest_id')
