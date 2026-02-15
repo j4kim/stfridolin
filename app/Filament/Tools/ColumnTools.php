@@ -4,6 +4,7 @@ namespace App\Filament\Tools;
 
 use App\Filament\Resources\Articles\ArticleResource;
 use App\Filament\Resources\Guests\GuestResource;
+use App\Filament\Resources\Movements\MovementResource;
 use App\Filament\Resources\Payments\PaymentResource;
 use App\Models\Article;
 use App\Models\Guest;
@@ -52,5 +53,19 @@ class ColumnTools
         return TextColumn::make('article')
             ->url(fn(Article $state): string => ArticleResource::getUrl('view', ['record' => $state]))
             ->formatStateUsing(fn(Article $state): string => $state->description);
+    }
+
+    public static function movementsUrl($col, $id): string
+    {
+        return MovementResource::getUrl('index', [
+            'filters' => [$col => ['value' => $id]]
+        ]);
+    }
+
+    public static function paymentsUrl($col, $id): string
+    {
+        return PaymentResource::getUrl('index', [
+            'filters' => [$col => ['value' => $id]]
+        ]);
     }
 }

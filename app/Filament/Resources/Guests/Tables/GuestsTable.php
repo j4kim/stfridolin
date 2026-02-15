@@ -34,7 +34,7 @@ class GuestsTable
                     ->money('CHF')
                     ->sortable()
                     ->toggleable()
-                    ->url(fn(int $state, Guest $guest): ?string => $state ? $guest->paymentsUrl() : null)
+                    ->url(fn(int $state, Guest $guest) => ColumnTools::paymentsUrl('guest', $guest->id))
                     ->summarize([Sum::make(), Average::make()])
                     ->visibleFrom('sm'),
                 TextColumn::make('movements_count')
@@ -42,7 +42,7 @@ class GuestsTable
                     ->numeric()
                     ->sortable()
                     ->toggleable()
-                    ->url(fn(int $state, Guest $guest): ?string => $state ? $guest->movementsUrl() : null)
+                    ->url(fn(int $state, Guest $guest) => ColumnTools::movementsUrl('guest', $guest->id))
                     ->visibleFrom('sm'),
                 IconColumn::make('registration_movements_count')
                     ->boolean()

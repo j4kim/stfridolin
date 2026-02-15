@@ -4,8 +4,6 @@ namespace App\Models;
 
 use App\Enums\MovementType;
 use App\Enums\PaymentStatus;
-use App\Filament\Resources\Movements\MovementResource;
-use App\Filament\Resources\Payments\PaymentResource;
 use App\Tools\Stripe;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Database\Eloquent\BroadcastsEvents;
@@ -131,20 +129,6 @@ class Guest extends Model
         return [
             new Channel("guest-$this->id"),
         ];
-    }
-
-    public function movementsUrl(): string
-    {
-        return MovementResource::getUrl('index', [
-            'filters' => ['guest' => ['value' => $this->id]]
-        ]);
-    }
-
-    public function paymentsUrl(): string
-    {
-        return PaymentResource::getUrl('index', [
-            'filters' => ['guest' => ['value' => $this->id]]
-        ]);
     }
 
     protected function authUrl(): Attribute
