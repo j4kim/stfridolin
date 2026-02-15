@@ -9,6 +9,8 @@ use App\Models\Article;
 use App\Models\Guest;
 use Exception;
 use Filament\Actions\Action;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\ViewAction;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -25,9 +27,18 @@ class GuestsMovementsRelationManager extends RelationManager
 
     protected static ?string $relatedResource = MovementResource::class;
 
+    public function isReadOnly(): bool
+    {
+        return false;
+    }
+
     public function table(Table $table): Table
     {
         return $table
+            ->recordActions([
+                ViewAction::make(),
+                DeleteAction::make(),
+            ])
             ->headerActions([
                 Action::make('Ajouter')
                     ->schema([
