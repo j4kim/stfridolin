@@ -21,7 +21,13 @@ class MovementsTable
             ->numeric()
             ->sortable()
             ->formatStateUsing(Helpers::signedFormatter())
-            ->summarize([Sum::make(), Average::make()]);
+            ->summarize([
+                Sum::make()
+                    ->formatStateUsing(fn($state) => "$state $name"),
+                Average::make()
+                    ->formatStateUsing(fn($state) => "$state $name")
+                    ->numeric(decimalPlaces: 1)
+            ]);
     }
 
     public static function configure(Table $table): Table
