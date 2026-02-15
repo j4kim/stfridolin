@@ -15,6 +15,21 @@ use Filament\Tables\Table;
 
 class MovementsTable
 {
+    public static function currencyColumn($name): TextColumn
+    {
+        return TextColumn::make($name)
+            ->numeric()
+            ->sortable()
+            ->formatStateUsing(Helpers::signedFormatter())
+            ->summarize([
+                Sum::make()
+                    ->formatStateUsing(fn($state) => "$state $name"),
+                Average::make()
+                    ->formatStateUsing(fn($state) => "$state $name")
+                    ->numeric(decimalPlaces: 1)
+            ]);
+    }
+
     public static function configure(Table $table): Table
     {
         return $table
@@ -22,26 +37,14 @@ class MovementsTable
                 ...ColumnTools::systemColumns(),
                 ColumnTools::guestLinkColumn()
                     ->hiddenOn(MovementsRelationManager::class),
-                ColumnTools::paymentLinkColumn(),
+                ColumnTools::paymentLinkColumn()->visibleFrom('sm'),
                 ColumnTools::articleLinkColumn(),
                 TextColumn::make('type')
                     ->badge()
                     ->searchable(),
-                TextColumn::make('chf')
-                    ->numeric()
-                    ->sortable()
-                    ->formatStateUsing(Helpers::signedFormatter())
-                    ->summarize([Sum::make(), Average::make()]),
-                TextColumn::make('tokens')
-                    ->numeric()
-                    ->sortable()
-                    ->formatStateUsing(Helpers::signedFormatter())
-                    ->summarize([Sum::make(), Average::make()]),
-                TextColumn::make('points')
-                    ->numeric()
-                    ->sortable()
-                    ->formatStateUsing(Helpers::signedFormatter())
-                    ->summarize([Sum::make(), Average::make()]),
+                self::currencyColumn('chf')->visibleFrom('sm'),
+                self::currencyColumn('tokens')->visibleFrom('sm'),
+                self::currencyColumn('points')->visibleFrom('sm'),
             ])
             ->filters([
                 SelectFilter::make('guest')

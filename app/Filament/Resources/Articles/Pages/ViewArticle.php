@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Articles\Pages;
 use App\Filament\Resources\Articles\ArticleResource;
 use Filament\Actions\EditAction;
 use Filament\Resources\Pages\ViewRecord;
+use Illuminate\Contracts\Support\Htmlable;
 
 class ViewArticle extends ViewRecord
 {
@@ -15,5 +16,11 @@ class ViewArticle extends ViewRecord
         return [
             EditAction::make(),
         ];
+    }
+
+    public function getTitle(): string | Htmlable
+    {
+        $record = $this->getRecord();
+        return "Article #$record->id - $record->name";
     }
 }

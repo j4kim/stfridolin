@@ -17,15 +17,18 @@ class ColumnTools
             TextColumn::make('id')
                 ->numeric()
                 ->sortable()
-                ->toggleable(),
+                ->toggleable()
+                ->visibleFrom('sm'),
             TextColumn::make('created_at')
                 ->dateTime("d.m.Y H:i")
                 ->sortable()
-                ->toggleable(),
+                ->toggleable()
+                ->visibleFrom('sm'),
             TextColumn::make('updated_at')
                 ->dateTime("d.m.Y H:i")
                 ->sortable()
-                ->toggleable(isToggledHiddenByDefault: true),
+                ->toggleable(isToggledHiddenByDefault: true)
+                ->visibleFrom('sm'),
         ];
     }
 

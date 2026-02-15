@@ -36,25 +36,29 @@ class GuestsTable
                     ->sortable()
                     ->toggleable()
                     ->url(fn(int $state, Guest $guest): ?string => $state ? $guest->paymentsUrl() : null)
-                    ->summarize([Sum::make(), Average::make()]),
+                    ->summarize([Sum::make(), Average::make()])
+                    ->visibleFrom('sm'),
                 TextColumn::make('movements_count')
                     ->label("Movements")
                     ->counts('movements')
                     ->numeric()
                     ->sortable()
                     ->toggleable()
-                    ->url(fn(int $state, Guest $guest): ?string => $state ? $guest->movementsUrl() : null),
+                    ->url(fn(int $state, Guest $guest): ?string => $state ? $guest->movementsUrl() : null)
+                    ->visibleFrom('sm'),
                 IconColumn::make('registration_movements_count')
                     ->boolean()
                     ->label("Registered")
                     ->counts('registrationMovements')
                     ->sortable()
-                    ->toggleable(),
+                    ->toggleable()
+                    ->visibleFrom('sm'),
                 IconColumn::make('stripe_customer_id')
                     ->boolean()
                     ->label("Stripe customer")
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->visibleFrom('sm'),
             ])
             ->filters([
                 TernaryFilter::make('registered')

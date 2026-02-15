@@ -88,7 +88,8 @@ class AdminPanelProvider extends PanelProvider
                     pageCondition: false
                 )
                 ->deferFilters(false)
-                ->deferColumnManager(false);
+                ->deferColumnManager(false)
+                ->stackedOnMobile();
         });
     }
 }

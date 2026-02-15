@@ -21,12 +21,14 @@ class ArticlesTable
                     ->badge()
                     ->searchable(),
                 TextColumn::make('name')
-                    ->searchable(),
+                    ->searchable()
+                    ->visibleFrom('sm'),
                 TextColumn::make('description')
                     ->searchable(),
                 TextColumn::make('std_price')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->visibleFrom('sm'),
                 TextColumn::make('price')
                     ->numeric()
                     ->sortable(),
@@ -41,7 +43,8 @@ class ArticlesTable
                     )
                     ->formatStateUsing(fn($state) => "-$state%")
                     ->badge()
-                    ->color(Helpers::discountColor()),
+                    ->color(Helpers::discountColor())
+                    ->visibleFrom('sm'),
             ])
             ->filters([
                 SelectFilter::make('type')
