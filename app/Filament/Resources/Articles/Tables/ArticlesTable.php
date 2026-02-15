@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Articles\Tables;
 use App\Enums\ArticleType;
 use App\Filament\Tools\ColumnTools;
 use App\Filament\Tools\Helpers;
+use App\Models\Article;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
@@ -44,6 +45,13 @@ class ArticlesTable
                     ->formatStateUsing(fn($state) => "-$state%")
                     ->badge()
                     ->color(Helpers::discountColor())
+                    ->visibleFrom('sm'),
+                TextColumn::make('movements_count')
+                    ->counts('movements')
+                    ->numeric()
+                    ->sortable()
+                    ->toggleable()
+                    ->url(fn(int $state, Article $art) => ColumnTools::movementsUrl('article', $art->id))
                     ->visibleFrom('sm'),
             ])
             ->filters([
