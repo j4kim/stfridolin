@@ -6,7 +6,6 @@ use App\Filament\Resources\Guests\Pages\CreateGuest;
 use App\Filament\Resources\Guests\Pages\EditGuest;
 use App\Filament\Resources\Guests\Pages\ListGuests;
 use App\Filament\Resources\Guests\Pages\ViewGuest;
-use App\Filament\Resources\Guests\RelationManagers\MovementsRelationManager;
 use App\Filament\Resources\Guests\Schemas\GuestForm;
 use App\Filament\Resources\Guests\Schemas\GuestInfolist;
 use App\Filament\Resources\Guests\Tables\GuestsTable;

@@ -3,7 +3,7 @@
 namespace App\Filament\Resources\Guests\Pages;
 
 use App\Filament\Resources\Guests\GuestResource;
-use App\Filament\Resources\Guests\RelationManagers\MovementsRelationManager;
+use App\Filament\Resources\Guests\RelationManagers\GuestsMovementsRelationManager;
 use App\Filament\Resources\Guests\RelationManagers\PaymentsRelationManager;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
@@ -25,7 +25,7 @@ class ViewGuest extends ViewRecord
     public function getRelationManagers(): array
     {
         return [
-            MovementsRelationManager::class,
+            GuestsMovementsRelationManager::class,
             PaymentsRelationManager::class,
         ];
     }
