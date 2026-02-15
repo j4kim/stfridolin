@@ -19,7 +19,7 @@ enum PaymentStatus: string implements HasLabel, HasColor
 
     public function getLabel(): string | Htmlable | null
     {
-        return $this->value;
+        return __($this->value);
     }
 
     public function getColor(): string | array | null

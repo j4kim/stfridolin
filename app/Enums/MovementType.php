@@ -15,7 +15,7 @@ enum MovementType: string implements HasLabel, HasColor
 
     public function getLabel(): string | Htmlable | null
     {
-        return $this->name;
+        return __($this->value);
     }
 
     public function getColor(): string | array | null
