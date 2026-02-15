@@ -76,6 +76,7 @@ class GuestsMovementsRelationManager extends RelationManager
                         $movementData = [
                             'type' => $type,
                             'article_id' => $article?->id,
+                            'meta' => ['source' => 'admin panel'],
                         ];
 
                         if ($data['created_at']) {
@@ -83,7 +84,7 @@ class GuestsMovementsRelationManager extends RelationManager
                         }
 
                         if ($data['comment']) {
-                            $movementData['meta'] = ['comment' => $data['comment']];
+                            $movementData['meta']['comment'] = $data['comment'];
                         }
 
                         if ($type === MovementType::Registration) {
