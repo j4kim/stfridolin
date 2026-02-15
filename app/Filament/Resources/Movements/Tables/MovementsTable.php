@@ -15,6 +15,15 @@ use Filament\Tables\Table;
 
 class MovementsTable
 {
+    public static function currencyColumn($name): TextColumn
+    {
+        return TextColumn::make($name)
+            ->numeric()
+            ->sortable()
+            ->formatStateUsing(Helpers::signedFormatter())
+            ->summarize([Sum::make(), Average::make()]);
+    }
+
     public static function configure(Table $table): Table
     {
         return $table
@@ -27,21 +36,9 @@ class MovementsTable
                 TextColumn::make('type')
                     ->badge()
                     ->searchable(),
-                TextColumn::make('chf')
-                    ->numeric()
-                    ->sortable()
-                    ->formatStateUsing(Helpers::signedFormatter())
-                    ->summarize([Sum::make(), Average::make()]),
-                TextColumn::make('tokens')
-                    ->numeric()
-                    ->sortable()
-                    ->formatStateUsing(Helpers::signedFormatter())
-                    ->summarize([Sum::make(), Average::make()]),
-                TextColumn::make('points')
-                    ->numeric()
-                    ->sortable()
-                    ->formatStateUsing(Helpers::signedFormatter())
-                    ->summarize([Sum::make(), Average::make()]),
+                self::currencyColumn('chf'),
+                self::currencyColumn('tokens'),
+                self::currencyColumn('points'),
             ])
             ->filters([
                 SelectFilter::make('guest')
