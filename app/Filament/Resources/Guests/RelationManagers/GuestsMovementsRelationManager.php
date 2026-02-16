@@ -43,6 +43,37 @@ class GuestsMovementsRelationManager extends RelationManager
         ];
     }
 
+    public function createGuestMovement(array $data, MovementType $type)
+    {
+        /** @var Guest $guest */
+        $guest = $this->getOwnerRecord();
+
+        $movementData = [
+            'type' => $type,
+            'chf' => @$data['chf'],
+            'tokens' => @$data['tokens'],
+            'points' => @$data['points'],
+            'meta' => ['source' => 'admin panel'],
+        ];
+
+        if ($type === MovementType::Registration) {
+            $article = Article::firstWhere('type', ArticleType::Registration);
+            $movementData['article_id'] = $article->id;
+            $movementData['chf'] = -$article->price;
+            $movementData['tokens'] = 20;
+        }
+
+        if ($data['created_at']) {
+            $movementData['created_at'] = $data['created_at'];
+        }
+
+        if ($data['comment']) {
+            $movementData['meta']['comment'] = $data['comment'];
+        }
+
+        $guest->createMovement($movementData);
+    }
+
     public function table(Table $table): Table
     {
         return $table
@@ -67,57 +98,14 @@ class GuestsMovementsRelationManager extends RelationManager
                             ]),
                         ...self::commonActionFields(),
                     ])
-                    ->action(function (array $data) {
-                        /** @var Guest $guest */
-                        $guest = $this->getOwnerRecord();
-
-                        $movementData = [
-                            'type' => MovementType::Manual,
-                            'chf' => $data['chf'],
-                            'tokens' => $data['tokens'],
-                            'points' => $data['points'],
-                            'meta' => ['source' => 'admin panel'],
-                        ];
-
-                        if ($data['created_at']) {
-                            $movementData['created_at'] = $data['created_at'];
-                        }
-
-                        if ($data['comment']) {
-                            $movementData['meta']['comment'] = $data['comment'];
-                        }
-
-                        $guest->createMovement($movementData);
-                    }),
+                    ->action(fn(array $data) => $this->createGuestMovement($data, MovementType::Manual)),
 
                 Action::make("regristration")
                     ->label("Inscription")
                     ->icon(Heroicon::Plus)
                     ->modalWidth(Width::Large)
                     ->schema(self::commonActionFields())
-                    ->action(function (array $data) {
-                        /** @var Guest $guest */
-                        $guest = $this->getOwnerRecord();
-
-                        $article = Article::firstWhere('type', ArticleType::Registration);
-
-                        $movementData = [
-                            'type' => MovementType::Registration,
-                            'chf' => -$article->price,
-                            'tokens' => 20,
-                            'meta' => ['source' => 'admin panel'],
-                        ];
-
-                        if ($data['created_at']) {
-                            $movementData['created_at'] = $data['created_at'];
-                        }
-
-                        if ($data['comment']) {
-                            $movementData['meta']['comment'] = $data['comment'];
-                        }
-
-                        $guest->createMovement($movementData);
-                    }),
+                    ->action(fn(array $data) => $this->createGuestMovement($data, MovementType::Registration)),
             ]);
     }
 
