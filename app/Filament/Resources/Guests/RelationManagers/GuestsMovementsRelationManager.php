@@ -32,6 +32,17 @@ class GuestsMovementsRelationManager extends RelationManager
         return false;
     }
 
+    public static function commonActionFields(): array
+    {
+        return [
+            TextInput::make('comment'),
+            DateTimePicker::make('created_at')
+                ->displayFormat('Y.m.d H:i')
+                ->seconds(false)
+                ->belowContent("Laissez vide pour utiliser la date et l'heure actuelle"),
+        ];
+    }
+
     public function table(Table $table): Table
     {
         return $table
@@ -54,11 +65,7 @@ class GuestsMovementsRelationManager extends RelationManager
                                 TextInput::make('points')->numeric(),
                                 Text::make("Nombre négatif pour une dépense, positif pour un crédit")->columnSpanFull(),
                             ]),
-                        TextInput::make('comment'),
-                        DateTimePicker::make('created_at')
-                            ->displayFormat('Y.m.d H:i')
-                            ->seconds(false)
-                            ->belowContent("Laissez vide pour utiliser la date et l'heure actuelle"),
+                        ...self::commonActionFields(),
                     ])
                     ->action(function (array $data) {
                         /** @var Guest $guest */
@@ -87,13 +94,7 @@ class GuestsMovementsRelationManager extends RelationManager
                     ->label("Inscription")
                     ->icon(Heroicon::Plus)
                     ->modalWidth(Width::Large)
-                    ->schema([
-                        TextInput::make('comment'),
-                        DateTimePicker::make('created_at')
-                            ->displayFormat('Y.m.d H:i')
-                            ->seconds(false)
-                            ->belowContent("Laissez vide pour utiliser la date et l'heure actuelle"),
-                    ])
+                    ->schema(self::commonActionFields())
                     ->action(function (array $data) {
                         /** @var Guest $guest */
                         $guest = $this->getOwnerRecord();
