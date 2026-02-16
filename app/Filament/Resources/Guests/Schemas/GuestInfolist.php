@@ -33,7 +33,13 @@ class GuestInfolist
                         }),
                     TextEntry::make('arrived_at')
                         ->dateTime("d.m.Y H:i")
-                        ->placeholder('-'),
+                        ->belowLabel(function (?string $state) {
+                            if ($state) return null;
+                            return Action::make('arrives_now')
+                                ->action(function (Guest $guest) {
+                                    $guest->update(['arrived_at' => now()]);
+                                });
+                        }),
                     TextEntry::make('authenticated_at')
                         ->dateTime("d.m.Y H:i")
                         ->placeholder('-'),
