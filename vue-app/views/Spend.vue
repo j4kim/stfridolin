@@ -1,4 +1,5 @@
 <script setup>
+import { api } from "@/api";
 import Layout from "@/components/Layout.vue";
 import Button from "@/components/ui/button/Button.vue";
 import { Field, FieldLabel } from "@/components/ui/field";
@@ -32,7 +33,10 @@ onMounted(() => {
 });
 
 async function submit() {
-    console.log(amount.value);
+    const params = { currency: route.params.currency, amount: amount.value };
+    const request = api("guests.spend").params(params);
+    const movement = await request.put();
+    console.log(movement);
 }
 </script>
 
