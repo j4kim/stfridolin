@@ -111,7 +111,7 @@ class Guest extends Model
             'article_id' => $article->id,
             'type' => MovementType::Registration,
             'chf' => -$article->price,
-            'tokens' => 20,
+            'tokens' => $article->meta['tokens'],
         ]);
     }
 

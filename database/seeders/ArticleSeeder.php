@@ -66,6 +66,7 @@ class ArticleSeeder extends Seeder
             'description' => "Frais d'inscription",
             'currency' => Currency::CHF,
             'price' => 30,
+            'meta' => ['tokens' => 20],
         ]);
 
         Article::create([

@@ -60,7 +60,7 @@ class GuestsMovementsRelationManager extends RelationManager
             $article = Article::firstWhere('type', ArticleType::Registration);
             $movementData['article_id'] = $article->id;
             $movementData['chf'] = -$article->price;
-            $movementData['tokens'] = 20;
+            $movementData['tokens'] = $article->meta['tokens'];
         }
 
         if ($data['created_at']) {
