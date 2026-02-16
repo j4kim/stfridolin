@@ -53,7 +53,7 @@ class Track extends Model
     #[Scope]
     protected function queue(Builder $query): void
     {
-        $query->whereNull('used')->orderByDesc('priority')->orderBy('id');
+        $query->where('used', false)->orderByDesc('priority')->orderBy('id');
     }
 
     public static function getCandidates(): Collection
