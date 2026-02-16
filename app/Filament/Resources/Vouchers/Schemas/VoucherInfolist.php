@@ -23,7 +23,7 @@ class VoucherInfolist
                     EntryTools::guestLink()
                         ->belowLabel(function (?string $state) {
                             if ($state) return null;
-                            return Action::make('Attacher')
+                            return Action::make('attach_to_guest')
                                 ->schema([
                                     Select::make('guest_id')
                                         ->options(Guest::query()->get()->pluck('descriptor', 'id'))

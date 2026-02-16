@@ -26,11 +26,23 @@ class GuestInfolist
                     TextEntry::make('stripe_customer_id')
                         ->belowLabel(function (?string $state) {
                             if ($state) return null;
-                            return Action::make('Créer client stripe')
+                            return Action::make('create_stripe_client')
                                 ->action(function (Guest $guest) {
                                     $guest->createStripeCustomer()->save();
                                 });
                         }),
+                    TextEntry::make('arrived_at')
+                        ->dateTime("d.m.Y H:i")
+                        ->belowLabel(function (?string $state) {
+                            if ($state) return null;
+                            return Action::make('arrives_now')
+                                ->action(function (Guest $guest) {
+                                    $guest->update(['arrived_at' => now()]);
+                                });
+                        }),
+                    TextEntry::make('authenticated_at')
+                        ->dateTime("d.m.Y H:i")
+                        ->placeholder('-'),
                 ]),
             ]);
     }

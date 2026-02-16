@@ -4,6 +4,7 @@ namespace App\Providers\Filament;
 
 use App\Filament\Pages\Auth\Login;
 use App\Filament\Tools\Helpers;
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -18,7 +19,9 @@ use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use Filament\Support\Components\Component;
 use Filament\Tables\Columns\Column;
+use Filament\Tables\Filters\BaseFilter;
 use Filament\Tables\Table;
 use Filament\View\PanelsRenderHook;
 use Filament\Widgets\AccountWidget;
@@ -98,8 +101,10 @@ class AdminPanelProvider extends PanelProvider
                 ->stackedOnMobile();
         });
 
-        Column::configureUsing(fn(Column $column) => Helpers::setLabel($column));
-        Entry::configureUsing(fn(Entry $entry) => Helpers::setLabel($entry));
-        Field::configureUsing(fn(Field $field) => Helpers::setLabel($field));
+        Column::configureUsing(fn(Component $c) => Helpers::setLabel($c));
+        Entry::configureUsing(fn(Component $c) => Helpers::setLabel($c));
+        Field::configureUsing(fn(Component $c) => Helpers::setLabel($c));
+        BaseFilter::configureUsing(fn(Component $c) => Helpers::setLabel($c));
+        Action::configureUsing(fn(Component $c) => Helpers::setLabel($c));
     }
 }
