@@ -8,6 +8,7 @@ use App\Filament\Resources\Movements\MovementResource;
 use App\Models\Article;
 use App\Models\Guest;
 use Filament\Actions\Action;
+use Filament\Actions\ActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\ViewAction;
 use Filament\Forms\Components\DateTimePicker;
@@ -82,29 +83,31 @@ class GuestsMovementsRelationManager extends RelationManager
                 DeleteAction::make(),
             ])
             ->headerActions([
-                Action::make("add_manual_movement")
-                    ->icon(Heroicon::Plus)
-                    ->outlined()
-                    ->modalWidth(Width::Large)
-                    ->schema([
-                        Grid::make()
-                            ->columns(3)
-                            ->schema([
-                                TextInput::make('chf')->numeric(),
-                                TextInput::make('tokens')->numeric(),
-                                TextInput::make('points')->numeric(),
-                                Text::make("Nombre négatif pour une dépense, positif pour un crédit")->columnSpanFull(),
-                            ]),
-                        ...self::commonActionFields(),
-                    ])
-                    ->action(fn(array $data) => $this->createGuestMovement($data, MovementType::Manual)),
-
                 Action::make("add_regristration")
                     ->icon(Heroicon::Plus)
                     ->modalWidth(Width::Large)
                     ->schema(self::commonActionFields())
                     ->action(fn(array $data) => $this->createGuestMovement($data, MovementType::Registration))
                     ->hidden(fn() => $this->getOwnerRecord()->registrationMovements()->exists()),
+
+                ActionGroup::make([
+                    Action::make("add_manual_movement")
+                        ->icon(Heroicon::Plus)
+                        ->outlined()
+                        ->modalWidth(Width::Large)
+                        ->schema([
+                            Grid::make()
+                                ->columns(3)
+                                ->schema([
+                                    TextInput::make('chf')->numeric(),
+                                    TextInput::make('tokens')->numeric(),
+                                    TextInput::make('points')->numeric(),
+                                    Text::make("Nombre négatif pour une dépense, positif pour un crédit")->columnSpanFull(),
+                                ]),
+                            ...self::commonActionFields(),
+                        ])
+                        ->action(fn(array $data) => $this->createGuestMovement($data, MovementType::Manual)),
+                ]),
             ]);
     }
 
