@@ -4,6 +4,7 @@ namespace App\Providers\Filament;
 
 use App\Filament\Pages\Auth\Login;
 use App\Filament\Tools\Helpers;
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -104,5 +105,6 @@ class AdminPanelProvider extends PanelProvider
         Entry::configureUsing(fn(Component $c) => Helpers::setLabel($c));
         Field::configureUsing(fn(Component $c) => Helpers::setLabel($c));
         BaseFilter::configureUsing(fn(Component $c) => Helpers::setLabel($c));
+        Action::configureUsing(fn(Component $c) => Helpers::setLabel($c));
     }
 }

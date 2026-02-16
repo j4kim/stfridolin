@@ -21,7 +21,7 @@ class ListVouchers extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Action::make('Créer')
+            Action::make('create_many_vouchers')
                 ->schema([
                     Select::make('article_id')
                         ->relationship('article', 'description')

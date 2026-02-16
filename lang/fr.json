@@ -31,5 +31,11 @@
     "authenticated_at": "S'est connecté à",
     "is_registered": "Est inscrit",
     "is_arrived": "Est arrivé",
-    "is_authenticated": "S'est connecté"
+    "is_authenticated": "S'est connecté",
+    "add_manual_movement": "Mouvement manuel",
+    "add_regristration": "Inscription",
+    "create_stripe_client": "Créer client Stripe",
+    "arrives_now": "Arrive maintenant",
+    "create_many_vouchers": "Créer plein de bons",
+    "attach_to_guest": "Attacher à un invité"
 }

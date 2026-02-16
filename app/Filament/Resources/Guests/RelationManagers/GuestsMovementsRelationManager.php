@@ -82,8 +82,7 @@ class GuestsMovementsRelationManager extends RelationManager
                 DeleteAction::make(),
             ])
             ->headerActions([
-                Action::make("manual")
-                    ->label("Mouvement manuel")
+                Action::make("add_manual_movement")
                     ->icon(Heroicon::Plus)
                     ->outlined()
                     ->modalWidth(Width::Large)
@@ -100,8 +99,7 @@ class GuestsMovementsRelationManager extends RelationManager
                     ])
                     ->action(fn(array $data) => $this->createGuestMovement($data, MovementType::Manual)),
 
-                Action::make("regristration")
-                    ->label("Inscription")
+                Action::make("add_regristration")
                     ->icon(Heroicon::Plus)
                     ->modalWidth(Width::Large)
                     ->schema(self::commonActionFields())
