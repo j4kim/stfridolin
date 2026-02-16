@@ -139,6 +139,14 @@ const routes = [
             requireAuth: true,
         },
     },
+    {
+        path: "/qr-scan",
+        name: "qr-scan",
+        component: () => import("@/views/QrScan.vue"),
+        meta: {
+            requireAuth: true,
+        },
+    },
 ];
 
 const router = createRouter({

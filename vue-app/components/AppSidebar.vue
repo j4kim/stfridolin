@@ -17,6 +17,7 @@ import {
     HandFist,
     Home,
     Play,
+    QrCode,
     Settings,
     Trophy,
     TvMinimalPlay,
@@ -94,6 +95,11 @@ const groups = computed(() => [
                 title: "Spotify",
                 to: { name: "spotify" },
                 icon: Play,
+            },
+            {
+                title: "Scan",
+                to: { name: "qr-scan" },
+                icon: QrCode,
             },
             {
                 title: "Admin panel",
