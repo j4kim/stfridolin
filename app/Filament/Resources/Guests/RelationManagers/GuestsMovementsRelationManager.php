@@ -105,7 +105,8 @@ class GuestsMovementsRelationManager extends RelationManager
                     ->icon(Heroicon::Plus)
                     ->modalWidth(Width::Large)
                     ->schema(self::commonActionFields())
-                    ->action(fn(array $data) => $this->createGuestMovement($data, MovementType::Registration)),
+                    ->action(fn(array $data) => $this->createGuestMovement($data, MovementType::Registration))
+                    ->hidden(fn() => $this->getOwnerRecord()->registrationMovements()->exists()),
             ]);
     }
 
