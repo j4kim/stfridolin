@@ -3,10 +3,8 @@
 namespace App\Filament\Tools;
 
 use Closure;
-use Filament\Forms\Components\Field;
-use Filament\Infolists\Components\Entry;
 use Filament\Support\Colors\Color;
-use Filament\Tables\Columns\Column;
+use Filament\Support\Components\Component;
 
 class Helpers
 {
@@ -33,7 +31,7 @@ class Helpers
         };
     }
 
-    public static function setLabel(Column|Entry|Field $component): void
+    public static function setLabel(Component $component): void
     {
         $name = $component->getName();
         $tr = __($name);
