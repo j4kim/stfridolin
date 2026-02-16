@@ -31,6 +31,12 @@ class GuestInfolist
                                     $guest->createStripeCustomer()->save();
                                 });
                         }),
+                    TextEntry::make('arrived_at')
+                        ->dateTime("d.m.Y H:i")
+                        ->placeholder('-'),
+                    TextEntry::make('authenticated_at')
+                        ->dateTime("d.m.Y H:i")
+                        ->placeholder('-'),
                 ]),
             ]);
     }

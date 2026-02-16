@@ -59,6 +59,18 @@ class GuestsTable
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->visibleFrom('sm'),
+                IconColumn::make('arrived_at')
+                    ->label('Arrivé')
+                    ->boolean()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->visibleFrom('sm'),
+                IconColumn::make('authenticated_at')
+                    ->label("Connecté")
+                    ->boolean()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->visibleFrom('sm'),
             ])
             ->filters([
                 TernaryFilter::make('registered')
