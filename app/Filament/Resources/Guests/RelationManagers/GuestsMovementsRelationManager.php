@@ -119,6 +119,39 @@ class GuestsMovementsRelationManager extends RelationManager
                     ])
                     ->action(fn(array $data) => $this->createGuestMovement($data, MovementType::Manual)),
 
+                Action::make("sub_points")
+                    ->label("Points")
+                    ->outlined()
+                    ->icon(Heroicon::Minus)
+                    ->modalWidth(Width::Medium)
+                    ->modalHeading("Dépenser des points")
+                    ->schema(function (): array {
+                        $points = $this->getOwnerRecord()->points;
+                        return [
+                            TextEntry::make('points')->state($points)->label("Points actuel"),
+                            TextInput::make('points')->label('Points dépensés')->numeric()->minValue(1)->maxValue($points)->required(),
+                            TextInput::make('comment'),
+                        ];
+                    })
+                    ->mutateDataUsing(function (array $data): array {
+                        $data['points'] = -$data['points'];
+                        return $data;
+                    })
+                    ->action(fn(array $data) => $this->createGuestMovement($data, MovementType::Manual)),
+
+                Action::make("add_points")
+                    ->label("Points")
+                    ->outlined()
+                    ->icon(Heroicon::Plus)
+                    ->modalWidth(Width::Medium)
+                    ->modalHeading("Ajouter des points")
+                    ->schema([
+                        TextEntry::make('points')->state($this->getOwnerRecord()->points)->label("Points actuel"),
+                        TextInput::make('points')->label('Points crédités')->numeric()->minValue(1)->required(),
+                        TextInput::make('comment'),
+                    ])
+                    ->action(fn(array $data) => $this->createGuestMovement($data, MovementType::Manual)),
+
                 Action::make("add_regristration")
                     ->modalWidth(Width::Medium)
                     ->schema(self::commonActionFields())
