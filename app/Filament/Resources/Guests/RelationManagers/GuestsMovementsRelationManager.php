@@ -16,6 +16,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Components\Text;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Support\Enums\Width;
 use Filament\Tables\Table;
@@ -40,7 +41,7 @@ class GuestsMovementsRelationManager extends RelationManager
                 DeleteAction::make(),
             ])
             ->headerActions([
-                Action::make('Ajouter')
+                Action::make('Nouveau mouvement')
                     ->schema([
                         Select::make('type')
                             ->required()
@@ -65,6 +66,7 @@ class GuestsMovementsRelationManager extends RelationManager
                                 TextInput::make('chf')->numeric(),
                                 TextInput::make('tokens')->numeric(),
                                 TextInput::make('points')->numeric(),
+                                Text::make("Nombre négatif pour une dépense, positif pour un crédit")->columnSpanFull(),
                             ])
                             ->visible(fn(Get $get) => $get('type') === MovementType::Manual),
                         TextInput::make('comment'),
