@@ -16,11 +16,14 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Schemas\Components\Text;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Support\Enums\Width;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
 class GuestsMovementsRelationManager extends RelationManager
 {
@@ -119,5 +122,13 @@ class GuestsMovementsRelationManager extends RelationManager
                         $guest->createMovement($movementData);
                     })
             ]);
+    }
+
+
+    public static function getTabComponent(Model $ownerRecord, string $pageClass): Tab
+    {
+        return Tab::make('Mouvements')
+            ->badge($ownerRecord->movements()->count())
+            ->icon(Heroicon::ArrowsUpDown);
     }
 }
