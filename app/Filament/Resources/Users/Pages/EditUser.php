@@ -7,6 +7,8 @@ use Filament\Resources\Pages\EditRecord;
 
 class EditUser extends EditRecord
 {
+    use \App\Filament\Tools\RedirectsToViewPage;
+
     protected static string $resource = UserResource::class;
 
     protected function getHeaderActions(): array

@@ -7,6 +7,8 @@ use Filament\Resources\Pages\EditRecord;
 
 class EditGuest extends EditRecord
 {
+    use \App\Filament\Tools\RedirectsToViewPage;
+
     protected static string $resource = GuestResource::class;
 
     protected function getHeaderActions(): array
