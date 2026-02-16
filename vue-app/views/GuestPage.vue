@@ -40,7 +40,7 @@ function logOut() {
                 >
                     <template #drawerFooter>
                         <RouterLink :to="{ name: 'buy-tokens' }">
-                            <Button class="w-full" size="lg" variant="outline">
+                            <Button class="w-full" size="lg">
                                 Acheter des jetons
                             </Button>
                         </RouterLink>
@@ -50,7 +50,7 @@ function logOut() {
                                 params: { currency: 'tokens' },
                             }"
                         >
-                            <Button class="w-full" size="lg" variant="outline">
+                            <Button class="w-full" size="lg">
                                 Dépenser des jetons
                             </Button>
                         </RouterLink>
@@ -70,7 +70,7 @@ function logOut() {
                                 params: { currency: 'points' },
                             }"
                         >
-                            <Button class="w-full" size="lg" variant="outline">
+                            <Button class="w-full" size="lg">
                                 Dépenser des points
                             </Button>
                         </RouterLink>

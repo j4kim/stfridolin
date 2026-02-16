@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import AnimatedCount from "./AnimatedCount.vue";
 import {
     Drawer,
+    DrawerClose,
     DrawerContent,
     DrawerDescription,
     DrawerFooter,
@@ -54,6 +55,9 @@ const open = ref(false);
             </div>
             <DrawerFooter>
                 <slot name="drawerFooter"></slot>
+                <DrawerClose as-child>
+                    <Button variant="outline"> Fermer </Button>
+                </DrawerClose>
             </DrawerFooter>
         </DrawerContent>
     </Drawer>
