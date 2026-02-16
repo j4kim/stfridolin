@@ -35,4 +35,9 @@ class ViewGuest extends ViewRecord
         $record = $this->getRecord();
         return $record->name;
     }
+
+    public function getSubheading(): ?string
+    {
+        return $this->getRecord()->key;
+    }
 }

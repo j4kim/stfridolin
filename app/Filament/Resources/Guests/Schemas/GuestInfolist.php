@@ -19,11 +19,9 @@ class GuestInfolist
                 EntryTools::compactSection("Avoirs")->schema([
                     TextEntry::make('tokens')->numeric(),
                     TextEntry::make('points')->numeric(),
-                ]),
+                ])->columns(3),
 
                 EntryTools::compactSection()->schema([
-                    TextEntry::make('name'),
-                    TextEntry::make('key'),
                     TextEntry::make('stripe_customer_id')
                         ->belowLabel(function (?string $state) {
                             if ($state) return null;
@@ -44,7 +42,7 @@ class GuestInfolist
                     TextEntry::make('authenticated_at')
                         ->dateTime("d.m.Y H:i")
                         ->placeholder('-'),
-                ]),
+                ])->columns(3),
             ]);
     }
 }
