@@ -22,6 +22,9 @@ const props = defineProps<{
         <template v-for="(track, index) in tracks" :key="track.spotify_uri">
             <Item>
                 <ItemMedia>
+                    <Badge variant="secondary">
+                    {{track.priority}}
+                    </Badge>
                     <img
                         class="size-10 rounded"
                         :src="track.img_thumbnail_url"
