@@ -13,6 +13,7 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\ViewAction;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\TextInput;
+use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Tabs\Tab;
@@ -64,15 +65,17 @@ class GuestsMovementsRelationManager extends RelationManager
             $movementData['tokens'] = $article->meta['tokens'];
         }
 
-        if ($data['created_at']) {
+        if (isset($data['created_at'])) {
             $movementData['created_at'] = $data['created_at'];
         }
 
-        if ($data['comment']) {
+        if (isset($data['comment'])) {
             $movementData['meta']['comment'] = $data['comment'];
         }
 
         $guest->createMovement($movementData);
+
+        return $this->redirect(request()->header('Referer'));
     }
 
     public function table(Table $table): Table
@@ -83,16 +86,47 @@ class GuestsMovementsRelationManager extends RelationManager
                 DeleteAction::make(),
             ])
             ->headerActions([
-                Action::make("add_regristration")
+                Action::make("sub_tokens")
+                    ->label("Jetons")
+                    ->outlined()
+                    ->icon(Heroicon::Minus)
+                    ->modalWidth(Width::Medium)
+                    ->modalHeading("Dépenser des jetons")
+                    ->schema(function (): array {
+                        $tokens = $this->getOwnerRecord()->tokens;
+                        return [
+                            TextEntry::make('tokens')->state($tokens)->label("Jetons actuel"),
+                            TextInput::make('tokens')->label('Jetons dépensés')->numeric()->minValue(1)->maxValue($tokens)->required(),
+                            TextInput::make('comment'),
+                        ];
+                    })
+                    ->mutateDataUsing(function (array $data): array {
+                        $data['tokens'] = -$data['tokens'];
+                        return $data;
+                    })
+                    ->action(fn(array $data) => $this->createGuestMovement($data, MovementType::Manual)),
+
+                Action::make("add_tokens")
+                    ->label("Jetons")
+                    ->outlined()
                     ->icon(Heroicon::Plus)
-                    ->modalWidth(Width::Large)
+                    ->modalWidth(Width::Medium)
+                    ->modalHeading("Ajouter des jetons")
+                    ->schema([
+                        TextEntry::make('tokens')->state($this->getOwnerRecord()->tokens)->label("Jetons actuel"),
+                        TextInput::make('tokens')->label('Jetons crédités')->numeric()->minValue(1)->required(),
+                        TextInput::make('comment'),
+                    ])
+                    ->action(fn(array $data) => $this->createGuestMovement($data, MovementType::Manual)),
+
+                Action::make("add_regristration")
+                    ->modalWidth(Width::Medium)
                     ->schema(self::commonActionFields())
                     ->action(fn(array $data) => $this->createGuestMovement($data, MovementType::Registration))
                     ->hidden(fn() => $this->getOwnerRecord()->registrationMovements()->exists()),
 
                 ActionGroup::make([
                     Action::make("add_manual_movement")
-                        ->icon(Heroicon::Plus)
                         ->outlined()
                         ->modalWidth(Width::Large)
                         ->schema([
