@@ -52,8 +52,12 @@ class Fight extends Model
 
     public function loadVotes(): Fight
     {
-        $this->leftTrack->loadCount('votes');
-        $this->rightTrack->loadCount('votes');
+        $this->leftTrack->loadCount(['votes' => function (Builder $query) {
+            $query->where('fight_id', $this->id);
+        }]);
+        $this->rightTrack->loadCount(['votes' => function (Builder $query) {
+            $query->where('fight_id', $this->id);
+        }]);
         return $this;
     }
 
