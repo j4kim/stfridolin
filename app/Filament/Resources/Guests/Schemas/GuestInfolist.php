@@ -26,7 +26,7 @@ class GuestInfolist
                     TextEntry::make('stripe_customer_id')
                         ->belowLabel(function (?string $state) {
                             if ($state) return null;
-                            return Action::make('create stripe customer')
+                            return Action::make('Créer client stripe')
                                 ->action(function (Guest $guest) {
                                     $guest->createStripeCustomer()->save();
                                 });

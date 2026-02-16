@@ -4,6 +4,9 @@ namespace App\Filament\Resources\Guests\Tables;
 
 use App\Filament\Tools\ColumnTools;
 use App\Models\Guest;
+use Filament\Actions\BulkAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\Summarizers\Average;
 use Filament\Tables\Columns\Summarizers\Sum;
@@ -11,6 +14,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 
 class GuestsTable
 {
@@ -63,6 +67,31 @@ class GuestsTable
                         false: fn(Builder $query) => $query->doesntHave('registrationMovements'),
                         blank: fn(Builder $query) => $query,
                     ),
+            ])
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
+                    BulkAction::make("Créer clients Stripe")
+                        ->requiresConfirmation()
+                        ->action(function (Collection $records) {
+                            $records->each(
+                                function (Guest $guest) {
+                                    if ($guest->stripe_customer_id) {
+                                        return;
+                                    }
+                                    $guest->createStripeCustomer()->save();
+                                }
+                            );
+                        })
+                        ->successNotificationTitle('Clients Stripe créés')
+                        ->failureNotificationTitle(function (int $successCount, int $totalCount): string {
+                            if ($successCount) {
+                                return "{$successCount} sur {$totalCount} clients créés";
+                            }
+
+                            return 'Impossible de créer les clients Stripe';
+                        }),
+                ]),
             ]);
     }
 }

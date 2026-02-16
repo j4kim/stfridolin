@@ -25,5 +25,6 @@
     "tokens-package": "Package de jetons",
     "spend-tokens": "Dépense jetons",
     "manual": "Manuel",
-    "comment": "Commentaire"
+    "comment": "Commentaire",
+    "stripe_customer_id": "Client Stripe"
 }
