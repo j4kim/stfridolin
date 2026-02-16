@@ -28,5 +28,8 @@
     "comment": "Commentaire",
     "stripe_customer_id": "Client Stripe",
     "arrived_at": "Est arrivé à",
-    "authenticated_at": "S'est connecté à"
+    "authenticated_at": "S'est connecté à",
+    "is_registered": "Est inscrit",
+    "is_arrived": "Est arrivé",
+    "is_authenticated": "S'est connecté"
 }

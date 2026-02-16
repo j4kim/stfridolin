@@ -73,10 +73,22 @@ class GuestsTable
                     ->visibleFrom('sm'),
             ])
             ->filters([
-                TernaryFilter::make('registered')
+                TernaryFilter::make('is_registered')
                     ->queries(
                         true: fn(Builder $query) => $query->has('registrationMovements'),
                         false: fn(Builder $query) => $query->doesntHave('registrationMovements'),
+                        blank: fn(Builder $query) => $query,
+                    ),
+                TernaryFilter::make('is_arrived')
+                    ->queries(
+                        true: fn(Builder $query) => $query->whereNotNull('arrived_at'),
+                        false: fn(Builder $query) => $query->whereNull('arrived_at'),
+                        blank: fn(Builder $query) => $query,
+                    ),
+                TernaryFilter::make('is_authenticated')
+                    ->queries(
+                        true: fn(Builder $query) => $query->whereNotNull('authenticated_at'),
+                        false: fn(Builder $query) => $query->whereNull('authenticated_at'),
                         blank: fn(Builder $query) => $query,
                     ),
             ])
