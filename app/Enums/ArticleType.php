@@ -15,7 +15,7 @@ enum ArticleType: string implements HasLabel, HasColor
 
     public function getLabel(): string | Htmlable | null
     {
-        return __($this->value);
+        return ucfirst(__($this->value));
     }
 
     public function getColor(): string | array | null
