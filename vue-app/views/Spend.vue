@@ -1,5 +1,6 @@
 <script setup>
 import { api } from "@/api";
+import FullScreenMovement from "@/components/FullScreenMovement.vue";
 import Layout from "@/components/Layout.vue";
 import Button from "@/components/ui/button/Button.vue";
 import { Field, FieldLabel } from "@/components/ui/field";
@@ -32,16 +33,17 @@ onMounted(() => {
     form.value.querySelector("input").focus();
 });
 
+const movement = ref(null);
+
 async function submit() {
     const params = { currency: route.params.currency, amount: amount.value };
     const request = api("guests.spend").params(params);
-    const movement = await request.put();
-    console.log(movement);
+    movement.value = await request.put();
 }
 </script>
 
 <template>
-    <Layout>
+    <Layout v-if="!movement">
         <h2 class="my-2 px-4 font-bold">{{ heading }}</h2>
         <form class="px-4" @submit.prevent="submit" ref="form">
             <hr class="mb-4" />
@@ -62,4 +64,6 @@ async function submit() {
             <Button class="mt-4 h-12 w-full" type="submit">Valider</Button>
         </form>
     </Layout>
+
+    <FullScreenMovement v-else :movement />
 </template>
