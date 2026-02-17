@@ -73,7 +73,7 @@ class ArticleSeeder extends Seeder
             'type' => ArticleType::Jukeboxe,
             'name' => "add-to-queue",
             'description' => "Ajout d'un morceau en file d'attente",
-            'currency' => 'tokens',
+            'currency' => Currency::Tokens,
             'price' => 5,
         ]);
 
@@ -81,7 +81,7 @@ class ArticleSeeder extends Seeder
             'type' => ArticleType::Jukeboxe,
             'name' => "vote",
             'description' => "Vote au Jukeboxe",
-            'currency' => 'tokens',
+            'currency' => Currency::Tokens,
             'price' => 3,
         ]);
     }

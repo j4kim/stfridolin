@@ -33,7 +33,7 @@ class VoucherInfolist
                                 ->modalWidth(Width::Medium)
                                 ->action(function (Voucher $voucher, array $data, Component $livewire) {
                                     $guest = Guest::find($data['guest_id']);
-                                    $voucher->use($guest);
+                                    $voucher->use($guest, ['source' => 'admin panel']);
                                     return $livewire->redirect(request()->header('Referer'));
                                 });
                         }),

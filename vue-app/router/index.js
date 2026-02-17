@@ -106,6 +106,14 @@ const routes = [
             requireGuest: true,
         },
     },
+    {
+        path: "/spend/:currency",
+        name: "spend",
+        component: () => import("@/views/Spend.vue"),
+        meta: {
+            requireGuest: true,
+        },
+    },
     // Routes requiring real auth
     {
         path: "/spotify",

@@ -8,10 +8,12 @@ use App\Filament\Resources\Movements\MovementResource;
 use App\Models\Article;
 use App\Models\Guest;
 use Filament\Actions\Action;
+use Filament\Actions\ActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\ViewAction;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\TextInput;
+use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Tabs\Tab;
@@ -63,15 +65,17 @@ class GuestsMovementsRelationManager extends RelationManager
             $movementData['tokens'] = $article->meta['tokens'];
         }
 
-        if ($data['created_at']) {
+        if (isset($data['created_at'])) {
             $movementData['created_at'] = $data['created_at'];
         }
 
-        if ($data['comment']) {
+        if (isset($data['comment'])) {
             $movementData['meta']['comment'] = $data['comment'];
         }
 
         $guest->createMovement($movementData);
+
+        return $this->redirect(request()->header('Referer'));
     }
 
     public function table(Table $table): Table
@@ -82,29 +86,95 @@ class GuestsMovementsRelationManager extends RelationManager
                 DeleteAction::make(),
             ])
             ->headerActions([
-                Action::make("add_manual_movement")
-                    ->icon(Heroicon::Plus)
+                Action::make("sub_tokens")
+                    ->label("Jetons")
                     ->outlined()
-                    ->modalWidth(Width::Large)
+                    ->icon(Heroicon::Minus)
+                    ->modalWidth(Width::Medium)
+                    ->modalHeading("Dépenser des jetons")
+                    ->schema(function (): array {
+                        $tokens = $this->getOwnerRecord()->tokens;
+                        return [
+                            TextEntry::make('tokens')->state($tokens)->label("Jetons actuel"),
+                            TextInput::make('tokens')->label('Jetons dépensés')->numeric()->minValue(1)->maxValue($tokens)->required(),
+                            TextInput::make('comment'),
+                        ];
+                    })
+                    ->mutateDataUsing(function (array $data): array {
+                        $data['tokens'] = -$data['tokens'];
+                        return $data;
+                    })
+                    ->action(fn(array $data) => $this->createGuestMovement($data, MovementType::Manual)),
+
+                Action::make("add_tokens")
+                    ->label("Jetons")
+                    ->outlined()
+                    ->icon(Heroicon::Plus)
+                    ->modalWidth(Width::Medium)
+                    ->modalHeading("Ajouter des jetons")
                     ->schema([
-                        Grid::make()
-                            ->columns(3)
-                            ->schema([
-                                TextInput::make('chf')->numeric(),
-                                TextInput::make('tokens')->numeric(),
-                                TextInput::make('points')->numeric(),
-                                Text::make("Nombre négatif pour une dépense, positif pour un crédit")->columnSpanFull(),
-                            ]),
-                        ...self::commonActionFields(),
+                        TextEntry::make('tokens')->state($this->getOwnerRecord()->tokens)->label("Jetons actuel"),
+                        TextInput::make('tokens')->label('Jetons crédités')->numeric()->minValue(1)->required(),
+                        TextInput::make('comment'),
+                    ])
+                    ->action(fn(array $data) => $this->createGuestMovement($data, MovementType::Manual)),
+
+                Action::make("sub_points")
+                    ->label("Points")
+                    ->outlined()
+                    ->icon(Heroicon::Minus)
+                    ->modalWidth(Width::Medium)
+                    ->modalHeading("Dépenser des points")
+                    ->schema(function (): array {
+                        $points = $this->getOwnerRecord()->points;
+                        return [
+                            TextEntry::make('points')->state($points)->label("Points actuel"),
+                            TextInput::make('points')->label('Points dépensés')->numeric()->minValue(1)->maxValue($points)->required(),
+                            TextInput::make('comment'),
+                        ];
+                    })
+                    ->mutateDataUsing(function (array $data): array {
+                        $data['points'] = -$data['points'];
+                        return $data;
+                    })
+                    ->action(fn(array $data) => $this->createGuestMovement($data, MovementType::Manual)),
+
+                Action::make("add_points")
+                    ->label("Points")
+                    ->outlined()
+                    ->icon(Heroicon::Plus)
+                    ->modalWidth(Width::Medium)
+                    ->modalHeading("Ajouter des points")
+                    ->schema([
+                        TextEntry::make('points')->state($this->getOwnerRecord()->points)->label("Points actuel"),
+                        TextInput::make('points')->label('Points crédités')->numeric()->minValue(1)->required(),
+                        TextInput::make('comment'),
                     ])
                     ->action(fn(array $data) => $this->createGuestMovement($data, MovementType::Manual)),
 
                 Action::make("add_regristration")
-                    ->icon(Heroicon::Plus)
-                    ->modalWidth(Width::Large)
+                    ->modalWidth(Width::Medium)
                     ->schema(self::commonActionFields())
                     ->action(fn(array $data) => $this->createGuestMovement($data, MovementType::Registration))
                     ->hidden(fn() => $this->getOwnerRecord()->registrationMovements()->exists()),
+
+                ActionGroup::make([
+                    Action::make("add_manual_movement")
+                        ->outlined()
+                        ->modalWidth(Width::Large)
+                        ->schema([
+                            Grid::make()
+                                ->columns(3)
+                                ->schema([
+                                    TextInput::make('chf')->numeric(),
+                                    TextInput::make('tokens')->numeric(),
+                                    TextInput::make('points')->numeric(),
+                                    Text::make("Nombre négatif pour une dépense, positif pour un crédit")->columnSpanFull(),
+                                ]),
+                            ...self::commonActionFields(),
+                        ])
+                        ->action(fn(array $data) => $this->createGuestMovement($data, MovementType::Manual)),
+                ]),
             ]);
     }
 
