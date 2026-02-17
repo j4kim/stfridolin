@@ -3,6 +3,7 @@ import dayjs from "dayjs";
 import { computed } from "vue";
 import Button from "./ui/button/Button.vue";
 import { useGuestStore } from "@/stores/guest";
+import { tr } from "@/translate";
 
 const props = defineProps({
     movement: Object,
@@ -22,7 +23,7 @@ const createdAt = computed(() =>
         <div class="flex grow flex-col items-center justify-center gap-4">
             <template v-for="currency in ['tokens', 'points']">
                 <div v-if="movement[currency]" class="mb-4 text-4xl font-bold">
-                    {{ movement[currency] }} {{ currency }}
+                    {{ movement[currency] }} {{ tr(currency) }}
                 </div>
             </template>
             <div class="text-2xl">{{ guestStore.guest.name }}</div>
