@@ -14,7 +14,7 @@ const UseToaster = defineAsyncComponent({
 
 <template>
     <UseToaster>
-        <FullPageLoading v-if="mainStore.navigating" />
+        <FullPageLoading v-if="mainStore.isNavigating" />
         <RouterView v-else></RouterView>
     </UseToaster>
 </template>

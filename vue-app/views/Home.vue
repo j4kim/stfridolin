@@ -8,12 +8,12 @@ const guestStore = useGuestStore();
 const HomeAuthenticated = defineAsyncComponent({
     loader: () => import("./HomeAuthenticated.vue"),
     loadingComponent: FullPageLoading,
-    delay: 0,
+    delay: 100,
 });
 const HomeUnauthenticated = defineAsyncComponent({
     loader: () => import("./HomeUnauthenticated.vue"),
     loadingComponent: FullPageLoading,
-    delay: 0,
+    delay: 100,
 });
 </script>
 

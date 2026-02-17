@@ -169,7 +169,7 @@ const router = createRouter({
 
 router.beforeEach(async (to) => {
     const mainStore = useMainStore();
-    mainStore.navigating = true;
+    mainStore.startNavigation();
     if (to.meta?.requireAuth && !mainStore.user) {
         redirectToLogin(to.href);
         return false;
@@ -180,12 +180,8 @@ router.beforeEach(async (to) => {
     }
 });
 
-router.afterEach(() => {
-    useMainStore().navigating = false;
-});
+router.afterEach(() => useMainStore().endNavigation());
 
-router.onError(() => {
-    useMainStore().navigating = false;
-});
+router.onError(() => useMainStore().endNavigation());
 
 export default router;
