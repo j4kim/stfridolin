@@ -5,25 +5,11 @@ import Layout from "@/components/Layout.vue";
 import Button from "@/components/ui/button/Button.vue";
 import { Field, FieldLabel } from "@/components/ui/field";
 import Input from "@/components/ui/input/Input.vue";
-import { CircleStar, Gift } from "lucide-vue-next";
-import { computed, onMounted, ref, useTemplateRef } from "vue";
+import { icon, tr } from "@/translate";
+import { onMounted, ref, useTemplateRef } from "vue";
 import { useRoute } from "vue-router";
 
 const route = useRoute();
-
-const icon = computed(() => {
-    return {
-        points: Gift,
-        tokens: CircleStar,
-    }[route.params.currency];
-});
-
-const heading = computed(() => {
-    return {
-        points: "Dépenser des points",
-        tokens: "Dépenser des jetons",
-    }[route.params.currency];
-});
 
 const amount = ref(null);
 
@@ -44,12 +30,17 @@ async function submit() {
 
 <template>
     <Layout v-if="!movement">
-        <h2 class="my-2 px-4 font-bold">{{ heading }}</h2>
+        <h2 class="my-2 px-4 font-bold">
+            Dépenser des {{ tr(route.params.currency) }}
+        </h2>
         <form class="px-4" @submit.prevent="submit" ref="form">
             <hr class="mb-4" />
             <Field>
                 <FieldLabel for="amount">
-                    <component class="w-[1.3em]" :is="icon" />
+                    <component
+                        class="w-[1.3em]"
+                        :is="icon(route.params.currency)"
+                    />
                     Montant
                 </FieldLabel>
                 <Input
