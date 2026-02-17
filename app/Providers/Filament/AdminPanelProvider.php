@@ -93,6 +93,9 @@ class AdminPanelProvider extends PanelProvider
             ->renderHook(
                 PanelsRenderHook::GLOBAL_SEARCH_BEFORE,
                 fn(): string => Blade::render("<x-filament::link href=\"/\" style=\"text-align:center\">Vers app</x-filament::link>"),
+            )->renderHook(
+                PanelsRenderHook::SIDEBAR_FOOTER,
+                fn(): string  => "<span style=\"opacity:0.4; font-size:10px; padding: 8px;\">v" . config('app.version') . "</span>",
             );
     }
 
