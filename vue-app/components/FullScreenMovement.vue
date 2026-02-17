@@ -16,23 +16,27 @@ const guestStore = useGuestStore();
 const createdAt = computed(() =>
     dayjs(props.movement.created_at).format("DD.MM.YYYY HH:mm:ss"),
 );
+
+const currency = computed(() => {
+    return ["tokens", "points"].find((c) => !!props.movement[c]);
+});
 </script>
 
 <template>
-    <div class="flex h-dvh flex-col justify-between bg-emerald-600 p-8">
+    <div
+        class="flex h-dvh flex-col justify-between p-8"
+        :class="{
+            'bg-emerald-600': currency === 'tokens',
+            'bg-purple-600': currency === 'points',
+        }"
+    >
         <div class="flex grow flex-col items-center justify-center gap-4">
-            <template v-for="currency in ['tokens', 'points']">
-                <div
-                    v-if="movement[currency]"
-                    class="mb-4 flex flex-col items-center gap-4 text-center text-5xl font-extrabold"
-                >
-                    <component
-                        :is="icon(currency)"
-                        class="h-[1.2em] w-[1.2em]"
-                    />
-                    {{ movement[currency] }} {{ tr(currency) }}
-                </div>
-            </template>
+            <div
+                class="mb-4 flex flex-col items-center gap-4 text-center text-5xl font-extrabold"
+            >
+                <component :is="icon(currency)" class="h-[1.2em] w-[1.2em]" />
+                {{ movement[currency] }} {{ tr(currency) }}
+            </div>
             <div class="text-2xl">{{ guestStore.guest.name }}</div>
             <div class="tabular-nums">{{ createdAt }}</div>
         </div>
