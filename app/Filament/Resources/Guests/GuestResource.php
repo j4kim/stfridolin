@@ -18,6 +18,7 @@ use Filament\Tables\Table;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\HtmlString;
+use UnitEnum;
 
 class GuestResource extends Resource
 {
@@ -27,6 +28,7 @@ class GuestResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedUsers;
     protected static ?int $navigationSort = 200;
+    protected static string | UnitEnum | null $navigationGroup = 'Gestion';
 
     protected static ?string $recordTitleAttribute = 'name';
 

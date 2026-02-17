@@ -13,6 +13,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class VoucherResource extends Resource
 {
@@ -20,8 +21,9 @@ class VoucherResource extends Resource
 
     protected static ?string $model = Voucher::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::QrCode;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
     protected static ?int $navigationSort = 600;
+    protected static string | UnitEnum | null $navigationGroup = 'Gestion';
 
     protected static ?string $recordTitleAttribute = 'id';
 
