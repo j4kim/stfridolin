@@ -45,7 +45,7 @@ async function submit() {
                         {{ voucher.article.description }}
                         <CircleStar size="18" />
                     </div>
-                    <div>
+                    <div v-if="voucher.article.price">
                         <span class="text-2xl font-bold">{{
                             voucher.article.price
                         }}</span>
