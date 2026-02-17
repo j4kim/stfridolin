@@ -2,6 +2,9 @@
 
 namespace App\Filament\Resources\Guests\Schemas;
 
+use App\Filament\Tools\EntryTools;
+use App\Models\Guest;
+use Filament\Actions\Action;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
 
@@ -11,18 +14,35 @@ class GuestInfolist
     {
         return $schema
             ->components([
-                TextEntry::make('created_at')
-                    ->dateTime()
-                    ->placeholder('-'),
-                TextEntry::make('updated_at')
-                    ->dateTime()
-                    ->placeholder('-'),
-                TextEntry::make('name'),
-                TextEntry::make('key'),
-                TextEntry::make('tokens')
-                    ->numeric(),
-                TextEntry::make('points')
-                    ->numeric(),
+                EntryTools::systemSection(),
+
+                EntryTools::compactSection("Avoirs")->schema([
+                    TextEntry::make('tokens')->numeric(),
+                    TextEntry::make('points')->numeric(),
+                ])->columns(3),
+
+                EntryTools::compactSection()->schema([
+                    TextEntry::make('stripe_customer_id')
+                        ->belowLabel(function (?string $state) {
+                            if ($state) return null;
+                            return Action::make('create_stripe_client')
+                                ->action(function (Guest $guest) {
+                                    $guest->createStripeCustomer()->save();
+                                });
+                        }),
+                    TextEntry::make('arrived_at')
+                        ->dateTime("d.m.Y H:i")
+                        ->belowLabel(function (?string $state) {
+                            if ($state) return null;
+                            return Action::make('arrives_now')
+                                ->action(function (Guest $guest) {
+                                    $guest->update(['arrived_at' => now()]);
+                                });
+                        }),
+                    TextEntry::make('authenticated_at')
+                        ->dateTime("d.m.Y H:i")
+                        ->placeholder('-'),
+                ])->columns(3),
             ]);
     }
 }

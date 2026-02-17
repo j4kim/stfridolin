@@ -12,10 +12,12 @@ enum MovementType: string implements HasLabel, HasColor
     case Registration = 'registration';
     case BuyTokens = 'buy-tokens';
     case SpendTokens = 'spend-tokens';
+    case ReceivePoints = 'receive-points';
+    case Manual = 'manual';
 
     public function getLabel(): string | Htmlable | null
     {
-        return $this->name;
+        return ucfirst(__($this->value));
     }
 
     public function getColor(): string | array | null
@@ -24,6 +26,7 @@ enum MovementType: string implements HasLabel, HasColor
             self::Registration => Color::Green,
             self::BuyTokens => Color::Indigo,
             self::SpendTokens => Color::Rose,
+            self::ReceivePoints => Color::Purple,
             default => Color::Slate,
         };
     }

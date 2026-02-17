@@ -3,8 +3,12 @@
 namespace App\Filament\Resources\Guests\Pages;
 
 use App\Filament\Resources\Guests\GuestResource;
+use App\Filament\Resources\Guests\RelationManagers\GuestsMovementsRelationManager;
+use App\Filament\Resources\Guests\RelationManagers\PaymentsRelationManager;
+use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
 use Filament\Resources\Pages\ViewRecord;
+use Illuminate\Contracts\Support\Htmlable;
 
 class ViewGuest extends ViewRecord
 {
@@ -14,6 +18,26 @@ class ViewGuest extends ViewRecord
     {
         return [
             EditAction::make(),
+            DeleteAction::make(),
         ];
+    }
+
+    public function getRelationManagers(): array
+    {
+        return [
+            GuestsMovementsRelationManager::class,
+            PaymentsRelationManager::class,
+        ];
+    }
+
+    public function getTitle(): string | Htmlable
+    {
+        $record = $this->getRecord();
+        return $record->name;
+    }
+
+    public function getSubheading(): ?string
+    {
+        return $this->getRecord()->key;
     }
 }

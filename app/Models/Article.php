@@ -6,6 +6,7 @@ use App\Enums\ArticleType;
 use App\Enums\Currency;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Article extends Model
 {
@@ -20,6 +21,11 @@ class Article extends Model
             'type' => ArticleType::class,
             'currency' => Currency::class,
         ];
+    }
+
+    public function movements(): HasMany
+    {
+        return $this->hasMany(Movement::class);
     }
 
     protected function discount(): Attribute

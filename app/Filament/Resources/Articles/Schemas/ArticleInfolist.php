@@ -2,6 +2,9 @@
 
 namespace App\Filament\Resources\Articles\Schemas;
 
+use App\Filament\Tools\EntryTools;
+use App\Filament\Tools\Helpers;
+use Filament\Infolists\Components\KeyValueEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
 
@@ -11,22 +14,21 @@ class ArticleInfolist
     {
         return $schema
             ->components([
-                TextEntry::make('created_at')
-                    ->dateTime()
-                    ->placeholder('-'),
-                TextEntry::make('updated_at')
-                    ->dateTime()
-                    ->placeholder('-'),
-                TextEntry::make('type'),
-                TextEntry::make('name'),
-                TextEntry::make('description')
-                    ->placeholder('-'),
-                TextEntry::make('currency'),
-                TextEntry::make('std_price')
-                    ->money()
-                    ->placeholder('-'),
-                TextEntry::make('price')
-                    ->money(),
+                EntryTools::systemSection(),
+
+                EntryTools::compactSection()->schema([
+                    TextEntry::make('type')->badge(),
+                    TextEntry::make('name'),
+                    TextEntry::make('description'),
+                    TextEntry::make('currency')->badge(),
+                    TextEntry::make('std_price')->numeric(),
+                    TextEntry::make('price')->numeric(),
+                    TextEntry::make('discount')
+                        ->formatStateUsing(fn($state) => "-$state%")
+                        ->badge()
+                        ->color(Helpers::discountColor()),
+                    KeyValueEntry::make('meta'),
+                ]),
             ]);
     }
 }

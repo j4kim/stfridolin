@@ -3,35 +3,45 @@
 namespace App\Filament\Resources\Movements\Tables;
 
 use App\Enums\MovementType;
+use App\Filament\Resources\Articles\RelationManagers\ArticlesMovementsRelationManager;
+use App\Filament\Resources\Guests\RelationManagers\GuestsMovementsRelationManager;
 use App\Filament\Tools\ColumnTools;
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteBulkAction;
-use Filament\Actions\EditAction;
+use App\Filament\Tools\Helpers;
 use Filament\Actions\ViewAction;
+use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
 class MovementsTable
 {
+    public static function currencyColumn($name): TextColumn
+    {
+        return TextColumn::make($name)
+            ->numeric()
+            ->sortable()
+            ->formatStateUsing(Helpers::signedFormatter())
+            ->summarize(
+                Sum::make()->formatStateUsing(fn($state) => "$state $name")
+            );
+    }
+
     public static function configure(Table $table): Table
     {
         return $table
             ->columns([
                 ...ColumnTools::systemColumns(),
-                TextColumn::make('guest.name')
-                    ->searchable(),
-                TextColumn::make('payment_id')
-                    ->numeric()
-                    ->sortable(),
-                TextColumn::make('article.description')
-                    ->searchable(),
-                TextColumn::make('amount')
-                    ->numeric()
-                    ->sortable(),
+                ColumnTools::guestLinkColumn()
+                    ->hiddenOn(GuestsMovementsRelationManager::class),
+                ColumnTools::paymentLinkColumn()->visibleFrom('sm'),
+                ColumnTools::articleLinkColumn()
+                    ->hiddenOn(ArticlesMovementsRelationManager::class),
                 TextColumn::make('type')
                     ->badge()
                     ->searchable(),
+                self::currencyColumn('chf')->visibleFrom('sm'),
+                self::currencyColumn('tokens')->visibleFrom('sm'),
+                self::currencyColumn('points')->visibleFrom('sm'),
             ])
             ->filters([
                 SelectFilter::make('guest')
@@ -43,12 +53,6 @@ class MovementsTable
             ])
             ->recordActions([
                 ViewAction::make(),
-                EditAction::make(),
-            ])
-            ->toolbarActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                ]),
             ]);
     }
 }

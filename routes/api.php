@@ -42,6 +42,7 @@ Route::middleware(AuthenticateGuest::class)->group(function () {
     Route::put('payments/{payment}/toggle-cover-fees', [PaymentController::class, 'toggleCoverFees'])->name('payments.toggle-cover-fees');
     Route::get('vouchers/{voucher}', [VoucherController::class, 'get'])->name('vouchers.get');
     Route::post('vouchers/{voucher}/use', [VoucherController::class, 'use'])->name('vouchers.use');
+    Route::put('guests/spend', [GuestController::class, 'spend'])->name('guests.spend');
 });
 
 Route::post('guests', [GuestController::class, 'storeMany'])->name('guests.storeMany');

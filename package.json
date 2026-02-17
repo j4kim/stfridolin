@@ -2,6 +2,7 @@
     "$schema": "https://www.schemastore.org/package.json",
     "private": true,
     "type": "module",
+    "version": "1.0.0-alpha.12",
     "scripts": {
         "build": "vite build",
         "dev": "vite"
@@ -28,11 +29,12 @@
     },
     "dependencies": {
         "@stripe/stripe-js": "^8.7.0",
-        "@vueuse/core": "^14.2.0",
+        "@vueuse/core": "^14.2.1",
         "@vueuse/integrations": "^14.2.0",
         "class-variance-authority": "^0.7.1",
         "clsx": "^2.1.1",
         "countup.js": "^2.9.0",
+        "dayjs": "^1.11.19",
         "gsap": "^3.13.0",
         "lodash-es": "^4.17.23",
         "lucide-vue-next": "^0.562.0",
@@ -43,6 +45,7 @@
         "vaul-vue": "^0.4.1",
         "vue": "^3.5.24",
         "vue-input-otp": "^0.3.2",
+        "vue-qrcode-reader": "^5.7.3",
         "vue-router": "^4.6.3",
         "vue-sonner": "^2.0.9"
     }

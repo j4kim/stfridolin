@@ -34,6 +34,8 @@
         data-master-client-id="{{ cache('master-client-id') }}"
         data-articles="{{ json_encode(App\Models\Article::all()) }}"
         data-stripe-pk={{ config('services.stripe.pk') }}
+        data-pusher-key={{ config('broadcasting.connections.pusher.key') }}
+        data-translations="{{ json_encode(App\Tools\Translations::all()) }}"
     >
         <div id="app"></div>
     </body>

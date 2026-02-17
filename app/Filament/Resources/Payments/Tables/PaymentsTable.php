@@ -4,10 +4,11 @@ namespace App\Filament\Resources\Payments\Tables;
 
 use App\Enums\PaymentPurpose;
 use App\Enums\PaymentStatus;
+use App\Filament\Resources\Guests\RelationManagers\PaymentsRelationManager;
 use App\Filament\Tools\ColumnTools;
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\ViewAction;
+use Filament\Tables\Columns\Summarizers\Average;
+use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
@@ -19,8 +20,8 @@ class PaymentsTable
         return $table
             ->columns([
                 ...ColumnTools::systemColumns(),
-                TextColumn::make('guest.name')
-                    ->searchable(),
+                ColumnTools::guestLinkColumn()
+                    ->hiddenOn(PaymentsRelationManager::class),
                 TextColumn::make('stripe_status')
                     ->badge()
                     ->searchable(),
@@ -29,13 +30,14 @@ class PaymentsTable
                     ->searchable(),
                 TextColumn::make('amount')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->summarize([Sum::make(), Average::make()]),
                 TextColumn::make('stripe_data.description')
                     ->label("Description")
                     ->sortable()
                     ->toggleable(),
                 TextColumn::make('stripe_data.metadata.remarks')
-                    ->label("Remarks")
+                    ->label("Remarques")
                     ->sortable()
                     ->toggleable(),
             ])
@@ -50,11 +52,6 @@ class PaymentsTable
             ])
             ->recordActions([
                 ViewAction::make(),
-            ])
-            ->toolbarActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                ]),
             ]);
     }
 }

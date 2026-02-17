@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Guests\Schemas;
 
+use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 
@@ -13,16 +14,10 @@ class GuestForm
             ->components([
                 TextInput::make('name')
                     ->required(),
-                TextInput::make('key')
-                    ->required(),
-                TextInput::make('tokens')
-                    ->required()
-                    ->numeric()
-                    ->default(0),
-                TextInput::make('points')
-                    ->required()
-                    ->numeric()
-                    ->default(0),
+                TextInput::make('key'),
+                DateTimePicker::make('arrived_at')
+                    ->displayFormat('Y.m.d H:i')
+                    ->seconds(false),
             ]);
     }
 }

@@ -66,13 +66,14 @@ class ArticleSeeder extends Seeder
             'description' => "Frais d'inscription",
             'currency' => Currency::CHF,
             'price' => 30,
+            'meta' => ['tokens' => 20],
         ]);
 
         Article::create([
             'type' => ArticleType::Jukeboxe,
             'name' => "add-to-queue",
             'description' => "Ajout d'un morceau en file d'attente",
-            'currency' => 'tokens',
+            'currency' => Currency::Tokens,
             'price' => 5,
         ]);
 
@@ -80,7 +81,7 @@ class ArticleSeeder extends Seeder
             'type' => ArticleType::Jukeboxe,
             'name' => "vote",
             'description' => "Vote au Jukeboxe",
-            'currency' => 'tokens',
+            'currency' => Currency::Tokens,
             'price' => 3,
         ]);
     }

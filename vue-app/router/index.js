@@ -14,7 +14,7 @@ const routes = [
         component: () => import("@/views/PublicPage.vue"),
     },
     {
-        path: "/guest/auth",
+        path: "/auth",
         name: "guest-auth-form",
         component: () => import("@/views/GuestAuthForm.vue"),
     },
@@ -106,6 +106,14 @@ const routes = [
             requireGuest: true,
         },
     },
+    {
+        path: "/spend/:currency",
+        name: "spend",
+        component: () => import("@/views/Spend.vue"),
+        meta: {
+            requireGuest: true,
+        },
+    },
     // Routes requiring real auth
     {
         path: "/spotify",
@@ -135,6 +143,14 @@ const routes = [
         path: "/voucher-cards",
         name: "voucher-cards",
         component: () => import("@/views/VoucherCards.vue"),
+        meta: {
+            requireAuth: true,
+        },
+    },
+    {
+        path: "/qr-scan",
+        name: "qr-scan",
+        component: () => import("@/views/QrScan.vue"),
         meta: {
             requireAuth: true,
         },
