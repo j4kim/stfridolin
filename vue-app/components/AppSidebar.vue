@@ -153,5 +153,8 @@ const route = useRoute();
                 </SidebarGroup>
             </template>
         </SidebarContent>
+        <span class="p-2 text-[10px] opacity-40">
+            v{{ mainStore.pkgVersion }}
+        </span>
     </Sidebar>
 </template>
