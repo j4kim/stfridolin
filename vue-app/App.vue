@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { defineAsyncComponent } from "vue";
 import { useMainStore } from "./stores/main";
+import FullPageLoading from "./views/FullPageLoading.vue";
 
 const mainStore = useMainStore();
 
@@ -11,7 +12,7 @@ const UseToaster = defineAsyncComponent(
 
 <template>
     <UseToaster>
-        <div v-if="mainStore.navigating">loading</div>
+        <FullPageLoading v-if="mainStore.navigating" />
         <RouterView v-else></RouterView>
     </UseToaster>
 </template>
