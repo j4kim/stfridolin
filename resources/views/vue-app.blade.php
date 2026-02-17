@@ -19,6 +19,12 @@
 
         <title>{{ config('app.name', 'Laravel') }}</title>
 
+        <style type="text/css">
+            :root.dark {
+                color-scheme: dark;
+            }
+        </style>
+
         @routes()
 
         <!-- Styles / Scripts -->
