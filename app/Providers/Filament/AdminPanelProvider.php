@@ -15,11 +15,13 @@ use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Infolists\Components\Entry;
+use Filament\Navigation\NavigationItem;
 use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
 use Filament\Support\Components\Component;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\Column;
 use Filament\Tables\Filters\BaseFilter;
 use Filament\Tables\Table;
@@ -70,6 +72,23 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
+            ])
+            ->navigationItems([
+                NavigationItem::make("Cartes d'invités")
+                    ->url(fn() => route('vue-app', 'guest-cards'))
+                    ->icon(Heroicon::Printer)
+                    ->group('Outils')
+                    ->sort(9000),
+                NavigationItem::make("Cartes bons")
+                    ->url(fn() => route('vue-app', 'voucher-cards'))
+                    ->icon(Heroicon::Printer)
+                    ->group('Outils')
+                    ->sort(9100),
+                NavigationItem::make('Scan')
+                    ->url(fn() => route('vue-app', 'qr-scan'))
+                    ->icon(Heroicon::QrCode)
+                    ->group('Outils')
+                    ->sort(9500),
             ])
             ->renderHook(
                 PanelsRenderHook::GLOBAL_SEARCH_BEFORE,
