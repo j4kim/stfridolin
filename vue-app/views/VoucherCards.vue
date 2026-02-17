@@ -17,7 +17,10 @@ api("vouchers.index")
             <h1 class="text-center text-xl font-bold">
                 {{ voucher.article.description }}
             </h1>
-            <h2 class="text-center text-xl opacity-50">
+            <h2
+                class="text-center text-xl opacity-50"
+                v-if="voucher.article.price"
+            >
                 CHF {{ voucher.article.price }}
             </h2>
             <QrCode :value="voucher.url" :width="120" class="mx-auto" />
