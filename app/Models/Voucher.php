@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\ArticleType;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -29,7 +30,14 @@ class Voucher extends Model
     public function use(Guest $guest)
     {
         $this->guest_id = $guest->id;
-        $guest->addTokens($this->article, null, ['voucher_id' => $this->id]);
+        $meta = ['voucher_id' => $this->id];
+        if ($this->article->type === ArticleType::TokensPackage) {
+            $guest->addTokens($this->article, null, $meta);
+        } else if ($this->article->type === ArticleType::PointsCredit) {
+            $guest->receivePoints($this->article, $meta);
+        } else {
+            abort(400, "Type d'article non pris en compte: " . $this->article->type->getLabel());
+        }
         $this->save();
     }
 

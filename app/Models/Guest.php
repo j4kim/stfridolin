@@ -125,6 +125,16 @@ class Guest extends Model
         ]);
     }
 
+    public function receivePoints(Article $article, ?array $meta = null): Movement
+    {
+        return $this->createMovement([
+            'article_id' => $article->id,
+            'type' => MovementType::ReceivePoints,
+            'points' => $article->meta['points'],
+            'meta' => $meta
+        ]);
+    }
+
     public function broadcastOn(string $event): array
     {
         return [
