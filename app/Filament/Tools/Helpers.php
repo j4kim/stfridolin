@@ -36,7 +36,7 @@ class Helpers
         $name = $component->getName();
         $tr = __($name);
         if ($tr != $name) {
-            $component->label($tr);
+            $component->label(ucfirst($tr));
         }
     }
 }
