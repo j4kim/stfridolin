@@ -5,9 +5,11 @@ import FullPageLoading from "./views/FullPageLoading.vue";
 
 const mainStore = useMainStore();
 
-const UseToaster = defineAsyncComponent(
-    () => import("@/components/UseToaster.vue"),
-);
+const UseToaster = defineAsyncComponent({
+    loader: () => import("@/components/UseToaster.vue"),
+    loadingComponent: FullPageLoading,
+    delay: 100,
+});
 </script>
 
 <template>
