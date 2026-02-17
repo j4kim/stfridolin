@@ -26,6 +26,6 @@ class VoucherController extends Controller
 
     public function index()
     {
-        return Voucher::with('article')->get();
+        return Voucher::with('article')->whereNull('guest_id')->get();
     }
 }
