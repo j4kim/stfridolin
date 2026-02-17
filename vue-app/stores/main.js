@@ -13,5 +13,7 @@ export const useMainStore = defineStore("main", () => {
         );
     }
 
-    return { appVersion, pkgVersion, appName, user };
+    const navigating = ref(false);
+
+    return { appVersion, pkgVersion, appName, user, navigating };
 });
