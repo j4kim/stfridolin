@@ -27,10 +27,10 @@ class Voucher extends Model
         return $this->belongsTo(Guest::class);
     }
 
-    public function use(Guest $guest)
+    public function use(Guest $guest, array $meta = [])
     {
         $this->guest_id = $guest->id;
-        $meta = ['voucher_id' => $this->id];
+        $meta = [...$meta, 'voucher_id' => $this->id];
         if ($this->article->type === ArticleType::TokensPackage) {
             $guest->addTokens($this->article, null, $meta);
         } else if ($this->article->type === ArticleType::PointsCredit) {
