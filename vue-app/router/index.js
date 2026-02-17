@@ -14,7 +14,7 @@ const routes = [
         component: () => import("@/views/PublicPage.vue"),
     },
     {
-        path: "/guest/auth",
+        path: "/auth",
         name: "guest-auth-form",
         component: () => import("@/views/GuestAuthForm.vue"),
     },
