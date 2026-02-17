@@ -41,19 +41,11 @@ class Track extends Model
         ];
     }
 
-    public static function createFromSpotifyData(array $data, int $priority = 0)
-    {
-        return self::create([
-            ...self::formatSpotifyData($data),
-            'spotify_data' => $data,
-            'priority' => $priority,
-        ]);
-    }
 
     #[Scope]
     protected function queue(Builder $query): void
     {
-        $query->where('used', false)->orderByDesc('priority')->orderBy('id');
+        $query->where('used', false)->orderByDesc('priority')->orderBy('id')->leftJoin('guests', 'tracks.proposed_by', '=', 'guests.id')->select('tracks.*', 'guests.name as proposed_by_name');
     }
 
     public static function getCandidates(): Collection

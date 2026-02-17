@@ -31,10 +31,15 @@ const props = defineProps<{
                     />
                 </ItemMedia>
                 <ItemContent>
-                    <ItemTitle>{{ track.name }}</ItemTitle>
-                    <ItemDescription>
-                        {{ track.artist_name }}
-                    </ItemDescription>
+                    <div>
+                        <ItemTitle>{{ track.name }}</ItemTitle>
+                        <ItemDescription>
+                            {{ track.artist_name }}
+                        </ItemDescription>
+                    </div>
+                    <div v-if="track.proposed_by_name">
+                        Proposé par : {{ track.proposed_by_name }}
+                    </div>
                 </ItemContent>
                 <ItemActions>
                     <slot :track="track" name="actions"></slot>
