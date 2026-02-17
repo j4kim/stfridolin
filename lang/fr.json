@@ -38,5 +38,6 @@
     "create_stripe_client": "créer client Stripe",
     "arrives_now": "arrive maintenant",
     "create_many_vouchers": "créer plein de bons",
-    "attach_to_guest": "attacher à un invité"
+    "attach_to_guest": "attacher à un invité",
+    "article_type": "Type d'article"
 }
