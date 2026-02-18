@@ -1,5 +1,6 @@
 <script setup>
 import Layout from "@/components/Layout.vue";
+import SvgTitle from "@/components/SvgTitle.vue";
 import Button from "@/components/ui/button/Button.vue";
 import {
     Card,
@@ -9,7 +10,6 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import { useGuestStore } from "@/stores/guest";
-import titleSvg from "@/title.svg";
 import {
     CirclePile,
     CircleStar,
@@ -24,7 +24,7 @@ const guestStore = useGuestStore();
 <template>
     <Layout>
         <div class="mx-auto max-w-3xl">
-            <img class="mx-auto max-w-xl p-12" :src="titleSvg" />
+            <SvgTitle class="mx-auto max-w-md p-12" />
             <p class="mb-4 px-8 text-xl font-extralight">
                 Hello ! Bienvenue au PMU de soutien de la Saint-Fridolin. Une
                 soirée de taxation de votre héritage au profit d'Estelle Zamme,
