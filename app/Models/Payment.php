@@ -72,7 +72,6 @@ class Payment extends Model
         $this->stripe_id = $paymentIntent->id;
         $this->stripe_data = collect($paymentIntent->toArray())->only([
             'created',
-            'metadata',
             'description',
             'client_secret',
             'payment_method',
