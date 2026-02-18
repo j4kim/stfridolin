@@ -27,8 +27,11 @@ const footerLinks = [
 
 <template>
     <div class="mx-auto max-w-xl p-8">
-        <RouterLink :to="{ name: 'home' }">
-            <SvgTitle class="mx-auto my-12 max-w-sm hover:opacity-80" />
+        <RouterLink
+            :to="{ name: 'home' }"
+            class="mx-auto my-12 block max-w-sm hover:opacity-80"
+        >
+            <SvgTitle />
         </RouterLink>
         <slot></slot>
         <footer class="prose dark:prose-invert prose-sm mt-24">
