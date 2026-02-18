@@ -40,6 +40,10 @@ class PaymentsTable
                     ->label("Remarques")
                     ->sortable()
                     ->toggleable(),
+                TextColumn::make('method')
+                    ->badge()
+                    ->searchable()
+                    ->toggleable(),
             ])
             ->filters([
                 SelectFilter::make('guest')
