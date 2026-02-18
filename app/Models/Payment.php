@@ -30,6 +30,11 @@ class Payment extends Model
         return $this->belongsTo(Guest::class);
     }
 
+    public function article(): BelongsTo
+    {
+        return $this->belongsTo(Article::class);
+    }
+
     public function movements(): HasMany
     {
         return $this->hasMany(Movement::class);
