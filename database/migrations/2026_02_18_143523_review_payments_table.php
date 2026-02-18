@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::table('payments', function (Blueprint $table) {
             $table->dropUnique(['stripe_id']);
             $table->string('stripe_id')->nullable(true)->change();
+            $table->string('stripe_data')->nullable(true)->change();
             $table->renameColumn('stripe_status', 'status');
             $table->string('method')->nullable();
             $table->foreignId('article_id')->nullable()->constrained()->nullOnDelete();
@@ -36,6 +37,7 @@ return new class extends Migration
             $table->dropColumn('article_id');
             $table->dropColumn('method');
             $table->renameColumn('status', 'stripe_status');
+            $table->string('stripe_data')->nuallable(false)->change();
             $table->string('stripe_id')->nuallable(false)->change();
             $table->unique(['stripe_id']);
         });
