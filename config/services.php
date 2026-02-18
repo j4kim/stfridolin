@@ -53,4 +53,8 @@ return [
         'sk' => env('STRIPE_SK'),
     ],
 
+    'twint' => [
+        'payment_link' => env('TWINT_PAYMENT_LINK'),
+    ],
+
 ];
