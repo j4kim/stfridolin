@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('payments', function (Blueprint $table) {
+        Schema::table('payments', function (Blueprint $table) {
             $table->dropUnique(['stripe_id']);
             $table->string('stripe_id')->nuallable(true)->change();
             $table->renameColumn('stripe_status', 'status');
@@ -25,7 +25,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::create('payments', function (Blueprint $table) {
+        Schema::table('payments', function (Blueprint $table) {
             $table->dropColumn('meta');
             $table->dropColumn('method');
             $table->renameColumn('status', 'stripe_status');
