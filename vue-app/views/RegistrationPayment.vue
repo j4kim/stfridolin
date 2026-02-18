@@ -39,6 +39,7 @@ async function submit() {
     try {
         const guests = await guestStore.createGuests(names.value);
         guest.value = guests[0];
+        guestStore.subscribeToBroadcastEvents(`guest-${guest.value.id}`);
         const data = {
             purpose: "registration",
             guestNames: names.value.join(";"),
@@ -51,7 +52,9 @@ async function submit() {
             data.description = `${article.value.description} pour ${data.quantity} personnes`;
         }
         await paymentStore.createPayment(article.value, data, guest.value);
-        guestStore.subscribeToBroadcastEvents(`guest-${guest.value.id}`);
+        if (paymentStore.payment.method === "twint") {
+            window.open(paymentStore.twintPaymentLink, "_blank");
+        }
     } finally {
         loading.value = false;
     }
