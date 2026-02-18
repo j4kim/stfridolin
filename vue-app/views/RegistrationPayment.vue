@@ -3,6 +3,8 @@ import PublicLayout from "@/components/PublicLayout.vue";
 import StripePayment from "@/components/StripePayment.vue";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import Label from "@/components/ui/label/Label.vue";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import Spinner from "@/components/ui/spinner/Spinner.vue";
 import Textarea from "@/components/ui/textarea/Textarea.vue";
 import { useArticlesStore } from "@/stores/articles";
@@ -25,6 +27,8 @@ const loading = ref(false);
 
 const names = ref([""]);
 const remarks = ref("");
+const method = ref(null);
+
 const missingNames = computed(() => names.value.some((n) => !n));
 
 const total = computed(() => 30 * names.value.length);
@@ -106,7 +110,25 @@ async function submit() {
                 v-model="remarks"
                 placeholder="Remarques, allergies etc. (optionnel)"
             />
-            <Button :disabled="!article || missingNames" type="submit">
+            <p class="">Moyen de paiement:</p>
+            <RadioGroup v-model="method" class="mb-4 gap-4">
+                <div class="flex items-center space-x-2">
+                    <RadioGroupItem id="r1" value="twint" />
+                    <Label for="r1">TWINT</Label>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <RadioGroupItem id="r2" value="stripe" />
+                    <Label for="r2">Carte, Apple Pay ou Google Pay</Label>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <RadioGroupItem id="r3" value="bank" />
+                    <Label for="r3">Virement bancaire</Label>
+                </div>
+            </RadioGroup>
+            <Button
+                :disabled="!article || missingNames || !method"
+                type="submit"
+            >
                 Payer {{ total }} CHF
             </Button>
         </form>
