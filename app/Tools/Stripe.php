@@ -2,6 +2,7 @@
 
 namespace App\Tools;
 
+use App\Exceptions\NoGuestException;
 use App\Models\Article;
 use App\Models\Guest;
 use Stripe\Customer;
@@ -20,22 +21,25 @@ class Stripe
 
         $guest = Guest::fromRequest();
 
+        if (!$guest) {
+            throw new NoGuestException();
+        }
+
+        $guest->ensureStripeCustomer();
+
         $payload = [
             'amount' => $amount * 100,
             'currency' => 'chf',
             'description' => $description,
             'statement_descriptor_suffix' => str($description)->slug()->substr(0, 22),
+            'customer' => $guest->stripe_customer_id,
             'metadata' => [
                 ...$metadata,
-                'guest_id' => $guest?->id,
+                'guest_id' => $guest->id,
                 'article_id' => $article->id,
                 'original_amount' => $amount,
             ],
         ];
-
-        if ($guest?->stripe_customer_id) {
-            $payload['customer'] = $guest->stripe_customer_id;
-        }
 
         return $stripe->paymentIntents->create($payload);
     }

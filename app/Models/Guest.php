@@ -156,23 +156,14 @@ class Guest extends Model
         );
     }
 
-    public function createStripeCustomer(): Guest
+    public function ensureStripeCustomer(): Guest
     {
-        $customer = Stripe::createCustomer($this);
-        $this->stripe_customer_id = $customer->id;
-        return $this;
-    }
-
-    public static function createGuest(string $name, bool $andStripeCustomer): Guest
-    {
-        $guest = new Guest;
-        $guest->name = $name;
-        $guest->key = str()->random(4);
-        if ($andStripeCustomer) {
-            $guest->createStripeCustomer();
+        if (!$this->stripe_customer_id) {
+            $customer = Stripe::createCustomer($this);
+            $this->stripe_customer_id = $customer->id;
+            $this->save();
         }
-        $guest->save();
-        return $guest;
+        return $this;
     }
 
     public function recomputeTokensAndPoints(): self
