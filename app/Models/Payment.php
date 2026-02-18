@@ -16,6 +16,7 @@ class Payment extends Model
     {
         return [
             'stripe_data' => 'array',
+            'meta' => 'array',
             'amount' => 'float',
             'purpose' => PaymentPurpose::class,
             'status' => PaymentStatus::class,
