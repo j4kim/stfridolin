@@ -97,15 +97,13 @@ class Guest extends Model
 
     public function addTokensFromPayment(Payment $payment): Movement
     {
-        $metadata = $payment->stripe_data['metadata'];
-        $article = Article::findOrFail($metadata['article_id']);
+        $article = $payment->article;
         return $this->addTokens($article, $payment->id);
     }
 
     public function register(Payment $payment): Movement
     {
-        $metadata = $payment->stripe_data['metadata'];
-        $article = Article::findOrFail($metadata['article_id']);
+        $article = $payment->article;
         return $this->createMovement([
             'payment_id' => $payment->id,
             'article_id' => $article->id,

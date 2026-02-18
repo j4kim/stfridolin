@@ -38,9 +38,9 @@ class PaymentInfolist
 
                 EntryTools::compactSection("Stripe data")->schema([
                     TextEntry::make('stripe_id')->columnSpanFull(),
-                    KeyValueEntry::make('Stripe data')
+                    KeyValueEntry::make('stripe_data')
                         ->state(fn(Payment $payment) => collect($payment->stripe_data)->except('metadata')),
-                    KeyValueEntry::make('stripe_data.metadata'),
+                    KeyValueEntry::make('meta'),
                 ]),
             ]);
     }
