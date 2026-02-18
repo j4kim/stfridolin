@@ -13,5 +13,28 @@ export const useMainStore = defineStore("main", () => {
         );
     }
 
-    return { appVersion, pkgVersion, appName, user };
+    const isNavigating = ref(false);
+
+    let timer;
+
+    function startNavigation() {
+        timer = setTimeout(() => {
+            isNavigating.value = true;
+        }, 100);
+    }
+
+    function endNavigation() {
+        clearTimeout(timer);
+        isNavigating.value = false;
+    }
+
+    return {
+        appVersion,
+        pkgVersion,
+        appName,
+        user,
+        isNavigating,
+        startNavigation,
+        endNavigation,
+    };
 });

@@ -9,6 +9,9 @@ use Illuminate\Contracts\Support\Htmlable;
 
 enum PaymentStatus: string implements HasLabel, HasColor
 {
+    case Initial = 'initial';
+
+        // Stripe status
     case requires_payment_method = 'requires_payment_method';
     case requires_confirmation = 'requires_confirmation';
     case requires_action = 'requires_action';

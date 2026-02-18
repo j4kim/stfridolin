@@ -5,6 +5,7 @@ import Layout from "@/components/Layout.vue";
 import Button from "@/components/ui/button/Button.vue";
 import { Field, FieldLabel } from "@/components/ui/field";
 import Input from "@/components/ui/input/Input.vue";
+import Spinner from "@/components/ui/spinner/Spinner.vue";
 import { icon, tr } from "@/translate";
 import { onMounted, ref, useTemplateRef } from "vue";
 import { useRoute } from "vue-router";
@@ -20,11 +21,17 @@ onMounted(() => {
 });
 
 const movement = ref(null);
+const submitting = ref(false);
 
 async function submit() {
+    submitting.value = true;
     const params = { currency: route.params.currency, amount: amount.value };
-    const request = api("guests.spend").params(params);
-    movement.value = await request.put();
+    try {
+        const request = api("guests.spend").params(params);
+        movement.value = await request.put();
+    } finally {
+        submitting.value = false;
+    }
 }
 </script>
 
@@ -52,7 +59,14 @@ async function submit() {
                     required
                 />
             </Field>
-            <Button class="mt-4 h-12 w-full" type="submit">Valider</Button>
+            <Button
+                class="mt-4 h-12 w-full"
+                type="submit"
+                :disabled="submitting"
+            >
+                <Spinner v-if="submitting"></Spinner>
+                Valider
+            </Button>
         </form>
     </Layout>
 
