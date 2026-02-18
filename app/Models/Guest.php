@@ -163,12 +163,14 @@ class Guest extends Model
         return $this;
     }
 
-    public static function createStripeCustomerAndGuest(string $name): Guest
+    public static function createGuest(string $name, bool $andStripeCustomer): Guest
     {
         $guest = new Guest;
         $guest->name = $name;
         $guest->key = str()->random(4);
-        $guest->createStripeCustomer();
+        if ($andStripeCustomer) {
+            $guest->createStripeCustomer();
+        }
         $guest->save();
         return $guest;
     }
