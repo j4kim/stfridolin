@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\PaymentMethod;
 use App\Enums\PaymentPurpose;
 use App\Enums\PaymentStatus;
+use App\Tools\Stripe;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -36,6 +37,14 @@ class Payment extends Model
 
     protected static function booted(): void
     {
+        static::created(function (Payment $payment) {
+            if ($payment->method === PaymentMethod::Stripe) {
+                $paymentIntent = Stripe::createPaymentIntent($payment);
+                $payment->fillFromStripePI($paymentIntent);
+                $payment->save();
+            }
+        });
+
         static::saved(function (Payment $payment) {
             $oldStatus = $payment->getOriginal('status');
             $newStatus = $payment->status;
