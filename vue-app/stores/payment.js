@@ -44,6 +44,15 @@ export const usePaymentStore = defineStore("payment", () => {
         return articlesStore.byId[payment.value.article_id];
     });
 
+    const twintPaymentLink = computed(() => {
+        const base = document.body.dataset.twintPaymentLink;
+        const amount = encodeURIComponent(payment.value.amount);
+        const trxInfo = encodeURIComponent(
+            `${payment.value.description} (id de pmt:${payment.value.id})`,
+        );
+        return `${base}&amount=${amount}&trxInfo=${trxInfo}`;
+    });
+
     return {
         stripePk,
         payment,
@@ -52,5 +61,6 @@ export const usePaymentStore = defineStore("payment", () => {
         fetchPayment,
         setPayment,
         article,
+        twintPaymentLink,
     };
 });
