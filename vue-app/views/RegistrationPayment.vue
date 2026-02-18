@@ -59,15 +59,12 @@ async function submit() {
 
 const StripePayment = defineAsyncComponent({
     loader: () => import("@/components/StripePayment.vue"),
-    loadingComponent: Spinner,
 });
 const TwintPayment = defineAsyncComponent({
     loader: () => import("@/components/TwintPayment.vue"),
-    loadingComponent: Spinner,
 });
 const BankPayment = defineAsyncComponent({
     loader: () => import("@/components/BankPayment.vue"),
-    loadingComponent: Spinner,
 });
 </script>
 
@@ -77,14 +74,24 @@ const BankPayment = defineAsyncComponent({
 
         <Spinner v-if="loading" class="mx-auto size-8" />
         <template v-else-if="paymentStore.payment">
-            <StripePayment
-                v-if="paymentStore.payment.method === 'stripe'"
-                redirectRouteName="registration-payment-status"
-                :guest="guest"
-                cancelButtonText="Retour"
-            />
-            <TwintPayment v-else-if="paymentStore.payment.method === 'twint'" />
-            <BankPayment v-else-if="paymentStore.payment.method === 'bank'" />
+            <Suspense>
+                <StripePayment
+                    v-if="paymentStore.payment.method === 'stripe'"
+                    redirectRouteName="registration-payment-status"
+                    :guest="guest"
+                    cancelButtonText="Retour"
+                />
+                <TwintPayment
+                    v-else-if="paymentStore.payment.method === 'twint'"
+                />
+                <BankPayment
+                    v-else-if="paymentStore.payment.method === 'bank'"
+                />
+
+                <template #fallback>
+                    <Spinner class="mx-auto size-8" />
+                </template>
+            </Suspense>
         </template>
         <form v-else class="flex flex-col gap-4" @submit.prevent="submit">
             <p class="flex items-center gap-2">
