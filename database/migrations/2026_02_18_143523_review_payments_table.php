@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('stripe_id')->nuallable(true)->change();
             $table->renameColumn('stripe_status', 'status');
             $table->string('method')->nullable();
-            $table->json('meta');
+            $table->json('meta')->nullable();
         });
     }
 
