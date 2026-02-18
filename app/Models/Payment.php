@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\PaymentMethod;
 use App\Enums\PaymentPurpose;
 use App\Enums\PaymentStatus;
 use Illuminate\Database\Eloquent\Model;
@@ -18,6 +19,7 @@ class Payment extends Model
             'amount' => 'float',
             'purpose' => PaymentPurpose::class,
             'status' => PaymentStatus::class,
+            'method' => PaymentMethod::class,
         ];
     }
 
