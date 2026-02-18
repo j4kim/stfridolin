@@ -25,6 +25,7 @@ const loading = ref(false);
 
 const names = ref([""]);
 const remarks = ref("");
+const missingNames = computed(() => names.value.some((n) => !n));
 
 const total = computed(() => 30 * names.value.length);
 
@@ -70,7 +71,7 @@ async function submit() {
                 <Button
                     variant="outline"
                     size="icon"
-                    @click="names.length--"
+                    @click="names.pop()"
                     type="button"
                     :disabled="names.length < 2"
                 >
@@ -82,7 +83,7 @@ async function submit() {
                 <Button
                     variant="outline"
                     size="icon"
-                    @click="names.length++"
+                    @click="names.push('')"
                     type="button"
                 >
                     <Plus />
@@ -105,7 +106,7 @@ async function submit() {
                 v-model="remarks"
                 placeholder="Remarques, allergies etc. (optionnel)"
             />
-            <Button :disabled="!article || loading" type="submit">
+            <Button :disabled="!article || missingNames" type="submit">
                 Payer {{ total }} CHF
             </Button>
         </form>
