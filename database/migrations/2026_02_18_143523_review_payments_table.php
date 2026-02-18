@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('payments', function (Blueprint $table) {
             $table->dropUnique(['stripe_id']);
-            $table->string('stripe_id')->nuallable(true)->change();
+            $table->string('stripe_id')->nullable(true)->change();
             $table->renameColumn('stripe_status', 'status');
             $table->string('method')->nullable();
             $table->foreignId('article_id')->nullable()->constrained()->nullOnDelete();
