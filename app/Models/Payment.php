@@ -17,7 +17,7 @@ class Payment extends Model
             'stripe_data' => 'array',
             'amount' => 'float',
             'purpose' => PaymentPurpose::class,
-            'stripe_status' => PaymentStatus::class,
+            'status' => PaymentStatus::class,
         ];
     }
 
@@ -34,8 +34,8 @@ class Payment extends Model
     protected static function booted(): void
     {
         static::saved(function (Payment $payment) {
-            $oldStatus = $payment->getOriginal('stripe_status');
-            $newStatus = $payment->stripe_status;
+            $oldStatus = $payment->getOriginal('status');
+            $newStatus = $payment->status;
             if ($oldStatus !== $newStatus && $newStatus === PaymentStatus::succeeded) {
                 if ($payment->purpose === PaymentPurpose::BuyTokens) {
                     /** @var Guest $guest */
@@ -62,7 +62,7 @@ class Payment extends Model
             'amount_received',
             'last_payment_error',
         ])->toArray();
-        $this->stripe_status = $paymentIntent->status;
+        $this->status = $paymentIntent->status;
         $this->amount = $paymentIntent->amount / 100;
         return $this;
     }

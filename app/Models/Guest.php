@@ -51,7 +51,7 @@ class Guest extends Model
 
     public function succeededPayments(): HasMany
     {
-        return $this->payments()->where('stripe_status', PaymentStatus::succeeded);
+        return $this->payments()->where('status', PaymentStatus::succeeded);
     }
 
     public function votes(): HasMany

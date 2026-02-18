@@ -22,7 +22,7 @@ class PaymentsTable
                 ...ColumnTools::systemColumns(),
                 ColumnTools::guestLinkColumn()
                     ->hiddenOn(PaymentsRelationManager::class),
-                TextColumn::make('stripe_status')
+                TextColumn::make('status')
                     ->badge()
                     ->searchable(),
                 TextColumn::make('purpose')
@@ -44,7 +44,7 @@ class PaymentsTable
             ->filters([
                 SelectFilter::make('guest')
                     ->relationship('guest', 'name'),
-                SelectFilter::make('stripe_status')
+                SelectFilter::make('status')
                     ->default(PaymentStatus::succeeded)
                     ->options(PaymentStatus::class),
                 SelectFilter::make('purpose')

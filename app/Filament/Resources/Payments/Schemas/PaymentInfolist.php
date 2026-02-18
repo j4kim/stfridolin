@@ -22,7 +22,7 @@ class PaymentInfolist
 
                 EntryTools::compactSection()->schema([
                     EntryTools::guestLink(),
-                    TextEntry::make('stripe_status')
+                    TextEntry::make('status')
                         ->badge(),
                     TextEntry::make('purpose')
                         ->badge(),

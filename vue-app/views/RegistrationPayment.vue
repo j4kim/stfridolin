@@ -45,6 +45,7 @@ async function submit() {
             guestNames: names.value.join(";"),
             guestIds: guests.map((g) => g.id).join(";"),
             remarks: remarks.value,
+            method: method.value,
         };
         if (names.value.length > 1) {
             data.quantity = names.value.length;
