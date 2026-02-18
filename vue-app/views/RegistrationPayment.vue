@@ -1,6 +1,5 @@
 <script setup>
 import PublicLayout from "@/components/PublicLayout.vue";
-import StripePayment from "@/components/StripePayment.vue";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Label from "@/components/ui/label/Label.vue";
@@ -11,7 +10,7 @@ import { useArticlesStore } from "@/stores/articles";
 import { useGuestStore } from "@/stores/guest";
 import { usePaymentStore } from "@/stores/payment";
 import { Minus, Plus } from "lucide-vue-next";
-import { computed, ref } from "vue";
+import { computed, defineAsyncComponent, ref } from "vue";
 
 const guestStore = useGuestStore();
 
@@ -57,6 +56,19 @@ async function submit() {
         loading.value = false;
     }
 }
+
+const StripePayment = defineAsyncComponent({
+    loader: () => import("@/components/StripePayment.vue"),
+    loadingComponent: Spinner,
+});
+const TwintPayment = defineAsyncComponent({
+    loader: () => import("@/components/TwintPayment.vue"),
+    loadingComponent: Spinner,
+});
+const BankPayment = defineAsyncComponent({
+    loader: () => import("@/components/BankPayment.vue"),
+    loadingComponent: Spinner,
+});
 </script>
 
 <template>
@@ -64,12 +76,16 @@ async function submit() {
         <h2 class="my-4 text-xl font-bold">Paiement de l'inscription</h2>
 
         <Spinner v-if="loading" class="mx-auto size-8" />
-        <StripePayment
-            v-else-if="paymentStore.payment"
-            redirectRouteName="registration-payment-status"
-            :guest="guest"
-            cancelButtonText="Retour"
-        />
+        <template v-else-if="paymentStore.payment">
+            <StripePayment
+                v-if="paymentStore.payment.method === 'stripe'"
+                redirectRouteName="registration-payment-status"
+                :guest="guest"
+                cancelButtonText="Retour"
+            />
+            <TwintPayment v-else-if="paymentStore.payment.method === 'twint'" />
+            <BankPayment v-else-if="paymentStore.payment.method === 'bank'" />
+        </template>
         <form v-else class="flex flex-col gap-4" @submit.prevent="submit">
             <p class="flex items-center gap-2">
                 Je paye pour
