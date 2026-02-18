@@ -13,7 +13,7 @@
     "registration_movements_count": "inscrit",
     "payment_id": "#Paiement",
     "guest": "invité",
-    "stripe_status": "statut",
+    "status": "statut",
     "purpose": "but",
     "amount": "montant",
     "movement": "mouvement",

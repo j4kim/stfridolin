@@ -2,10 +2,8 @@
 
 namespace App\Filament\Resources\Payments\Schemas;
 
-use App\Filament\Resources\Guests\GuestResource;
 use App\Filament\Resources\Movements\MovementResource;
 use App\Filament\Tools\EntryTools;
-use App\Models\Guest;
 use App\Models\Movement;
 use App\Models\Payment;
 use Filament\Infolists\Components\KeyValueEntry;
@@ -22,13 +20,16 @@ class PaymentInfolist
 
                 EntryTools::compactSection()->schema([
                     EntryTools::guestLink(),
-                    TextEntry::make('stripe_status')
+                    EntryTools::articleLink(),
+                    TextEntry::make('status')
                         ->badge(),
                     TextEntry::make('purpose')
                         ->badge(),
                     TextEntry::make('amount')
                         ->numeric(),
-                    TextEntry::make('stripe_data.description'),
+                    TextEntry::make('method')->badge(),
+                    TextEntry::make('description'),
+                    KeyValueEntry::make('meta'),
                     TextEntry::make('movements')
                         ->bulleted()
                         ->formatStateUsing(fn(Movement $state) => "$state->id - {$state->guest->name} - {$state->article->name}")
@@ -37,10 +38,9 @@ class PaymentInfolist
 
 
                 EntryTools::compactSection("Stripe data")->schema([
-                    TextEntry::make('stripe_id')->columnSpanFull(),
-                    KeyValueEntry::make('Stripe data')
+                    TextEntry::make('stripe_id'),
+                    KeyValueEntry::make('stripe_data')
                         ->state(fn(Payment $payment) => collect($payment->stripe_data)->except('metadata')),
-                    KeyValueEntry::make('stripe_data.metadata'),
                 ]),
             ]);
     }

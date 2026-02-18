@@ -51,7 +51,7 @@ class Guest extends Model
 
     public function succeededPayments(): HasMany
     {
-        return $this->payments()->where('stripe_status', PaymentStatus::succeeded);
+        return $this->payments()->where('status', PaymentStatus::succeeded);
     }
 
     public function votes(): HasMany
@@ -97,15 +97,13 @@ class Guest extends Model
 
     public function addTokensFromPayment(Payment $payment): Movement
     {
-        $metadata = $payment->stripe_data['metadata'];
-        $article = Article::findOrFail($metadata['article_id']);
+        $article = $payment->article;
         return $this->addTokens($article, $payment->id);
     }
 
     public function register(Payment $payment): Movement
     {
-        $metadata = $payment->stripe_data['metadata'];
-        $article = Article::findOrFail($metadata['article_id']);
+        $article = $payment->article;
         return $this->createMovement([
             'payment_id' => $payment->id,
             'article_id' => $article->id,
@@ -156,23 +154,14 @@ class Guest extends Model
         );
     }
 
-    public function createStripeCustomer(): Guest
+    public function ensureStripeCustomer(): Guest
     {
-        $customer = Stripe::createCustomer($this);
-        $this->stripe_customer_id = $customer->id;
-        return $this;
-    }
-
-    public static function createGuest(string $name, bool $andStripeCustomer): Guest
-    {
-        $guest = new Guest;
-        $guest->name = $name;
-        $guest->key = str()->random(4);
-        if ($andStripeCustomer) {
-            $guest->createStripeCustomer();
+        if (!$this->stripe_customer_id) {
+            $customer = Stripe::createCustomer($this);
+            $this->stripe_customer_id = $customer->id;
+            $this->save();
         }
-        $guest->save();
-        return $guest;
+        return $this;
     }
 
     public function recomputeTokensAndPoints(): self

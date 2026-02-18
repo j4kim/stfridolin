@@ -21,7 +21,7 @@ function fetch(reload = false) {
 
 const paymentIntent = computed(() => paymentStore.payment?.stripe_data);
 
-const status = computed(() => paymentStore.payment?.stripe_status);
+const status = computed(() => paymentStore.payment?.status);
 
 const paymentError = computed(() => paymentIntent.value?.last_payment_error);
 

@@ -2,42 +2,31 @@
 
 namespace App\Tools;
 
-use App\Models\Article;
 use App\Models\Guest;
+use App\Models\Payment;
 use Stripe\Customer;
 use Stripe\PaymentIntent;
 use Stripe\StripeClient;
 
 class Stripe
 {
-    public static function createPaymentIntent(Article $article, array $metadata = []): PaymentIntent
+    public static function createPaymentIntent(Payment $payment): PaymentIntent
     {
         $stripe = new StripeClient(config('services.stripe.sk'));
 
-        $quantity = $metadata['quantity'] ?? 1;
-        $description = $metadata['description'] ?? $article->description;
-        $amount = $article->price * $quantity;
+        $guest = $payment->guest;
+        $guest->ensureStripeCustomer();
 
-        $guest = Guest::fromRequest();
-
-        $payload = [
-            'amount' => $amount * 100,
+        return $stripe->paymentIntents->create([
+            'amount' => $payment->amount * 100,
             'currency' => 'chf',
-            'description' => $description,
-            'statement_descriptor_suffix' => str($description)->slug()->substr(0, 22),
+            'description' => $payment->description,
+            'statement_descriptor_suffix' => str($payment->description)->slug()->substr(0, 22),
+            'customer' => $guest->stripe_customer_id,
             'metadata' => [
-                ...$metadata,
-                'guest_id' => $guest?->id,
-                'article_id' => $article->id,
-                'original_amount' => $amount,
+                'payment_id' => $payment->id,
             ],
-        ];
-
-        if ($guest?->stripe_customer_id) {
-            $payload['customer'] = $guest->stripe_customer_id;
-        }
-
-        return $stripe->paymentIntents->create($payload);
+        ]);
     }
 
     public static function getPaymentIntent(string $paymentId): PaymentIntent
