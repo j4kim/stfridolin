@@ -52,7 +52,16 @@ onMounted(async () => {
         inputs: "condensed",
     };
 
-    elements = stripe.elements({ clientSecret, appearance });
+    elements = stripe.elements({
+        clientSecret,
+        appearance,
+        customPaymentMethods: [
+            {
+                id: "cpmt_1T2A07E0SXG09sTcDhAnKbkz",
+                options: { type: "static" },
+            },
+        ],
+    });
 
     const options = {
         layout: {
@@ -87,6 +96,12 @@ async function submit() {
         query: props.guest ? { guest: props.guest.id } : undefined,
     });
     const return_url = location.origin + redirectRoute.href;
+    const { submitError, selectedPaymentMethod } = await elements.submit();
+    if (selectedPaymentMethod === "cpmt_1T2A07E0SXG09sTcDhAnKbkz") {
+        // process twint link
+        loading.value = false;
+        return;
+    }
     const { error } = await stripe.confirmPayment({
         elements,
         confirmParams: { return_url },
