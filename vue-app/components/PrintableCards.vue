@@ -11,6 +11,10 @@ onMounted(() => {
 </script>
 
 <template>
+    <header class="flex gap-4 p-4 print:hidden">
+        <a href="/" class="link">Home</a>
+        <a href="/admin" class="link">Admin panel</a>
+    </header>
     <div class="flex flex-wrap">
         <div v-for="item in items" class="card-container">
             <div class="card flex flex-col justify-center p-[5mm]">
