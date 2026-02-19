@@ -19,7 +19,7 @@ return new class extends Migration
         }
         Schema::table('tracks', function (Blueprint $table) {
             $table->unsignedTinyInteger('priority')->default(TRACK_PRIORITY_GUEST_ADDED)->change();
-            $table->boolean('used')->default(false)->change();
+            $table->boolean('used')->nullable()->default(false)->change();
         });
         Schema::table('fights', function (Blueprint $table) {
             $table->foreignId('won_track_id')->nullable()->constrained('tracks');
