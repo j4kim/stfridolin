@@ -39,12 +39,12 @@ let elements = null;
 
 const paymentContainer = useTemplateRef("paymentContainer");
 
-const intent = computed(() => paymentStore.payment.stripe_data);
+const stripeData = computed(() => paymentStore.payment.stripe_data);
 
 onMounted(async () => {
     stripe = await loadStripe(paymentStore.stripePk);
 
-    const clientSecret = intent.value.client_secret;
+    const clientSecret = stripeData.value.client_secret;
 
     const appearance = {
         theme: "night",
@@ -122,7 +122,7 @@ watch(coverFees, (newValue) => {
 <template>
     <form class="mb-8 flex flex-col gap-3" @submit.prevent="submit">
         <div class="flex justify-between gap-2 text-lg">
-            <div>{{ intent.description }}</div>
+            <div>{{ stripeData.description }}</div>
             <div>
                 <Spinner v-if="toggling" class="mr-1 mb-1 inline" />
                 <span class="font-extrabold"
