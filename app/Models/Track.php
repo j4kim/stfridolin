@@ -58,6 +58,23 @@ class Track extends Model
 
     public static function getCandidates(): Collection
     {
-        return self::query()->queue()->take(2)->get();
+        $submitted_without_dupplicates = self::query()
+            ->queue()
+            ->whereNotNull('proposed_by')
+            ->get()
+            ->unique('proposed_by')
+            ->unique('artist_name');
+
+        if ($submitted_without_dupplicates->count() >= 2) {
+            return $submitted_without_dupplicates->take(2);
+        }
+
+        $reserve_songs_without_dupplicates = self::query()
+            ->queue()
+            ->whereNull('proposed_by')
+            ->get()
+            ->unique('artist_name');
+
+        return $submitted_without_dupplicates->merge($reserve_songs_without_dupplicates)->take(2);
     }
 }
