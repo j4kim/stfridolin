@@ -37,8 +37,8 @@ const props = defineProps<{
                             {{ track.artist_name }}
                         </ItemDescription>
                     </div>
-                    <div v-if="track.proposed_by_name">
-                        Proposé par : {{ track.proposed_by_name }}
+                    <div v-if="track.proposed_by">
+                        Proposé par : {{ track.proposed_by.name }}
                     </div>
                 </ItemContent>
                 <ItemActions>

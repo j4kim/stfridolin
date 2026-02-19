@@ -5,8 +5,7 @@ export type Track = {
   img_url: string
   img_thumbnail_url: string
   spotify_uri: string
-  proposed_by?:number,
-  proposed_by_name?:string
+  proposed_by?:{id:number,name:string},
 }
 
 export type MaybeTrack = Track | null | undefined

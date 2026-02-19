@@ -11,6 +11,14 @@ use Illuminate\Support\Collection;
 
 class Track extends Model
 {
+
+    protected static function booted(): void
+    {
+        static::creating(function (Track $track) {
+            $guest = Guest::fromRequest();
+            $track->proposed_by = $guest ? $guest->id : null;
+        });
+    }
     protected function casts(): array
     {
         return [
@@ -41,11 +49,19 @@ class Track extends Model
         ];
     }
 
+    public static function createFromSpotifyData(array $data, int $priority = 0)
+    {
+        return self::create([
+            ...self::formatSpotifyData($data),
+            'spotify_data' => $data,
+            'priority' => $priority,
+        ]);
+    }
 
     #[Scope]
     protected function queue(Builder $query): void
     {
-        $query->where('used', false)->orderByDesc('priority')->orderBy('id')->leftJoin('guests', 'tracks.proposed_by', '=', 'guests.id')->select('tracks.*', 'guests.name as proposed_by_name');
+        $query->where('used', false)->orderByDesc('priority')->orderBy('id');
     }
 
     public static function getCandidates(): Collection

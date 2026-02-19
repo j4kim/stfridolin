@@ -22,12 +22,8 @@ class TrackSeeder extends Seeder
             }
             $contents = file_get_contents($path);
             $json = json_decode($contents, true);
-
-            Track::create([
-                ...Track::formatSpotifyData($json),
-                'spotify_data' => $json,
-                'priority' => TRACK_PRIORITY_RESERVE,
-            ]);
+            Track::createFromSpotifyData($json);
         }
+        Track::query()->update(['priority' => TRACK_PRIORITY_RESERVE]);
     }
 }
