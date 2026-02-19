@@ -18,7 +18,7 @@ class TrackController extends Controller
         $track = Track::create([
             ...Track::formatSpotifyData($spotifyData),
             'spotify_data' => $spotifyData,
-            'priority' => (int)env('CONST_TRACK_PRIORITY_GUEST_ADDED',100),
+            'priority' => TRACK_PRIORITY_GUEST_ADDED,
             'proposed_by' => $guest ? $guest->id : null,
         ]);
 

@@ -21,9 +21,9 @@ return new class extends Migration
             $table->string('img_url');
             $table->string('img_thumbnail_url');
             $table->json('spotify_data');
-            $table->unsignedTinyInteger('priority')->default((int)env('CONST_TRACK_PRIORITY_GUEST_ADDED',100));
+            $table->unsignedTinyInteger('priority')->default(0);
             $table->boolean('won')->nullable();
-            $table->boolean('used')->default(false);
+            $table->boolean('used')->nullable();
         });
     }
 

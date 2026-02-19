@@ -24,10 +24,10 @@ class TrackSeeder extends Seeder
             $json = json_decode($contents, true);
 
             Track::create([
-            ...Track::formatSpotifyData($json),
-            'spotify_data' => $json,
-            'priority' => (int)env('CONST_TRACK_PRIORITY_RESERVE',50),
-        ]);
+                ...Track::formatSpotifyData($json),
+                'spotify_data' => $json,
+                'priority' => TRACK_PRIORITY_RESERVE,
+            ]);
         }
     }
 }
