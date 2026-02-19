@@ -22,6 +22,7 @@ enum Currency: string implements HasLabel, HasColor
     {
         return match ($this) {
             self::Tokens => Color::Teal,
+            self::CHF => Color::Blue,
             default => Color::Slate,
         };
     }

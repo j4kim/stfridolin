@@ -32,13 +32,15 @@ class PaymentsTable
                     ->numeric()
                     ->sortable()
                     ->summarize([Sum::make(), Average::make()]),
-                TextColumn::make('stripe_data.description')
+                ColumnTools::tooltipped('description')
                     ->label("Description")
                     ->sortable()
+                    ->searchable()
                     ->toggleable(),
-                TextColumn::make('meta.remarks')
+                ColumnTools::tooltipped('meta.remarks')
                     ->label("Remarques")
                     ->sortable()
+                    ->searchable()
                     ->toggleable(),
                 TextColumn::make('method')
                     ->badge()
@@ -49,7 +51,6 @@ class PaymentsTable
                 SelectFilter::make('guest')
                     ->relationship('guest', 'name'),
                 SelectFilter::make('status')
-                    ->default(PaymentStatus::succeeded)
                     ->options(PaymentStatus::class),
                 SelectFilter::make('purpose')
                     ->options(PaymentPurpose::class),
