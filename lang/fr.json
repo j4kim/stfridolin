@@ -41,5 +41,6 @@
     "attach_to_guest": "attacher à un invité",
     "article_type": "Type d'article",
     "receive-points": "Gain",
-    "donation": "Don"
+    "donation": "Don",
+    "confirm": "Confirmer"
 }
