@@ -44,14 +44,18 @@ class Payment extends Model
     protected static function booted(): void
     {
         static::created(function (Payment $payment) {
-            if ($payment->method === PaymentMethod::Stripe) {
-                $paymentIntent = Stripe::createPaymentIntent($payment);
-                $payment->fillFromStripePI($paymentIntent);
-                $payment->save();
+            if ($payment->method !== PaymentMethod::Stripe) {
+                return;
             }
+            $paymentIntent = Stripe::createPaymentIntent($payment);
+            $payment->fillFromStripePI($paymentIntent);
+            $payment->save();
         });
 
         static::saved(function (Payment $payment) {
+            if ($payment->method !== PaymentMethod::Stripe) {
+                return;
+            }
             $oldStatus = $payment->getOriginal('status');
             $newStatus = $payment->status;
             if ($oldStatus !== $newStatus && $newStatus === PaymentStatus::succeeded) {
