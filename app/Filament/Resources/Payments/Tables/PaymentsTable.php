@@ -49,7 +49,6 @@ class PaymentsTable
                 SelectFilter::make('guest')
                     ->relationship('guest', 'name'),
                 SelectFilter::make('status')
-                    ->default(PaymentStatus::succeeded)
                     ->options(PaymentStatus::class),
                 SelectFilter::make('purpose')
                     ->options(PaymentPurpose::class),
