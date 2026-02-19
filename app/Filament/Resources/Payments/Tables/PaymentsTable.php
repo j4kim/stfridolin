@@ -32,13 +32,15 @@ class PaymentsTable
                     ->numeric()
                     ->sortable()
                     ->summarize([Sum::make(), Average::make()]),
-                TextColumn::make('stripe_data.description')
+                ColumnTools::tooltipped('stripe_data.description')
                     ->label("Description")
                     ->sortable()
+                    ->searchable()
                     ->toggleable(),
-                TextColumn::make('meta.remarks')
+                ColumnTools::tooltipped('meta.remarks')
                     ->label("Remarques")
                     ->sortable()
+                    ->searchable()
                     ->toggleable(),
                 TextColumn::make('method')
                     ->badge()
