@@ -63,8 +63,8 @@ export const useBoxingStore = defineStore("boxing", () => {
         if (!fight) {
             throw new Error("There is no current fight");
         }
-        fighters.left.imgUrl.value = fight.left_track.img_url;
-        fighters.right.imgUrl.value = fight.right_track.img_url;
+        fighters.left.headImgUrl.value = fight.left_track.img_url;
+        fighters.right.headImgUrl.value = fight.right_track.img_url;
         running.value = true;
         finished.value = false;
     }

@@ -13,9 +13,11 @@ export class Fighter {
         this.id = id;
         this.animables = [];
         this.root = null;
-        this.imgId = `${id}-image`;
+        this.headImgId = `${id}-head-image`;
+        this.headImgUrl = ref("");
+        this.sponsorImgId = `${id}-sponsor-image`;
+        this.sponsorImgUrl = ref("");
         this.svgFrames = ref([]);
-        this.imgUrl = ref("");
         this.initialSvgContent = "";
         this.animations = [];
         this.punching = ref(false);
@@ -36,7 +38,12 @@ export class Fighter {
                 el.dataset.name = `${g.dataset.name}_${index}`;
             });
         });
-        rootG.querySelector("use").setAttribute("xlink:href", `#${this.imgId}`);
+        rootG
+            .querySelector("#head use")
+            .setAttribute("xlink:href", `#${this.headImgId}`);
+        rootG
+            .querySelector("#sposor use")
+            .setAttribute("xlink:href", `#${this.sponsorImgId}`);
         return rootG.innerHTML;
     }
 
