@@ -3,8 +3,7 @@
 namespace App\Models;
 
 use App\Enums\MovementType;
-use App\Filament\Resources\Movements\MovementResource;
-use App\Filament\Resources\Payments\PaymentResource;
+use App\Enums\PaymentStatus;
 use App\Tools\Stripe;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Database\Eloquent\BroadcastsEvents;
@@ -50,6 +49,11 @@ class Guest extends Model
         return $this->hasMany(Payment::class);
     }
 
+    public function succeededPayments(): HasMany
+    {
+        return $this->payments()->where('status', PaymentStatus::succeeded);
+    }
+
     public function votes(): HasMany
     {
         return $this->hasMany(Vote::class);
@@ -72,63 +76,61 @@ class Guest extends Model
         return self::cached($id);
     }
 
-    public function addTokens(Article $article, ?int $paymentId = null, array $metadata = []): Movement
+    public function createMovement(array $data): Movement
     {
-        $tokens = $article->meta['tokens'];
-        $this->tokens += $tokens;
-        $this->save();
-        return $this->movements()->create([
+        $movement = $this->movements()->create($data);
+        $this->recomputeTokensAndPoints()->save();
+        return $movement;
+    }
+
+    public function addTokens(Article $article, ?int $paymentId = null, ?array $meta = null): Movement
+    {
+        return $this->createMovement([
             'payment_id' => $paymentId,
             'article_id' => $article->id,
             'type' => MovementType::BuyTokens,
-            'amount' => $article->price,
-            'meta' => [
-                'tokens' => $tokens,
-                'balance' => $this->tokens,
-                'description' => "Paiement pour " . $article->description,
-                ...$metadata,
-            ]
+            'chf' => -$article->price,
+            'tokens' => $article->meta['tokens'],
+            'meta' => $meta
         ]);
     }
 
     public function addTokensFromPayment(Payment $payment): Movement
     {
-        $metadata = $payment->stripe_data['metadata'];
-        $article = Article::findOrFail($metadata['article_id']);
-        return $this->addTokens($article, $payment->id, $metadata);
+        $article = $payment->article;
+        return $this->addTokens($article, $payment->id);
     }
 
-    public function register(Payment $payment)
+    public function register(Payment $payment): Movement
     {
-        $metadata = $payment->stripe_data['metadata'];
-        $article = Article::findOrFail($metadata['article_id']);
-        $this->tokens += 20;
-        $this->save();
-        $this->movements()->create([
+        $article = $payment->article;
+        return $this->createMovement([
+            'created_at' => $payment->created_at,
             'payment_id' => $payment->id,
             'article_id' => $article->id,
             'type' => MovementType::Registration,
-            'amount' => $article->price,
-            'meta' => [
-                'balance' => $this->tokens,
-            ]
+            'chf' => -$article->price,
+            'tokens' => $article->meta['tokens'],
         ]);
     }
 
     public function spendTokens(string $articleName): Movement
     {
         $article = Article::where('name', $articleName)->firstOrFail();
-        $tokens = $article->price;
-        $this->tokens = $this->tokens - $article->price;
-        $this->save();
-        return $this->movements()->create([
+        return $this->createMovement([
             'article_id' => $article->id,
             'type' => MovementType::SpendTokens,
-            'amount' => $tokens,
-            'meta' => [
-                'balance' => $this->tokens,
-                'description' => $articleName,
-            ]
+            'tokens' => -$article->price,
+        ]);
+    }
+
+    public function receivePoints(Article $article, ?array $meta = null): Movement
+    {
+        return $this->createMovement([
+            'article_id' => $article->id,
+            'type' => MovementType::ReceivePoints,
+            'points' => $article->meta['points'],
+            'meta' => $meta
         ]);
     }
 
@@ -139,20 +141,6 @@ class Guest extends Model
         ];
     }
 
-    public function movementsUrl(): string
-    {
-        return MovementResource::getUrl('index', [
-            'filters' => ['guest' => ['value' => $this->id]]
-        ]);
-    }
-
-    public function paymentsUrl(): string
-    {
-        return PaymentResource::getUrl('index', [
-            'filters' => ['guest' => ['value' => $this->id]]
-        ]);
-    }
-
     protected function authUrl(): Attribute
     {
         return Attribute::make(
@@ -160,14 +148,27 @@ class Guest extends Model
         );
     }
 
-    public static function createStripeCustomerAndGuest(string $name): Guest
+    protected function descriptor(): Attribute
     {
-        $guest = new Guest;
-        $guest->name = $name;
-        $guest->key = str()->random(4);
-        $customer = Stripe::createCustomer($guest);
-        $guest->stripe_customer_id = $customer->id;
-        $guest->save();
-        return $guest;
+        return Attribute::make(
+            get: fn() => "$this->name - $this->key",
+        );
+    }
+
+    public function ensureStripeCustomer(): Guest
+    {
+        if (!$this->stripe_customer_id) {
+            $customer = Stripe::createCustomer($this);
+            $this->stripe_customer_id = $customer->id;
+            $this->save();
+        }
+        return $this;
+    }
+
+    public function recomputeTokensAndPoints(): self
+    {
+        $this->tokens = $this->movements->sum('tokens');
+        $this->points = $this->movements->sum('points');
+        return $this;
     }
 }

@@ -2,11 +2,8 @@
 
 namespace App\Filament\Resources\Payments;
 
-use App\Filament\Resources\Payments\Pages\CreatePayment;
-use App\Filament\Resources\Payments\Pages\EditPayment;
 use App\Filament\Resources\Payments\Pages\ListPayments;
 use App\Filament\Resources\Payments\Pages\ViewPayment;
-use App\Filament\Resources\Payments\Schemas\PaymentForm;
 use App\Filament\Resources\Payments\Schemas\PaymentInfolist;
 use App\Filament\Resources\Payments\Tables\PaymentsTable;
 use App\Models\Payment;
@@ -15,19 +12,19 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class PaymentResource extends Resource
 {
+    use \App\Filament\Tools\TranslateModelLabel;
+
     protected static ?string $model = Payment::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::CreditCard;
+    protected static ?int $navigationSort = 500;
+    protected static string | UnitEnum | null $navigationGroup = 'Gestion';
 
     protected static ?string $recordTitleAttribute = 'id';
-
-    public static function form(Schema $schema): Schema
-    {
-        return PaymentForm::configure($schema);
-    }
 
     public static function infolist(Schema $schema): Schema
     {
@@ -50,9 +47,7 @@ class PaymentResource extends Resource
     {
         return [
             'index' => ListPayments::route('/'),
-            'create' => CreatePayment::route('/create'),
             'view' => ViewPayment::route('/{record}'),
-            'edit' => EditPayment::route('/{record}/edit'),
         ];
     }
 }

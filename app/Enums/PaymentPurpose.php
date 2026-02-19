@@ -11,17 +11,18 @@ enum PaymentPurpose: string implements HasLabel, HasColor
 {
     case Registration = 'registration';
     case BuyTokens = 'buy-tokens';
+    case Donation = 'donation';
 
     public function getLabel(): string | Htmlable | null
     {
-        return $this->name;
+        return ucfirst(__($this->value));
     }
 
     public function getColor(): string | array | null
     {
         return match ($this) {
-            self::Registration => Color::Green,
-            self::BuyTokens => Color::Indigo,
+            self::Registration => Color::Lime,
+            self::BuyTokens => Color::Sky,
             default => Color::Slate,
         };
     }

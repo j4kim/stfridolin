@@ -4,10 +4,8 @@ namespace App\Filament\Resources\Articles\Tables;
 
 use App\Enums\ArticleType;
 use App\Filament\Tools\ColumnTools;
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteBulkAction;
-use Filament\Actions\EditAction;
-use Filament\Actions\ViewAction;
+use App\Filament\Tools\Helpers;
+use App\Models\Article;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
@@ -24,12 +22,14 @@ class ArticlesTable
                     ->badge()
                     ->searchable(),
                 TextColumn::make('name')
-                    ->searchable(),
+                    ->searchable()
+                    ->visibleFrom('sm'),
                 TextColumn::make('description')
                     ->searchable(),
                 TextColumn::make('std_price')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->visibleFrom('sm'),
                 TextColumn::make('price')
                     ->numeric()
                     ->sortable(),
@@ -42,20 +42,21 @@ class ArticlesTable
                         $query
                             ->orderByRaw("(ifnull(std_price, price) - price) / ifnull(std_price, price) $direction")
                     )
-                    ->formatStateUsing(fn(float $state): string => "-$state%"),
+                    ->formatStateUsing(fn($state) => "-$state%")
+                    ->badge()
+                    ->color(Helpers::discountColor())
+                    ->visibleFrom('sm'),
+                TextColumn::make('movements_count')
+                    ->counts('movements')
+                    ->numeric()
+                    ->sortable()
+                    ->toggleable()
+                    ->url(fn(int $state, Article $art) => ColumnTools::movementsUrl('article', $art->id))
+                    ->visibleFrom('sm'),
             ])
             ->filters([
                 SelectFilter::make('type')
                     ->options(ArticleType::class),
-            ])
-            ->recordActions([
-                ViewAction::make(),
-                EditAction::make(),
-            ])
-            ->toolbarActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                ]),
             ]);
     }
 }

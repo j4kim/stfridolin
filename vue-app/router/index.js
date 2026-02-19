@@ -1,11 +1,21 @@
 import { createRouter, createWebHistory } from "vue-router";
+import { redirectToLogin } from "@/tools";
 import { useMainStore } from "@/stores/main";
-import { redirectToLogin } from "@/api";
-import { useGuestStore } from "@/stores/guest";
 
 const routes = [
+    // Routes with no auth requested
     {
-        path: "/guest/auth",
+        path: "/",
+        name: "home",
+        component: () => import("@/views/Home.vue"),
+    },
+    {
+        path: "/page/:page",
+        name: "page",
+        component: () => import("@/views/PublicPage.vue"),
+    },
+    {
+        path: "/auth",
         name: "guest-auth-form",
         component: () => import("@/views/GuestAuthForm.vue"),
     },
@@ -24,14 +34,7 @@ const routes = [
         name: "registration-payment-status",
         component: () => import("@/views/RegistrationPaymentStatus.vue"),
     },
-    {
-        path: "/",
-        name: "home",
-        component: () => import("@/views/Home.vue"),
-        meta: {
-            requireGuest: true,
-        },
-    },
+    // Routes requiring guest auth
     {
         path: "/buy-tokens",
         name: "buy-tokens",
@@ -105,6 +108,15 @@ const routes = [
         },
     },
     {
+        path: "/spend/:currency",
+        name: "spend",
+        component: () => import("@/views/Spend.vue"),
+        meta: {
+            requireGuest: true,
+        },
+    },
+    // Routes requiring real auth
+    {
         path: "/spotify",
         name: "spotify",
         component: () => import("@/views/Spotify.vue"),
@@ -136,23 +148,40 @@ const routes = [
             requireAuth: true,
         },
     },
+    {
+        path: "/qr-scan",
+        name: "qr-scan",
+        component: () => import("@/views/QrScan.vue"),
+        meta: {
+            requireAuth: true,
+        },
+    },
 ];
-
-// todo: bencmark before/after perf
 
 const router = createRouter({
     history: createWebHistory(),
     routes,
+    scrollBehavior(to, from, savedPosition) {
+        // always scroll to top
+        return { top: 0 };
+    },
 });
 
-router.beforeEach((to) => {
-    if (to.meta?.requireAuth && !useMainStore().user) {
+router.beforeEach(async (to) => {
+    const mainStore = useMainStore();
+    mainStore.startNavigation();
+    if (to.meta?.requireAuth && !mainStore.user) {
         redirectToLogin(to.href);
         return false;
     }
+    const { useGuestStore } = await import("@/stores/guest");
     if (to.meta?.requireGuest && !useGuestStore().guest.id) {
         return { name: "guest-auth-form" };
     }
 });
+
+router.afterEach(() => useMainStore().endNavigation());
+
+router.onError(() => useMainStore().endNavigation());
 
 export default router;

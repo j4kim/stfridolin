@@ -11,16 +11,18 @@ enum Currency: string implements HasLabel, HasColor
 {
     case CHF = 'CHF';
     case Tokens = 'tokens';
+    case None = '-';
 
     public function getLabel(): string | Htmlable | null
     {
-        return $this->name;
+        return ucfirst(__($this->value));
     }
 
     public function getColor(): string | array | null
     {
         return match ($this) {
             self::Tokens => Color::Teal,
+            self::CHF => Color::Blue,
             default => Color::Slate,
         };
     }

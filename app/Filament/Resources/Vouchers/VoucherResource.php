@@ -5,9 +5,7 @@ namespace App\Filament\Resources\Vouchers;
 use App\Filament\Resources\Vouchers\Pages\ViewVoucher;
 use App\Filament\Resources\Vouchers\Schemas\VoucherInfolist;
 use App\Filament\Resources\Vouchers\Pages\CreateVoucher;
-use App\Filament\Resources\Vouchers\Pages\EditVoucher;
 use App\Filament\Resources\Vouchers\Pages\ListVouchers;
-use App\Filament\Resources\Vouchers\Schemas\VoucherForm;
 use App\Filament\Resources\Vouchers\Tables\VouchersTable;
 use App\Models\Voucher;
 use BackedEnum;
@@ -15,19 +13,19 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class VoucherResource extends Resource
 {
+    use \App\Filament\Tools\TranslateModelLabel;
+
     protected static ?string $model = Voucher::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static ?int $navigationSort = 600;
+    protected static string | UnitEnum | null $navigationGroup = 'Gestion';
 
     protected static ?string $recordTitleAttribute = 'id';
-
-    public static function form(Schema $schema): Schema
-    {
-        return VoucherForm::configure($schema);
-    }
 
     public static function infolist(Schema $schema): Schema
     {

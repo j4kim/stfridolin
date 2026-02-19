@@ -17,6 +17,7 @@ import {
     HandFist,
     Home,
     Play,
+    QrCode,
     Settings,
     Trophy,
     TvMinimalPlay,
@@ -96,6 +97,11 @@ const groups = computed(() => [
                 icon: Play,
             },
             {
+                title: "Scan",
+                to: { name: "qr-scan" },
+                icon: QrCode,
+            },
+            {
                 title: "Admin panel",
                 href: "/admin",
                 icon: Settings,
@@ -147,5 +153,8 @@ const route = useRoute();
                 </SidebarGroup>
             </template>
         </SidebarContent>
+        <span class="p-2 text-[10px] opacity-40">
+            v{{ mainStore.pkgVersion }}
+        </span>
     </Sidebar>
 </template>

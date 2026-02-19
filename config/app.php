@@ -1,5 +1,7 @@
 <?php
 
+use App\Tools\Version;
+
 return [
 
     /*
@@ -15,7 +17,7 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
 
-    'version' => '1.0.0-alpha.8',
+    'version' => Version::get(),
 
     /*
     |--------------------------------------------------------------------------

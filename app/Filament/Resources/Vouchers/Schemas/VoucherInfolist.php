@@ -2,8 +2,14 @@
 
 namespace App\Filament\Resources\Vouchers\Schemas;
 
-use Filament\Infolists\Components\TextEntry;
+use App\Filament\Tools\EntryTools;
+use App\Models\Guest;
+use App\Models\Voucher;
+use Filament\Actions\Action;
+use Filament\Forms\Components\Select;
 use Filament\Schemas\Schema;
+use Filament\Support\Enums\Width;
+use Livewire\Component;
 
 class VoucherInfolist
 {
@@ -11,17 +17,28 @@ class VoucherInfolist
     {
         return $schema
             ->components([
-                TextEntry::make('id'),
-                TextEntry::make('created_at')
-                    ->dateTime()
-                    ->placeholder('-'),
-                TextEntry::make('updated_at')
-                    ->dateTime()
-                    ->placeholder('-'),
-                TextEntry::make('article.description')
-                    ->label('Article'),
-                TextEntry::make('guest.name')
-                    ->label('Guest'),
+                EntryTools::systemSection(),
+
+                EntryTools::compactSection()->schema([
+                    EntryTools::guestLink()
+                        ->belowLabel(function (?string $state) {
+                            if ($state) return null;
+                            return Action::make('attach_to_guest')
+                                ->schema([
+                                    Select::make('guest_id')
+                                        ->options(Guest::query()->get()->pluck('descriptor', 'id'))
+                                        ->searchable()
+                                        ->required()
+                                ])
+                                ->modalWidth(Width::Medium)
+                                ->action(function (Voucher $voucher, array $data, Component $livewire) {
+                                    $guest = Guest::find($data['guest_id']);
+                                    $voucher->use($guest, ['source' => 'admin panel']);
+                                    return $livewire->redirect(request()->header('Referer'));
+                                });
+                        }),
+                    EntryTools::articleLink(),
+                ]),
             ]);
     }
 }

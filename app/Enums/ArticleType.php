@@ -12,18 +12,20 @@ enum ArticleType: string implements HasLabel, HasColor
     case Registration = 'registration';
     case Jukeboxe = 'jukeboxe';
     case TokensPackage = 'tokens-package';
+    case PointsCredit = 'points-credit';
 
     public function getLabel(): string | Htmlable | null
     {
-        return $this->name;
+        return ucfirst(__($this->value));
     }
 
     public function getColor(): string | array | null
     {
         return match ($this) {
-            self::Registration => Color::Green,
+            self::Registration => Color::Lime,
             self::Jukeboxe => Color::Cyan,
-            self::TokensPackage => Color::Yellow,
+            self::TokensPackage => Color::Emerald,
+            self::PointsCredit => Color::Purple,
             default => Color::Slate,
         };
     }

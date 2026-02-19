@@ -19,11 +19,11 @@ function fetch(reload = false) {
         .finally(() => (loading.value = false));
 }
 
-const paymentIntent = computed(() => paymentStore.payment?.stripe_data);
+const stripeData = computed(() => paymentStore.payment?.stripe_data);
 
-const status = computed(() => paymentStore.payment?.stripe_status);
+const status = computed(() => paymentStore.payment?.status);
 
-const paymentError = computed(() => paymentIntent.value?.last_payment_error);
+const paymentError = computed(() => stripeData.value?.last_payment_error);
 
 const justCreated = computed(
     () => status.value === "requires_payment_method" && !paymentError.value,

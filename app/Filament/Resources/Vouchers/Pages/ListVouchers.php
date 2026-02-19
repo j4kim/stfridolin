@@ -2,7 +2,9 @@
 
 namespace App\Filament\Resources\Vouchers\Pages;
 
+use App\Enums\ArticleType;
 use App\Filament\Resources\Vouchers\VoucherResource;
+use App\Models\Article;
 use App\Models\Voucher;
 use Database\Factories\VoucherFactory;
 use Filament\Actions\Action;
@@ -21,16 +23,20 @@ class ListVouchers extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Action::make('Créer')
+            Action::make('create_many_vouchers')
                 ->schema([
                     Select::make('article_id')
-                        ->relationship('article', 'description')
+                        ->label('Article')
+                        ->options([
+                            ArticleType::TokensPackage->getLabel() => Article::where('type', ArticleType::TokensPackage)->pluck('name', 'id')->toArray(),
+                            ArticleType::PointsCredit->getLabel() => Article::where('type', ArticleType::PointsCredit)->pluck('name', 'id')->toArray(),
+                        ])
                         ->required(),
                     TextInput::make('quantity')
                         ->label("Quantité")
                         ->numeric()
                         ->required()
-                        ->default(10),
+                        ->default(9),
                 ])
                 ->action(function (array $data) {
                     Voucher::factory($data['quantity'])->create(['article_id' => $data['article_id']]);

@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             TrackSeeder::class,
             ArticleSeeder::class,
             VoucherSeeder::class,
+            PointsVoucherSeeder::class,
         ]);
     }
 }

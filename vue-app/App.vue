@@ -1,9 +1,20 @@
 <script setup lang="ts">
-import "vue-sonner/style.css";
-import { Toaster } from "@/components/ui/sonner";
+import { defineAsyncComponent } from "vue";
+import { useMainStore } from "./stores/main";
+import FullPageLoading from "./views/FullPageLoading.vue";
+
+const mainStore = useMainStore();
+
+const UseToaster = defineAsyncComponent({
+    loader: () => import("@/components/UseToaster.vue"),
+    loadingComponent: FullPageLoading,
+    delay: 100,
+});
 </script>
 
 <template>
-    <RouterView></RouterView>
-    <Toaster richColors />
+    <UseToaster>
+        <FullPageLoading v-if="mainStore.isNavigating" />
+        <RouterView v-else></RouterView>
+    </UseToaster>
 </template>

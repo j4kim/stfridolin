@@ -1,18 +1,16 @@
 <script setup>
 import { Button } from "@/components/ui/button";
 import { usePaymentStore } from "@/stores/payment";
-import titleSvg from "@/title.svg";
 import PaymentFeedback from "./PaymentFeedback.vue";
 import { ArrowLeft } from "lucide-vue-next";
 import { AlertTitle, AlertDescription } from "@/components/ui/alert";
+import PublicLayout from "@/components/PublicLayout.vue";
 
 const paymentStore = usePaymentStore();
 </script>
 
 <template>
-    <div class="mx-auto max-w-xl p-8">
-        <img class="mx-auto max-w-xl p-12" :src="titleSvg" />
-
+    <PublicLayout>
         <div class="flex flex-col justify-center gap-4">
             <PaymentFeedback>
                 <template #requires_payment_method_error>
@@ -47,5 +45,5 @@ const paymentStore = usePaymentStore();
                 </template>
             </PaymentFeedback>
         </div>
-    </div>
+    </PublicLayout>
 </template>

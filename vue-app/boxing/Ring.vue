@@ -5,11 +5,20 @@ import { useBoxingStore } from "@/stores/boxing";
 import TrackData from "@/boxing/TrackData.vue";
 import CurrentTrack from "@/boxing/CurrentTrack.vue";
 import { useFightStore } from "@/stores/fight";
+import { useClockStore } from "@/stores/clock";
 
 const fightStore = useFightStore();
 const boxingStore = useBoxingStore();
+const clockStore = useClockStore();
 
-fightStore.fetchCurrentFight().then(boxingStore.run);
+clockStore.startClock();
+
+Promise.all([
+    boxingStore.initializeFighters(),
+    fightStore.fetchCurrentFight(),
+]).then(() => {
+    boxingStore.run();
+});
 </script>
 
 <template>
@@ -39,7 +48,7 @@ fightStore.fetchCurrentFight().then(boxingStore.run);
                 :track="fightStore.fight.left_track"
             />
             <div class="relative flex grow-4 flex-col">
-                <Boxers class="grow" />
+                <Boxers class="grow" v-if="boxingStore.initialized" />
                 <div class="w-full text-center text-[1.3cqw]">
                     Utilisez l'application pour ajouter un concurrent
                 </div>

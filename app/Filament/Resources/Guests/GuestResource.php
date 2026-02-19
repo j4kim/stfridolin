@@ -15,14 +15,32 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\HtmlString;
+use UnitEnum;
 
 class GuestResource extends Resource
 {
+    use \App\Filament\Tools\TranslateModelLabel;
+
     protected static ?string $model = Guest::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedUsers;
+    protected static ?int $navigationSort = 200;
+    protected static string | UnitEnum | null $navigationGroup = 'Gestion';
 
     protected static ?string $recordTitleAttribute = 'name';
+
+    public static function getGlobalSearchResultTitle(Model $record): string | Htmlable
+    {
+        return new HtmlString("<code>$record->key</code> <strong>$record->name</strong>");
+    }
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['name', 'key'];
+    }
 
     public static function form(Schema $schema): Schema
     {
@@ -41,9 +59,7 @@ class GuestResource extends Resource
 
     public static function getRelations(): array
     {
-        return [
-            //
-        ];
+        return [];
     }
 
     public static function getPages(): array

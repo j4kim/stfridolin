@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\PaymentMethod;
 use App\Enums\PaymentPurpose;
+use App\Enums\PaymentStatus;
 use App\Events\PaymentUpdated;
 use App\Models\Article;
 use App\Models\Guest;
@@ -16,15 +18,28 @@ class PaymentController extends Controller
 {
     public function store(Article $article, Request $request)
     {
-        $request->validate(['purpose' => [Rule::enum(PaymentPurpose::class)]]);
+        $request->validate([
+            'purpose' => [Rule::enum(PaymentPurpose::class)],
+            'method' => [Rule::enum(PaymentMethod::class)],
+        ]);
 
-        $paymentIntent = Stripe::createPaymentIntent($article, $request->all());
+        $input = $request->collect();
 
-        $payment = new Payment;
-        $payment->guest_id = Guest::fromRequest()?->id;
-        $payment->purpose = $request->purpose;
-        $payment->fillFromStripePI($paymentIntent);
-        $payment->save();
+        $guest = Guest::fromRequest();
+        $quantity = $input->get('quantity', 1);
+        $amount = $article->price * $quantity;
+
+        $payment = Payment::create([
+            'guest_id' => $guest->id,
+            'status' => PaymentStatus::Initial,
+            'purpose' => $input->get('purpose'),
+            'amount' => $amount,
+            'original_amount' => $amount,
+            'method' => $input->get('method'),
+            'description' => $input->get('description', $article->description),
+            'article_id' => $article->id,
+            'meta' => $input->except('description', 'purpose', 'method'),
+        ]);
 
         return $payment;
     }
@@ -43,11 +58,10 @@ class PaymentController extends Controller
 
     public function toggleCoverFees(Payment $payment, Request $request)
     {
-        $originalAmount = +$payment->stripe_data['metadata']['original_amount'];
         if ($request->coverFees) {
-            $newAmount = ($originalAmount + 0.30) / (1 - 0.024);
+            $newAmount = ($payment->original_amount + 0.30) / (1 - 0.029);
         } else {
-            $newAmount = $originalAmount;
+            $newAmount = $payment->original_amount;
         }
         $paymentIntent = Stripe::updateAmount($payment->stripe_id, $newAmount);
         $payment->fillFromStripePI($paymentIntent)->save();

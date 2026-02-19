@@ -17,6 +17,15 @@ class Movement extends Model
         ];
     }
 
+    protected static function booted(): void
+    {
+        static::deleted(function (Movement $movement) {
+            $guest = $movement->guest;
+            $guest->recomputeTokensAndPoints()->save();
+        });
+    }
+
+
     public function guest(): BelongsTo
     {
         return $this->belongsTo(Guest::class);
