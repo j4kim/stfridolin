@@ -23,8 +23,8 @@ enum MovementType: string implements HasLabel, HasColor
     public function getColor(): string | array | null
     {
         return match ($this) {
-            self::Registration => Color::Green,
-            self::BuyTokens => Color::Indigo,
+            self::Registration => Color::Lime,
+            self::BuyTokens => Color::Sky,
             self::SpendTokens => Color::Rose,
             self::ReceivePoints => Color::Purple,
             default => Color::Slate,

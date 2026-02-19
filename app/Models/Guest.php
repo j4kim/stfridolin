@@ -105,6 +105,7 @@ class Guest extends Model
     {
         $article = $payment->article;
         return $this->createMovement([
+            'created_at' => $payment->created_at,
             'payment_id' => $payment->id,
             'article_id' => $article->id,
             'type' => MovementType::Registration,

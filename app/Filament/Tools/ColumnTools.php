@@ -68,4 +68,20 @@ class ColumnTools
             'filters' => [$col => ['value' => $id]]
         ]);
     }
+
+    public static function tooltipped($name, $limit = 20): TextColumn
+    {
+        return TextColumn::make($name)
+            ->limit($limit)
+            ->tooltip(function (TextColumn $column): ?string {
+                $state = $column->getState();
+
+                if (strlen($state) <= $column->getCharacterLimit()) {
+                    return null;
+                }
+
+                // Only render the tooltip if the column contents exceeds the length limit.
+                return $state;
+            });
+    }
 }
