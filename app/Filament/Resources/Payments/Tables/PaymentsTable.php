@@ -32,7 +32,7 @@ class PaymentsTable
                     ->numeric()
                     ->sortable()
                     ->summarize([Sum::make(), Average::make()]),
-                ColumnTools::tooltipped('stripe_data.description')
+                ColumnTools::tooltipped('description')
                     ->label("Description")
                     ->sortable()
                     ->searchable()
