@@ -40,5 +40,6 @@
     "create_many_vouchers": "créer plein de bons",
     "attach_to_guest": "attacher à un invité",
     "article_type": "Type d'article",
-    "receive-points": "Gain"
+    "receive-points": "Gain",
+    "donation": "Don"
 }

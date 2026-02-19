@@ -11,6 +11,7 @@ enum PaymentPurpose: string implements HasLabel, HasColor
 {
     case Registration = 'registration';
     case BuyTokens = 'buy-tokens';
+    case Donation = 'donation';
 
     public function getLabel(): string | Htmlable | null
     {
