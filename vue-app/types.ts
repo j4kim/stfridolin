@@ -5,6 +5,7 @@ export type Track = {
   img_url: string
   img_thumbnail_url: string
   spotify_uri: string
+  priority:number
   proposed_by?:{id:number,name:string},
 }
 
