@@ -9,6 +9,7 @@ use App\Tools\Stripe;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Collection;
 use Stripe\PaymentIntent;
 
 class Payment extends Model
@@ -75,14 +76,19 @@ class Payment extends Model
         return $this;
     }
 
+    public function registerGuests(): Collection
+    {
+        $guestIds = str($this->meta['guestIds'])->explode(';');
+        $guests = Guest::whereIn('id', $guestIds)->get();
+        return $guests->map(fn(Guest $guest) => $guest->register($this));
+    }
+
     public function handleSuccess()
     {
         if ($this->purpose === PaymentPurpose::BuyTokens) {
             $this->guest->addTokensFromPayment($this);
         } else if ($this->purpose === PaymentPurpose::Registration) {
-            $guestIds = str($this->meta['guestIds'])->explode(';');
-            $guests = Guest::whereIn('id', $guestIds)->get();
-            $guests->each(fn(Guest $guest) => $guest->register($this));
+            $this->registerGuests();
         }
     }
 }
