@@ -31,6 +31,12 @@ class Fight extends Model
         return $this->belongsTo(Track::class, 'right_track_id');
     }
 
+        public function wonTrack(): BelongsTo
+    {
+        return $this->belongsTo(Track::class, 'won_track_id');
+    }
+
+
     #[Scope]
     protected function current(Builder $query): void
     {
@@ -46,8 +52,12 @@ class Fight extends Model
 
     public function loadVotes(): Fight
     {
-        $this->leftTrack->loadCount('votes');
-        $this->rightTrack->loadCount('votes');
+        $this->leftTrack->loadCount(['votes' => function (Builder $query) {
+            $query->where('fight_id', $this->id);
+        }]);
+        $this->rightTrack->loadCount(['votes' => function (Builder $query) {
+            $query->where('fight_id', $this->id);
+        }]);
         return $this;
     }
 
@@ -80,16 +90,20 @@ class Fight extends Model
         $this->ensureVotesAreLoaded();
         $leftVotes = $this->leftTrack->votes_count;
         $rightVotes = $this->rightTrack->votes_count;
+
         if ($leftVotes === $rightVotes) {
             $this->draw = true;
             $winner = collect(['left', 'right'])->random();
         } else {
             $winner = $leftVotes > $rightVotes ? 'left' : 'right';
         }
-        $this->leftTrack->update(['won' => $winner === 'left']);
-        $this->rightTrack->update(['won' => $winner === 'right']);
+        $this->update(['won_track_id' => $winner === 'left' ? $this->leftTrack->id : $this->rightTrack->id]);
         $this->ended_at = now();
         $this->save();
+
+        //Update priority on loser_track
+        $loserTrack = $winner === 'left' ? $this->rightTrack : $this->leftTrack;
+        $loserTrack->decrement('priority', 1, ['used' => false]);
         EndFight::dispatch($winner, $this->draw);
         return $this;
     }
@@ -99,9 +113,9 @@ class Fight extends Model
         if (!$this->ended_at) {
             throw new FightNotEndedException;
         }
-        if ($this->leftTrack->won) {
+        if ($this->leftTrack->id === $this->wonTrack->id) {
             return $this->leftTrack;
-        } else if ($this->rightTrack->won) {
+        } else if ($this->rightTrack->id === $this->wonTrack->id) {
             return $this->rightTrack;
         }
         throw new NoWinnerException;

@@ -17,13 +17,12 @@ async function load() {
     tracks.value.slice(0, 2).map((t) => (t.isNext = true));
     loading.value = false;
 }
+console.log(tracks.value)
 
 load();
+const guestTracks = computed(() => tracks.value.filter((t) => t.proposed_by));
+const backupTracks = computed(() =>  tracks.value.filter((t) => !t.proposed_by));
 
-const guestTracks = computed(() => tracks.value.filter((t) => t.priority == 1));
-const backupTracks = computed(() =>
-    tracks.value.filter((t) => t.priority == 0),
-);
 </script>
 
 <template>

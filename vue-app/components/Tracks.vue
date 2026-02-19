@@ -22,16 +22,24 @@ const props = defineProps<{
         <template v-for="(track, index) in tracks" :key="track.spotify_uri">
             <Item>
                 <ItemMedia>
+                    <Badge variant="secondary">
+                    {{track.priority}}
+                    </Badge>
                     <img
                         class="size-10 rounded"
                         :src="track.img_thumbnail_url"
                     />
                 </ItemMedia>
                 <ItemContent>
-                    <ItemTitle>{{ track.name }}</ItemTitle>
-                    <ItemDescription>
-                        {{ track.artist_name }}
-                    </ItemDescription>
+                    <div>
+                        <ItemTitle>{{ track.name }}</ItemTitle>
+                        <ItemDescription>
+                            {{ track.artist_name }}
+                        </ItemDescription>
+                    </div>
+                    <div v-if="track.proposed_by">
+                        Proposé par : {{ track.proposed_by.name }}
+                    </div>
                 </ItemContent>
                 <ItemActions>
                     <slot :track="track" name="actions"></slot>
