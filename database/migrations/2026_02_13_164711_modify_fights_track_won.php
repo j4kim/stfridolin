@@ -24,7 +24,7 @@ return new class extends Migration
         Schema::table('fights', function (Blueprint $table) {
             $table->foreignId('won_track_id')->nullable()->constrained('tracks');
         });
-
+        Track::query()->whereNull('used')->update(['used' => false]);
         Track::query()->where('priority', 0)->update(['priority' => TRACK_PRIORITY_RESERVE]);
         Track::query()->where('priority', 1)->update(['priority' => TRACK_PRIORITY_GUEST_ADDED]);
     }
@@ -46,5 +46,6 @@ return new class extends Migration
             });
         }
         Track::query()->update(['priority' => 0]);
+        Track::query()->where('used', 'is', 'false')->update(['used' => null]);
     }
 };
