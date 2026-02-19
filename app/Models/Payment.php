@@ -54,15 +54,7 @@ class Payment extends Model
             $oldStatus = $payment->getOriginal('status');
             $newStatus = $payment->status;
             if ($oldStatus !== $newStatus && $newStatus === PaymentStatus::succeeded) {
-                if ($payment->purpose === PaymentPurpose::BuyTokens) {
-                    /** @var Guest $guest */
-                    $guest = $payment->guest;
-                    $guest->addTokensFromPayment($payment);
-                } else if ($payment->purpose === PaymentPurpose::Registration) {
-                    $guestIds = str($payment->meta['guestIds'])->explode(';');
-                    $guests = Guest::whereIn('id', $guestIds)->get();
-                    $guests->each(fn(Guest $guest) => $guest->register($payment));
-                }
+                $payment->handleSuccess();
             }
         });
     }
@@ -81,5 +73,16 @@ class Payment extends Model
         $this->status = $paymentIntent->status;
         $this->amount = $paymentIntent->amount / 100;
         return $this;
+    }
+
+    public function handleSuccess()
+    {
+        if ($this->purpose === PaymentPurpose::BuyTokens) {
+            $this->guest->addTokensFromPayment($this);
+        } else if ($this->purpose === PaymentPurpose::Registration) {
+            $guestIds = str($this->meta['guestIds'])->explode(';');
+            $guests = Guest::whereIn('id', $guestIds)->get();
+            $guests->each(fn(Guest $guest) => $guest->register($this));
+        }
     }
 }
