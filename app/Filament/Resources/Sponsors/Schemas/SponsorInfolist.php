@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Sponsors\Schemas;
 
 use App\Filament\Tools\EntryTools;
+use Filament\Infolists\Components\ImageEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
 
@@ -16,6 +17,10 @@ class SponsorInfolist
 
                 EntryTools::compactSection()->schema([
                     TextEntry::make('name'),
+                    ImageEntry::make('logo_path')
+                        ->label("Logo")
+                        ->disk('public')
+                        ->visibility('public')
                 ]),
             ]);
     }
