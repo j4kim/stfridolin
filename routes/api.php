@@ -20,7 +20,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('master-client-id', [MasterController::class, 'setMasterClientId'])->name('master-client-id.set');
     Route::get('guests', [GuestController::class, 'index'])->name('guests.index');
     Route::get('vouchers', [VoucherController::class, 'index'])->name('vouchers.index');
-    Route::get('sponsors', [SponsorController::class, 'index'])->name('sponsors.index');
 
     Route::middleware(EnsureMasterClient::class)->group(function () {
         Route::put('spotify/play', [SpotifyController::class, 'play'])->name('spotify.play');
