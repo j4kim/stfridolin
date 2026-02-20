@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Sponsors\Schemas;
 
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 
@@ -13,9 +14,14 @@ class SponsorForm
             ->components([
                 TextInput::make('name')
                     ->required(),
-                TextInput::make('logo_url')
-                    ->url()
-                    ->required(),
+
+                FileUpload::make('logo_path')
+                    ->directory('sponsors')
+                    ->visibility('public')
+                    ->image()
+                    ->imageEditor()
+                    ->imageAspectRatio('1:1')
+                    ->automaticallyOpenImageEditorForAspectRatio(),
             ]);
     }
 }
