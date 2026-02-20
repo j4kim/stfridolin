@@ -12,8 +12,8 @@ class Sponsor extends Model
 {
     protected static function booted(): void
     {
-        static::saved(fn() => Cache::forget("sponsors"));
-        static::deleted(fn() => Cache::forget("sponsors"));
+        static::saved(fn() => self::clearCache());
+        static::deleted(fn() => self::clearCache());
     }
 
     protected $appends = ['logo_url'];
@@ -25,8 +25,24 @@ class Sponsor extends Model
         );
     }
 
+    public static function clearCache()
+    {
+        Cache::forget("sponsors");
+        Cache::forget("sponsor-index");
+    }
+
     public static function cached(): Collection
     {
-        return Cache::remember("sponsors", 60 * 60, fn() => Sponsor::all());
+        return Cache::memo()->rememberForever("sponsors", fn() => Sponsor::all());
+    }
+
+    public static function getNext(): Sponsor
+    {
+        $sponsors = self::cached();
+        $count = $sponsors->count();
+        $index = Cache::rememberForever("sponsor-index", fn() => rand(0, $count - 1));
+        $sponsor = $sponsors->get($index % $count);
+        Cache::increment("sponsor-index");
+        return $sponsor;
     }
 }
