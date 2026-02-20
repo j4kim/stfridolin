@@ -18,10 +18,7 @@ class SponsorForm
                 FileUpload::make('logo_path')
                     ->directory('sponsors')
                     ->visibility('public')
-                    ->image()
-                    ->imageEditor()
-                    ->imageAspectRatio('1:1')
-                    ->automaticallyOpenImageEditorForAspectRatio(),
+                    ->image(),
             ]);
     }
 }
