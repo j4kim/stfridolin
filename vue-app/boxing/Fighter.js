@@ -16,9 +16,7 @@ export class Fighter {
         this.headImgId = `${id}-head-image`;
         this.headImgUrl = ref("");
         this.sponsorImgId = `${id}-sponsor-image`;
-        this.sponsorImgUrl = ref(
-            "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAJElEQVQImV3KMQoAAAiAQIv+/2UbIohuFAOQIwFUdHr8o/ZYDYDiCv5/F+VjAAAAAElFTkSuQmCC",
-        );
+        this.sponsorImgUrl = ref("");
         this.svgFrames = ref([]);
         this.initialSvgContent = "";
         this.animations = [];
