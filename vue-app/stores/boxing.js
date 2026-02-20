@@ -27,6 +27,21 @@ export const useBoxingStore = defineStore("boxing", () => {
         sponsors.value = await api("sponsors.index").get();
     }
 
+    function* getASponsor() {
+        let index = 0;
+
+        while (true) {
+            yield sponsors.value[index];
+            index = (index + 1) % sponsors.value.length;
+        }
+    }
+
+    const sponsorGen = getASponsor();
+
+    function nextSponsorUrl() {
+        return sponsorGen.next().value.logo_url;
+    }
+
     async function initializeFighters() {
         await importFrames();
         fighters.left = new LeftFighter();
@@ -72,6 +87,8 @@ export const useBoxingStore = defineStore("boxing", () => {
         }
         fighters.left.headImgUrl.value = fight.left_track.img_url;
         fighters.right.headImgUrl.value = fight.right_track.img_url;
+        fighters.left.sponsorImgUrl.value = nextSponsorUrl();
+        fighters.right.sponsorImgUrl.value = nextSponsorUrl();
         running.value = true;
         finished.value = false;
     }
