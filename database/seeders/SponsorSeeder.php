@@ -15,7 +15,7 @@ class SponsorSeeder extends Seeder
     {
         Sponsor::create([
             "name" => "La Semeuse",
-            "logo_path" => "sponsors/coyote.png",
+            "logo_path" => "sponsors/lasemeuse.svg",
         ]);
         Sponsor::create([
             "name" => "Coyote",
