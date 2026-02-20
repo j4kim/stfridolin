@@ -15,11 +15,14 @@
             <path d="M1051.36,559.505l-46.877,128.372l-14.099,175.435l-82.279,3.391l47.863,-29.655l-0.495,-152.061l32.128,-151.2l63.759,25.718Z" style="fill:#ebebeb;stroke:#000;stroke-width:1px;"/>
             <path d="M1017.98,500l43.525,26.605l4.539,42.39l-24.274,86.319l-83.014,-21.23l9.657,-104.847l49.567,-29.237Z" style="fill:#ebebeb;stroke:#000;stroke-width:1px;"/>
         </g>
+        <g id="sponsor">
+            <use id="sponsor_img" xlink:href="#_Image1" x="0" y="0" width="4px" height="4px" transform="matrix(20.4456,5.2779,-5.2779,20.4456,982.065,544.802)"/>
+        </g>
         <g id="torso">
             <path d="M1107.92,497.702l-57.402,23.721l-82.003,11.537l-90.837,-163.152l25.037,-39.194l51.649,-24.707l58.044,1.037l95.512,190.758Z" style="fill:#ebebeb;stroke:#000;stroke-width:1px;"/>
         </g>
         <g id="head">
-            <use id="_Image1_" serif:id="_Image1" xlink:href="#_Image1" x="0" y="0" width="4px" height="4px" transform="matrix(61.5384,-28.9315,28.9315,61.5384,696.734,160.15)"/>
+            <use id="head_img" xlink:href="#_Image1" x="0" y="0" width="4px" height="4px" transform="matrix(61.5384,-28.9315,28.9315,61.5384,696.734,160.15)"/>
         </g>
         <g id="arm_front">
             <path d="M893.804,391.33l-163.281,-26.583l-38.197,-5.039l-139.715,-27.413l0,-39.063l164.437,19.141l177.9,15.992l26.16,37.582l-27.304,25.383Z" style="fill:#ebebeb;stroke:#000;stroke-width:1px;"/>
