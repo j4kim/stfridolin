@@ -4,6 +4,7 @@ import { ref } from "vue";
 import { pusher } from "@/broadcasting";
 import { useFightStore } from "./fight";
 import { importFrames } from "@/boxing/utils";
+import { api } from "@/api";
 
 export const useBoxingStore = defineStore("boxing", () => {
     const running = ref(true);
@@ -19,6 +20,12 @@ export const useBoxingStore = defineStore("boxing", () => {
     };
 
     const initialized = ref(false);
+
+    const sponsors = ref([]);
+
+    async function fetchSponsors() {
+        sponsors.value = api("sponsors.index").get();
+    }
 
     async function initializeFighters() {
         await importFrames();
@@ -99,6 +106,7 @@ export const useBoxingStore = defineStore("boxing", () => {
         tossAnimation,
         fighters,
         initialized,
+        fetchSponsors,
         initializeFighters,
         punch,
         win,

@@ -15,6 +15,7 @@ clockStore.startClock();
 
 Promise.all([
     boxingStore.initializeFighters(),
+    boxingStore.fetchSponsors(),
     fightStore.fetchCurrentFight(),
 ]).then(() => {
     boxingStore.run();
