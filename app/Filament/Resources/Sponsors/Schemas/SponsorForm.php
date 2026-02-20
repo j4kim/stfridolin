@@ -16,6 +16,7 @@ class SponsorForm
                     ->required(),
 
                 FileUpload::make('logo_path')
+                    ->disk('public')
                     ->directory('sponsors')
                     ->visibility('public')
                     ->image(),
