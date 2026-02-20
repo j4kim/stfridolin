@@ -15,15 +15,11 @@ class SponsorSeeder extends Seeder
     {
         Sponsor::create([
             "name" => "La Semeuse",
-            "logo_url" => "https://www.lasemeuse.ch/static/version1770816718/frontend/Mgs/lasemeuse/fr_FR/images/logo.svg",
-        ]);
-        Sponsor::create([
-            "name" => "Christen Delicatessen",
-            "logo_url" => "https://christen-delicatessen.ch/wp-content/uploads/2021/05/logo_blanc.svg",
+            "logo_path" => "sponsors/coyote.png",
         ]);
         Sponsor::create([
             "name" => "Coyote",
-            "logo_url" => asset("logos/coyote.png"),
+            "logo_path" => "sponsors/coyote.png",
         ]);
     }
 }

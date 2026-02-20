@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->string('name');
-            $table->string('logo_url', 1024);
+            $table->string('logo_path', 1024);
         });
     }
 
