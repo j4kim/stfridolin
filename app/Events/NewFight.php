@@ -24,6 +24,7 @@ class NewFight implements ShouldBroadcastNow
     public function __construct(Fight $fight)
     {
         $fight->ensureVotesAreLoaded();
+        $fight->addSponsorLogos();
         $this->fight = $fight;
     }
 

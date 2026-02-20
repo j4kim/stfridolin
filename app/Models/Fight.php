@@ -31,7 +31,7 @@ class Fight extends Model
         return $this->belongsTo(Track::class, 'right_track_id');
     }
 
-        public function wonTrack(): BelongsTo
+    public function wonTrack(): BelongsTo
     {
         return $this->belongsTo(Track::class, 'won_track_id');
     }
@@ -119,5 +119,12 @@ class Fight extends Model
             return $this->rightTrack;
         }
         throw new NoWinnerException;
+    }
+
+    public function addSponsorLogos(): Fight
+    {
+        $this->sponsor_logo_1 = Sponsor::getNext()->logo_url;
+        $this->sponsor_logo_2 = Sponsor::getNext()->logo_url;
+        return $this;
     }
 }
