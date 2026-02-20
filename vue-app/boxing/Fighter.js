@@ -39,10 +39,10 @@ export class Fighter {
             });
         });
         rootG
-            .querySelector("#head use")
+            .querySelector("[data-name=head] use")
             .setAttribute("xlink:href", `#${this.headImgId}`);
         rootG
-            .querySelector("#sposor use")
+            .querySelector("[data-name=sponsor] use")
             .setAttribute("xlink:href", `#${this.sponsorImgId}`);
         return rootG.innerHTML;
     }
