@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             ArticleSeeder::class,
             VoucherSeeder::class,
             PointsVoucherSeeder::class,
+            SponsorSeeder::class,
         ]);
     }
 }
