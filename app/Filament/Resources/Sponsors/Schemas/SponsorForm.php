@@ -20,7 +20,8 @@ class SponsorForm
                     ->disk('public')
                     ->directory('sponsors')
                     ->visibility('public')
-                    ->image(),
+                    ->image()
+                    ->belowContent("svg ou png avec fond transparent si possible"),
             ]);
     }
 }
