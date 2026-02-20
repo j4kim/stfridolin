@@ -37,6 +37,10 @@ onMounted(() => {
         rotate: 10deg;
     }
 }
+.boxer g[data-name="sponsor"] {
+    mix-blend-mode: hard-light;
+    opacity: 0.8;
+}
 .boxer g path {
     fill: #191919 !important;
     stroke: white !important;
