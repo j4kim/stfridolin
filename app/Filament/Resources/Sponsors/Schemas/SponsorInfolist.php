@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Sponsors\Schemas;
 
+use App\Filament\Tools\EntryTools;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
 
@@ -11,14 +12,11 @@ class SponsorInfolist
     {
         return $schema
             ->components([
-                TextEntry::make('created_at')
-                    ->dateTime()
-                    ->placeholder('-'),
-                TextEntry::make('updated_at')
-                    ->dateTime()
-                    ->placeholder('-'),
-                TextEntry::make('name'),
-                TextEntry::make('logo_url'),
+                EntryTools::systemSection(),
+
+                EntryTools::compactSection()->schema([
+                    TextEntry::make('name'),
+                ]),
             ]);
     }
 }
