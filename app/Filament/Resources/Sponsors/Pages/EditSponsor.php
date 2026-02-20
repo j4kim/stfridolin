@@ -9,6 +9,8 @@ use Filament\Resources\Pages\EditRecord;
 
 class EditSponsor extends EditRecord
 {
+    use \App\Filament\Tools\RedirectsToViewPage;
+
     protected static string $resource = SponsorResource::class;
 
     protected function getHeaderActions(): array
