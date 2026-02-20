@@ -24,7 +24,7 @@ export const useBoxingStore = defineStore("boxing", () => {
     const sponsors = ref([]);
 
     async function fetchSponsors() {
-        sponsors.value = api("sponsors.index").get();
+        sponsors.value = await api("sponsors.index").get();
     }
 
     async function initializeFighters() {
