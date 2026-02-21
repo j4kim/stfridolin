@@ -34,7 +34,10 @@ const currency = computed(() => {
             <div
                 class="mb-4 flex flex-col items-center gap-4 text-center text-5xl font-extrabold"
             >
-                <component :is="icon(currency)" class="h-[1.2em] w-[1.2em]" />
+                <component
+                    :is="icon(currency)"
+                    class="h-[1.2em] w-[1.2em] animate-bounce"
+                />
                 {{ movement[currency] }} {{ tr(currency) }}
             </div>
             <div class="text-2xl">{{ guestStore.guest.name }}</div>

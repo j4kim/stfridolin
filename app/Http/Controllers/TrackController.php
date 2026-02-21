@@ -14,13 +14,13 @@ class TrackController extends Controller
         $guest = Guest::fromRequest();
         $movement = $guest->spendTokens('add-to-queue');
         $spotifyData = Spotify::getTrack($spotifyUri);
-        $track = Track::createFromSpotifyData($spotifyData, 1);
+        $track = Track::createFromSpotifyData($spotifyData, TRACK_PRIORITY_GUEST_ADDED);
         $movement->update(['meta->track_id' => $track->id]);
         return $track;
     }
 
     public function queue()
     {
-        return Track::query()->queue()->get();
+        return Track::query()->queue()->with('proposedBy:id,name')->get();
     }
 }

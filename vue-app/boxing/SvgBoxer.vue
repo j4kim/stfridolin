@@ -23,10 +23,16 @@ const props = defineProps({
                 :data-fighter-id="fighter.id"
             ></g>
             <image
-                :id="fighter.imgId"
+                :id="fighter.headImgId"
                 width="4px"
                 height="4px"
-                :href="fighter.imgUrl"
+                :href="fighter.headImgUrl"
+            />
+            <image
+                :id="fighter.sponsorImgId"
+                width="4px"
+                height="4px"
+                :href="fighter.sponsorImgUrl"
             />
         </defs>
         <Boxer :fighter />

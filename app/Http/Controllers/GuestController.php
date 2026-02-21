@@ -16,6 +16,10 @@ class GuestController extends Controller
     public function get(string $key)
     {
         $guest = Guest::where('key', $key)->firstOrFail();
+        if (!$guest->authenticated_at) {
+            $guest->authenticated_at = now();
+            $guest->save();
+        }
         return $guest;
     }
 

@@ -19,11 +19,8 @@ async function load() {
 }
 
 load();
-
-const guestTracks = computed(() => tracks.value.filter((t) => t.priority == 1));
-const backupTracks = computed(() =>
-    tracks.value.filter((t) => t.priority == 0),
-);
+const guestTracks = computed(() => tracks.value.filter((t) => t.proposed_by));
+const backupTracks = computed(() => tracks.value.filter((t) => !t.proposed_by));
 </script>
 
 <template>
