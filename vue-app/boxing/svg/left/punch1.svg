@@ -3,7 +3,7 @@
 <svg width="100%" height="100%" viewBox="0 0 1500 1000" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;">
     <g id="_3" serif:id="3">
         <g id="leg_back">
-            <path d="M533.222,529.636c0,-0 4.986,93.1 8.874,138.732c3.844,45.113 14.456,135.059 14.456,135.059l49.254,33.621l-78.776,-4.63l-32.925,-155.705l-32.225,-118.367l71.342,-28.71Z" style="fill:#ebebeb;stroke:#000;stroke-width:1px;"/>
+            <path d="M533.222,529.636c0,0 4.986,93.1 8.874,138.732c3.844,45.113 14.456,135.059 14.456,135.059l49.254,33.621l-78.776,-4.63l-32.925,-155.705l-32.225,-118.367l71.342,-28.71Z" style="fill:#ebebeb;stroke:#000;stroke-width:1px;"/>
             <path d="M483.711,490.508l-33.787,42.928l9.138,84.068l94.927,8.68l-6.653,-96.711l-63.625,-38.965Z" style="fill:#ebebeb;stroke:#000;stroke-width:1px;"/>
         </g>
         <g id="arm_back">
@@ -15,11 +15,14 @@
             <path d="M405.897,530.443l-32.753,177.889l-44.426,154.98l82.279,3.391l-37.229,-24.383l58.55,-133.988l57.096,-178.696l-83.517,0.807Z" style="fill:#ebebeb;stroke:#000;stroke-width:1px;"/>
             <path d="M445.879,479.862l-27.496,19.449l-30.574,32.563l-3.819,100.747l104.912,4.208l11.098,-109.127l-54.121,-47.84Z" style="fill:#ebebeb;stroke:#000;stroke-width:1px;"/>
         </g>
+        <g id="sponsor">
+            <use id="sponsor_img" xlink:href="#_Image1" x="0" y="0" width="4px" height="4px" transform="matrix(21.1004,0.807533,-0.807533,21.1004,396.934,540.97)"/>
+        </g>
         <g id="torso">
             <path d="M419.401,512.507l73.598,30.908l55.145,-8.681l54.939,-171.037l-28.228,-37.381l-51.04,-14.907l-45.239,21.38l-59.175,179.718Z" style="fill:#ebebeb;stroke:#000;stroke-width:1px;"/>
         </g>
         <g id="head">
-            <use id="_Image1_" serif:id="_Image1" xlink:href="#_Image1" x="0" y="0" width="4px" height="4px" transform="matrix(62.4197,26.9773,-26.9773,62.4197,548.054,48.1335)"/>
+            <use id="head_img" xlink:href="#_Image1" x="0" y="0" width="4px" height="4px" transform="matrix(62.4197,26.9773,-26.9773,62.4197,548.054,48.1335)"/>
         </g>
         <g id="arm_front">
             <path d="M461.88,342.806l38.12,106.164l32.52,11.269l64.474,-85.155l-39.243,-19.232l-29.886,49.87l-4.673,-89.991l-43.692,-17.635l-17.62,44.71Z" style="fill:#ebebeb;stroke:#000;stroke-width:1px;"/>

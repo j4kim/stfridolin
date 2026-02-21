@@ -22,14 +22,7 @@ class GuestInfolist
                 ])->columns(3),
 
                 EntryTools::compactSection()->schema([
-                    TextEntry::make('stripe_customer_id')
-                        ->belowLabel(function (?string $state) {
-                            if ($state) return null;
-                            return Action::make('create_stripe_client')
-                                ->action(function (Guest $guest) {
-                                    $guest->createStripeCustomer()->save();
-                                });
-                        }),
+                    TextEntry::make('stripe_customer_id'),
                     TextEntry::make('arrived_at')
                         ->dateTime("d.m.Y H:i")
                         ->belowLabel(function (?string $state) {

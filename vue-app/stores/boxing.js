@@ -4,6 +4,7 @@ import { ref } from "vue";
 import { pusher } from "@/broadcasting";
 import { useFightStore } from "./fight";
 import { importFrames } from "@/boxing/utils";
+import { api } from "@/api";
 
 export const useBoxingStore = defineStore("boxing", () => {
     const running = ref(true);
@@ -63,8 +64,10 @@ export const useBoxingStore = defineStore("boxing", () => {
         if (!fight) {
             throw new Error("There is no current fight");
         }
-        fighters.left.imgUrl.value = fight.left_track.img_url;
-        fighters.right.imgUrl.value = fight.right_track.img_url;
+        fighters.left.headImgUrl.value = fight.left_track.img_url;
+        fighters.right.headImgUrl.value = fight.right_track.img_url;
+        fighters.left.sponsorImgUrl.value = fight.sponsor_logo_1;
+        fighters.right.sponsorImgUrl.value = fight.sponsor_logo_2;
         running.value = true;
         finished.value = false;
     }

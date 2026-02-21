@@ -11,6 +11,14 @@ use Illuminate\Support\Collection;
 
 class Track extends Model
 {
+
+    protected static function booted(): void
+    {
+        static::creating(function (Track $track) {
+            $guest = Guest::fromRequest();
+            $track->proposed_by = $guest ? $guest->id : null;
+        });
+    }
     protected function casts(): array
     {
         return [
@@ -53,7 +61,7 @@ class Track extends Model
     #[Scope]
     protected function queue(Builder $query): void
     {
-        $query->whereNull('used')->orderByDesc('priority')->orderBy('id');
+        $query->where('used', false)->orderByDesc('priority')->orderBy('id');
     }
 
     public static function getCandidates(): Collection
