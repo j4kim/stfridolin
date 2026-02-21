@@ -36,10 +36,11 @@ class Sponsor extends Model
         return Cache::memo()->rememberForever("sponsors", fn() => Sponsor::all());
     }
 
-    public static function getNext(): Sponsor
+    public static function getNext(): ?Sponsor
     {
         $sponsors = self::cached();
         $count = $sponsors->count();
+        if (!$count) return null;
         $index = Cache::rememberForever("sponsor-index", fn() => rand(0, $count - 1));
         $sponsor = $sponsors->get($index % $count);
         Cache::increment("sponsor-index");
