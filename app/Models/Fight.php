@@ -123,8 +123,8 @@ class Fight extends Model
 
     public function addSponsorLogos(): Fight
     {
-        $this->sponsor_logo_1 = Sponsor::getNext()->logo_url;
-        $this->sponsor_logo_2 = Sponsor::getNext()->logo_url;
+        $this->sponsor_logo_1 = Sponsor::getNext()?->logo_url;
+        $this->sponsor_logo_2 = Sponsor::getNext()?->logo_url;
         return $this;
     }
 }
