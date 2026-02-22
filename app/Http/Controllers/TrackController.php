@@ -21,6 +21,8 @@ class TrackController extends Controller
 
     public function queue()
     {
-        return Track::query()->queue()->with('proposedBy:id,name')->get();
+        /** @var Builder $query */
+        $query = Track::queue();
+        return $query->with('proposedBy:id,name')->get();
     }
 }

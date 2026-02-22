@@ -66,6 +66,8 @@ class Track extends Model
 
     public static function getCandidates(): Collection
     {
-        return self::query()->queue()->take(2)->get();
+        /** @var Builder $query */
+        $query = self::queue();
+        return $query->take(2)->get();
     }
 }
