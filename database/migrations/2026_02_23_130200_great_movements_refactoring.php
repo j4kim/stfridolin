@@ -20,6 +20,7 @@ return new class extends Migration
             $table->foreignId('fight_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('voted_track_id')->nullable()->constrained('tracks')->nullOnDelete();
             $table->foreignId('added_track_id')->nullable()->constrained('tracks')->nullOnDelete();
+            $table->index('type');
         });
     }
 
@@ -36,6 +37,7 @@ return new class extends Migration
             $table->dropForeign(['voted_track_id']);
             $table->dropForeign(['added_track_id']);
             $table->dropColumn(['game_id', 'occurence_id', 'competitor_id', 'fight_id', 'voted_track_id', 'added_track_id']);
+            $table->dropIndex(['type']);
         });
 
         Schema::create('votes', function (Blueprint $table) {
