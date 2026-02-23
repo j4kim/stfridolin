@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Games\Pages;
 
 use App\Filament\Resources\Games\GameResource;
+use App\Filament\Resources\Games\RelationManagers\OccurrencesRelationManager;
 use Filament\Actions\EditAction;
 use Filament\Resources\Pages\ViewRecord;
 
@@ -14,6 +15,13 @@ class ViewGame extends ViewRecord
     {
         return [
             EditAction::make(),
+        ];
+    }
+
+    public function getRelationManagers(): array
+    {
+        return [
+            OccurrencesRelationManager::class,
         ];
     }
 }

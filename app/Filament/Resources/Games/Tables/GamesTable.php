@@ -2,7 +2,9 @@
 
 namespace App\Filament\Resources\Games\Tables;
 
+use App\Filament\Resources\Occurrences\OccurrenceResource;
 use App\Filament\Tools\ColumnTools;
+use App\Models\Game;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -22,6 +24,16 @@ class GamesTable
                 TextColumn::make('type')
                     ->badge()
                     ->searchable(),
+                TextColumn::make('occurrences_count')
+                    ->counts('occurrences')
+                    ->label('Occ.s')
+                    ->numeric()
+                    ->sortable()
+                    ->toggleable()
+                    ->url(fn(int $state, Game $game) => OccurrenceResource::getUrl('index', [
+                        'filters' => ['game' => ['value' => $game->id]]
+                    ]))
+                    ->visibleFrom('sm'),
             ])
             ->filters([
                 //

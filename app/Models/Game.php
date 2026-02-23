@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\GameType;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Game extends Model
 {
@@ -13,5 +14,10 @@ class Game extends Model
             'meta' => 'array',
             'type' => GameType::class,
         ];
+    }
+
+    public function occurrences(): HasMany
+    {
+        return $this->hasMany(Occurrence::class);
     }
 }
