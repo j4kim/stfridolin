@@ -22,8 +22,7 @@ class TrackSeeder extends Seeder
             }
             $contents = file_get_contents($path);
             $json = json_decode($contents, true);
-            Track::createFromSpotifyData($json);
+            Track::createFromSpotifyData($json, config('jukeboxe.priorities.reserve'));
         }
-        Track::query()->update(['priority' => TRACK_PRIORITY_RESERVE]);
     }
 }
