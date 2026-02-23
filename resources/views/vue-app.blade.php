@@ -42,7 +42,6 @@
         data-stripe-pk="{{ config('services.stripe.pk') }}"
         data-pusher-key="{{ config('broadcasting.connections.pusher.key') }}"
         data-translations="{{ json_encode(App\Tools\Translations::all()) }}"
-        data-twint-payment-link="{{ config('services.twint.payment_link') }}"
     >
         <div id="app"></div>
     </body>
