@@ -64,10 +64,16 @@ class Track extends Model
         $query->where('used', false)->orderByDesc('priority')->orderBy('id');
     }
 
+    public static function queryQueue(): Builder
+    {
+        /** @var Builder $query  */
+        $query = self::queue();
+        return $query;
+    }
+
     public static function getCandidates(): Collection
     {
-        $submitted_without_dupplicates = self::query()
-            ->queue()
+        $submitted_without_dupplicates = self::queryQueue()
             ->whereNotNull('proposed_by')
             ->get()
             ->unique('proposed_by')
@@ -77,8 +83,7 @@ class Track extends Model
             return $submitted_without_dupplicates->take(2);
         }
 
-        $reserve_songs_without_dupplicates = self::query()
-            ->queue()
+        $reserve_songs_without_dupplicates = self::queryQueue()
             ->whereNull('proposed_by')
             ->get()
             ->unique('artist_name');
