@@ -23,7 +23,7 @@ class OccurrenceResource extends Resource
 
     protected static ?string $model = Occurrence::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedFire;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedFlag;
     protected static ?int $navigationSort = 810;
     protected static string | UnitEnum | null $navigationGroup = 'Gestion';
 
