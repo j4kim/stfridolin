@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\MovementType;
 use App\Events\EndFight;
 use App\Events\NewFight;
 use App\Exceptions\FightNotEndedException;
@@ -18,7 +19,7 @@ class Fight extends Model
 {
     public function votes(): HasMany
     {
-        return $this->hasMany(Vote::class);
+        return $this->hasMany(Movement::class)->where('type', MovementType::JukeboxeVote);
     }
 
     public function leftTrack(): BelongsTo
