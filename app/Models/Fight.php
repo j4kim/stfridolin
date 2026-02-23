@@ -2,26 +2,18 @@
 
 namespace App\Models;
 
-use App\Enums\MovementType;
 use App\Events\EndFight;
 use App\Events\NewFight;
 use App\Exceptions\FightNotEndedException;
 use App\Exceptions\NotEnoughTracksInQueueException;
 use App\Exceptions\NoWinnerException;
-use Exception;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Fight extends Model
 {
-    public function votes(): HasMany
-    {
-        return $this->hasMany(Movement::class)->where('type', MovementType::JukeboxeVote);
-    }
-
     public function leftTrack(): BelongsTo
     {
         return $this->belongsTo(Track::class, 'left_track_id');
