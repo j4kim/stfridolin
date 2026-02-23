@@ -1,4 +1,0 @@
-<?php
-
-define('TRACK_PRIORITY_GUEST_ADDED', 100);
-define('TRACK_PRIORITY_RESERVE', 50);
