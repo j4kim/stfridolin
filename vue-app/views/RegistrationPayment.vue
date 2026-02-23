@@ -26,7 +26,7 @@ const loading = ref(false);
 
 const names = ref([""]);
 const remarks = ref("");
-const method = ref(null);
+const method = ref("stripe");
 
 const missingNames = computed(() => names.value.some((n) => !n));
 
@@ -52,9 +52,6 @@ async function submit() {
             data.description = `${article.value.description} pour ${data.quantity} personnes`;
         }
         await paymentStore.createPayment(article.value, data, guest.value);
-        if (paymentStore.payment.method === "twint") {
-            window.open(paymentStore.twintPaymentLink, "_blank");
-        }
     } finally {
         loading.value = false;
     }
@@ -62,9 +59,6 @@ async function submit() {
 
 const StripePayment = defineAsyncComponent({
     loader: () => import("@/components/StripePayment.vue"),
-});
-const TwintPayment = defineAsyncComponent({
-    loader: () => import("@/components/TwintPayment.vue"),
 });
 const BankPayment = defineAsyncComponent({
     loader: () => import("@/components/BankPayment.vue"),
@@ -83,9 +77,6 @@ const BankPayment = defineAsyncComponent({
                     redirectRouteName="registration-payment-status"
                     :guest="guest"
                     cancelButtonText="Retour"
-                />
-                <TwintPayment
-                    v-else-if="paymentStore.payment.method === 'twint'"
                 />
                 <BankPayment
                     v-else-if="paymentStore.payment.method === 'bank'"
@@ -140,12 +131,10 @@ const BankPayment = defineAsyncComponent({
             <p class="">Moyen de paiement:</p>
             <RadioGroup v-model="method" class="mb-4 gap-4">
                 <div class="flex items-center space-x-2">
-                    <RadioGroupItem id="r1" value="twint" />
-                    <Label for="r1">TWINT</Label>
-                </div>
-                <div class="flex items-center space-x-2">
                     <RadioGroupItem id="r2" value="stripe" />
-                    <Label for="r2">Carte, Apple Pay ou Google Pay</Label>
+                    <Label for="r2"
+                        >TWINT, Carte, Apple Pay ou Google Pay</Label
+                    >
                 </div>
                 <div class="flex items-center space-x-2">
                     <RadioGroupItem id="r3" value="bank" />
