@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('occurrences', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->foreignId('game_id')->constrained();
             $table->string('title')->nullable();
             $table->dateTime('start_at')->nullable();
             $table->dateTime('end_at')->nullable();
