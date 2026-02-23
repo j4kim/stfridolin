@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Occurrences\Tables;
 use App\Filament\Resources\Games\GameResource;
 use App\Filament\Tools\ColumnTools;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
 class OccurrencesTable
@@ -26,7 +27,8 @@ class OccurrencesTable
             ])
             ->defaultSort('start_at', direction: 'asc')
             ->filters([
-                //
+                SelectFilter::make('game')
+                    ->relationship('game', 'name'),
             ]);
     }
 }
