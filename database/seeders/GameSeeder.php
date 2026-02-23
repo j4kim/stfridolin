@@ -15,12 +15,14 @@ class GameSeeder extends Seeder
     public function run(): void
     {
         Game::create([
-            'name' => "Jukeboxe",
+            'name' => "jukeboxe",
             'type' => GameType::Jukeboxe,
+            'title' =>  "Jukeboxe",
         ]);
         Game::create([
-            'name' => "Course de billes",
+            'name' => "marble-race",
             'type' => GameType::Race,
+            'title' =>  "Course de billes",
         ])->occurrences()->createMany([
             [
                 'title' => "Course de billes - 1ère manche",
@@ -49,8 +51,9 @@ class GameSeeder extends Seeder
             ],
         ]);
         Game::create([
-            'name' => "Quiz",
+            'name' => "quiz",
             'type' => GameType::Quiz,
+            'title' =>  "Quiz",
         ])->occurrences()->createMany([
             [
                 'title' => "Quiz - Saint-Fridolin",
@@ -64,8 +67,9 @@ class GameSeeder extends Seeder
             ],
         ]);
         Game::create([
-            'name' => "Poids de Joe",
+            'name' => "joes-weight",
             'type' => GameType::Guess,
+            'title' =>  "Poids de Joe",
         ])->occurrences()->create(
             [
                 'title' => "Poids de Joe",
@@ -74,8 +78,9 @@ class GameSeeder extends Seeder
             ],
         );
         Game::create([
-            'name' => "Concours hippique",
+            'name' => "horse-show",
             'type' => GameType::Race,
+            'title' =>  "Concours hippique",
         ])->occurrences()->create(
             [
                 'title' => "Concours hippique",
@@ -84,8 +89,9 @@ class GameSeeder extends Seeder
             ],
         );
         Game::create([
-            'name' => "Où est Joe ?",
+            'name' => "where-is-joe",
             'type' => GameType::Quiz,
+            'title' =>  "Où est Joe ?",
         ])->occurrences()->createMany([
             [
                 'title' => "Où est Joe ? - 1ère manche",
@@ -109,8 +115,9 @@ class GameSeeder extends Seeder
             ]
         ]);
         Game::create([
-            'name' => "Dégustation",
+            'name' => "degustation",
             'type' => GameType::Fun,
+            'title' =>  "Dégustation",
         ])->occurrences()->create(
             [
                 'title' => "Dégustation de Goron",
@@ -119,8 +126,9 @@ class GameSeeder extends Seeder
             ],
         );
         Game::create([
-            'name' => "Domingold",
+            'name' => "domingold",
             'type' => GameType::Fun,
+            'title' =>  "Domingold",
         ])->occurrences()->create(
             [
                 'title' => "Domingold",
@@ -129,16 +137,19 @@ class GameSeeder extends Seeder
             ],
         );
         Game::create([
-            'name' => "Bullseye",
+            'name' => "bullseye",
             'type' => GameType::Fun,
+            'title' =>  "Bullseye",
         ]);
         Game::create([
-            'name' => "Lance-balle",
+            'name' => "ball-toss",
             'type' => GameType::Fun,
+            'title' =>  "Lance-balle",
         ]);
         Game::create([
-            'name' => "L'âne aveugle",
+            'name' => "blind-donkey",
             'type' => GameType::Fun,
+            'title' =>  "L'âne aveugle",
         ]);
     }
 }
