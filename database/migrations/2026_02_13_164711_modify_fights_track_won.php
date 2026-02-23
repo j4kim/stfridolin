@@ -18,15 +18,15 @@ return new class extends Migration
             });
         }
         Schema::table('tracks', function (Blueprint $table) {
-            $table->unsignedTinyInteger('priority')->default(TRACK_PRIORITY_GUEST_ADDED)->change();
+            $table->unsignedTinyInteger('priority')->default(config('jukeboxe.priorities.guest_added'))->change();
             $table->boolean('used')->nullable()->default(false)->change();
         });
         Schema::table('fights', function (Blueprint $table) {
             $table->foreignId('won_track_id')->nullable()->constrained('tracks');
         });
         Track::query()->whereNull('used')->update(['used' => false]);
-        Track::query()->where('priority', 0)->update(['priority' => TRACK_PRIORITY_RESERVE]);
-        Track::query()->where('priority', 1)->update(['priority' => TRACK_PRIORITY_GUEST_ADDED]);
+        Track::query()->where('priority', 0)->update(['priority' => config('jukeboxe.priorities.reserve')]);
+        Track::query()->where('priority', 1)->update(['priority' => config('jukeboxe.priorities.guest_added')]);
     }
 
     /**
