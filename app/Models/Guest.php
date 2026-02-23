@@ -129,7 +129,7 @@ class Guest extends Model
             'tokens' => -$article->price,
             'game_id' => $game->id,
             'fight_id' => $fight->id,
-            'voted_track_id' => $track->id,
+            'track_id' => $track->id,
         ]);
     }
 

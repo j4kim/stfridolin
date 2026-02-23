@@ -18,8 +18,7 @@ return new class extends Migration
             $table->foreignId('occurrence_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('competitor_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('fight_id')->nullable()->constrained()->nullOnDelete();
-            $table->foreignId('voted_track_id')->nullable()->constrained('tracks')->nullOnDelete();
-            $table->foreignId('added_track_id')->nullable()->constrained('tracks')->nullOnDelete();
+            $table->foreignId('track_id')->nullable()->constrained('tracks')->nullOnDelete();
             $table->index('type');
         });
     }
@@ -34,9 +33,8 @@ return new class extends Migration
             $table->dropForeign(['occurrence_id']);
             $table->dropForeign(['competitor_id']);
             $table->dropForeign(['fight_id']);
-            $table->dropForeign(['voted_track_id']);
-            $table->dropForeign(['added_track_id']);
-            $table->dropColumn(['game_id', 'occurrence_id', 'competitor_id', 'fight_id', 'voted_track_id', 'added_track_id']);
+            $table->dropForeign(['track_id']);
+            $table->dropColumn(['game_id', 'occurrence_id', 'competitor_id', 'fight_id', 'track_id']);
             $table->dropIndex(['type']);
         });
 
