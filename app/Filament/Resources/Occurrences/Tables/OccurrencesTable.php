@@ -20,7 +20,8 @@ class OccurrencesTable
                     ->label('#Jeu')
                     ->numeric()
                     ->url(fn(int $state): string => GameResource::getUrl('view', ['record' => $state]))
-                    ->sortable(),
+                    ->sortable()
+                    ->visibleFrom('sm'),
                 TextColumn::make('title')->sortable()->searchable(),
                 TextColumn::make('start_at')->dateTime("d.m.Y H:i")->sortable(),
                 TextColumn::make('end_at')->dateTime("d.m.Y H:i")->sortable(),
