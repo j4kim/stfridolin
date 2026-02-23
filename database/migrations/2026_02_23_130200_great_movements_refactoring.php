@@ -15,7 +15,7 @@ return new class extends Migration
 
         Schema::table('movements', function (Blueprint $table) {
             $table->foreignId('game_id')->nullable()->constrained()->nullOnDelete();
-            $table->foreignId('occurence_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignId('occurrence_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('competitor_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('fight_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('voted_track_id')->nullable()->constrained('tracks')->nullOnDelete();
@@ -31,12 +31,12 @@ return new class extends Migration
     {
         Schema::table('movements', function (Blueprint $table) {
             $table->dropForeign(['game_id']);
-            $table->dropForeign(['occurence_id']);
+            $table->dropForeign(['occurrence_id']);
             $table->dropForeign(['competitor_id']);
             $table->dropForeign(['fight_id']);
             $table->dropForeign(['voted_track_id']);
             $table->dropForeign(['added_track_id']);
-            $table->dropColumn(['game_id', 'occurence_id', 'competitor_id', 'fight_id', 'voted_track_id', 'added_track_id']);
+            $table->dropColumn(['game_id', 'occurrence_id', 'competitor_id', 'fight_id', 'voted_track_id', 'added_track_id']);
             $table->dropIndex(['type']);
         });
 

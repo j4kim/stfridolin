@@ -20,7 +20,7 @@ return new class extends Migration
 
         Schema::create('competitor_occurrence', function (Blueprint $table) {
             $table->foreignId('competitor_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('occurence_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('occurrence_id')->constrained()->cascadeOnDelete();
         });
     }
 
