@@ -68,7 +68,7 @@ class Track extends Model
     public static function queryQueue(): Builder
     {
         /** @var Builder $query  */
-        $query = self::queue();
+        $query = Track::query()->queue();
         return $query;
     }
 
