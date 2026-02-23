@@ -4,6 +4,7 @@ namespace App\Tools;
 
 use App\Exceptions\NoSpotifyPlaybackException;
 use App\Exceptions\NoSpotifyTokenException;
+use GuzzleHttp\Promise\PromiseInterface;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Collection;
@@ -144,14 +145,14 @@ class Spotify
         Cache::put('spotifySelectedDeviceId', $deviceId);
     }
 
-    public static function playTrack(string $trackUri): Response
+    public static function playTrack(string $trackUri): Response|PromiseInterface
     {
         return self::apiRequest()
             ->withQueryParameters(['device_id' => self::getSelectedDeviceId()])
             ->put("/me/player/play", ['position_ms' => 0, 'uris' => [$trackUri]]);
     }
 
-    public static function skip(): Response
+    public static function skip(): Response|PromiseInterface
     {
         return self::apiRequest()
             ->withQueryParameters(['device_id' => self::getSelectedDeviceId()])

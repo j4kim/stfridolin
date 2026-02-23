@@ -15,16 +15,12 @@ const { request, release, isActive, isSupported } = useWakeLock();
 onMounted(async () => {
     if (isSupported.value) {
         await request();
-        console.log("wake lock active:", isActive.value);
-    } else {
-        console.warn("wake lock is not supported");
     }
 });
 
 onUnmounted(async () => {
     if (isActive.value) {
         await release();
-        console.log("wake lock released");
     }
 });
 </script>

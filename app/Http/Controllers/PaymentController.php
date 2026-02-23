@@ -59,7 +59,7 @@ class PaymentController extends Controller
     public function toggleCoverFees(Payment $payment, Request $request)
     {
         if ($request->coverFees) {
-            $newAmount = ($payment->original_amount + 0.30) / (1 - 0.024);
+            $newAmount = ($payment->original_amount + 0.30) / (1 - 0.029);
         } else {
             $newAmount = $payment->original_amount;
         }

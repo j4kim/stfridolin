@@ -19,6 +19,7 @@ class FightController extends Controller
         if (!$fight) {
             throw new NoCurrentFightException;
         }
+        $fight->addSponsorLogos();
         return $fight;
     }
 

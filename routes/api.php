@@ -4,6 +4,7 @@ use App\Http\Controllers\FightController;
 use App\Http\Controllers\GuestController;
 use App\Http\Controllers\MasterController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\SponsorController;
 use App\Http\Controllers\SpotifyController;
 use App\Http\Controllers\TrackController;
 use App\Http\Controllers\VoteController;
