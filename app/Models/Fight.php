@@ -46,7 +46,7 @@ class Fight extends Model
     public static function getCurrent(): ?Fight
     {
         /** @var Builder $query */
-        $query = Fight::current();
+        $query = Fight::query()->current();
         $fight = $query->first();
         $fight?->ensureVotesAreLoaded();
         return $fight;
