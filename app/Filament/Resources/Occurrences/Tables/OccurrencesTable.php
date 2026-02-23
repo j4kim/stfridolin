@@ -14,10 +14,11 @@ class OccurrencesTable
             ->columns([
                 ...ColumnTools::systemColumns(),
 
-                TextColumn::make('title'),
-                TextColumn::make('start_at')->dateTime("d.m.Y H:i"),
-                TextColumn::make('end_at')->dateTime("d.m.Y H:i"),
+                TextColumn::make('title')->sortable()->searchable(),
+                TextColumn::make('start_at')->dateTime("d.m.Y H:i")->sortable(),
+                TextColumn::make('end_at')->dateTime("d.m.Y H:i")->sortable(),
             ])
+            ->defaultSort('start_at', direction: 'asc')
             ->filters([
                 //
             ]);
