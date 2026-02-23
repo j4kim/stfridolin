@@ -12,10 +12,9 @@ class TrackController extends Controller
     public function store(string $spotifyUri)
     {
         $guest = Guest::fromRequest();
-        $movement = $guest->spendTokens('add-to-queue');
         $spotifyData = Spotify::getTrack($spotifyUri);
         $track = Track::createFromSpotifyData($spotifyData, config('jukeboxe.priorities.guest_added'));
-        $movement->update(['meta->track_id' => $track->id]);
+        $movement = $guest->addTrack($track);
         return $track;
     }
 

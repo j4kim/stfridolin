@@ -133,6 +133,19 @@ class Guest extends Model
         ]);
     }
 
+    public function addTrack(Track $track): Movement
+    {
+        $article = Article::where('name', 'add-to-queue')->firstOrFail();
+        $game = Game::where('name', 'jukeboxe')->firstOrFail();
+        return $this->createMovement([
+            'article_id' => $article->id,
+            'type' => MovementType::JukeboxeAdd,
+            'tokens' => -$article->price,
+            'game_id' => $game->id,
+            'track_id' => $track->id,
+        ]);
+    }
+
     public function receivePoints(Article $article, ?array $meta = null): Movement
     {
         return $this->createMovement([
