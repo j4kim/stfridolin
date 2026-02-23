@@ -2,7 +2,7 @@
 
 namespace App\Filament\Resources\Occurrences\Schemas;
 
-use App\Enums\OccurrenceType;
+use App\Models\Game;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\Select;
@@ -15,7 +15,12 @@ class OccurrenceForm
     {
         return $schema
             ->components([
-                Select::make('title'),
+                Select::make('game_id')
+                    ->label(__('game'))
+                    ->options(Game::query()->get()->pluck('name', 'id'))
+                    ->searchable()
+                    ->required(),
+                TextInput::make('title'),
                 DateTimePicker::make('start_at'),
                 DateTimePicker::make('end_at'),
                 KeyValue::make('meta'),
