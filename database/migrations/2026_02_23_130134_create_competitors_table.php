@@ -11,12 +11,6 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('races', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-            $table->foreignId('occurrence_id')->constrained()->cascadeOnDelete();
-        });
-
         Schema::create('competitors', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
@@ -24,9 +18,9 @@ return new class extends Migration
             $table->string('image_path', 1024)->nullable();
         });
 
-        Schema::create('competitor_race', function (Blueprint $table) {
+        Schema::create('competitor_occurrence', function (Blueprint $table) {
             $table->foreignId('competitor_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('race_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('occurence_id')->constrained()->cascadeOnDelete();
         });
     }
 
@@ -35,8 +29,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('races');
         Schema::dropIfExists('competitors');
-        Schema::dropIfExists('competitor_race');
+        Schema::dropIfExists('competitor_occurrence');
     }
 };

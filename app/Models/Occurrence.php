@@ -18,4 +18,9 @@ class Occurrence extends Model
     {
         return $this->belongsTo(Game::class);
     }
+
+    public function competitors()
+    {
+        return $this->belongsToMany(Competitor::class);
+    }
 }
