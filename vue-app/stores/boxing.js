@@ -4,7 +4,6 @@ import { ref } from "vue";
 import { pusher } from "@/broadcasting";
 import { useFightStore } from "./fight";
 import { importFrames } from "@/boxing/utils";
-import { api } from "@/api";
 
 export const useBoxingStore = defineStore("boxing", () => {
     const running = ref(true);
@@ -72,7 +71,7 @@ export const useBoxingStore = defineStore("boxing", () => {
         finished.value = false;
     }
 
-    pusher.subscribe("votes").bind("VoteCreated", (data) => {
+    pusher.subscribe("votes").bind("MovementCreated", (data) => {
         const fight = fightStore.fight;
         if (!fightStore.fight) {
             throw new Error("There is no current fight");
