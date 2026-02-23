@@ -64,10 +64,30 @@ class Track extends Model
         $query->where('used', false)->orderByDesc('priority')->orderBy('id');
     }
 
+    public static function queryQueue(): Builder
+    {
+        /** @var Builder $query  */
+        $query = self::queue();
+        return $query;
+    }
+
     public static function getCandidates(): Collection
     {
-        /** @var Builder $query */
-        $query = self::queue();
-        return $query->take(2)->get();
+        $submitted_without_dupplicates = self::queryQueue()
+            ->whereNotNull('proposed_by')
+            ->get()
+            ->unique('proposed_by')
+            ->unique('artist_name');
+
+        if ($submitted_without_dupplicates->count() >= 2) {
+            return $submitted_without_dupplicates->take(2);
+        }
+
+        $reserve_songs_without_dupplicates = self::queryQueue()
+            ->whereNull('proposed_by')
+            ->get()
+            ->unique('artist_name');
+
+        return $submitted_without_dupplicates->merge($reserve_songs_without_dupplicates)->take(2);
     }
 }
