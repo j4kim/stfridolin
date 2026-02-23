@@ -13,11 +13,17 @@ class GuestSeeder extends Seeder
      */
     public function run(): void
     {
-        // Guest::factory(10)->create();
         Guest::create([
-            'name' => 'Joaquim',
-            'key' => '0000',
-            'tokens' => 100,
+            'name' => 'Alice',
+            'key' => 'aaaa',
+        ]);
+        Guest::create([
+            'name' => 'Bob',
+            'key' => 'bbbb',
+        ]);
+        Guest::create([
+            'name' => 'Charlie',
+            'key' => 'cccc',
         ]);
     }
 }
