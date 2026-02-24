@@ -1,12 +1,12 @@
 import { defineStore } from "pinia";
-import { computed, ref } from "vue";
-import { groupBy, keyBy } from "lodash-es";
+import { ref } from "vue";
 import { watchDebounced } from "@vueuse/core";
 import { api } from "@/api";
 
 export const useTracksStore = defineStore("tracks", () => {
     const searchQuery = ref("");
     const searching = ref(false);
+    const searchingMore = ref(false);
     const searchResults = ref(null);
 
     async function searchTracks() {
@@ -24,12 +24,14 @@ export const useTracksStore = defineStore("tracks", () => {
     watchDebounced(searchQuery, searchTracks, { debounce: 500 });
 
     async function searchMore() {
+        searchingMore.value = true;
         const data = await api("spotify.search-tracks")
             .params({
                 q: searchQuery.value,
                 offset: searchResults.value.offset + 10,
             })
-            .get();
+            .get()
+            .finally(() => (searchingMore.value = false));
         searchResults.value = {
             ...data,
             items: searchResults.value.items.concat(data.items),
@@ -39,6 +41,7 @@ export const useTracksStore = defineStore("tracks", () => {
     return {
         searchQuery,
         searching,
+        searchingMore,
         searchResults,
         searchTracks,
         searchMore,

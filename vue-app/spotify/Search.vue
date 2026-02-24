@@ -48,7 +48,9 @@ const tracksStore = useTracksStore();
                         variant="ghost"
                         class="w-full"
                         @click="tracksStore.searchMore"
+                        :disabled="tracksStore.searchingMore"
                     >
+                        <Spinner v-if="tracksStore.searchingMore" />
                         Charger plus
                     </Button>
                 </div>
