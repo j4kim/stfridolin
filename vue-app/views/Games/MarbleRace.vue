@@ -16,7 +16,7 @@ const occurrences = computed(
 
 <template>
     <Layout>
-        <h2 class="my-2 space-x-1 px-4">Course de billes</h2>
+        <h2 class="my-2 space-x-1 px-4">Courses de billes</h2>
 
         <ItemGroup v-if="occurrences.length">
             <ItemSeparator />

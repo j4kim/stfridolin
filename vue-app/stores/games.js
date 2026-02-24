@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
-import { groupBy, keyBy } from "lodash-es";
+import { keyBy } from "lodash-es";
 import { api } from "@/api";
 
 export const useGamesStore = defineStore("games", () => {
@@ -16,12 +16,18 @@ export const useGamesStore = defineStore("games", () => {
         }
     }
 
+    async function fetchGamesIfNeeded() {
+        if (games.value.length) return;
+        await fetchGames();
+    }
+
     const byName = computed(() => keyBy(games.value, "name"));
 
     return {
         games,
         fetchingGames,
         fetchGames,
+        fetchGamesIfNeeded,
         byName,
     };
 });

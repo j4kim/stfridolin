@@ -66,8 +66,8 @@ const groups = computed(() => [
                 icon: HandFist,
             },
             {
-                title: "Course de billes",
-                to: { name: "marble-race" },
+                title: "Courses de billes",
+                to: { name: "marble-races" },
                 icon: CirclePile,
             },
             {
