@@ -7,15 +7,17 @@ import Tracks from "@/components/Tracks.vue";
 import Badge from "@/components/ui/badge/Badge.vue";
 import IfAuth from "@/components/IfAuth.vue";
 import { ArrowLeft, ListPlus } from "lucide-vue-next";
+import { useGuestStore } from "@/stores/guest";
 
 const tracks = ref([]);
 
 const loading = ref(false);
 
+const guestStore = useGuestStore();
+
 async function load() {
     loading.value = true;
     tracks.value = await api("tracks.queue").get();
-    tracks.value.slice(0, 2).map((t) => (t.isNext = true));
     loading.value = false;
 }
 
@@ -42,8 +44,11 @@ const backupTracks = computed(() => tracks.value.filter((t) => !t.proposed_by));
         </IfAuth>
         <Tracks :tracks="guestTracks">
             <template #actions="{ track }">
-                <Badge v-if="track.isNext" variant="secondary">
-                    prochain combat
+                <Badge
+                    v-if="track.proposed_by === guestStore.guest.id"
+                    variant="secondary"
+                >
+                    Ton morceau
                 </Badge>
             </template>
         </Tracks>
