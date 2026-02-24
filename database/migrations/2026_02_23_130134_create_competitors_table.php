@@ -16,6 +16,7 @@ return new class extends Migration
             $table->timestamps();
             $table->string('name');
             $table->string('image_path', 1024)->nullable();
+            $table->string('type')->nullable();
         });
 
         Schema::create('competitor_occurrence', function (Blueprint $table) {

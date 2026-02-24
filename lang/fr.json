@@ -45,5 +45,6 @@
     "game": "jeu",
     "title": "titre",
     "start_at": "commence à",
-    "end_at": "finit à"
+    "end_at": "finit à",
+    "competitor": "concurrent"
 }
