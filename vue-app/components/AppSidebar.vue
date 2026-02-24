@@ -71,12 +71,12 @@ const groups = computed(() => [
                 icon: CirclePile,
             },
             {
-                title: "Les Joes Olympiques",
-                to: { name: "olympics" },
+                title: "Concours hippique",
+                to: { name: "horse-show" },
                 icon: Trophy,
             },
             {
-                title: "Poinds de Joe",
+                title: "Poids de Joe",
                 to: { name: "joes-weight" },
                 icon: Weight,
             },

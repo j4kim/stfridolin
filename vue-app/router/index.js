@@ -84,8 +84,8 @@ const routes = [
         },
     },
     {
-        path: "/olympics",
-        name: "olympics",
+        path: "/horse-show",
+        name: "horse-show",
         component: () => import("@/views/Tbi.vue"),
         meta: {
             requireGuest: true,
