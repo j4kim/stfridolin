@@ -34,5 +34,9 @@ class CompetitorSeeder extends Seeder
                 'name' => $name,
             ]);
         }
+
+        Competitor::first()->update([
+            'image_path' => 'competitors/marble-1.jpeg',
+        ]);
     }
 }
