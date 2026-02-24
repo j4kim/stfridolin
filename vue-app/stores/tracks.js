@@ -10,6 +10,10 @@ export const useTracksStore = defineStore("tracks", () => {
     const searchResults = ref(null);
 
     async function searchTracks() {
+        if (!searchQuery.value) {
+            searchResults.value = null;
+            return;
+        }
         searchResults.value = await api("spotify.search-tracks")
             .params({ q: searchQuery.value })
             .get();
