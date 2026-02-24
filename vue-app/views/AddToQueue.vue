@@ -7,13 +7,21 @@ import Search from "@/spotify/Search.vue";
 import { ref } from "vue";
 import { toast } from "vue-sonner";
 import { ArrowLeft } from "lucide-vue-next";
+import { useRouter } from "vue-router";
 
 const alreadyAdded = ref([]);
+
+const router = useRouter();
 
 async function add(track) {
     const response = await api("tracks.store").params(track.spotify_uri).post();
     alreadyAdded.value.push(track.spotify_uri);
-    toast.success(response.message);
+    toast.success(response.message, {
+        action: {
+            label: "Voir la file",
+            onClick: () => router.push({ name: "queue" }),
+        },
+    });
 }
 </script>
 
