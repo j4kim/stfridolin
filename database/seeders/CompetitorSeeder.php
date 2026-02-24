@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Competitor;
+use App\Models\Game;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -29,14 +30,18 @@ class CompetitorSeeder extends Seeder
             "Sapin de Noël",
         ];
 
-        foreach ($names as $name) {
+        foreach ($names as $index => $name) {
+            $i = ($index % 9) + 1;
             Competitor::create([
                 'name' => $name,
+                'image_path' => "competitors/marble - $i.jpeg",
             ]);
         }
 
-        Competitor::first()->update([
-            'image_path' => 'competitors/marble-1.jpeg',
-        ]);
+        $game = Game::firstWhere('name', "marble-race");
+        $tenCompetitors = Competitor::take(10)->pluck('id');
+        foreach ($game->occurrences as $occurrence) {
+            $occurrence->competitors()->attach($tenCompetitors);
+        }
     }
 }
