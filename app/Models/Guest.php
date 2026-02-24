@@ -54,11 +54,6 @@ class Guest extends Model
         return $this->payments()->where('status', PaymentStatus::succeeded);
     }
 
-    public function votes(): HasMany
-    {
-        return $this->hasMany(Vote::class);
-    }
-
     public function tracks(): HasMany
     {
         return $this->hasMany(Track::class, 'proposed_by');
@@ -121,6 +116,33 @@ class Guest extends Model
             'article_id' => $article->id,
             'type' => MovementType::SpendTokens,
             'tokens' => -$article->price,
+        ]);
+    }
+
+    public function vote(Fight $fight, Track $track): Movement
+    {
+        $article = Article::where('name', 'vote')->firstOrFail();
+        $game = Game::where('name', 'jukeboxe')->firstOrFail();
+        return $this->createMovement([
+            'article_id' => $article->id,
+            'type' => MovementType::JukeboxeVote,
+            'tokens' => -$article->price,
+            'game_id' => $game->id,
+            'fight_id' => $fight->id,
+            'track_id' => $track->id,
+        ]);
+    }
+
+    public function addTrack(Track $track): Movement
+    {
+        $article = Article::where('name', 'add-to-queue')->firstOrFail();
+        $game = Game::where('name', 'jukeboxe')->firstOrFail();
+        return $this->createMovement([
+            'article_id' => $article->id,
+            'type' => MovementType::JukeboxeAdd,
+            'tokens' => -$article->price,
+            'game_id' => $game->id,
+            'track_id' => $track->id,
         ]);
     }
 

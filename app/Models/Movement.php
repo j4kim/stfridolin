@@ -3,11 +3,15 @@
 namespace App\Models;
 
 use App\Enums\MovementType;
+use Illuminate\Broadcasting\Channel;
+use Illuminate\Database\Eloquent\BroadcastsEvents;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Movement extends Model
 {
+    use BroadcastsEvents;
+
     protected function casts(): array
     {
         return [
@@ -34,5 +38,14 @@ class Movement extends Model
     public function article(): BelongsTo
     {
         return $this->belongsTo(Article::class);
+    }
+
+    public function broadcastOn(string $event): array
+    {
+        $channels = [];
+        if ($this->type === MovementType::JukeboxeVote) {
+            $channels[] = new Channel("votes");
+        }
+        return $channels;
     }
 }
