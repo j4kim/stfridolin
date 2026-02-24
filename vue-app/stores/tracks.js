@@ -6,7 +6,7 @@ import { api } from "@/api";
 
 export const useTracksStore = defineStore("tracks", () => {
     const searchQuery = ref("");
-
+    const searching = ref(false);
     const searchResults = ref(null);
 
     async function searchTracks() {
@@ -14,9 +14,11 @@ export const useTracksStore = defineStore("tracks", () => {
             searchResults.value = null;
             return;
         }
+        searching.value = true;
         searchResults.value = await api("spotify.search-tracks")
             .params({ q: searchQuery.value })
-            .get();
+            .get()
+            .finally(() => (searching.value = false));
     }
 
     watchDebounced(searchQuery, searchTracks, { debounce: 500 });
@@ -36,6 +38,7 @@ export const useTracksStore = defineStore("tracks", () => {
 
     return {
         searchQuery,
+        searching,
         searchResults,
         searchTracks,
         searchMore,

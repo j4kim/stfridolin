@@ -9,6 +9,7 @@ import { Search, X } from "lucide-vue-next";
 import Button from "@/components/ui/button/Button.vue";
 import Tracks from "@/components/Tracks.vue";
 import { useTracksStore } from "@/stores/tracks";
+import Spinner from "@/components/ui/spinner/Spinner.vue";
 
 const tracksStore = useTracksStore();
 </script>
@@ -34,6 +35,8 @@ const tracksStore = useTracksStore();
                 </InputGroupAddon>
             </InputGroup>
         </div>
+
+        <Spinner v-if="tracksStore.searching" class="m-4" />
 
         <Tracks :tracks="tracksStore.searchResults?.items">
             <template #actions="{ track }">
