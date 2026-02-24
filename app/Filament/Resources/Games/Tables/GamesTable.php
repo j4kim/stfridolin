@@ -20,6 +20,9 @@ class GamesTable
             ->columns([
                 ...ColumnTools::systemColumns(),
                 TextColumn::make('name')
+                    ->searchable()
+                    ->visibleFrom('sm'),
+                TextColumn::make('title')
                     ->searchable(),
                 TextColumn::make('type')
                     ->badge()

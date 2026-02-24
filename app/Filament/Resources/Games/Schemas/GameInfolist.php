@@ -19,6 +19,8 @@ class GameInfolist
                     ->schema([
                         TextEntry::make('name'),
                         TextEntry::make('type')->badge(),
+                        TextEntry::make('title'),
+                        TextEntry::make('description'),
                         KeyValueEntry::make('meta'),
                     ])
             ]);
