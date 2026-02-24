@@ -20,4 +20,9 @@ class Game extends Model
     {
         return $this->hasMany(Occurrence::class);
     }
+
+    public function articles(): HasMany
+    {
+        return $this->hasMany(Article::class);
+    }
 }
