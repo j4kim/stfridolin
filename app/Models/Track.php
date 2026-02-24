@@ -78,7 +78,8 @@ class Track extends Model
             ->whereNotNull('proposed_by')
             ->get()
             ->unique('proposed_by')
-            ->unique('artist_name');
+            ->unique('artist_name')
+            ->values();
 
         if ($submitted_without_dupplicates->count() >= 2) {
             return $submitted_without_dupplicates->take(2);
@@ -87,8 +88,12 @@ class Track extends Model
         $reserve_songs_without_dupplicates = self::queryQueue()
             ->whereNull('proposed_by')
             ->get()
-            ->unique('artist_name');
+            ->unique('artist_name')
+            ->values();
 
-        return $submitted_without_dupplicates->merge($reserve_songs_without_dupplicates)->take(2);
+        return $submitted_without_dupplicates
+            ->concat($reserve_songs_without_dupplicates)
+            ->take(2)
+            ->values();
     }
 }
