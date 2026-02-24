@@ -42,16 +42,7 @@ const backupTracks = computed(() => tracks.value.filter((t) => !t.proposed_by));
         <IfAuth>
             <p class="my-2 px-4">Morceaux ajoutés par les invités:</p>
         </IfAuth>
-        <Tracks :tracks="guestTracks">
-            <template #actions="{ track }">
-                <Badge
-                    v-if="track.proposed_by === guestStore.guest.id"
-                    variant="secondary"
-                >
-                    Ton morceau
-                </Badge>
-            </template>
-        </Tracks>
+        <Tracks :tracks="guestTracks" />
 
         <div class="my-4 px-4">
             <RouterLink :to="{ name: 'add-to-queue' }">
@@ -64,13 +55,7 @@ const backupTracks = computed(() => tracks.value.filter((t) => !t.proposed_by));
 
         <IfAuth>
             <p class="my-2 mt-8 px-4">Morceaux en réserve:</p>
-            <Tracks :tracks="backupTracks">
-                <template #actions="{ track }">
-                    <Badge v-if="track.isNext" variant="secondary">
-                        prochain combat
-                    </Badge>
-                </template>
-            </Tracks>
+            <Tracks :tracks="backupTracks" />
         </IfAuth>
     </Layout>
 </template>

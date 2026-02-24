@@ -10,6 +10,10 @@ import {
     ItemSeparator,
     ItemTitle,
 } from "./ui/item";
+import Badge from "./ui/badge/Badge.vue";
+import { useGuestStore } from "@/stores/guest";
+
+const guestStore = useGuestStore();
 
 const props = defineProps<{
     tracks?: Track[];
@@ -36,6 +40,12 @@ const props = defineProps<{
                     </div>
                 </ItemContent>
                 <ItemActions>
+                    <Badge
+                        v-if="track.proposed_by === guestStore.guest?.id"
+                        variant="secondary"
+                    >
+                        Ton morceau
+                    </Badge>
                     <slot :track="track" name="actions"></slot>
                 </ItemActions>
             </Item>
