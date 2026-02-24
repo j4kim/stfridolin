@@ -78,7 +78,7 @@ const routes = [
     {
         path: "/marble-race",
         name: "marble-race",
-        component: () => import("@/views/Tbi.vue"),
+        component: () => import("@/views/Games/MarbleRace.vue"),
         meta: {
             requireGuest: true,
         },
