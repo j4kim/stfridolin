@@ -76,16 +76,24 @@ const routes = [
         },
     },
     {
-        path: "/marble-race",
-        name: "marble-race",
-        component: () => import("@/views/Tbi.vue"),
+        path: "/marble-races",
+        name: "marble-races",
+        component: () => import("@/views/Games/MarbleRace.vue"),
         meta: {
             requireGuest: true,
         },
     },
     {
-        path: "/olympics",
-        name: "olympics",
+        path: "/marble-races/:occId",
+        name: "marble-race-occurrence",
+        component: () => import("@/views/Games/MarbleRaceOccurrence.vue"),
+        meta: {
+            requireGuest: true,
+        },
+    },
+    {
+        path: "/horse-show",
+        name: "horse-show",
         component: () => import("@/views/Tbi.vue"),
         meta: {
             requireGuest: true,

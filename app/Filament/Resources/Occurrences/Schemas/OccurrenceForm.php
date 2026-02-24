@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Occurrences\Schemas;
 
+use App\Enums\OccurrenceStatus;
 use App\Models\Game;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\KeyValue;
@@ -23,6 +24,8 @@ class OccurrenceForm
                 TextInput::make('title'),
                 DateTimePicker::make('start_at'),
                 DateTimePicker::make('end_at'),
+                Select::make('status')
+                    ->options(OccurrenceStatus::class),
                 KeyValue::make('meta'),
             ]);
     }

@@ -1,10 +1,10 @@
 <?php
 
 use App\Http\Controllers\FightController;
+use App\Http\Controllers\GameController;
 use App\Http\Controllers\GuestController;
 use App\Http\Controllers\MasterController;
 use App\Http\Controllers\PaymentController;
-use App\Http\Controllers\SponsorController;
 use App\Http\Controllers\SpotifyController;
 use App\Http\Controllers\TrackController;
 use App\Http\Controllers\VoteController;
@@ -44,6 +44,7 @@ Route::middleware(AuthenticateGuest::class)->group(function () {
     Route::get('vouchers/{voucher}', [VoucherController::class, 'get'])->name('vouchers.get');
     Route::post('vouchers/{voucher}/use', [VoucherController::class, 'use'])->name('vouchers.use');
     Route::put('guests/spend', [GuestController::class, 'spend'])->name('guests.spend');
+    Route::get('games', [GameController::class, 'index'])->name('games.index');
 });
 
 Route::post('guests', [GuestController::class, 'storeMany'])->name('guests.storeMany');
