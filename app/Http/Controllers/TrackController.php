@@ -15,7 +15,11 @@ class TrackController extends Controller
         $spotifyData = Spotify::getTrack($spotifyUri);
         $track = Track::createFromSpotifyData($spotifyData, config('jukeboxe.priorities.guest_added'));
         $movement = $guest->addTrack($track);
-        return $track;
+        return [
+            'track' => $track,
+            'movement' => $movement,
+            'message' => "Morceau ajouté à la file d'attente",
+        ];
     }
 
     public function queue()
