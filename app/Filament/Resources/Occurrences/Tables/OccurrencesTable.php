@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Occurrences\Tables;
 use App\Filament\Resources\Games\GameResource;
 use App\Filament\Resources\Games\RelationManagers\OccurrencesRelationManager;
 use App\Filament\Tools\ColumnTools;
+use Filament\Tables\Columns\Column;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
@@ -17,13 +18,7 @@ class OccurrencesTable
             ->columns([
                 ...ColumnTools::systemColumns(),
 
-                TextColumn::make('game_id')
-                    ->label('#Jeu')
-                    ->numeric()
-                    ->url(fn(int $state): string => GameResource::getUrl('view', ['record' => $state]))
-                    ->sortable()
-                    ->visibleFrom('sm')
-                    ->hiddenOn(OccurrencesRelationManager::class),
+                ColumnTools::gameLinkColumn(),
                 TextColumn::make('title')->sortable()->searchable(),
                 TextColumn::make('start_at')->dateTime("d.m.Y H:i")->sortable(),
                 TextColumn::make('end_at')->dateTime("d.m.Y H:i")->sortable(),
