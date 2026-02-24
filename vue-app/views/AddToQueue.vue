@@ -1,10 +1,9 @@
 <script setup>
 import Layout from "@/components/Layout.vue";
-import { Button } from "@/components/ui/button";
 import ValidationDrawer from "@/components/ValidationDrawer.vue";
 import Search from "@/spotify/Search.vue";
 import { toast } from "vue-sonner";
-import { ArrowLeft } from "lucide-vue-next";
+import { ChevronRight } from "lucide-vue-next";
 import { useRouter } from "vue-router";
 import { useTracksStore } from "@/stores/tracks";
 
@@ -25,16 +24,10 @@ async function add(track) {
 
 <template>
     <Layout>
-        <div class="mt-2 ml-2">
-            <RouterLink :to="{ name: 'vote' }">
-                <Button size="sm" variant="ghost">
-                    <ArrowLeft />
-                    Combat en cours
-                </Button>
-            </RouterLink>
-        </div>
-        <h2 class="my-2 px-4 font-bold">
-            Ajouter un morceau à la file d'attente
+        <h2 class="my-2 space-x-1 px-4">
+            <RouterLink :to="{ name: 'vote' }">Jukeboxe</RouterLink>
+            <ChevronRight :size="14" class="mb-px inline" />
+            <span class="font-bold">Ajouter un morceau</span>
         </h2>
         <Search>
             <template #actions="{ track }">

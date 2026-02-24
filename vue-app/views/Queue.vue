@@ -3,7 +3,7 @@ import Button from "@/components/ui/button/Button.vue";
 import Layout from "@/components/Layout.vue";
 import Tracks from "@/components/Tracks.vue";
 import IfAuth from "@/components/IfAuth.vue";
-import { ArrowLeft, ListPlus } from "lucide-vue-next";
+import { ChevronRight, ListPlus } from "lucide-vue-next";
 import { useTracksStore } from "@/stores/tracks";
 import Spinner from "@/components/ui/spinner/Spinner.vue";
 
@@ -14,16 +14,11 @@ tracksStore.fetchQueue();
 
 <template>
     <Layout>
-        <div class="mt-2 ml-2">
-            <RouterLink :to="{ name: 'vote' }">
-                <Button size="sm" variant="ghost">
-                    <ArrowLeft />
-                    Combat en cours
-                </Button>
-            </RouterLink>
-        </div>
-
-        <h2 class="my-2 px-4 font-bold">File d'attente</h2>
+        <h2 class="my-2 space-x-1 px-4">
+            <RouterLink :to="{ name: 'vote' }">Jukeboxe</RouterLink>
+            <ChevronRight :size="14" class="mb-px inline" />
+            <span class="font-bold">File d'attente</span>
+        </h2>
 
         <IfAuth>
             <p class="my-2 px-4">Morceaux ajoutés par les invités:</p>
