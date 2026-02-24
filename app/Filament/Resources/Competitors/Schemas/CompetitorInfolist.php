@@ -24,6 +24,7 @@ class CompetitorInfolist
                             ->placeholder('-')
                             ->disk('public')
                             ->visibility('public'),
+                        TextEntry::make('type')->badge(),
                     ]),
             ]);
     }

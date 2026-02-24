@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\CompetitorType;
 use App\Models\Competitor;
 use App\Models\Game;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -35,6 +36,7 @@ class CompetitorSeeder extends Seeder
             Competitor::create([
                 'name' => $name,
                 'image_path' => "competitors/marble - $i.jpeg",
+                'type' => CompetitorType::Marble,
             ]);
         }
 

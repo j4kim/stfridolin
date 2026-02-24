@@ -2,7 +2,9 @@
 
 namespace App\Filament\Resources\Competitors\Schemas;
 
+use App\Enums\CompetitorType;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 
@@ -23,6 +25,7 @@ class CompetitorForm
                     ->imageEditor()
                     ->imageAspectRatio('1:1')
                     ->automaticallyOpenImageEditorForAspectRatio(),
+                Select::make('type')->options(CompetitorType::class),
             ]);
     }
 }
