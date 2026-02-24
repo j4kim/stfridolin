@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { watchDebounced } from "@vueuse/core";
 import { api } from "@/api";
 
@@ -38,6 +38,23 @@ export const useTracksStore = defineStore("tracks", () => {
         };
     }
 
+    const queueTracks = ref([]);
+    const fetchingQueue = ref(false);
+
+    async function fetchQueue() {
+        fetchingQueue.value = true;
+        queueTracks.value = await api("tracks.queue")
+            .get()
+            .finally(() => (fetchingQueue.value = false));
+    }
+
+    const guestTracks = computed(() =>
+        queueTracks.value.filter((t) => t.proposed_by),
+    );
+    const backupTracks = computed(() =>
+        queueTracks.value.filter((t) => !t.proposed_by),
+    );
+
     return {
         searchQuery,
         searching,
@@ -45,5 +62,10 @@ export const useTracksStore = defineStore("tracks", () => {
         searchResults,
         searchTracks,
         searchMore,
+        queueTracks,
+        fetchingQueue,
+        fetchQueue,
+        guestTracks,
+        backupTracks,
     };
 });

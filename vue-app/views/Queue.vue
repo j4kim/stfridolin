@@ -1,29 +1,15 @@
 <script setup>
-import { api } from "@/api";
 import Button from "@/components/ui/button/Button.vue";
 import Layout from "@/components/Layout.vue";
-import { computed, ref } from "vue";
 import Tracks from "@/components/Tracks.vue";
-import Badge from "@/components/ui/badge/Badge.vue";
 import IfAuth from "@/components/IfAuth.vue";
 import { ArrowLeft, ListPlus } from "lucide-vue-next";
-import { useGuestStore } from "@/stores/guest";
+import { useTracksStore } from "@/stores/tracks";
+import Spinner from "@/components/ui/spinner/Spinner.vue";
 
-const tracks = ref([]);
+const tracksStore = useTracksStore();
 
-const loading = ref(false);
-
-const guestStore = useGuestStore();
-
-async function load() {
-    loading.value = true;
-    tracks.value = await api("tracks.queue").get();
-    loading.value = false;
-}
-
-load();
-const guestTracks = computed(() => tracks.value.filter((t) => t.proposed_by));
-const backupTracks = computed(() => tracks.value.filter((t) => !t.proposed_by));
+tracksStore.fetchQueue();
 </script>
 
 <template>
@@ -42,7 +28,8 @@ const backupTracks = computed(() => tracks.value.filter((t) => !t.proposed_by));
         <IfAuth>
             <p class="my-2 px-4">Morceaux ajoutés par les invités:</p>
         </IfAuth>
-        <Tracks :tracks="guestTracks" />
+        <Spinner v-if="tracksStore.fetchingQueue" class="m-4" />
+        <Tracks :tracks="tracksStore.guestTracks" />
 
         <div class="my-4 px-4">
             <RouterLink :to="{ name: 'add-to-queue' }">
@@ -55,7 +42,7 @@ const backupTracks = computed(() => tracks.value.filter((t) => !t.proposed_by));
 
         <IfAuth>
             <p class="my-2 mt-8 px-4">Morceaux en réserve:</p>
-            <Tracks :tracks="backupTracks" />
+            <Tracks :tracks="tracksStore.backupTracks" />
         </IfAuth>
     </Layout>
 </template>
