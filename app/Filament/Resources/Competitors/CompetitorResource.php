@@ -19,6 +19,8 @@ use UnitEnum;
 
 class CompetitorResource extends Resource
 {
+    use \App\Filament\Tools\TranslateModelLabel;
+
     protected static ?string $model = Competitor::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedStar;

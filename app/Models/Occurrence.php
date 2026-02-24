@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\OccurrenceStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Occurrence extends Model
 {
@@ -21,7 +22,7 @@ class Occurrence extends Model
         return $this->belongsTo(Game::class);
     }
 
-    public function competitors()
+    public function competitors(): BelongsToMany
     {
         return $this->belongsToMany(Competitor::class);
     }
