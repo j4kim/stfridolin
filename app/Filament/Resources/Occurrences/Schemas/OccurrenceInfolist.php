@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Occurrences\Schemas;
 use App\Filament\Resources\Games\GameResource;
 use App\Filament\Tools\EntryTools;
 use App\Models\Game;
+use Dom\Text;
 use Filament\Infolists\Components\Entry;
 use Filament\Infolists\Components\KeyValueEntry;
 use Filament\Infolists\Components\TextEntry;
@@ -24,6 +25,7 @@ class OccurrenceInfolist
                         TextEntry::make('title'),
                         TextEntry::make('start_at')->dateTime('d.m.Y H:i'),
                         TextEntry::make('end_at')->dateTime('d.m.Y H:i'),
+                        TextEntry::make('status')->badge(),
                         KeyValueEntry::make('meta'),
                     ])
             ]);

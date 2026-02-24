@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\OccurrenceStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -11,6 +12,7 @@ class Occurrence extends Model
     {
         return [
             'meta' => 'array',
+            'status' => OccurrenceStatus::class,
         ];
     }
 

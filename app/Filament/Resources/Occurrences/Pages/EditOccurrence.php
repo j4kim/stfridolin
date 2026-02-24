@@ -9,6 +9,8 @@ use Filament\Resources\Pages\EditRecord;
 
 class EditOccurrence extends EditRecord
 {
+    use \App\Filament\Tools\RedirectsToViewPage;
+
     protected static string $resource = OccurrenceResource::class;
 
     protected function getHeaderActions(): array
