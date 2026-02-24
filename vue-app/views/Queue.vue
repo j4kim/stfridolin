@@ -6,6 +6,7 @@ import { computed, ref } from "vue";
 import Tracks from "@/components/Tracks.vue";
 import Badge from "@/components/ui/badge/Badge.vue";
 import IfAuth from "@/components/IfAuth.vue";
+import { ArrowLeft, ListPlus } from "lucide-vue-next";
 
 const tracks = ref([]);
 
@@ -25,6 +26,15 @@ const backupTracks = computed(() => tracks.value.filter((t) => !t.proposed_by));
 
 <template>
     <Layout>
+        <div class="mt-2 ml-2">
+            <RouterLink :to="{ name: 'vote' }">
+                <Button size="sm" variant="ghost">
+                    <ArrowLeft />
+                    Combat en cours
+                </Button>
+            </RouterLink>
+        </div>
+
         <h2 class="my-2 px-4 font-bold">File d'attente</h2>
 
         <IfAuth>

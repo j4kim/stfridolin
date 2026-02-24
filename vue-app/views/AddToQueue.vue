@@ -1,10 +1,12 @@
 <script setup>
 import { api } from "@/api";
 import Layout from "@/components/Layout.vue";
+import { Button } from "@/components/ui/button";
 import ValidationDrawer from "@/components/ValidationDrawer.vue";
 import Search from "@/spotify/Search.vue";
 import { ref } from "vue";
 import { toast } from "vue-sonner";
+import { ArrowLeft } from "lucide-vue-next";
 
 const alreadyAdded = ref([]);
 
@@ -17,6 +19,14 @@ async function add(track) {
 
 <template>
     <Layout>
+        <div class="mt-2 ml-2">
+            <RouterLink :to="{ name: 'vote' }">
+                <Button size="sm" variant="ghost">
+                    <ArrowLeft />
+                    Combat en cours
+                </Button>
+            </RouterLink>
+        </div>
         <h2 class="my-2 px-4 font-bold">
             Ajouter un morceau à la file d'attente
         </h2>
