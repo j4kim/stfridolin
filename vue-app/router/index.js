@@ -17,28 +17,28 @@ const routes = [
     {
         path: "/auth",
         name: "guest-auth-form",
-        component: () => import("@/views/GuestAuthForm.vue"),
+        component: () => import("@/views/Guest/GuestAuthForm.vue"),
     },
     {
         path: "/guest/:key",
         name: "guest-page",
-        component: () => import("@/views/GuestPage.vue"),
+        component: () => import("@/views/Guest/GuestPage.vue"),
     },
     {
         path: "/thunasse",
         name: "registration-payment",
-        component: () => import("@/views/RegistrationPayment.vue"),
+        component: () => import("@/views/Guest/RegistrationPayment.vue"),
     },
     {
         path: "/thunasse/:id/status",
         name: "registration-payment-status",
-        component: () => import("@/views/RegistrationPaymentStatus.vue"),
+        component: () => import("@/views/Guest/RegistrationPaymentStatus.vue"),
     },
     // Routes requiring guest auth
     {
         path: "/buy-tokens",
         name: "buy-tokens",
-        component: () => import("@/views/BuyTokens.vue"),
+        component: () => import("@/views/Guest/BuyTokens.vue"),
         meta: {
             requireGuest: true,
         },
@@ -46,7 +46,7 @@ const routes = [
     {
         path: "/payment/:id/status",
         name: "payment-status",
-        component: () => import("@/views/PaymentStatus.vue"),
+        component: () => import("@/views/Guest/PaymentStatus.vue"),
         meta: {
             requireGuest: true,
         },
@@ -54,7 +54,7 @@ const routes = [
     {
         path: "/vote",
         name: "vote",
-        component: () => import("@/views/Vote.vue"),
+        component: () => import("@/views/Jukeboxe/Vote.vue"),
         meta: {
             requireGuest: true,
         },
@@ -62,7 +62,7 @@ const routes = [
     {
         path: "/queue",
         name: "queue",
-        component: () => import("@/views/Queue.vue"),
+        component: () => import("@/views/Jukeboxe/Queue.vue"),
         meta: {
             requireGuest: true,
         },
@@ -70,7 +70,7 @@ const routes = [
     {
         path: "/add-to-queue",
         name: "add-to-queue",
-        component: () => import("@/views/AddToQueue.vue"),
+        component: () => import("@/views/Jukeboxe/AddToQueue.vue"),
         meta: {
             requireGuest: true,
         },
@@ -102,7 +102,7 @@ const routes = [
     {
         path: "/voucher/:id",
         name: "voucher",
-        component: () => import("@/views/Voucher.vue"),
+        component: () => import("@/views/Guest/Voucher.vue"),
         meta: {
             requireGuest: true,
         },
@@ -110,7 +110,7 @@ const routes = [
     {
         path: "/spend/:currency",
         name: "spend",
-        component: () => import("@/views/Spend.vue"),
+        component: () => import("@/views/Guest/Spend.vue"),
         meta: {
             requireGuest: true,
         },
@@ -119,7 +119,7 @@ const routes = [
     {
         path: "/spotify",
         name: "spotify",
-        component: () => import("@/views/Spotify.vue"),
+        component: () => import("@/views/Admin/Spotify.vue"),
         meta: {
             requireAuth: true,
         },
@@ -127,7 +127,7 @@ const routes = [
     {
         path: "/boxing",
         name: "boxing",
-        component: () => import("@/views/Boxing.vue"),
+        component: () => import("@/views/Admin/Boxing.vue"),
         meta: {
             requireAuth: true,
         },
@@ -135,7 +135,7 @@ const routes = [
     {
         path: "/guest-cards",
         name: "guest-cards",
-        component: () => import("@/views/GuestCards.vue"),
+        component: () => import("@/views/Admin/GuestCards.vue"),
         meta: {
             requireAuth: true,
         },
@@ -143,7 +143,7 @@ const routes = [
     {
         path: "/voucher-cards",
         name: "voucher-cards",
-        component: () => import("@/views/VoucherCards.vue"),
+        component: () => import("@/views/Admin/VoucherCards.vue"),
         meta: {
             requireAuth: true,
         },
@@ -151,7 +151,7 @@ const routes = [
     {
         path: "/qr-scan",
         name: "qr-scan",
-        component: () => import("@/views/QrScan.vue"),
+        component: () => import("@/views/Admin/QrScan.vue"),
         meta: {
             requireAuth: true,
         },

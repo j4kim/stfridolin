@@ -2,7 +2,7 @@
 import Layout from "@/components/Layout.vue";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Home } from "lucide-vue-next";
-import PaymentFeedback from "./PaymentFeedback.vue";
+import PaymentFeedback from "@/components/PaymentFeedback.vue";
 import { AlertDescription } from "@/components/ui/alert";
 import { usePaymentStore } from "@/stores/payment";
 

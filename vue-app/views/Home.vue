@@ -1,7 +1,7 @@
 <script setup>
+import FullPageLoading from "@/components/FullPageLoading.vue";
 import { useGuestStore } from "@/stores/guest";
 import { defineAsyncComponent } from "vue";
-import FullPageLoading from "./FullPageLoading.vue";
 
 const guestStore = useGuestStore();
 
