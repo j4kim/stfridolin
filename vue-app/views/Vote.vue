@@ -7,15 +7,17 @@ import Layout from "@/components/Layout.vue";
 import Tracks from "@/components/Tracks.vue";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { ListMusic, ListPlus, TriangleAlert } from "lucide-vue-next";
+import { toast } from "vue-sonner";
 
 const fightStore = useFightStore();
 
 fightStore.fetchCurrentFight();
 
 async function vote(track) {
-    return await api("votes.vote")
+    const response = await api("votes.vote")
         .params([fightStore.fight.id, track.id])
         .post();
+    toast.success(response.message);
 }
 </script>
 

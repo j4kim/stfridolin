@@ -3,9 +3,11 @@ import { api } from "@/api";
 import Layout from "@/components/Layout.vue";
 import ValidationDrawer from "@/components/ValidationDrawer.vue";
 import Search from "@/spotify/Search.vue";
+import { toast } from "vue-sonner";
 
 async function add(track) {
-    await api("tracks.store").params(track.spotify_uri).post();
+    const response = await api("tracks.store").params(track.spotify_uri).post();
+    toast.success(response.message);
 }
 </script>
 
