@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             PointsVoucherSeeder::class,
             SponsorSeeder::class,
             GameArticleSeeder::class,
+            CompetitorSeeder::class,
         ]);
     }
 }
