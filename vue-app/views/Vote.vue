@@ -8,10 +8,14 @@ import Tracks from "@/components/Tracks.vue";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { ListMusic, ListPlus, TriangleAlert } from "lucide-vue-next";
 import { toast } from "vue-sonner";
+import { ref } from "vue";
+import Spinner from "@/components/ui/spinner/Spinner.vue";
 
 const fightStore = useFightStore();
 
-fightStore.fetchCurrentFight();
+const loading = ref(true);
+
+fightStore.fetchCurrentFight().finally(() => (loading.value = false));
 
 async function vote(track) {
     const response = await api("votes.vote")
@@ -55,6 +59,7 @@ async function vote(track) {
                 </AlertDescription>
             </Alert>
         </div>
+        <Spinner v-else-if="loading" class="m-4"></Spinner>
 
         <div class="my-4 flex flex-col gap-2 px-4">
             <RouterLink :to="{ name: 'add-to-queue' }">
