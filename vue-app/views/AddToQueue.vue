@@ -1,21 +1,19 @@
 <script setup>
-import { api } from "@/api";
 import Layout from "@/components/Layout.vue";
 import { Button } from "@/components/ui/button";
 import ValidationDrawer from "@/components/ValidationDrawer.vue";
 import Search from "@/spotify/Search.vue";
-import { ref } from "vue";
 import { toast } from "vue-sonner";
 import { ArrowLeft } from "lucide-vue-next";
 import { useRouter } from "vue-router";
-
-const alreadyAdded = ref([]);
+import { useTracksStore } from "@/stores/tracks";
 
 const router = useRouter();
 
+const tracksStore = useTracksStore();
+
 async function add(track) {
-    const response = await api("tracks.store").params(track.spotify_uri).post();
-    alreadyAdded.value.push(track.spotify_uri);
+    const response = await tracksStore.add(track);
     toast.success(response.message, {
         action: {
             label: "Voir la file",
@@ -45,7 +43,7 @@ async function add(track) {
                     :title="`Ajouter ${track.name} à la file d'attente&nbsp;?`"
                     :action="() => add(track)"
                     articleName="add-to-queue"
-                    :disabled="alreadyAdded.includes(track.spotify_uri)"
+                    :disabled="tracksStore.inQueue(track)"
                 ></ValidationDrawer>
             </template>
         </Search>

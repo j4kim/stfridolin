@@ -51,9 +51,24 @@ export const useTracksStore = defineStore("tracks", () => {
     const guestTracks = computed(() =>
         queueTracks.value.filter((t) => t.proposed_by),
     );
+
     const backupTracks = computed(() =>
         queueTracks.value.filter((t) => !t.proposed_by),
     );
+
+    async function add(track) {
+        const response = await api("tracks.store")
+            .params(track.spotify_uri)
+            .post();
+        queueTracks.value.push(response.track);
+        return response;
+    }
+
+    function inQueue(track) {
+        return guestTracks.value.some(
+            (t) => t.spotify_uri === track.spotify_uri,
+        );
+    }
 
     return {
         searchQuery,
@@ -67,5 +82,7 @@ export const useTracksStore = defineStore("tracks", () => {
         fetchQueue,
         guestTracks,
         backupTracks,
+        add,
+        inQueue,
     };
 });
