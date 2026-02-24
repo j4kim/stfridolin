@@ -7,16 +7,18 @@ import {
     ItemDescription,
     ItemTitle,
 } from "@/components/ui/item";
+import dayjs from "dayjs";
+import { computed } from "vue";
 
-defineProps({
+const props = defineProps({
     occ: Object,
 });
 
-function time(datetime) {
-    return new Date(datetime).toLocaleTimeString([], {
-        timeStyle: "short",
-    });
-}
+const startAt = computed(() => dayjs(props.occ.start_at).format("HH:mm"));
+
+const betsOpenAt = computed(() =>
+    dayjs(props.occ.start_at).subtract(30, "minutes").format("HH:mm"),
+);
 </script>
 
 <template>
@@ -25,15 +27,13 @@ function time(datetime) {
             <div>
                 <ItemTitle>{{ occ.title }}</ItemTitle>
                 <ItemDescription>
-                    De
-                    {{ time(occ.start_at) }}
-                    à
-                    {{ time(occ.end_at) }}
+                    Départ à {{ startAt }}<br />
+                    Ouverture des paris à {{ betsOpenAt }}
                 </ItemDescription>
             </div>
         </ItemContent>
         <ItemActions>
-            <Button disabled> C'est trop tôt </Button>
+            <Button disabled>Trop tôt</Button>
         </ItemActions>
     </Item>
 </template>
