@@ -31,6 +31,9 @@ class OccurrenceController extends Controller
             "ranking" => "required|array",
             "ranking.*" => "required|integer",
         ]);
+        if ($occurrence->status !== OccurrenceStatus::Started) {
+            abort(400, "La course doit être commencée");
+        }
         $occurrence->ranking = $request->ranking;
         $occurrence->status = OccurrenceStatus::Ranked;
         $occurrence->save();
