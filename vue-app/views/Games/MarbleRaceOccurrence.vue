@@ -54,7 +54,7 @@ async function bet(competitor) {
             <Competitors :competitors="occurrence.competitors">
                 <template #actions="{ competitor }">
                     <ValidationDrawer
-                        v-if="!existingBet"
+                        v-if="!existingBet && occurrence.status === 'open'"
                         trigger="Choisir"
                         :title="`Parier sur ${competitor.name}&nbsp;?`"
                         :action="() => bet(competitor)"
