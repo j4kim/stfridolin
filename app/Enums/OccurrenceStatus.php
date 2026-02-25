@@ -23,7 +23,7 @@ enum OccurrenceStatus: string implements HasLabel, HasColor
     {
         return match ($this) {
             self::Open => Color::Green,
-            self::Started => Color::Gray,
+            self::Started => Color::Yellow,
             self::Ranked => Color::Cyan,
             default => Color::Slate,
         };
