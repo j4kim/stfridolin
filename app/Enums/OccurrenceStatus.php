@@ -13,6 +13,7 @@ enum OccurrenceStatus: string implements HasLabel, HasColor
     case Open = 'open';
     case Started = 'started';
     case Ranked = 'ranked';
+    case Cancelled = 'cancelled';
 
     public function getLabel(): string | Htmlable | null
     {
