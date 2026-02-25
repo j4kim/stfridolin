@@ -74,6 +74,7 @@ async function bet(competitor) {
                         params: { occId: occurrence.id },
                     }"
                     class="m-4 mb-12 block"
+                    v-if="occurrence.status === 'started'"
                 >
                     <Button class="w-full">Faire classement</Button>
                 </RouterLink>
