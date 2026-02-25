@@ -3,6 +3,7 @@ import Layout from "@/components/Layout.vue";
 import MarbleRaceComptetitorItem from "@/components/MarbleRaceComptetitorItem.vue";
 import { ItemGroup, ItemSeparator } from "@/components/ui/item";
 import { useGamesStore } from "@/stores/games";
+import { useGuestStore } from "@/stores/guest";
 import { ChevronRight } from "lucide-vue-next";
 import { computed } from "vue";
 import { useRoute } from "vue-router";
@@ -10,12 +11,19 @@ import { useRoute } from "vue-router";
 const route = useRoute();
 
 const gamesStore = useGamesStore();
+const guestStore = useGuestStore();
 
 gamesStore.fetchGamesIfNeeded();
 
 const occurrence = computed(() =>
     gamesStore.marbleRace?.occurrences.find((o) => o.id == route.params.occId),
 );
+
+const existingBet = computed(() => {
+    return guestStore.movements.find(
+        (m) => m.occurrence_id === occurrence.value?.id,
+    );
+});
 </script>
 
 <template>
@@ -34,7 +42,7 @@ const occurrence = computed(() =>
                 v-for="competitor in occurrence.competitors"
                 :key="competitor.id"
             >
-                <MarbleRaceComptetitorItem :competitor />
+                <MarbleRaceComptetitorItem :competitor :existingBet />
                 <ItemSeparator />
             </template>
             <slot name="after"></slot>
