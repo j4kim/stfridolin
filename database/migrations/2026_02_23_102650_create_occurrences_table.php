@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('title')->nullable();
             $table->dateTime('start_at')->nullable();
             $table->dateTime('end_at')->nullable();
-            $table->string('status')->nullable();
+            $table->string('status')->default('initial');
             $table->json('meta')->nullable();
         });
     }
