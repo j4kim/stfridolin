@@ -23,11 +23,14 @@ export const useGamesStore = defineStore("games", () => {
 
     const byName = computed(() => keyBy(games.value, "name"));
 
+    const marbleRace = computed(() => byName.value["marble-race"]);
+
     return {
         games,
         fetchingGames,
         fetchGames,
         fetchGamesIfNeeded,
         byName,
+        marbleRace,
     };
 });
