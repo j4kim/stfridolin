@@ -2,8 +2,11 @@ import { defineStore } from "pinia";
 import { computed, ref } from "vue";
 import { keyBy } from "lodash-es";
 import { api } from "@/api";
+import { useGuestStore } from "./guest";
 
 export const useGamesStore = defineStore("games", () => {
+    const guestStore = useGuestStore();
+
     const games = ref([]);
     const fetchingGames = ref(false);
 
@@ -33,6 +36,7 @@ export const useGamesStore = defineStore("games", () => {
                 articleName,
             })
             .post();
+        guestStore.movements.unshift(result.movement);
         return result;
     }
 

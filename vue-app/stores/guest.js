@@ -66,6 +66,7 @@ export const useGuestStore = defineStore("guest", () => {
 
     return {
         guest,
+        movements,
         error,
         createGuests,
         fetchGuest,
