@@ -47,7 +47,8 @@ Route::middleware(AuthenticateGuest::class)->group(function () {
     Route::post('vouchers/{voucher}/use', [VoucherController::class, 'use'])->name('vouchers.use');
     Route::put('guests/spend', [GuestController::class, 'spend'])->name('guests.spend');
     Route::get('games', [GameController::class, 'index'])->name('games.index');
-    Route::post('occurrence/{occurrence}/bet/{competitor}', [OccurrenceController::class, 'bet'])->name('occurrences.bet');
+    Route::post('occurrences/{occurrence}/bet/{competitor}', [OccurrenceController::class, 'bet'])->name('occurrences.bet');
+    Route::post('occurrences/{occurrence}/set-ranking', [OccurrenceController::class, 'setRanking'])->name('occurrences.setRanking');
 });
 
 Route::post('guests', [GuestController::class, 'storeMany'])->name('guests.storeMany');

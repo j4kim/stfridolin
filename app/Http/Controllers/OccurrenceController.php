@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\OccurrenceStatus;
 use App\Models\Article;
 use App\Models\Competitor;
 use App\Models\Guest;
@@ -21,6 +22,21 @@ class OccurrenceController extends Controller
         return [
             "movement" => $movement,
             "message" => "Pari placé",
+        ];
+    }
+
+    public function setRanking(Occurrence $occurrence, Request $request)
+    {
+        $request->validate([
+            "ranking" => "required|array",
+            "ranking.*" => "required|integer",
+        ]);
+        $occurrence->ranking = $request->ranking;
+        $occurrence->status = OccurrenceStatus::Ranked;
+        $occurrence->save();
+        return [
+            "occurrence" => $occurrence,
+            "message" => "Classement enregistré",
         ];
     }
 }
