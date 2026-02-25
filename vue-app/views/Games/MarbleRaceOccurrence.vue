@@ -1,13 +1,15 @@
 <script setup>
+import Competitors from "@/components/Competitors.vue";
 import Layout from "@/components/Layout.vue";
-import MarbleRaceComptetitorItem from "@/components/MarbleRaceComptetitorItem.vue";
-import { ItemGroup, ItemSeparator } from "@/components/ui/item";
+import Badge from "@/components/ui/badge/Badge.vue";
 import Spinner from "@/components/ui/spinner/Spinner.vue";
+import ValidationDrawer from "@/components/ValidationDrawer.vue";
 import { useGamesStore } from "@/stores/games";
 import { useGuestStore } from "@/stores/guest";
 import { ChevronRight } from "lucide-vue-next";
 import { computed } from "vue";
 import { useRoute } from "vue-router";
+import { toast } from "vue-sonner";
 
 const route = useRoute();
 
@@ -25,6 +27,11 @@ const existingBet = computed(() => {
         (m) => m.occurrence_id === occurrence.value?.id,
     );
 });
+
+async function bet(competitor) {
+    const result = await gamesStore.betOn(competitor, "bet-on-a-marble");
+    toast.success(result.message);
+}
 </script>
 
 <template>
@@ -42,17 +49,21 @@ const existingBet = computed(() => {
                 Départ à {{ occurrence.start_at_time }}
             </p>
 
-            <ItemGroup v-if="occurrence.competitors?.length">
-                <ItemSeparator />
-                <template
-                    v-for="competitor in occurrence.competitors"
-                    :key="competitor.id"
-                >
-                    <MarbleRaceComptetitorItem :competitor :existingBet />
-                    <ItemSeparator />
+            <Competitors :competitors="occurrence.competitors">
+                <template #actions="{ competitor }">
+                    <ValidationDrawer
+                        v-if="!existingBet"
+                        trigger="Choisir"
+                        :title="`Parier sur ${competitor.name}&nbsp;?`"
+                        :action="() => bet(competitor)"
+                        articleName="bet-on-a-marble"
+                        :disabled="gamesStore.betting"
+                    ></ValidationDrawer>
+                    <Badge v-if="existingBet?.competitor_id === competitor.id">
+                        Ton pari
+                    </Badge>
                 </template>
-                <slot name="after"></slot>
-            </ItemGroup>
+            </Competitors>
         </template>
         <Spinner v-else-if="gamesStore.fetchingGames" class="m-4"></Spinner>
     </Layout>
