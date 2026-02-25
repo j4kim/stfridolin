@@ -22,7 +22,8 @@ class GuestsTable
             ->columns([
                 ...ColumnTools::systemColumns(),
                 TextColumn::make('name')
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable(),
                 TextColumn::make('key')
                     ->searchable(),
                 TextColumn::make('tokens')
