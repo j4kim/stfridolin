@@ -19,6 +19,8 @@ import {
 } from "lucide-vue-next";
 
 const guestStore = useGuestStore();
+
+guestStore.fetchGuestMovementsIfMissing();
 </script>
 
 <template>
@@ -71,7 +73,10 @@ const guestStore = useGuestStore();
                         </CardDescription>
                     </CardHeader>
                     <CardFooter>
-                        <RouterLink class="w-full" :to="{ name: 'vote' }">
+                        <RouterLink
+                            class="w-full"
+                            :to="{ name: 'marble-races' }"
+                        >
                             <Button class="w-full">
                                 <CirclePile />
                                 Parier sur votre championne
@@ -108,7 +113,10 @@ const guestStore = useGuestStore();
                         </CardDescription>
                     </CardHeader>
                     <CardFooter>
-                        <RouterLink class="w-full" :to="{ name: 'vote' }">
+                        <RouterLink
+                            class="w-full"
+                            :to="{ name: 'joes-weight' }"
+                        >
                             <Button class="w-full">
                                 <Weight />
                                 Lezgo je pronostique

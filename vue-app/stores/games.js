@@ -2,10 +2,14 @@ import { defineStore } from "pinia";
 import { computed, ref } from "vue";
 import { keyBy } from "lodash-es";
 import { api } from "@/api";
+import { useGuestStore } from "./guest";
 
 export const useGamesStore = defineStore("games", () => {
+    const guestStore = useGuestStore();
+
     const games = ref([]);
     const fetchingGames = ref(false);
+    const betting = ref(false);
 
     async function fetchGames() {
         fetchingGames.value = true;
@@ -23,11 +27,30 @@ export const useGamesStore = defineStore("games", () => {
 
     const byName = computed(() => keyBy(games.value, "name"));
 
+    const marbleRace = computed(() => byName.value["marble-race"]);
+
+    async function betOn(competitor, articleName) {
+        betting.value = true;
+        const result = await api("occurrences.bet")
+            .params({
+                occurrence: competitor.pivot.occurrence_id,
+                competitor: competitor.id,
+                articleName,
+            })
+            .post()
+            .finally(() => (betting.value = false));
+        guestStore.movements.unshift(result.movement);
+        return result;
+    }
+
     return {
         games,
         fetchingGames,
         fetchGames,
         fetchGamesIfNeeded,
         byName,
+        marbleRace,
+        betOn,
+        betting,
     };
 });

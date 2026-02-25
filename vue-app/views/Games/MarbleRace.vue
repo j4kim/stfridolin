@@ -9,9 +9,7 @@ const gamesStore = useGamesStore();
 
 gamesStore.fetchGames();
 
-const occurrences = computed(
-    () => gamesStore.byName["marble-race"]?.occurrences || [],
-);
+const occurrences = computed(() => gamesStore.marbleRace?.occurrences || []);
 </script>
 
 <template>
