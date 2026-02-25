@@ -8,7 +8,6 @@ import {
 } from "@/components/ui/item";
 import ValidationDrawer from "@/components/ValidationDrawer.vue";
 import { useGamesStore } from "@/stores/games";
-import { useRoute } from "vue-router";
 
 const props = defineProps({
     competitor: {
@@ -17,18 +16,7 @@ const props = defineProps({
     },
 });
 
-const route = useRoute();
-
 const gamesStore = useGamesStore();
-
-async function bet() {
-    console.log(
-        "Bet on",
-        props.competitor.name,
-        "in occurrence",
-        props.competitor.pivot.occurrence_id,
-    );
-}
 </script>
 
 <template>
@@ -43,7 +31,7 @@ async function bet() {
             <ValidationDrawer
                 trigger="Choisir"
                 :title="`Parier sur ${competitor.name}&nbsp;?`"
-                :action="() => bet()"
+                :action="() => gamesStore.betOn(competitor)"
                 articleName="bet-on-a-marble"
                 :disabled="false"
             ></ValidationDrawer>

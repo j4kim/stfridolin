@@ -25,6 +25,15 @@ export const useGamesStore = defineStore("games", () => {
 
     const marbleRace = computed(() => byName.value["marble-race"]);
 
+    async function betOn(competitor) {
+        const result = await api("occurrences.bet")
+            .params({
+                occurrence: competitor.pivot.occurrence_id,
+                competitor: competitor.id,
+            })
+            .post();
+    }
+
     return {
         games,
         fetchingGames,
@@ -32,5 +41,6 @@ export const useGamesStore = defineStore("games", () => {
         fetchGamesIfNeeded,
         byName,
         marbleRace,
+        betOn,
     };
 });
