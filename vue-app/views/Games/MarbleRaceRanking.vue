@@ -32,6 +32,15 @@ function reset() {
     rank.value = 1;
     ranking.value = {};
 }
+
+const submitting = ref(false);
+
+async function submit() {
+    submitting.value = true;
+    await gamesStore
+        .setRanking(occurrence.value, ranking.value)
+        .finally(() => (submitting.value = false));
+}
 </script>
 
 <template>
@@ -65,8 +74,17 @@ function reset() {
                     />
                 </template>
             </Competitors>
-            <div class="p-4">
+            <div class="flex flex-col gap-4 p-4">
                 <Button variant="outline" @click="reset">Reset</Button>
+                <Button
+                    @click="submit"
+                    :disabled="
+                        Object.keys(ranking).length == 0 || submitting.value
+                    "
+                >
+                    <Spinner v-if="submitting.value" class="mr-2" />
+                    Valider
+                </Button>
             </div>
         </template>
 
