@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Enums\CompetitorType;
+use App\Enums\OccurrenceStatus;
 use App\Models\Competitor;
 use App\Models\Game;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -42,8 +43,19 @@ class CompetitorSeeder extends Seeder
 
         $game = Game::firstWhere('name', "marble-race");
         $tenCompetitors = Competitor::take(10)->pluck('id');
-        foreach ($game->occurrences as $occurrence) {
+        foreach ($game->occurrences as $index => $occurrence) {
             $occurrence->competitors()->attach($tenCompetitors);
+            if ($index === 0) {
+                $occurrence->ranking = [5 => 1, 3 => 2, 8 => 3, 1 => 4, 10 => 5];
+                $occurrence->status = OccurrenceStatus::Ranked;
+                $occurrence->save();
+            } else if ($index === 1) {
+                $occurrence->status = OccurrenceStatus::Started;
+                $occurrence->save();
+            } else if ($index === 2) {
+                $occurrence->status = OccurrenceStatus::Open;
+                $occurrence->save();
+            }
         }
     }
 }

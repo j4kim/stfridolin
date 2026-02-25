@@ -38,7 +38,7 @@ function goToOcc() {
             <Button v-if="occ.status === 'open'" @click="goToOcc">
                 Parier
             </Button>
-            <Button v-else-if="occ.status === 'closed'" @click="goToOcc">
+            <Button v-else-if="occ.status === 'ranked'" @click="goToOcc">
                 Voir les résultats
             </Button>
             <Button v-else disabled> Trop tôt </Button>

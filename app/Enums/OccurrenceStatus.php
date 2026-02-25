@@ -11,7 +11,7 @@ enum OccurrenceStatus: string implements HasLabel, HasColor
 {
     case Initial = 'initial';
     case Open = 'open';
-    case Closed = 'closed';
+    case Started = 'started';
     case Ranked = 'ranked';
 
     public function getLabel(): string | Htmlable | null
@@ -23,7 +23,7 @@ enum OccurrenceStatus: string implements HasLabel, HasColor
     {
         return match ($this) {
             self::Open => Color::Green,
-            self::Closed => Color::Red,
+            self::Started => Color::Gray,
             self::Ranked => Color::Cyan,
             default => Color::Slate,
         };
