@@ -3,7 +3,7 @@
 namespace App\Filament\Resources\Occurrences\RelationManagers;
 
 use App\Filament\Resources\Competitors\CompetitorResource;
-use App\Filament\Resources\Competitors\Tables\CompetitorsTable;
+use App\Filament\Resources\Competitors\Tables\MarbleCompetitorsTable;
 use Filament\Actions\AttachAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DetachAction;
@@ -27,7 +27,7 @@ class CompetitorsRelationManager extends RelationManager
         return $table
             ->headerActions([
                 AttachAction::make()
-                    ->tableSelect(CompetitorsTable::class)
+                    ->tableSelect(MarbleCompetitorsTable::class)
                     ->multiple(),
             ])
             ->recordActions([
