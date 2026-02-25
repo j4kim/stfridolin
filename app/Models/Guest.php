@@ -144,6 +144,18 @@ class Guest extends Model
         ]);
     }
 
+    public function betOn(Occurrence $occurrence, Competitor $competitor, Article $article): Movement
+    {
+        return $this->createMovement([
+            'article_id' => $article->id,
+            'game_id' => $article->game_id,
+            'occurrence_id' => $occurrence->id,
+            'competitor_id' => $competitor->id,
+            'type' => MovementType::RaceBet,
+            'tokens' => -$article->price,
+        ]);
+    }
+
     public function receivePoints(Article $article, ?array $meta = null): Movement
     {
         return $this->createMovement([

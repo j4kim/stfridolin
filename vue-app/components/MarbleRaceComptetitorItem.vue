@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/item";
 import ValidationDrawer from "@/components/ValidationDrawer.vue";
 import { useGamesStore } from "@/stores/games";
+import { toast } from "vue-sonner";
 
 const props = defineProps({
     competitor: {
@@ -17,6 +18,11 @@ const props = defineProps({
 });
 
 const gamesStore = useGamesStore();
+
+async function bet() {
+    const result = await gamesStore.betOn(props.competitor, "bet-on-a-marble");
+    toast.success(result.message);
+}
 </script>
 
 <template>
@@ -31,7 +37,7 @@ const gamesStore = useGamesStore();
             <ValidationDrawer
                 trigger="Choisir"
                 :title="`Parier sur ${competitor.name}&nbsp;?`"
-                :action="() => gamesStore.betOn(competitor)"
+                :action="() => bet()"
                 articleName="bet-on-a-marble"
                 :disabled="false"
             ></ValidationDrawer>
