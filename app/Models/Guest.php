@@ -122,12 +122,11 @@ class Guest extends Model
     public function vote(Fight $fight, Track $track): Movement
     {
         $article = Article::where('name', 'vote')->firstOrFail();
-        $game = Game::where('name', 'jukeboxe')->firstOrFail();
         return $this->createMovement([
             'article_id' => $article->id,
             'type' => MovementType::JukeboxeVote,
             'tokens' => -$article->price,
-            'game_id' => $game->id,
+            'game_id' => $article->game_id,
             'fight_id' => $fight->id,
             'track_id' => $track->id,
         ]);
@@ -136,12 +135,11 @@ class Guest extends Model
     public function addTrack(Track $track): Movement
     {
         $article = Article::where('name', 'add-to-queue')->firstOrFail();
-        $game = Game::where('name', 'jukeboxe')->firstOrFail();
         return $this->createMovement([
             'article_id' => $article->id,
             'type' => MovementType::JukeboxeAdd,
             'tokens' => -$article->price,
-            'game_id' => $game->id,
+            'game_id' => $article->game_id,
             'track_id' => $track->id,
         ]);
     }
