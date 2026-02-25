@@ -36,6 +36,10 @@ const existingBet = computed(() => {
             <span class="font-bold">{{ occurrence?.title }}</span>
         </h2>
 
+        <p class="text-muted-foreground my-2 px-4 text-sm">
+            Départ à {{ occurrence?.start_at_time }}
+        </p>
+
         <ItemGroup v-if="occurrence?.competitors?.length">
             <ItemSeparator />
             <template

@@ -7,8 +7,6 @@ import {
     ItemDescription,
     ItemTitle,
 } from "@/components/ui/item";
-import dayjs from "dayjs";
-import { computed } from "vue";
 import { useRouter } from "vue-router";
 
 const props = defineProps({
@@ -16,12 +14,6 @@ const props = defineProps({
 });
 
 const router = useRouter();
-
-const startAt = computed(() => dayjs(props.occ.start_at).format("HH:mm"));
-
-const betsOpenAt = computed(() =>
-    dayjs(props.occ.start_at).subtract(30, "minutes").format("HH:mm"),
-);
 
 function goToOcc() {
     router.push({
@@ -37,8 +29,8 @@ function goToOcc() {
             <div>
                 <ItemTitle>{{ occ.title }}</ItemTitle>
                 <ItemDescription>
-                    Départ à {{ startAt }}<br />
-                    Ouverture des paris à {{ betsOpenAt }}
+                    Départ à {{ occ.start_at_time }}<br />
+                    Ouverture des paris à {{ occ.bets_open_at_time }}
                 </ItemDescription>
             </div>
         </ItemContent>
