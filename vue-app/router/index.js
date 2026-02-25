@@ -183,8 +183,12 @@ router.beforeEach(async (to) => {
         return false;
     }
     const { useGuestStore } = await import("@/stores/guest");
-    if (to.meta?.requireGuest && !useGuestStore().guest.id) {
-        return { name: "guest-auth-form" };
+    if (to.meta?.requireGuest) {
+        const guestStore = useGuestStore();
+        if (!guestStore.guest.id) {
+            return { name: "guest-auth-form" };
+        }
+        guestStore.fetchGuestMovementsIfMissing();
     }
 });
 

@@ -19,6 +19,8 @@ import {
 } from "lucide-vue-next";
 
 const guestStore = useGuestStore();
+
+guestStore.fetchGuestMovementsIfMissing();
 </script>
 
 <template>

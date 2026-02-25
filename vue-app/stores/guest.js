@@ -9,6 +9,7 @@ import { usePaymentStore } from "./payment";
 export const useGuestStore = defineStore("guest", () => {
     const guest = useStorage("guest", {});
     const error = ref(null);
+    const movements = ref([]);
 
     async function fetchGuest(key) {
         error.value = null;
@@ -18,6 +19,12 @@ export const useGuestStore = defineStore("guest", () => {
             guest.value = {};
             error.value = e;
             router.push({ name: "guest-auth-form", replace: true });
+        }
+    }
+
+    async function fetchGuestMovementsIfMissing() {
+        if (guest.value.id && movements.value.length === 0) {
+            movements.value = await api("guests.movements").get();
         }
     }
 
@@ -62,6 +69,7 @@ export const useGuestStore = defineStore("guest", () => {
         error,
         createGuests,
         fetchGuest,
+        fetchGuestMovementsIfMissing,
         subscribeToBroadcastEvents,
     };
 });

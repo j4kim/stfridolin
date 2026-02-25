@@ -34,6 +34,7 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 Route::middleware(AuthenticateGuest::class)->group(function () {
+    Route::get('guests/movements', [GuestController::class, 'movements'])->name('guests.movements');
     Route::get('spotify/search-tracks', [SpotifyController::class, 'searchTracks'])->name('spotify.search-tracks');
     Route::get('fights/current', [FightController::class, 'current'])->name('fights.current');
     Route::post('votes/{fight}/{track}', [VoteController::class, 'vote'])->name('votes.vote');
