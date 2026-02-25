@@ -2,6 +2,7 @@
 import Layout from "@/components/Layout.vue";
 import MarbleRaceComptetitorItem from "@/components/MarbleRaceComptetitorItem.vue";
 import { ItemGroup, ItemSeparator } from "@/components/ui/item";
+import Spinner from "@/components/ui/spinner/Spinner.vue";
 import { useGamesStore } from "@/stores/games";
 import { useGuestStore } from "@/stores/guest";
 import { ChevronRight } from "lucide-vue-next";
@@ -36,20 +37,23 @@ const existingBet = computed(() => {
             <span class="font-bold">{{ occurrence?.title }}</span>
         </h2>
 
-        <p class="text-muted-foreground my-2 px-4 text-sm">
-            Départ à {{ occurrence?.start_at_time }}
-        </p>
+        <template v-if="occurrence">
+            <p class="text-muted-foreground my-2 px-4 text-sm">
+                Départ à {{ occurrence.start_at_time }}
+            </p>
 
-        <ItemGroup v-if="occurrence?.competitors?.length">
-            <ItemSeparator />
-            <template
-                v-for="competitor in occurrence.competitors"
-                :key="competitor.id"
-            >
-                <MarbleRaceComptetitorItem :competitor :existingBet />
+            <ItemGroup v-if="occurrence.competitors?.length">
                 <ItemSeparator />
-            </template>
-            <slot name="after"></slot>
-        </ItemGroup>
+                <template
+                    v-for="competitor in occurrence.competitors"
+                    :key="competitor.id"
+                >
+                    <MarbleRaceComptetitorItem :competitor :existingBet />
+                    <ItemSeparator />
+                </template>
+                <slot name="after"></slot>
+            </ItemGroup>
+        </template>
+        <Spinner v-else-if="gamesStore.fetchingGames" class="m-4"></Spinner>
     </Layout>
 </template>

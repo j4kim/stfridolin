@@ -2,6 +2,7 @@
 import Layout from "@/components/Layout.vue";
 import MarbleRaceOccurenceItem from "@/components/MarbleRaceOccurenceItem.vue";
 import { ItemGroup, ItemSeparator } from "@/components/ui/item";
+import Spinner from "@/components/ui/spinner/Spinner.vue";
 import { useGamesStore } from "@/stores/games";
 import { computed } from "vue";
 
@@ -23,5 +24,6 @@ const occurrences = computed(() => gamesStore.marbleRace?.occurrences || []);
                 <ItemSeparator />
             </template>
         </ItemGroup>
+        <Spinner v-else-if="gamesStore.fetchingGames" class="m-4"></Spinner>
     </Layout>
 </template>
