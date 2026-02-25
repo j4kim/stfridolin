@@ -20,6 +20,7 @@ return new class extends Migration
             $table->dateTime('end_at')->nullable();
             $table->string('status')->default('initial');
             $table->json('meta')->nullable();
+            $table->json('ranking')->nullable();
         });
     }
 

@@ -14,6 +14,7 @@ class Occurrence extends Model
     {
         return [
             'meta' => 'array',
+            'ranking' => 'array',
             'start_at' => 'datetime',
             'end_at' => 'datetime',
             'status' => OccurrenceStatus::class,
