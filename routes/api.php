@@ -21,6 +21,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('master-client-id', [MasterController::class, 'setMasterClientId'])->name('master-client-id.set');
     Route::get('guests', [GuestController::class, 'index'])->name('guests.index');
     Route::get('vouchers', [VoucherController::class, 'index'])->name('vouchers.index');
+    Route::post('occurrences/{occurrence}/set-ranking', [OccurrenceController::class, 'setRanking'])->name('occurrences.setRanking');
 
     Route::middleware(EnsureMasterClient::class)->group(function () {
         Route::put('spotify/play', [SpotifyController::class, 'play'])->name('spotify.play');
@@ -48,7 +49,6 @@ Route::middleware(AuthenticateGuest::class)->group(function () {
     Route::put('guests/spend', [GuestController::class, 'spend'])->name('guests.spend');
     Route::get('games', [GameController::class, 'index'])->name('games.index');
     Route::post('occurrences/{occurrence}/bet/{competitor}', [OccurrenceController::class, 'bet'])->name('occurrences.bet');
-    Route::post('occurrences/{occurrence}/set-ranking', [OccurrenceController::class, 'setRanking'])->name('occurrences.setRanking');
 });
 
 Route::post('guests', [GuestController::class, 'storeMany'])->name('guests.storeMany');
