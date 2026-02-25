@@ -12,6 +12,8 @@ import {
 const props = defineProps({
     competitors: Array,
 });
+
+const emits = defineEmits(["item-click"]);
 </script>
 
 <template>
@@ -19,7 +21,7 @@ const props = defineProps({
         <ItemSeparator />
         <template v-for="competitor in props.competitors" :key="competitor.id">
             <Item>
-                <ItemMedia>
+                <ItemMedia @click="emits('item-click', competitor)">
                     <img class="size-12 rounded" :src="competitor.image_url" />
                 </ItemMedia>
                 <ItemContent>

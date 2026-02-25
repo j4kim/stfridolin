@@ -1,16 +1,13 @@
 <script setup>
 import Competitors from "@/components/Competitors.vue";
 import Layout from "@/components/Layout.vue";
-import Badge from "@/components/ui/badge/Badge.vue";
 import Button from "@/components/ui/button/Button.vue";
+import Input from "@/components/ui/input/Input.vue";
 import Spinner from "@/components/ui/spinner/Spinner.vue";
-import ValidationDrawer from "@/components/ValidationDrawer.vue";
 import { useGamesStore } from "@/stores/games";
-import { useGuestStore } from "@/stores/guest";
 import { ChevronRight } from "lucide-vue-next";
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import { useRoute } from "vue-router";
-import { toast } from "vue-sonner";
 
 const route = useRoute();
 
@@ -21,6 +18,20 @@ gamesStore.fetchGamesIfNeeded();
 const occurrence = computed(() =>
     gamesStore.marbleRace?.occurrences.find((o) => o.id == route.params.occId),
 );
+
+const rank = ref(1);
+
+const ranking = ref({});
+
+function setRanking(competitor) {
+    ranking.value[competitor.id] = rank.value;
+    rank.value += 1;
+}
+
+function reset() {
+    rank.value = 1;
+    ranking.value = {};
+}
 </script>
 
 <template>
@@ -42,10 +53,23 @@ const occurrence = computed(() =>
         </h2>
 
         <template v-if="occurrence">
-            <Competitors :competitors="occurrence.competitors">
-                <template #actions="{ competitor }"> </template>
+            <Competitors
+                :competitors="occurrence.competitors"
+                @item-click="(c) => setRanking(c)"
+            >
+                <template #actions="{ competitor }">
+                    <Input
+                        class="w-12"
+                        type="number"
+                        v-model="ranking[competitor.id]"
+                    />
+                </template>
             </Competitors>
+            <div class="p-4">
+                <Button variant="outline" @click="reset">Reset</Button>
+            </div>
         </template>
+
         <Spinner v-else-if="gamesStore.fetchingGames" class="m-4"></Spinner>
     </Layout>
 </template>
