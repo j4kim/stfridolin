@@ -1,7 +1,9 @@
 <script setup>
 import Competitors from "@/components/Competitors.vue";
+import IfAuth from "@/components/IfAuth.vue";
 import Layout from "@/components/Layout.vue";
 import Badge from "@/components/ui/badge/Badge.vue";
+import Button from "@/components/ui/button/Button.vue";
 import Spinner from "@/components/ui/spinner/Spinner.vue";
 import ValidationDrawer from "@/components/ValidationDrawer.vue";
 import { useGamesStore } from "@/stores/games";
@@ -64,6 +66,18 @@ async function bet(competitor) {
                     </Badge>
                 </template>
             </Competitors>
+
+            <IfAuth>
+                <RouterLink
+                    :to="{
+                        name: 'marble-race-ranking',
+                        params: { occId: occurrence.id },
+                    }"
+                    class="m-4 mb-12 block"
+                >
+                    <Button class="w-full">Faire classement</Button>
+                </RouterLink>
+            </IfAuth>
         </template>
         <Spinner v-else-if="gamesStore.fetchingGames" class="m-4"></Spinner>
     </Layout>
