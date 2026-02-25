@@ -2,9 +2,11 @@
 
 namespace App\Filament\Resources\Competitors\Tables;
 
+use App\Enums\CompetitorType;
 use App\Filament\Tools\ColumnTools;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
 class CompetitorsTable
@@ -25,7 +27,8 @@ class CompetitorsTable
                     ->visibleFrom('sm'),
             ])
             ->filters([
-                //
+                SelectFilter::make('type')
+                    ->options(CompetitorType::class),
             ]);
     }
 }
