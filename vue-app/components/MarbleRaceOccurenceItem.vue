@@ -8,12 +8,32 @@ import {
     ItemTitle,
 } from "@/components/ui/item";
 import { useRouter } from "vue-router";
+import { computed } from "vue";
+import { useMainStore } from "@/stores/main";
 
 const props = defineProps({
     occ: Object,
 });
 
 const router = useRouter();
+
+const mainStore = useMainStore();
+
+const disabled = computed(
+    () =>
+        !mainStore.user && ["initial", "cancelled"].includes(props.occ.status),
+);
+const buttonText = computed(() => {
+    return (
+        {
+            initial: "Trop tôt",
+            open: "Parier",
+            started: "En cours",
+            ranked: "Voir les résultats",
+            cancelled: "Annulé",
+        }[props.occ.status] || "Voir"
+    );
+});
 
 function goToOcc() {
     router.push({
@@ -35,13 +55,9 @@ function goToOcc() {
             </div>
         </ItemContent>
         <ItemActions>
-            <Button v-if="occ.status === 'open'" @click="goToOcc">
-                Parier
+            <Button :disabled @click="goToOcc">
+                {{ buttonText }}
             </Button>
-            <Button v-else-if="occ.status === 'ranked'" @click="goToOcc">
-                Voir les résultats
-            </Button>
-            <Button v-else disabled> Trop tôt </Button>
         </ItemActions>
     </Item>
 </template>
