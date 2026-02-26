@@ -16,6 +16,9 @@ class OccurrenceController extends Controller
         $request->validate([
             "articleName" => "required|string",
         ]);
+        if ($occurrence->status !== OccurrenceStatus::Open) {
+            abort(400, "Les paris sont fermés pour cette course");
+        }
         $article = Article::where('name', $request->articleName)->firstOrFail();
         $guest = Guest::fromRequest();
         $movement = $guest->betOn($occurrence, $competitor, $article);
