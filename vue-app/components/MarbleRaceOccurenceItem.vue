@@ -49,8 +49,10 @@ function goToOcc() {
             <div>
                 <ItemTitle>{{ occ.title }}</ItemTitle>
                 <ItemDescription>
-                    Départ à {{ occ.start_at_time }}<br />
-                    Ouverture des paris à {{ occ.bets_open_at_time }}
+                    <div>Départ à {{ occ.start_at_time }}</div>
+                    <div v-if="occ.status === 'initial'">
+                        Ouverture des paris à {{ occ.bets_open_at_time }}
+                    </div>
                 </ItemDescription>
             </div>
         </ItemContent>

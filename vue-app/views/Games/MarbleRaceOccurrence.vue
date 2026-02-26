@@ -47,8 +47,26 @@ async function bet(competitor) {
         </h2>
 
         <template v-if="occurrence">
-            <p class="text-muted-foreground my-2 px-4 text-sm">
+            <p
+                class="text-muted-foreground my-2 px-4 text-sm"
+                v-if="
+                    occurrence.status === 'open' ||
+                    occurrence.status === 'initial'
+                "
+            >
                 Départ à {{ occurrence.start_at_time }}
+            </p>
+            <p
+                class="text-muted-foreground my-2 px-4 text-sm"
+                v-else-if="occurrence.status === 'started'"
+            >
+                En cours
+            </p>
+            <p
+                class="text-muted-foreground my-2 px-4 text-sm"
+                v-else-if="occurrence.status === 'ranked'"
+            >
+                Terminée
             </p>
 
             <Competitors
