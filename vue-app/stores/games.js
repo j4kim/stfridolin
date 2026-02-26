@@ -44,11 +44,12 @@ export const useGamesStore = defineStore("games", () => {
     }
 
     async function setRanking(occurrence, ranking) {
-        await api("occurrences.setRanking")
+        const result = await api("occurrences.setRanking")
             .params({ occurrence: occurrence.id })
             .data({ ranking })
             .post();
         await fetchGames();
+        return result;
     }
 
     return {

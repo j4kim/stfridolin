@@ -7,9 +7,11 @@ import Spinner from "@/components/ui/spinner/Spinner.vue";
 import { useGamesStore } from "@/stores/games";
 import { ChevronRight } from "lucide-vue-next";
 import { computed, ref } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
+import { toast } from "vue-sonner";
 
 const route = useRoute();
+const router = useRouter();
 
 const gamesStore = useGamesStore();
 
@@ -37,9 +39,14 @@ const submitting = ref(false);
 
 async function submit() {
     submitting.value = true;
-    await gamesStore
+    const result = await gamesStore
         .setRanking(occurrence.value, ranking.value)
         .finally(() => (submitting.value = false));
+    toast.success(result.message);
+    router.push({
+        name: "marble-race-occurrence",
+        params: { occId: occurrence.value.id },
+    });
 }
 </script>
 
