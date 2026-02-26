@@ -40,6 +40,11 @@ class Movement extends Model
         return $this->belongsTo(Article::class);
     }
 
+    public function competitor(): BelongsTo
+    {
+        return $this->belongsTo(Competitor::class);
+    }
+
     public function broadcastOn(string $event): array
     {
         $channels = [];
