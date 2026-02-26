@@ -27,6 +27,9 @@ class OccurrenceInfolist
                         TextEntry::make('end_at')->dateTime('d.m.Y H:i'),
                         TextEntry::make('status')->badge(),
                         KeyValueEntry::make('meta'),
+                        KeyValueEntry::make('ranking')
+                            ->keyLabel('ID concurrent')
+                            ->valueLabel('Rang'),
                     ])
             ]);
     }

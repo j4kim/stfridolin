@@ -27,6 +27,9 @@ class OccurrenceForm
                 Select::make('status')
                     ->options(OccurrenceStatus::class),
                 KeyValue::make('meta'),
+                KeyValue::make('ranking')
+                    ->keyLabel('ID concurrent')
+                    ->valueLabel('Rang'),
             ]);
     }
 }

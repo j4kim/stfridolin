@@ -125,6 +125,14 @@ const routes = [
     },
     // Routes requiring real auth
     {
+        path: "/marble-races/:occId/ranking",
+        name: "marble-race-ranking",
+        component: () => import("@/views/Games/MarbleRaceRanking.vue"),
+        meta: {
+            requireAuth: true,
+        },
+    },
+    {
         path: "/spotify",
         name: "spotify",
         component: () => import("@/views/Admin/Spotify.vue"),

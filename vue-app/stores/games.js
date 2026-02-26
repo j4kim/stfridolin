@@ -43,6 +43,15 @@ export const useGamesStore = defineStore("games", () => {
         return result;
     }
 
+    async function setRanking(occurrence, ranking) {
+        const result = await api("occurrences.setRanking")
+            .params({ occurrence: occurrence.id })
+            .data({ ranking })
+            .post();
+        await fetchGames();
+        return result;
+    }
+
     return {
         games,
         fetchingGames,
@@ -52,5 +61,6 @@ export const useGamesStore = defineStore("games", () => {
         marbleRace,
         betOn,
         betting,
+        setRanking,
     };
 });
