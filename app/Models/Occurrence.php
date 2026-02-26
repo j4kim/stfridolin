@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Occurrence extends Model
 {
@@ -31,6 +32,11 @@ class Occurrence extends Model
     public function competitors(): BelongsToMany
     {
         return $this->belongsToMany(Competitor::class);
+    }
+
+    public function movements(): HasMany
+    {
+        return $this->hasMany(Movement::class);
     }
 
     protected function startAtTime(): Attribute

@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Occurrences\Pages;
 
 use App\Filament\Resources\Occurrences\OccurrenceResource;
 use App\Filament\Resources\Occurrences\RelationManagers\CompetitorsRelationManager;
+use App\Filament\Resources\Occurrences\RelationManagers\MovementsRelationManager;
 use Filament\Actions\Action;
 use Filament\Actions\EditAction;
 use Filament\Resources\Pages\ViewRecord;
@@ -16,6 +17,7 @@ class ViewOccurrence extends ViewRecord
     {
         return [
             CompetitorsRelationManager::class,
+            MovementsRelationManager::class,
         ];
     }
 
