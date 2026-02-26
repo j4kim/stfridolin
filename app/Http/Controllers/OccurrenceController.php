@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\MovementType;
 use App\Enums\OccurrenceStatus;
 use App\Models\Article;
 use App\Models\Competitor;
@@ -63,7 +64,24 @@ class OccurrenceController extends Controller
         if ($occurrence->status !== OccurrenceStatus::Started) {
             abort(400, "La course doit être commencée");
         }
+        $points = @$occurrence->meta['points'];
+        if (!$points) {
+            abort(500, "Le nombre de points à distribuer n'est pas spécifié dans les métadonnées de l'occurrence");
+        }
         $occurrence->ranking = $request->ranking;
+        $betMvmts = $occurrence->movements()
+            ->with('guest')
+            ->where('type', MovementType::RaceBet);
+        foreach ($occurrence->ranking as $competitorId => $rank) {
+            if ($rank !== 1) continue;
+            $bets = $betMvmts->where('competitor_id', $competitorId)->get();
+            $pointsPerEach = ceil($points / $bets->count());
+            foreach ($bets as $bet) {
+                $bet->points = $pointsPerEach;
+                $bet->save();
+                $bet->guest->recomputeTokensAndPoints()->save();
+            }
+        }
         $occurrence->status = OccurrenceStatus::Ranked;
         $occurrence->save();
         return [

@@ -15,6 +15,7 @@ enum MovementType: string implements HasLabel, HasColor
     case JukeboxeAdd = 'jukeboxe-add';
     case RaceBet = 'race-bet';
     case GameParticipation = 'game-participation';
+    case GameWin = 'game-win';
     case SpendTokens = 'spend-tokens';
     case ReceivePoints = 'receive-points';
     case Manual = 'manual';
