@@ -43,6 +43,14 @@ export const useGamesStore = defineStore("games", () => {
         return result;
     }
 
+    async function openRace(occurrence) {
+        const result = await api("occurrences.open")
+            .params({ occurrence: occurrence.id })
+            .post();
+        await fetchGames();
+        return result;
+    }
+
     async function startRace(occurrence) {
         const result = await api("occurrences.start")
             .params({ occurrence: occurrence.id })
@@ -69,6 +77,7 @@ export const useGamesStore = defineStore("games", () => {
         marbleRace,
         betOn,
         betting,
+        openRace,
         startRace,
         setRanking,
     };

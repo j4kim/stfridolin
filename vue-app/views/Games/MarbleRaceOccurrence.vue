@@ -35,6 +35,11 @@ async function bet(competitor) {
     toast.success(result.message);
 }
 
+async function open() {
+    const result = await gamesStore.openRace(occurrence.value);
+    toast.success(result.message);
+}
+
 async function start() {
     const result = await gamesStore.startRace(occurrence.value);
     toast.success(result.message);
@@ -97,6 +102,14 @@ async function start() {
 
             <IfAuth>
                 <div class="mb-12 flex flex-col gap-4 p-4">
+                    <ValidationDrawer
+                        v-if="occurrence.status === 'initial'"
+                        trigger="Ouvrir les paris"
+                        :title="`Ouvrir les paris&nbsp;?`"
+                        :action="() => open()"
+                    >
+                        <template #validation> Oui </template>
+                    </ValidationDrawer>
                     <ValidationDrawer
                         v-if="occurrence.status === 'open'"
                         trigger="Démarrer"
