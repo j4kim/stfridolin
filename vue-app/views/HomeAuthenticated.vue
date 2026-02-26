@@ -1,4 +1,5 @@
 <script setup>
+import AnimatedCount from "@/components/AnimatedCount.vue";
 import Layout from "@/components/Layout.vue";
 import SvgTitle from "@/components/SvgTitle.vue";
 import Button from "@/components/ui/button/Button.vue";
@@ -40,7 +41,8 @@ guestStore.fetchGuestMovementsIfMissing();
                 Tu as actuellement
                 <span class="inline-flex items-baseline gap-1 font-extrabold">
                     <CircleStar size="1em" class="self-center" />
-                    {{ guestStore.guest.tokens }} jetons.
+                    <AnimatedCount :value="guestStore.guest.tokens" />
+                    jetons.
                 </span>
                 Les jetons sont une monnaie d'échange pour participer aux jeux.
                 Si tu gagnes à un jeu, tu reçoit des
