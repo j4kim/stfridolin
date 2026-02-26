@@ -28,6 +28,32 @@ class OccurrenceController extends Controller
         ];
     }
 
+    public function open(Occurrence $occurrence, Request $request)
+    {
+        if ($occurrence->status !== OccurrenceStatus::Initial) {
+            abort(400, "La course doit être en statut initial");
+        }
+        $occurrence->status = OccurrenceStatus::Open;
+        $occurrence->save();
+        return [
+            "occurrence" => $occurrence,
+            "message" => "Paris ouverts",
+        ];
+    }
+
+    public function start(Occurrence $occurrence, Request $request)
+    {
+        if ($occurrence->status !== OccurrenceStatus::Open) {
+            abort(400, "La course doit être ouverte");
+        }
+        $occurrence->status = OccurrenceStatus::Started;
+        $occurrence->save();
+        return [
+            "occurrence" => $occurrence,
+            "message" => "Course démarrée",
+        ];
+    }
+
     public function setRanking(Occurrence $occurrence, Request $request)
     {
         $request->validate([

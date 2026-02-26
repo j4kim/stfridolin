@@ -34,6 +34,16 @@ async function bet(competitor) {
     const result = await gamesStore.betOn(competitor, "bet-on-a-marble");
     toast.success(result.message);
 }
+
+async function open() {
+    const result = await gamesStore.openRace(occurrence.value);
+    toast.success(result.message);
+}
+
+async function start() {
+    const result = await gamesStore.startRace(occurrence.value);
+    toast.success(result.message);
+}
 </script>
 
 <template>
@@ -92,13 +102,28 @@ async function bet(competitor) {
 
             <IfAuth>
                 <div class="mb-12 flex flex-col gap-4 p-4">
+                    <ValidationDrawer
+                        v-if="occurrence.status === 'initial'"
+                        trigger="Ouvrir les paris"
+                        :title="`Ouvrir les paris&nbsp;?`"
+                        :action="() => open()"
+                    >
+                        <template #validation> Oui </template>
+                    </ValidationDrawer>
+                    <ValidationDrawer
+                        v-if="occurrence.status === 'open'"
+                        trigger="Démarrer"
+                        :title="`Fermer les paris et démarrer la course&nbsp;?`"
+                        :action="() => start()"
+                    >
+                        <template #validation> Oui </template>
+                    </ValidationDrawer>
                     <RouterLink
+                        v-if="occurrence.status === 'started'"
                         :to="{
                             name: 'marble-race-ranking',
                             params: { occId: occurrence.id },
                         }"
-                        class=""
-                        v-if="occurrence.status === 'started'"
                     >
                         <Button class="w-full">Faire classement</Button>
                     </RouterLink>
