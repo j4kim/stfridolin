@@ -24,6 +24,6 @@ const occurrences = computed(() => gamesStore.marbleRace?.occurrences || []);
                 <ItemSeparator />
             </template>
         </ItemGroup>
-        <Spinner v-else-if="gamesStore.fetchingGames" class="m-4"></Spinner>
+        <Spinner v-else-if="gamesStore.fetching" class="m-4"></Spinner>
     </Layout>
 </template>

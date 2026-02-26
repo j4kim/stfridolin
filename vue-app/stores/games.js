@@ -8,21 +8,30 @@ export const useGamesStore = defineStore("games", () => {
     const guestStore = useGuestStore();
 
     const games = ref([]);
-    const fetchingGames = ref(false);
+
+    const occurrence = ref(null);
+
+    const fetching = ref(false);
     const betting = ref(false);
 
     async function fetchGames() {
-        fetchingGames.value = true;
+        fetching.value = true;
         try {
             games.value = await api("games.index").get();
         } finally {
-            fetchingGames.value = false;
+            fetching.value = false;
         }
     }
 
-    async function fetchGamesIfNeeded() {
-        if (games.value.length) return;
-        await fetchGames();
+    async function fetchOccurrence(occurrenceId) {
+        if (occurrence.value && occurrenceId !== occurrence.value.id) {
+            occurrence.value = null;
+        }
+        fetching.value = true;
+        occurrence.value = await api("occurrences.get")
+            .params(occurrenceId)
+            .get()
+            .finally(() => (fetching.value = false));
     }
 
     const byName = computed(() => keyBy(games.value, "name"));
@@ -33,7 +42,7 @@ export const useGamesStore = defineStore("games", () => {
         betting.value = true;
         const result = await api("occurrences.bet")
             .params({
-                occurrence: competitor.pivot.occurrence_id,
+                occurrence: occurrence.value.id,
                 competitor: competitor.id,
                 articleName,
             })
@@ -43,25 +52,25 @@ export const useGamesStore = defineStore("games", () => {
         return result;
     }
 
-    async function openRace(occurrence) {
+    async function openRace() {
         const result = await api("occurrences.open")
-            .params({ occurrence: occurrence.id })
+            .params({ occurrence: occurrence.value.id })
             .post();
         await fetchGames();
         return result;
     }
 
-    async function startRace(occurrence) {
+    async function startRace() {
         const result = await api("occurrences.start")
-            .params({ occurrence: occurrence.id })
+            .params({ occurrence: occurrence.value.id })
             .post();
         await fetchGames();
         return result;
     }
 
-    async function setRanking(occurrence, ranking) {
+    async function setRanking(ranking) {
         const result = await api("occurrences.setRanking")
-            .params({ occurrence: occurrence.id })
+            .params({ occurrence: occurrence.value.id })
             .data({ ranking })
             .post();
         await fetchGames();
@@ -70,9 +79,10 @@ export const useGamesStore = defineStore("games", () => {
 
     return {
         games,
-        fetchingGames,
+        occurrence,
+        fetching,
         fetchGames,
-        fetchGamesIfNeeded,
+        fetchOccurrence,
         byName,
         marbleRace,
         betOn,
