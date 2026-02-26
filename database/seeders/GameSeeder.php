@@ -28,26 +28,31 @@ class GameSeeder extends Seeder
                 'title' => "1ère manche",
                 'start_at' => '2026-03-06 19:00:00',
                 'end_at' => '2026-03-06 19:15:00',
+                'meta' => ['points' => 500]
             ],
             [
                 'title' => "2ème manche",
                 'start_at' => '2026-03-06 20:00:00',
                 'end_at' => '2026-03-06 20:15:00',
+                'meta' => ['points' => 500]
             ],
             [
                 'title' => "3ème manche",
                 'start_at' => '2026-03-06 21:00:00',
                 'end_at' => '2026-03-06 21:15:00',
+                'meta' => ['points' => 500]
             ],
             [
                 'title' => "4ème manche",
                 'start_at' => '2026-03-06 22:00:00',
                 'end_at' => '2026-03-06 22:15:00',
+                'meta' => ['points' => 500]
             ],
             [
                 'title' => "Finale",
                 'start_at' => '2026-03-06 23:00:00',
                 'end_at' => '2026-03-06 23:15:00',
+                'meta' => ['points' => 1000]
             ],
         ]);
         Game::create([
