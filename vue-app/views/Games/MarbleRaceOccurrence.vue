@@ -91,16 +91,25 @@ async function bet(competitor) {
             </Competitors>
 
             <IfAuth>
-                <RouterLink
-                    :to="{
-                        name: 'marble-race-ranking',
-                        params: { occId: occurrence.id },
-                    }"
-                    class="m-4 mb-12 block"
-                    v-if="occurrence.status === 'started'"
-                >
-                    <Button class="w-full">Faire classement</Button>
-                </RouterLink>
+                <div class="mb-12 flex flex-col gap-4 p-4">
+                    <RouterLink
+                        :to="{
+                            name: 'marble-race-ranking',
+                            params: { occId: occurrence.id },
+                        }"
+                        class=""
+                        v-if="occurrence.status === 'started'"
+                    >
+                        <Button class="w-full">Faire classement</Button>
+                    </RouterLink>
+                    <Button
+                        variant="link"
+                        as="a"
+                        :href="`/admin/occurrences/${occurrence.id}`"
+                    >
+                        Ouvrir sur la console admin
+                    </Button>
+                </div>
             </IfAuth>
         </template>
         <Spinner v-else-if="gamesStore.fetchingGames" class="m-4"></Spinner>
