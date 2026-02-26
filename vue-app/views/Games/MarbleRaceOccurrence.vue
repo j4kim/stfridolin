@@ -51,7 +51,12 @@ async function bet(competitor) {
                 Départ à {{ occurrence.start_at_time }}
             </p>
 
-            <Competitors :competitors="occurrence.competitors">
+            <Competitors
+                :competitors="occurrence.competitors"
+                :ranking="
+                    occurrence.status === 'ranked' ? occurrence.ranking : null
+                "
+            >
                 <template #actions="{ competitor }">
                     <ValidationDrawer
                         v-if="!existingBet && occurrence.status === 'open'"
