@@ -1,30 +1,42 @@
 import { defineStore } from "pinia";
-import { computed, ref } from "vue";
-import { keyBy } from "lodash-es";
+import { computed, ref, watch } from "vue";
+import { keyBy, merge } from "lodash-es";
 import { api } from "@/api";
 import { useGuestStore } from "./guest";
+import { pusher } from "@/broadcasting";
 
 export const useGamesStore = defineStore("games", () => {
     const guestStore = useGuestStore();
 
-    const games = ref([]);
+    const games = ref(JSON.parse(document.body.dataset.games));
+
+    const gameName = ref(null);
+
+    const byName = computed(() => keyBy(games.value, "name"));
+
+    const gameId = computed(() => byName.value[gameName.value]?.id);
+
+    const game = ref(null);
 
     const occurrence = ref(null);
 
     const fetching = ref(false);
     const betting = ref(false);
 
-    async function fetchGames() {
+    async function fetchGame() {
+        if (!gameName.value) {
+            throw new Error("No gameName");
+        }
         fetching.value = true;
         try {
-            games.value = await api("games.index").get();
+            game.value = await api("games.get").params(gameName.value).get();
         } finally {
             fetching.value = false;
         }
     }
 
     async function fetchOccurrence(occurrenceId) {
-        if (occurrence.value && occurrenceId !== occurrence.value.id) {
+        if (occurrence.value && occurrenceId != occurrence.value.id) {
             occurrence.value = null;
         }
         fetching.value = true;
@@ -33,10 +45,6 @@ export const useGamesStore = defineStore("games", () => {
             .get()
             .finally(() => (fetching.value = false));
     }
-
-    const byName = computed(() => keyBy(games.value, "name"));
-
-    const marbleRace = computed(() => byName.value["marble-race"]);
 
     async function betOn(competitor, articleName) {
         betting.value = true;
@@ -56,7 +64,7 @@ export const useGamesStore = defineStore("games", () => {
         const result = await api("occurrences.open")
             .params({ occurrence: occurrence.value.id })
             .post();
-        await fetchGames();
+        await fetchOccurrence(occurrence.value.id);
         return result;
     }
 
@@ -64,7 +72,7 @@ export const useGamesStore = defineStore("games", () => {
         const result = await api("occurrences.start")
             .params({ occurrence: occurrence.value.id })
             .post();
-        await fetchGames();
+        await fetchOccurrence(occurrence.value.id);
         return result;
     }
 
@@ -73,18 +81,46 @@ export const useGamesStore = defineStore("games", () => {
             .params({ occurrence: occurrence.value.id })
             .data({ ranking })
             .post();
-        await fetchGames();
+        await fetchOccurrence(occurrence.value.id);
         return result;
+    }
+
+    watch(gameId, (newGameId, oldGameId) => {
+        if (newGameId) {
+            subscribeToGameChannel(newGameId);
+        }
+        if (oldGameId) {
+            pusher.unsubscribe(`game-${oldGameId}`);
+        }
+    });
+
+    function subscribeToGameChannel(gameId) {
+        const channel = pusher.subscribe(`game-${gameId}`);
+
+        channel.bind("OccurrenceUpdated", (data) => {
+            if (occurrence.value?.id == data.model.id) {
+                occurrence.value = merge(occurrence.value, data.model);
+            }
+            if (game.value?.occurrences) {
+                const index = game.value.occurrences.findIndex(
+                    (o) => o.id == data.model.id,
+                );
+                if (index > -1) {
+                    game.value.occurrences[index] = data.model;
+                }
+            }
+        });
     }
 
     return {
         games,
+        game,
+        gameName,
+        gameId,
         occurrence,
         fetching,
-        fetchGames,
+        fetchGame,
         fetchOccurrence,
-        byName,
-        marbleRace,
         betOn,
         betting,
         openRace,

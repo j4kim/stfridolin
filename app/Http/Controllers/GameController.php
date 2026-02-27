@@ -7,8 +7,8 @@ use Illuminate\Http\Request;
 
 class GameController extends Controller
 {
-    public function index()
+    public function get(string $gameName)
     {
-        return Game::with(['occurrences', 'articles'])->get();
+        return Game::with(['occurrences', 'articles'])->firstWhere('name', $gameName);
     }
 }
