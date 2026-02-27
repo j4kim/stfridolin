@@ -1,29 +1,13 @@
 <script setup>
-import Layout from "@/components/Layout.vue";
-import MarbleRaceOccurenceItem from "@/components/MarbleRaceOccurenceItem.vue";
-import { ItemGroup, ItemSeparator } from "@/components/ui/item";
-import Spinner from "@/components/ui/spinner/Spinner.vue";
 import { useGamesStore } from "@/stores/games";
-import { computed } from "vue";
+import { onMounted, onUnmounted } from "vue";
 
 const gamesStore = useGamesStore();
 
-gamesStore.fetchGames();
-
-const occurrences = computed(() => gamesStore.marbleRace?.occurrences || []);
+onMounted(() => (gamesStore.gameName = "marble-race"));
+onUnmounted(() => (gamesStore.gameName = null));
 </script>
 
 <template>
-    <Layout>
-        <h2 class="my-2 space-x-1 px-4">Courses de billes</h2>
-
-        <ItemGroup v-if="occurrences.length">
-            <ItemSeparator />
-            <template v-for="occ in occurrences" :key="occ.id">
-                <MarbleRaceOccurenceItem :occ="occ" />
-                <ItemSeparator />
-            </template>
-        </ItemGroup>
-        <Spinner v-else-if="gamesStore.fetching" class="m-4"></Spinner>
-    </Layout>
+    <RouterView></RouterView>
 </template>

@@ -77,19 +77,34 @@ const routes = [
     },
     {
         path: "/marble-races",
-        name: "marble-races",
         component: () => import("@/views/Games/MarbleRace.vue"),
-        meta: {
-            requireGuest: true,
-        },
-    },
-    {
-        path: "/marble-races/:occId",
-        name: "marble-race-occurrence",
-        component: () => import("@/views/Games/MarbleRaceOccurrence.vue"),
-        meta: {
-            requireGuest: true,
-        },
+        children: [
+            {
+                path: "",
+                name: "marble-races",
+                component: () => import("@/views/Games/MarbleRaceIndex.vue"),
+                meta: {
+                    requireGuest: true,
+                },
+            },
+            {
+                path: ":occId",
+                name: "marble-race-occurrence",
+                component: () =>
+                    import("@/views/Games/MarbleRaceOccurrence.vue"),
+                meta: {
+                    requireGuest: true,
+                },
+            },
+            {
+                path: ":occId/ranking",
+                name: "marble-race-ranking",
+                component: () => import("@/views/Games/MarbleRaceRanking.vue"),
+                meta: {
+                    requireAuth: true,
+                },
+            },
+        ],
     },
     {
         path: "/horse-show",
@@ -124,14 +139,6 @@ const routes = [
         },
     },
     // Routes requiring real auth
-    {
-        path: "/marble-races/:occId/ranking",
-        name: "marble-race-ranking",
-        component: () => import("@/views/Games/MarbleRaceRanking.vue"),
-        meta: {
-            requireAuth: true,
-        },
-    },
     {
         path: "/spotify",
         name: "spotify",
