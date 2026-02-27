@@ -79,6 +79,7 @@ async function start() {
                 :ranking="
                     status === 'ranked' ? gamesStore.occurrence.ranking : null
                 "
+                :showBettors="['ranked', 'started'].includes(status)"
             >
                 <template #actions="{ competitor }">
                     <ValidationDrawer

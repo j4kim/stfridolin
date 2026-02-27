@@ -15,6 +15,7 @@ import Badge from "./ui/badge/Badge.vue";
 const props = defineProps({
     competitors: Array,
     ranking: Object,
+    showBettors: Boolean,
 });
 
 const emits = defineEmits(["item-click"]);
@@ -49,9 +50,13 @@ const sortedCompetitors = computed(() => {
                 <ItemContent>
                     <div>
                         <ItemTitle>{{ competitor.name }}</ItemTitle>
-                        <ItemDescription v-for="bettor in competitor.bettors">
-                            {{ bettor }}
-                        </ItemDescription>
+                        <template v-if="showBettors">
+                            <ItemDescription
+                                v-for="bettor in competitor.bettors"
+                            >
+                                {{ bettor }}
+                            </ItemDescription>
+                        </template>
                     </div>
                 </ItemContent>
                 <ItemActions>
