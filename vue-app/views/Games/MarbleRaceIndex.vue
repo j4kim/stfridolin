@@ -8,9 +8,9 @@ import { computed } from "vue";
 
 const gamesStore = useGamesStore();
 
-gamesStore.fetchGames();
+gamesStore.fetchGame();
 
-const occurrences = computed(() => gamesStore.marbleRace?.occurrences || []);
+const occurrences = computed(() => gamesStore.game?.occurrences || []);
 </script>
 
 <template>
