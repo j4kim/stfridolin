@@ -117,7 +117,7 @@ const routes = [
     {
         path: "/joes-weight",
         name: "joes-weight",
-        component: () => import("@/views/Tbi.vue"),
+        component: () => import("@/views/Games/JoesWeight.vue"),
         meta: {
             requireGuest: true,
         },
