@@ -4,6 +4,8 @@ namespace App\Models;
 
 use App\Enums\MovementType;
 use App\Enums\OccurrenceStatus;
+use Illuminate\Broadcasting\Channel;
+use Illuminate\Database\Eloquent\BroadcastsEvents;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -12,6 +14,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Occurrence extends Model
 {
+    use BroadcastsEvents;
+
     protected function casts(): array
     {
         return [
@@ -64,5 +68,10 @@ class Occurrence extends Model
                 return null;
             },
         );
+    }
+
+    public function broadcastOn(string $event): array
+    {
+        return [new Channel("game-$this->game_id")];
     }
 }
