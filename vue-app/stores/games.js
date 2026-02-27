@@ -1,8 +1,9 @@
 import { defineStore } from "pinia";
 import { computed, ref, watch } from "vue";
-import { keyBy } from "lodash-es";
+import { keyBy, merge } from "lodash-es";
 import { api } from "@/api";
 import { useGuestStore } from "./guest";
+import { pusher } from "@/broadcasting";
 
 export const useGamesStore = defineStore("games", () => {
     const guestStore = useGuestStore();
@@ -84,9 +85,32 @@ export const useGamesStore = defineStore("games", () => {
         return result;
     }
 
-    watch(gameId, (newGameId, oldGameID) => {
-        console.log("gameId changed from", oldGameID, "to", newGameId);
+    watch(gameId, (newGameId, oldGameId) => {
+        if (newGameId) {
+            subscribeToGameChannel(newGameId);
+        }
+        if (oldGameId) {
+            pusher.unsubscribe(`game-${oldGameId}`);
+        }
     });
+
+    function subscribeToGameChannel(gameId) {
+        const channel = pusher.subscribe(`game-${gameId}`);
+
+        channel.bind("OccurrenceUpdated", (data) => {
+            if (occurrence.value?.id == data.model.id) {
+                occurrence.value = merge(occurrence.value, data.model);
+            }
+            if (game.value?.occurrences) {
+                const index = game.value.occurrences.findIndex(
+                    (o) => o.id == data.model.id,
+                );
+                if (index > -1) {
+                    game.value.occurrences[index] = data.model;
+                }
+            }
+        });
+    }
 
     return {
         games,
