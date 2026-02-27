@@ -1,12 +1,19 @@
 import { defineStore } from "pinia";
-import { ref, watch } from "vue";
+import { computed, ref, watch } from "vue";
+import { keyBy } from "lodash-es";
 import { api } from "@/api";
 import { useGuestStore } from "./guest";
 
 export const useGamesStore = defineStore("games", () => {
     const guestStore = useGuestStore();
 
+    const games = ref(JSON.parse(document.body.dataset.games));
+
     const gameName = ref(null);
+
+    const byName = computed(() => keyBy(games.value, "name"));
+
+    const gameId = computed(() => byName.value[gameName.value]?.id);
 
     const game = ref(null);
 
@@ -77,13 +84,15 @@ export const useGamesStore = defineStore("games", () => {
         return result;
     }
 
-    watch(gameName, (newGameName, oldGameName) => {
-        console.log("gameName changed from", oldGameName, "to", newGameName);
+    watch(gameId, (newGameId, oldGameID) => {
+        console.log("gameId changed from", oldGameID, "to", newGameId);
     });
 
     return {
+        games,
         game,
         gameName,
+        gameId,
         occurrence,
         fetching,
         fetchGame,
