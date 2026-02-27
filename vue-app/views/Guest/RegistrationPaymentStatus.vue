@@ -1,7 +1,7 @@
 <script setup>
 import { Button } from "@/components/ui/button";
 import { usePaymentStore } from "@/stores/payment";
-import PaymentFeedback from "./PaymentFeedback.vue";
+import PaymentFeedback from "@/components/PaymentFeedback.vue";
 import { ArrowLeft } from "lucide-vue-next";
 import { AlertTitle, AlertDescription } from "@/components/ui/alert";
 import PublicLayout from "@/components/PublicLayout.vue";

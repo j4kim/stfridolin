@@ -26,12 +26,20 @@ class MovementInfolist
                 ])->columns(3),
 
                 EntryTools::compactSection()->schema([
-                    EntryTools::guestLink(),
-                    EntryTools::paymentLink(),
-                    EntryTools::articleLink(),
                     TextEntry::make('type')->badge(),
                     KeyValueEntry::make('meta'),
                 ]),
+
+                EntryTools::compactSection('Liens')->schema([
+                    EntryTools::guestLink(),
+                    EntryTools::paymentLink(),
+                    EntryTools::articleLink(),
+                    EntryTools::gameLink(),
+                    EntryTools::occurrenceLink(),
+                    EntryTools::competitorLink(),
+                    EntryTools::fightLink(),
+                    EntryTools::trackLink(),
+                ])->columns(4),
             ]);
     }
 }

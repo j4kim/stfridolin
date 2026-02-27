@@ -15,6 +15,7 @@ guestStore.fetchGuest(route.params.key);
 
 function logOut() {
     guestStore.guest = {};
+    guestStore.movements = [];
     router.push({ name: "guest-auth-form" });
 }
 </script>

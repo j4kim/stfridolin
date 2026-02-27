@@ -3,10 +3,12 @@
 namespace App\Filament\Tools;
 
 use App\Filament\Resources\Articles\ArticleResource;
+use App\Filament\Resources\Games\GameResource;
 use App\Filament\Resources\Guests\GuestResource;
 use App\Filament\Resources\Movements\MovementResource;
 use App\Filament\Resources\Payments\PaymentResource;
 use App\Models\Article;
+use App\Models\Game;
 use App\Models\Guest;
 use Filament\Tables\Columns\TextColumn;
 
@@ -53,6 +55,14 @@ class ColumnTools
         return TextColumn::make('article')
             ->url(fn(Article $state): string => ArticleResource::getUrl('view', ['record' => $state]))
             ->formatStateUsing(fn(Article $state): string => $state->description);
+    }
+
+    public static function gameLinkColumn(): TextColumn
+    {
+        return TextColumn::make('game')
+            ->numeric()
+            ->url(fn(Game $state): string => GameResource::getUrl('view', ['record' => $state]))
+            ->formatStateUsing(fn(Game $state): string => $state->name);
     }
 
     public static function movementsUrl($col, $id): string

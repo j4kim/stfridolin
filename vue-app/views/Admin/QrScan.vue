@@ -2,7 +2,7 @@
 import Layout from "@/components/Layout.vue";
 import { QrcodeStream } from "vue-qrcode-reader";
 import { toast } from "vue-sonner";
-import { route } from "../../vendor/tightenco/ziggy";
+import { route } from "../../../vendor/tightenco/ziggy";
 
 function onDetect(detectedCodes) {
     const rawValue = detectedCodes[0].rawValue;

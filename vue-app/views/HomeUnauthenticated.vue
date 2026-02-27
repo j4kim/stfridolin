@@ -23,6 +23,13 @@ import Button from "@/components/ui/button/Button.vue";
                     <Button class="w-full" size="lg"> Inscription </Button>
                 </RouterLink>
             </p>
+            <p v-if="new Date() > new Date('2026-03-06T16:00:00')">
+                <RouterLink :to="{ name: 'guest-auth-form' }">
+                    <Button class="w-full" size="lg" variant="outline">
+                        Se connecter
+                    </Button>
+                </RouterLink>
+            </p>
         </div>
     </PublicLayout>
 </template>

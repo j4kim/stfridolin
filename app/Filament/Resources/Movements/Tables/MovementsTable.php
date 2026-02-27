@@ -53,6 +53,7 @@ class MovementsTable
             ])
             ->recordActions([
                 ViewAction::make(),
-            ]);
+            ])
+            ->defaultSort('created_at', 'desc');
     }
 }

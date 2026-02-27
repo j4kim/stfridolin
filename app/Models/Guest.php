@@ -54,11 +54,6 @@ class Guest extends Model
         return $this->payments()->where('status', PaymentStatus::succeeded);
     }
 
-    public function votes(): HasMany
-    {
-        return $this->hasMany(Vote::class);
-    }
-
     public function tracks(): HasMany
     {
         return $this->hasMany(Track::class, 'proposed_by');
@@ -120,6 +115,46 @@ class Guest extends Model
         return $this->createMovement([
             'article_id' => $article->id,
             'type' => MovementType::SpendTokens,
+            'tokens' => -$article->price,
+        ]);
+    }
+
+    public function vote(Fight $fight, Track $track): Movement
+    {
+        $article = Article::where('name', 'vote')->firstOrFail();
+        return $this->createMovement([
+            'article_id' => $article->id,
+            'type' => MovementType::JukeboxeVote,
+            'tokens' => -$article->price,
+            'game_id' => $article->game_id,
+            'fight_id' => $fight->id,
+            'track_id' => $track->id,
+        ]);
+    }
+
+    public function addTrack(Track $track): Movement
+    {
+        $article = Article::where('name', 'add-to-queue')->firstOrFail();
+        return $this->createMovement([
+            'article_id' => $article->id,
+            'type' => MovementType::JukeboxeAdd,
+            'tokens' => -$article->price,
+            'game_id' => $article->game_id,
+            'track_id' => $track->id,
+        ]);
+    }
+
+    public function betOn(Occurrence $occurrence, Competitor $competitor, Article $article): Movement
+    {
+        if ($this->movements()->where('occurrence_id', $occurrence->id)->exists()) {
+            abort(400, "Vous avez déjà parié sur cette course");
+        }
+        return $this->createMovement([
+            'article_id' => $article->id,
+            'game_id' => $article->game_id,
+            'occurrence_id' => $occurrence->id,
+            'competitor_id' => $competitor->id,
+            'type' => MovementType::RaceBet,
             'tokens' => -$article->price,
         ]);
     }

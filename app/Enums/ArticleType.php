@@ -10,7 +10,7 @@ use Illuminate\Contracts\Support\Htmlable;
 enum ArticleType: string implements HasLabel, HasColor
 {
     case Registration = 'registration';
-    case Jukeboxe = 'jukeboxe';
+    case Participation = 'participation';
     case TokensPackage = 'tokens-package';
     case PointsCredit = 'points-credit';
 
@@ -23,7 +23,7 @@ enum ArticleType: string implements HasLabel, HasColor
     {
         return match ($this) {
             self::Registration => Color::Lime,
-            self::Jukeboxe => Color::Cyan,
+            self::Participation => Color::Cyan,
             self::TokensPackage => Color::Emerald,
             self::PointsCredit => Color::Purple,
             default => Color::Slate,

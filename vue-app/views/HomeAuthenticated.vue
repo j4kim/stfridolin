@@ -1,4 +1,5 @@
 <script setup>
+import AnimatedCount from "@/components/AnimatedCount.vue";
 import Layout from "@/components/Layout.vue";
 import SvgTitle from "@/components/SvgTitle.vue";
 import Button from "@/components/ui/button/Button.vue";
@@ -19,6 +20,8 @@ import {
 } from "lucide-vue-next";
 
 const guestStore = useGuestStore();
+
+guestStore.fetchGuestMovementsIfMissing();
 </script>
 
 <template>
@@ -38,7 +41,8 @@ const guestStore = useGuestStore();
                 Tu as actuellement
                 <span class="inline-flex items-baseline gap-1 font-extrabold">
                     <CircleStar size="1em" class="self-center" />
-                    {{ guestStore.guest.tokens }} jetons.
+                    <AnimatedCount :value="guestStore.guest.tokens" />
+                    jetons.
                 </span>
                 Les jetons sont une monnaie d'échange pour participer aux jeux.
                 Si tu gagnes à un jeu, tu reçoit des
@@ -71,7 +75,10 @@ const guestStore = useGuestStore();
                         </CardDescription>
                     </CardHeader>
                     <CardFooter>
-                        <RouterLink class="w-full" :to="{ name: 'vote' }">
+                        <RouterLink
+                            class="w-full"
+                            :to="{ name: 'marble-races' }"
+                        >
                             <Button class="w-full">
                                 <CirclePile />
                                 Parier sur votre championne
@@ -108,7 +115,10 @@ const guestStore = useGuestStore();
                         </CardDescription>
                     </CardHeader>
                     <CardFooter>
-                        <RouterLink class="w-full" :to="{ name: 'vote' }">
+                        <RouterLink
+                            class="w-full"
+                            :to="{ name: 'joes-weight' }"
+                        >
                             <Button class="w-full">
                                 <Weight />
                                 Lezgo je pronostique

@@ -18,10 +18,13 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             GuestSeeder::class,
             TrackSeeder::class,
+            GameSeeder::class,
             ArticleSeeder::class,
             VoucherSeeder::class,
             PointsVoucherSeeder::class,
             SponsorSeeder::class,
+            GameArticleSeeder::class,
+            CompetitorSeeder::class,
         ]);
     }
 }

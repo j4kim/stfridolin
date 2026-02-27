@@ -1,7 +1,4 @@
 <script setup>
-import { ref } from "vue";
-import { api } from "@/api";
-import { watchDebounced } from "@vueuse/core";
 import {
     InputGroup,
     InputGroupAddon,
@@ -11,41 +8,10 @@ import {
 import { Search, X } from "lucide-vue-next";
 import Button from "@/components/ui/button/Button.vue";
 import Tracks from "@/components/Tracks.vue";
-import { useRoute, useRouter } from "vue-router";
+import { useTracksStore } from "@/stores/tracks";
+import Spinner from "@/components/ui/spinner/Spinner.vue";
 
-const router = useRouter();
-const route = useRoute();
-
-const searchQuery = ref(route.query.q);
-
-const searchResults = ref(null);
-
-watchDebounced(searchQuery, searchTracks, { debounce: 500 });
-
-if (searchQuery.value) {
-    searchTracks();
-}
-
-async function searchTracks() {
-    const params = { q: searchQuery.value };
-    router.replace({ query: params });
-    searchResults.value = await api("spotify.search-tracks")
-        .params(params)
-        .get();
-}
-
-async function searchMore() {
-    const data = await api("spotify.search-tracks")
-        .params({
-            q: searchQuery.value,
-            offset: searchResults.value.offset + 10,
-        })
-        .get();
-    searchResults.value = {
-        ...data,
-        items: searchResults.value.items.concat(data.items),
-    };
-}
+const tracksStore = useTracksStore();
 </script>
 
 <template>
@@ -54,7 +20,7 @@ async function searchMore() {
             <InputGroup>
                 <InputGroupInput
                     placeholder="Rechercher un morceau"
-                    v-model="searchQuery"
+                    v-model="tracksStore.searchQuery"
                 />
                 <InputGroupAddon>
                     <Search />
@@ -62,7 +28,7 @@ async function searchMore() {
                 <InputGroupAddon align="inline-end">
                     <InputGroupButton
                         class="rounded-full"
-                        @click="searchQuery = ''"
+                        @click="tracksStore.searchQuery = ''"
                     >
                         <X />
                     </InputGroupButton>
@@ -70,13 +36,21 @@ async function searchMore() {
             </InputGroup>
         </div>
 
-        <Tracks :tracks="searchResults?.items">
+        <Spinner v-if="tracksStore.searching" class="m-4" />
+
+        <Tracks :tracks="tracksStore.searchResults?.items">
             <template #actions="{ track }">
                 <slot :track="track" name="actions"></slot>
             </template>
             <template #after>
                 <div class="my-4 px-4">
-                    <Button variant="ghost" class="w-full" @click="searchMore">
+                    <Button
+                        variant="ghost"
+                        class="w-full"
+                        @click="tracksStore.searchMore"
+                        :disabled="tracksStore.searchingMore"
+                    >
+                        <Spinner v-if="tracksStore.searchingMore" />
                         Charger plus
                     </Button>
                 </div>

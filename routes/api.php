@@ -1,10 +1,11 @@
 <?php
 
 use App\Http\Controllers\FightController;
+use App\Http\Controllers\GameController;
 use App\Http\Controllers\GuestController;
 use App\Http\Controllers\MasterController;
+use App\Http\Controllers\OccurrenceController;
 use App\Http\Controllers\PaymentController;
-use App\Http\Controllers\SponsorController;
 use App\Http\Controllers\SpotifyController;
 use App\Http\Controllers\TrackController;
 use App\Http\Controllers\VoteController;
@@ -20,6 +21,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('master-client-id', [MasterController::class, 'setMasterClientId'])->name('master-client-id.set');
     Route::get('guests', [GuestController::class, 'index'])->name('guests.index');
     Route::get('vouchers', [VoucherController::class, 'index'])->name('vouchers.index');
+    Route::post('occurrences/{occurrence}/open', [OccurrenceController::class, 'open'])->name('occurrences.open');
+    Route::post('occurrences/{occurrence}/start', [OccurrenceController::class, 'start'])->name('occurrences.start');
+    Route::post('occurrences/{occurrence}/set-ranking', [OccurrenceController::class, 'setRanking'])->name('occurrences.setRanking');
 
     Route::middleware(EnsureMasterClient::class)->group(function () {
         Route::put('spotify/play', [SpotifyController::class, 'play'])->name('spotify.play');
@@ -33,6 +37,7 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 Route::middleware(AuthenticateGuest::class)->group(function () {
+    Route::get('guests/movements', [GuestController::class, 'movements'])->name('guests.movements');
     Route::get('spotify/search-tracks', [SpotifyController::class, 'searchTracks'])->name('spotify.search-tracks');
     Route::get('fights/current', [FightController::class, 'current'])->name('fights.current');
     Route::post('votes/{fight}/{track}', [VoteController::class, 'vote'])->name('votes.vote');
@@ -44,6 +49,9 @@ Route::middleware(AuthenticateGuest::class)->group(function () {
     Route::get('vouchers/{voucher}', [VoucherController::class, 'get'])->name('vouchers.get');
     Route::post('vouchers/{voucher}/use', [VoucherController::class, 'use'])->name('vouchers.use');
     Route::put('guests/spend', [GuestController::class, 'spend'])->name('guests.spend');
+    Route::get('games/{gameName}', [GameController::class, 'get'])->name('games.get');
+    Route::get('occurrences/{occurrence}', [OccurrenceController::class, 'get'])->name('occurrences.get');
+    Route::post('occurrences/{occurrence}/bet/{competitor}', [OccurrenceController::class, 'bet'])->name('occurrences.bet');
 });
 
 Route::post('guests', [GuestController::class, 'storeMany'])->name('guests.storeMany');
