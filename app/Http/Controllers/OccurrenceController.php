@@ -77,6 +77,7 @@ class OccurrenceController extends Controller
         foreach ($occurrence->ranking as $competitorId => $rank) {
             if ($rank !== 1) continue;
             $bets = $betMvmts->where('competitor_id', $competitorId)->get();
+            if (!$bets->count()) continue;
             $pointsPerEach = ceil($points / $bets->count());
             foreach ($bets as $bet) {
                 $bet->points = $pointsPerEach;
