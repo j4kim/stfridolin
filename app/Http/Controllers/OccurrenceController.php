@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\MovementType;
 use App\Enums\OccurrenceStatus;
 use App\Models\Article;
 use App\Models\Competitor;
@@ -12,6 +11,16 @@ use Illuminate\Http\Request;
 
 class OccurrenceController extends Controller
 {
+    public function get(Occurrence $occurrence)
+    {
+        $bets = $occurrence->bets()->with('guest')->get();
+        foreach ($occurrence->competitors as $competitor) {
+            $competitor->bettors = $bets->where('competitor_id', $competitor->id)
+                ->map(fn($bet) => $bet->guest->name);
+        }
+        return $occurrence;
+    }
+
     public function bet(Occurrence $occurrence, Competitor $competitor, Request $request)
     {
         $request->validate([
@@ -69,12 +78,11 @@ class OccurrenceController extends Controller
             abort(500, "Le nombre de points à distribuer n'est pas spécifié dans les métadonnées de l'occurrence");
         }
         $occurrence->ranking = $request->ranking;
-        $betMvmts = $occurrence->movements()
-            ->with('guest')
-            ->where('type', MovementType::RaceBet);
+        $betMvmts = $occurrence->bets()->with('guest');
         foreach ($occurrence->ranking as $competitorId => $rank) {
             if ($rank !== 1) continue;
             $bets = $betMvmts->where('competitor_id', $competitorId)->get();
+            if (!$bets->count()) continue;
             $pointsPerEach = ceil($points / $bets->count());
             foreach ($bets as $bet) {
                 $bet->points = $pointsPerEach;

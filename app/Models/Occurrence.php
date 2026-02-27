@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\MovementType;
 use App\Enums\OccurrenceStatus;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
@@ -37,6 +38,11 @@ class Occurrence extends Model
     public function movements(): HasMany
     {
         return $this->hasMany(Movement::class);
+    }
+
+    public function bets(): HasMany
+    {
+        return $this->movements()->where('type', MovementType::RaceBet);
     }
 
     protected function startAtTime(): Attribute

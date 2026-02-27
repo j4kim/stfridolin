@@ -7,6 +7,7 @@ import {
     ItemMedia,
     ItemSeparator,
     ItemTitle,
+    ItemDescription,
 } from "@/components/ui/item";
 import { computed } from "vue";
 import Badge from "./ui/badge/Badge.vue";
@@ -14,6 +15,7 @@ import Badge from "./ui/badge/Badge.vue";
 const props = defineProps({
     competitors: Array,
     ranking: Object,
+    showBettors: Boolean,
 });
 
 const emits = defineEmits(["item-click"]);
@@ -46,7 +48,16 @@ const sortedCompetitors = computed(() => {
                     <img class="size-12 rounded" :src="competitor.image_url" />
                 </ItemMedia>
                 <ItemContent>
-                    <ItemTitle>{{ competitor.name }}</ItemTitle>
+                    <div>
+                        <ItemTitle>{{ competitor.name }}</ItemTitle>
+                        <template v-if="showBettors">
+                            <ItemDescription
+                                v-for="bettor in competitor.bettors"
+                            >
+                                {{ bettor }}
+                            </ItemDescription>
+                        </template>
+                    </div>
                 </ItemContent>
                 <ItemActions>
                     <slot name="actions" :competitor="competitor"></slot>

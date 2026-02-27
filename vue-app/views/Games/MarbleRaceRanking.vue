@@ -15,11 +15,7 @@ const router = useRouter();
 
 const gamesStore = useGamesStore();
 
-gamesStore.fetchGamesIfNeeded();
-
-const occurrence = computed(() =>
-    gamesStore.marbleRace?.occurrences.find((o) => o.id == route.params.occId),
-);
+gamesStore.fetchOccurrence(route.params.occId);
 
 const rank = ref(1);
 
@@ -40,13 +36,10 @@ const submitting = ref(false);
 async function submit() {
     submitting.value = true;
     const result = await gamesStore
-        .setRanking(occurrence.value, ranking.value)
+        .setRanking(ranking.value)
         .finally(() => (submitting.value = false));
     toast.success(result.message);
-    router.push({
-        name: "marble-race-occurrence",
-        params: { occId: occurrence.value.id },
-    });
+    router.push({ name: "marble-race-occurrence" });
 }
 </script>
 
@@ -57,20 +50,16 @@ async function submit() {
                 >Courses de billes</RouterLink
             >
             <ChevronRight :size="14" class="mb-px inline" />
-            <RouterLink
-                :to="{
-                    name: 'marble-race-occurrence',
-                    params: { occId: occurrence?.id },
-                }"
-                >{{ occurrence?.title }}</RouterLink
-            >
+            <RouterLink :to="{ name: 'marble-race-occurrence' }">{{
+                gamesStore.occurrence?.title
+            }}</RouterLink>
             <ChevronRight :size="14" class="mb-px inline" />
             <span class="font-bold">Classement</span>
         </h2>
 
-        <template v-if="occurrence">
+        <template v-if="gamesStore.occurrence">
             <Competitors
-                :competitors="occurrence.competitors"
+                :competitors="gamesStore.occurrence.competitors"
                 @item-click="(c) => setRanking(c)"
             >
                 <template #actions="{ competitor }">
@@ -95,6 +84,6 @@ async function submit() {
             </div>
         </template>
 
-        <Spinner v-else-if="gamesStore.fetchingGames" class="m-4"></Spinner>
+        <Spinner v-else-if="gamesStore.fetching" class="m-4"></Spinner>
     </Layout>
 </template>

@@ -9,6 +9,6 @@ class GameController extends Controller
 {
     public function index()
     {
-        return Game::with(['occurrences.competitors', 'articles'])->get();
+        return Game::with(['occurrences', 'articles'])->get();
     }
 }
