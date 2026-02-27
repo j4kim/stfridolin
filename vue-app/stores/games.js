@@ -24,7 +24,7 @@ export const useGamesStore = defineStore("games", () => {
     }
 
     async function fetchOccurrence(occurrenceId) {
-        if (occurrence.value && occurrenceId !== occurrence.value.id) {
+        if (occurrence.value && occurrenceId != occurrence.value.id) {
             occurrence.value = null;
         }
         fetching.value = true;
