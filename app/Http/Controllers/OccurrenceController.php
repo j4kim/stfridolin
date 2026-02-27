@@ -13,7 +13,12 @@ class OccurrenceController extends Controller
 {
     public function get(Occurrence $occurrence)
     {
-        return $occurrence->load(['bets', 'competitors']);
+        $bets = $occurrence->bets()->with('guest')->get();
+        foreach ($occurrence->competitors as $competitor) {
+            $competitor->bettors = $bets->where('competitor_id', $competitor->id)
+                ->map(fn($bet) => $bet->guest->name);
+        }
+        return $occurrence;
     }
 
     public function bet(Occurrence $occurrence, Competitor $competitor, Request $request)

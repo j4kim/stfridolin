@@ -7,6 +7,7 @@ import {
     ItemMedia,
     ItemSeparator,
     ItemTitle,
+    ItemDescription,
 } from "@/components/ui/item";
 import { computed } from "vue";
 import Badge from "./ui/badge/Badge.vue";
@@ -46,7 +47,12 @@ const sortedCompetitors = computed(() => {
                     <img class="size-12 rounded" :src="competitor.image_url" />
                 </ItemMedia>
                 <ItemContent>
-                    <ItemTitle>{{ competitor.name }}</ItemTitle>
+                    <div>
+                        <ItemTitle>{{ competitor.name }}</ItemTitle>
+                        <ItemDescription v-for="bettor in competitor.bettors">
+                            {{ bettor }}
+                        </ItemDescription>
+                    </div>
                 </ItemContent>
                 <ItemActions>
                     <slot name="actions" :competitor="competitor"></slot>
