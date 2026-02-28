@@ -85,6 +85,15 @@ export const useGamesStore = defineStore("games", () => {
         return result;
     }
 
+    async function participate(occurrenceId, meta, articleName) {
+        const result = await api("occurrences.participate")
+            .params({ occurrence: occurrenceId })
+            .data({ meta, articleName })
+            .post();
+        guestStore.movements.unshift(result.movement);
+        return result;
+    }
+
     watch(gameId, (newGameId, oldGameId) => {
         if (newGameId) {
             subscribeToGameChannel(newGameId);
@@ -126,5 +135,6 @@ export const useGamesStore = defineStore("games", () => {
         openRace,
         startRace,
         setRanking,
+        participate,
     };
 });
