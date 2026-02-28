@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\MovementType;
 use App\Enums\OccurrenceStatus;
 use App\Models\Article;
 use App\Models\Competitor;
@@ -32,6 +33,33 @@ class OccurrenceController extends Controller
         $article = Article::where('name', $request->articleName)->firstOrFail();
         $guest = Guest::fromRequest();
         $movement = $guest->betOn($occurrence, $competitor, $article);
+        return [
+            "movement" => $movement,
+            "message" => "Pari placé",
+        ];
+    }
+
+    public function participate(Occurrence $occurrence, Request $request)
+    {
+        $request->validate([
+            "articleName" => "required|string",
+            "meta" => "required|array",
+        ]);
+        /** @var OccurrenceStatus $status */
+        $status = $occurrence->status;
+        if ($status->isClosed()) {
+            abort(400, "Ce jeu est " . $status->getLabel());
+        }
+        $article = Article::where('name', $request->articleName)->firstOrFail();
+        $guest = Guest::fromRequest();
+        $movement = $guest->createMovement([
+            'article_id' => $article->id,
+            'game_id' => $occurrence->game_id,
+            'occurrence_id' => $occurrence->id,
+            'type' => MovementType::GameParticipation,
+            'tokens' => -$article->price,
+            'meta' => $request->meta,
+        ]);
         return [
             "movement" => $movement,
             "message" => "Pari placé",

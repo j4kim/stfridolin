@@ -52,6 +52,7 @@ Route::middleware(AuthenticateGuest::class)->group(function () {
     Route::get('games/{gameName}', [GameController::class, 'get'])->name('games.get');
     Route::get('occurrences/{occurrence}', [OccurrenceController::class, 'get'])->name('occurrences.get');
     Route::post('occurrences/{occurrence}/bet/{competitor}', [OccurrenceController::class, 'bet'])->name('occurrences.bet');
+    Route::post('occurrences/{occurrence}/participate', [OccurrenceController::class, 'participate'])->name('occurrences.participate');
 });
 
 Route::post('guests', [GuestController::class, 'storeMany'])->name('guests.storeMany');

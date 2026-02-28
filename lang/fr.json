@@ -46,5 +46,11 @@
     "title": "titre",
     "start_at": "commence à",
     "end_at": "finit à",
-    "competitor": "concurrent"
+    "competitor": "concurrent",
+    "initial": "",
+    "open": "ouvert",
+    "started": "démarré",
+    "finished": "fini",
+    "ranked": "classé",
+    "cancelled": "annulé"
 }
