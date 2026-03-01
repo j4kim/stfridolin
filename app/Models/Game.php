@@ -25,4 +25,22 @@ class Game extends Model
     {
         return $this->hasMany(Article::class);
     }
+
+
+    public function frontEndUrl(?int $occurrenceId): ?string
+    {
+        return match ($this->name) {
+            "jukeboxe" => route('vue-app', "boxing"),
+            "marble-race" => route('vue-app', "marble-races/$occurrenceId"),
+            "quiz" => null,
+            "joes-weight" => route('vue-app', "joes-weight"),
+            "horse-show" => null,
+            "where-is-joe" => null,
+            "degustation" => null,
+            "domingold" => null,
+            "bullseye" => null,
+            "ball-toss" => null,
+            "blind-donkey" => null,
+        };
+    }
 }
