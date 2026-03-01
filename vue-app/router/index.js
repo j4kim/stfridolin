@@ -106,14 +106,6 @@ const routes = [
         ],
     },
     {
-        path: "/horse-show",
-        name: "horse-show",
-        component: () => import("@/views/Tbi.vue"),
-        meta: {
-            requireGuest: true,
-        },
-    },
-    {
         path: "/joes-weight",
         component: () => import("@/views/Games/JoesWeight.vue"),
         children: [

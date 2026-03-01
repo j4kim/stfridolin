@@ -75,7 +75,10 @@ const groups = computed(() => [
             },
             {
                 title: "Concours hippique",
-                to: { name: "horse-show" },
+                to: {
+                    name: "race-index",
+                    params: { gameName: "horse-show" },
+                },
                 icon: Trophy,
             },
             {
