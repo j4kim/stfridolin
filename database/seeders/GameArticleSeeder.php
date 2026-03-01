@@ -63,6 +63,7 @@ class GameArticleSeeder extends Seeder
             'description' => "Pronostique sur le poids de Joe",
             'currency' => Currency::Tokens,
             'price' => 20,
+            'meta' => ['participationLimit' => 10],
         ]);
 
         Article::create([
@@ -81,6 +82,7 @@ class GameArticleSeeder extends Seeder
             'description' => "Participation à \"Où est Joe ?\"",
             'currency' => Currency::Tokens,
             'price' => 30,
+            'meta' => ['participationLimit' => 1],
         ]);
 
         Article::create([
@@ -108,6 +110,7 @@ class GameArticleSeeder extends Seeder
             'description' => "Participation à la tombola",
             'currency' => Currency::Tokens,
             'price' => 12,
+            'meta' => ['participationLimit' => 10],
         ]);
 
         Article::create([

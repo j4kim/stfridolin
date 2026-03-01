@@ -61,12 +61,12 @@ class GameSeeder extends Seeder
             'title' =>  "Quiz",
         ])->occurrences()->createMany([
             [
-                'title' => "Quiz - Saint-Fridolin",
+                'title' => "Saint-Fridolin",
                 'start_at' => '2026-03-06 20:30:00',
                 'end_at' => '2026-03-06 20:45:00',
             ],
             [
-                'title' => "Quiz - Estelle Zamme",
+                'title' => "Estelle Zamme",
                 'start_at' => '2026-03-06 22:30:00',
                 'end_at' => '2026-03-06 22:45:00',
             ],

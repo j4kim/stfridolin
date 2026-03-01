@@ -54,6 +54,15 @@ class OccurrenceController extends Controller
         }
         $article = Article::where('name', $request->articleName)->firstOrFail();
         $guest = Guest::fromRequest();
+        if ($article->meta && $article->meta['participationLimit']) {
+            $existingParticipations = $guest->movements()
+                ->where('type', MovementType::GameParticipation)
+                ->where('article_id', $article->id)
+                ->where('occurrence_id', $occurrence->id);
+            if ($existingParticipations->count() >= $article->meta['participationLimit']) {
+                abort(400, "Tu as atteins la limite de participations");
+            }
+        }
         $movement = $guest->createMovement([
             'article_id' => $article->id,
             'game_id' => $occurrence->game_id,
