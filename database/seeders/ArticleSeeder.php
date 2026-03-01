@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use App\Enums\ArticleType;
 use App\Enums\Currency;
 use App\Models\Article;
-use App\Models\Game;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -68,26 +67,6 @@ class ArticleSeeder extends Seeder
             'currency' => Currency::CHF,
             'price' => 30,
             'meta' => ['tokens' => 20],
-        ]);
-
-        $jukeboxe = Game::where('name', 'jukeboxe')->firstOrFail();
-
-        Article::create([
-            'type' => ArticleType::Participation,
-            'game_id' => $jukeboxe->id,
-            'name' => "add-to-queue",
-            'description' => "Ajout d'un morceau en file d'attente",
-            'currency' => Currency::Tokens,
-            'price' => 5,
-        ]);
-
-        Article::create([
-            'type' => ArticleType::Participation,
-            'game_id' => $jukeboxe->id,
-            'name' => "vote",
-            'description' => "Vote au Jukeboxe",
-            'currency' => Currency::Tokens,
-            'price' => 3,
         ]);
     }
 }

@@ -17,16 +17,6 @@ return new class extends Migration
         Schema::table('articles', function (Blueprint $table) {
             $table->foreignId('game_id')->nullable()->constrained()->cascadeOnDelete();
         });
-
-        $jukeboxe = Game::where('name', 'jukeboxe')->first();
-        if (!$jukeboxe) {
-            return;
-        }
-        Article::where('type', 'jukeboxe')
-            ->update([
-                'game_id' => $jukeboxe->id,
-                'type' => ArticleType::Participation,
-            ]);
     }
 
     /**
