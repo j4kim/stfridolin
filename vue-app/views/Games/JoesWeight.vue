@@ -9,7 +9,7 @@ import Spinner from "@/components/ui/spinner/Spinner.vue";
 import ValidationDrawer from "@/components/ValidationDrawer.vue";
 import { useGamesStore } from "@/stores/games";
 import { useGuestStore } from "@/stores/guest";
-import { CheckCircle2Icon } from "lucide-vue-next";
+import { CheckCircle2Icon, TriangleAlert } from "lucide-vue-next";
 import { computed, onUnmounted, ref } from "vue";
 import { toast } from "vue-sonner";
 
@@ -26,7 +26,7 @@ gamesStore.fetchGame();
 
 const occurrence = computed(() => gamesStore.game?.occurrences[0]);
 
-const isfinished = computed(() =>
+const isFinished = computed(() =>
     ["finished", "cancelled"].includes(occurrence.value?.status),
 );
 
@@ -72,6 +72,11 @@ async function submit() {
                 personne la plus proche décroche le gros lot.
             </p>
 
+            <Alert v-if="isFinished">
+                <TriangleAlert />
+                <AlertTitle>Le jeu est terminé</AlertTitle>
+            </Alert>
+
             <Alert v-if="existingBets.length">
                 <CheckCircle2Icon />
                 <AlertTitle v-if="existingBets.length === 1">
@@ -85,7 +90,7 @@ async function submit() {
                         </li>
                     </ul>
                 </div>
-                <AlertDescription>
+                <AlertDescription v-if="!isFinished">
                     Tu peux placer d'autres paris dans une limite de 10.
                 </AlertDescription>
             </Alert>
