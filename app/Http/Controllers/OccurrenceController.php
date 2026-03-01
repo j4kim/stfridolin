@@ -91,11 +91,11 @@ class OccurrenceController extends Controller
         ];
     }
 
-    public function openAll(int $gameId)
+    public function startAll(int $gameId)
     {
         $game = Game::findOrFail($gameId);
         foreach ($game->occurrences as $occurrence) {
-            $occurrence->status = OccurrenceStatus::Open;
+            $occurrence->status = OccurrenceStatus::Started;
             $occurrence->save();
         }
     }

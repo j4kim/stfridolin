@@ -15,8 +15,8 @@ const gamesStore = useGamesStore();
 
 const occurrences = computed(() => gamesStore.game?.occurrences || []);
 
-async function openAll() {
-    await api("occurrences.openAll")
+async function startAll() {
+    await api("occurrences.startAll")
         .params({ gameId: gamesStore.gameId })
         .post();
 }
@@ -36,7 +36,7 @@ async function openAll() {
                 <ValidationDrawer
                     trigger="Démarrer"
                     :title="`Démarrer le jeu&nbsp;?`"
-                    :action="() => openAll()"
+                    :action="() => startAll()"
                 >
                     <template #validation> Oui </template>
                 </ValidationDrawer>
