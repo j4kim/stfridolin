@@ -46,7 +46,10 @@ class Occurrence extends Model
 
     public function bets(): HasMany
     {
-        return $this->movements()->where('type', MovementType::RaceBet);
+        return $this->movements()->whereIn('type', [
+            MovementType::RaceBet,
+            MovementType::GameParticipation
+        ]);
     }
 
     protected function startAtTime(): Attribute

@@ -12,12 +12,15 @@ use Illuminate\Http\Request;
 
 class OccurrenceController extends Controller
 {
-    public function get(Occurrence $occurrence)
+    public function get(Occurrence $occurrence, Request $request)
     {
         $bets = $occurrence->bets()->with('guest')->get();
         foreach ($occurrence->competitors as $competitor) {
             $competitor->bettors = $bets->where('competitor_id', $competitor->id)
                 ->map(fn($bet) => $bet->guest->name);
+        }
+        if ($request->withBets) {
+            $occurrence->bets = $bets;
         }
         return $occurrence;
     }
@@ -128,11 +131,6 @@ class OccurrenceController extends Controller
 
     public function finish(Occurrence $occurrence, Request $request)
     {
-        /** @var OccurrenceStatus $status */
-        $status = $occurrence->status;
-        if ($status->isClosed()) {
-            abort(400, "Ce jeu est " . $status->getLabel());
-        }
         $occurrence->meta = array_merge(
             $occurrence->meta,
             $request->input('meta', []),

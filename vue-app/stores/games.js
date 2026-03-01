@@ -35,13 +35,14 @@ export const useGamesStore = defineStore("games", () => {
         }
     }
 
-    async function fetchOccurrence(occurrenceId) {
+    async function fetchOccurrence(occurrenceId, params = {}) {
         if (occurrence.value && occurrenceId != occurrence.value.id) {
             occurrence.value = null;
         }
+        params.occurrence = occurrenceId;
         fetching.value = true;
         occurrence.value = await api("occurrences.get")
-            .params(occurrenceId)
+            .params(params)
             .get()
             .finally(() => (fetching.value = false));
     }
@@ -94,6 +95,14 @@ export const useGamesStore = defineStore("games", () => {
         return result;
     }
 
+    async function finish(meta, occurrenceId) {
+        const result = await api("occurrences.finish")
+            .params({ occurrence: occurrenceId })
+            .data({ meta })
+            .post();
+        return result;
+    }
+
     watch(gameId, (newGameId, oldGameId) => {
         if (newGameId) {
             subscribeToGameChannel(newGameId);
@@ -136,5 +145,6 @@ export const useGamesStore = defineStore("games", () => {
         startRace,
         setRanking,
         participate,
+        finish,
     };
 });
