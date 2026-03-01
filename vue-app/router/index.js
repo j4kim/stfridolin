@@ -76,12 +76,12 @@ const routes = [
         },
     },
     {
-        path: "/marble-races",
+        path: "/race/:gameName",
         component: () => import("@/views/Games/MarbleRace.vue"),
         children: [
             {
                 path: "",
-                name: "marble-races",
+                name: "race-index",
                 component: () => import("@/views/Games/MarbleRaceIndex.vue"),
                 meta: {
                     requireGuest: true,
@@ -89,7 +89,7 @@ const routes = [
             },
             {
                 path: ":occId",
-                name: "marble-race-occurrence",
+                name: "race-occurrence",
                 component: () =>
                     import("@/views/Games/MarbleRaceOccurrence.vue"),
                 meta: {
@@ -98,7 +98,7 @@ const routes = [
             },
             {
                 path: ":occId/ranking",
-                name: "marble-race-ranking",
+                name: "race-ranking",
                 component: () => import("@/views/Games/MarbleRaceRanking.vue"),
                 meta: {
                     requireAuth: true,

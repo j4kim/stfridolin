@@ -31,7 +31,7 @@ class Game extends Model
     {
         return match ($this->name) {
             "jukeboxe" => route('vue-app', "boxing"),
-            "marble-race" => route('vue-app', "marble-races/$occurrenceId"),
+            "marble-race" => route('vue-app', "race/marble-race/$occurrenceId"),
             "quiz" => null,
             "joes-weight" => route('vue-app', "joes-weight"),
             "horse-show" => null,

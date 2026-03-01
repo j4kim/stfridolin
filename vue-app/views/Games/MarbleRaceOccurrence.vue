@@ -47,7 +47,7 @@ async function start() {
 <template>
     <Layout>
         <h2 class="my-2 space-x-1 px-4">
-            <RouterLink :to="{ name: 'marble-races' }"
+            <RouterLink :to="{ name: 'race-index' }"
                 >Courses de billes</RouterLink
             >
             <ChevronRight :size="14" class="mb-px inline" />
@@ -116,7 +116,7 @@ async function start() {
                     </ValidationDrawer>
                     <RouterLink
                         v-if="status === 'started'"
-                        :to="{ name: 'marble-race-ranking' }"
+                        :to="{ name: 'race-ranking' }"
                     >
                         <Button class="w-full">Faire classement</Button>
                     </RouterLink>

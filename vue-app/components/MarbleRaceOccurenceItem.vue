@@ -37,7 +37,7 @@ const buttonText = computed(() => {
 
 function goToOcc() {
     router.push({
-        name: "marble-race-occurrence",
+        name: "race-occurrence",
         params: { occId: props.occ.id },
     });
 }

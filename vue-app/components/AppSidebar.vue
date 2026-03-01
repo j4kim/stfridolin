@@ -67,7 +67,10 @@ const groups = computed(() => [
             },
             {
                 title: "Courses de billes",
-                to: { name: "marble-races" },
+                to: {
+                    name: "race-index",
+                    params: { gameName: "marble-race" },
+                },
                 icon: CirclePile,
             },
             {

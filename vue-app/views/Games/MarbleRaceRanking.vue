@@ -39,18 +39,18 @@ async function submit() {
         .setRanking(ranking.value)
         .finally(() => (submitting.value = false));
     toast.success(result.message);
-    router.push({ name: "marble-race-occurrence" });
+    router.push({ name: "race-occurrence" });
 }
 </script>
 
 <template>
     <Layout>
         <h2 class="my-2 space-x-1 px-4">
-            <RouterLink :to="{ name: 'marble-races' }"
+            <RouterLink :to="{ name: 'race-index' }"
                 >Courses de billes</RouterLink
             >
             <ChevronRight :size="14" class="mb-px inline" />
-            <RouterLink :to="{ name: 'marble-race-occurrence' }">{{
+            <RouterLink :to="{ name: 'race-occurrence' }">{{
                 gamesStore.occurrence?.title
             }}</RouterLink>
             <ChevronRight :size="14" class="mb-px inline" />
