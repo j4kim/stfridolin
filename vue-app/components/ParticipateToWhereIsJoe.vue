@@ -9,6 +9,15 @@ const gamesStore = useGamesStore();
 
 const occurrences = computed(() => gamesStore.game?.occurrences || []);
 
+const status = computed(() => occurrences.value[0]?.status);
+
+const buttonText = computed(() => {
+    if (status.value === "initial") {
+        return "Trop tôt";
+    }
+    return gamesStore.guestParticipates ? "Tu participes" : "Participer";
+});
+
 async function participate() {
     await gamesStore.participate(occurrences.value[0].id, null, "where-is-joe");
     toast.success("Yeah ! Bonne chance !");
@@ -24,12 +33,14 @@ async function participate() {
             :action="participate"
         >
             <template #trigger>
-                <Button :disabled="gamesStore.guestParticipates" class="w-full">
-                    {{
+                <Button
+                    :disabled="
+                        !['open', 'started'].includes(status) ||
                         gamesStore.guestParticipates
-                            ? "Tu participes"
-                            : "Participer"
-                    }}
+                    "
+                    class="w-full"
+                    v-text="buttonText"
+                >
                 </Button>
             </template>
         </ValidationDrawer>
