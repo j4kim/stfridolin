@@ -146,7 +146,11 @@ class Guest extends Model
 
     public function betOn(Occurrence $occurrence, Competitor $competitor, Article $article): Movement
     {
-        if ($this->movements()->where('occurrence_id', $occurrence->id)->exists()) {
+        $alreadyBet = $this->movements()
+            ->where('occurrence_id', $occurrence->id)
+            ->where('type', MovementType::RaceBet)
+            ->exists();
+        if ($alreadyBet) {
             abort(400, "Vous avez déjà parié sur cette course");
         }
         return $this->createMovement([
