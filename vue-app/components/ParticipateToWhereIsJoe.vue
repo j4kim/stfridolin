@@ -4,6 +4,9 @@ import { useGamesStore } from "@/stores/games";
 import { computed } from "vue";
 import ValidationDrawer from "./ValidationDrawer.vue";
 import { toast } from "vue-sonner";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 const gamesStore = useGamesStore();
 
@@ -19,8 +22,10 @@ const buttonText = computed(() => {
 });
 
 async function participate() {
-    await gamesStore.participate(occurrences.value[0].id, null, "where-is-joe");
+    const occId = occurrences.value[0].id;
+    await gamesStore.participate(occId, null, "where-is-joe");
     toast.success("Yeah ! Bonne chance !");
+    router.push({ name: "race-occurrence", params: { occId } });
 }
 </script>
 
