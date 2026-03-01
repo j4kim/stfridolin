@@ -51,10 +51,17 @@ const sortedCompetitors = computed(() => {
                     <div>
                         <ItemTitle>{{ competitor.name }}</ItemTitle>
                         <template v-if="showBettors">
+                            <template v-if="competitor.bettors.length < 10">
+                                <ItemDescription
+                                    v-for="bettor in competitor.bettors"
+                                >
+                                    {{ bettor }}
+                                </ItemDescription>
+                            </template>
                             <ItemDescription
-                                v-for="bettor in competitor.bettors"
+                                v-else-if="competitor.bettors.length"
                             >
-                                {{ bettor }}
+                                {{ competitor.bettors.length }} paris
                             </ItemDescription>
                         </template>
                     </div>
