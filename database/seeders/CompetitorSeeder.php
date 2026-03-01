@@ -41,9 +41,9 @@ class CompetitorSeeder extends Seeder
             ]);
         }
 
-        $game = Game::firstWhere('name', "marble-race");
+        $marbleRace = Game::firstWhere('name', "marble-race");
         $tenCompetitors = Competitor::take(10)->pluck('id');
-        foreach ($game->occurrences as $index => $occurrence) {
+        foreach ($marbleRace->occurrences as $index => $occurrence) {
             $occurrence->competitors()->attach($tenCompetitors);
             if ($index === 0) {
                 $occurrence->ranking = [5 => 1, 3 => 2, 8 => 3, 1 => 4, 10 => 5];
@@ -57,5 +57,14 @@ class CompetitorSeeder extends Seeder
                 $occurrence->save();
             }
         }
+
+        $horseShow = Game::firstWhere('name', "horse-show");
+        $o = $horseShow->occurrences()->first();
+        $competitors = collect();
+        foreach ([1, 2, 3, 4] as $index) {
+            $c = Competitor::create(['name' => "Équipe $index", 'type' => CompetitorType::Horse]);
+            $competitors->push($c);
+        }
+        $o->competitors()->attach($competitors);
     }
 }
