@@ -6,6 +6,7 @@ use App\Enums\MovementType;
 use App\Enums\OccurrenceStatus;
 use App\Models\Article;
 use App\Models\Competitor;
+use App\Models\Game;
 use App\Models\Guest;
 use App\Models\Occurrence;
 use Illuminate\Http\Request;
@@ -88,6 +89,15 @@ class OccurrenceController extends Controller
             "occurrence" => $occurrence,
             "message" => "Paris ouverts",
         ];
+    }
+
+    public function openAll(int $gameId)
+    {
+        $game = Game::findOrFail($gameId);
+        foreach ($game->occurrences as $occurrence) {
+            $occurrence->status = OccurrenceStatus::Open;
+            $occurrence->save();
+        }
     }
 
     public function start(Occurrence $occurrence, Request $request)
