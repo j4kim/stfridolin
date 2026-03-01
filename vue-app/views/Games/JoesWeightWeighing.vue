@@ -1,5 +1,6 @@
 <script setup>
 import Layout from "@/components/Layout.vue";
+import Badge from "@/components/ui/badge/Badge.vue";
 import Button from "@/components/ui/button/Button.vue";
 import Input from "@/components/ui/input/Input.vue";
 import {
@@ -40,6 +41,17 @@ async function setWeighing() {
         .finish(occurrence.value.id, meta)
         .finally(() => (setting.value = false));
 }
+
+const sortedBets = computed(() => {
+    if (!gamesStore.occurrence?.bets) return [];
+    const bets = gamesStore.occurrence.bets;
+    const weighing = gamesStore.occurrence.meta.weighing;
+    if (!weighing) return bets;
+    return bets
+        .map((b) => ({ ...b, diff: b.meta.prediction - weighing }))
+        .map((b) => ({ ...b, absDiff: Math.abs(b.diff) }))
+        .sort((a, b) => a.absDiff - b.absDiff);
+});
 </script>
 
 <template>
@@ -69,19 +81,23 @@ async function setWeighing() {
 
         <ItemGroup>
             <ItemSeparator />
-            <template v-for="bet in gamesStore.occurrence?.bets" :key="bet.id">
+            <template v-for="bet in sortedBets" :key="bet.id">
                 <Item>
                     <ItemContent>
                         <div>
-                            <ItemTitle
-                                >{{ bet.meta.prediction / 1000 }} kg</ItemTitle
-                            >
-                            <ItemDescription>
+                            <ItemTitle>
                                 {{ bet.guest.name }}
+                            </ItemTitle>
+                            <ItemDescription>
+                                {{ bet.meta.prediction / 1000 }} kg
                             </ItemDescription>
                         </div>
                     </ItemContent>
-                    <ItemActions> </ItemActions>
+                    <Badge v-if="bet.diff !== undefined" class="gap-0">
+                        <span v-if="bet.diff > 0">+</span>
+                        {{ bet.diff }} g
+                    </Badge>
+                    <ItemActions></ItemActions>
                 </Item>
                 <ItemSeparator />
             </template>
