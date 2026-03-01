@@ -7,14 +7,16 @@ import Label from "@/components/ui/label/Label.vue";
 import Spinner from "@/components/ui/spinner/Spinner.vue";
 import ValidationDrawer from "@/components/ValidationDrawer.vue";
 import { useGamesStore } from "@/stores/games";
+import { useGuestStore } from "@/stores/guest";
 import { computed, onUnmounted, ref } from "vue";
 import { toast } from "vue-sonner";
 
 const gamesStore = useGamesStore();
-
-gamesStore.gameName = "joes-weight";
+const guestStore = useGuestStore();
 
 const articleName = "guess-joes-weight";
+
+gamesStore.gameName = "joes-weight";
 
 gamesStore.fetchGame();
 const occurrence = computed(() => gamesStore.game?.occurrences[0]);
@@ -35,6 +37,10 @@ async function submit() {
         .finally(() => (submitting.value = false));
     toast.success(result.message);
 }
+
+const alreadyTried = computed(() => {
+    return existingBets.value.some((b) => b.meta.pridction == grams.value);
+});
 </script>
 
 <template>
@@ -70,7 +76,11 @@ async function submit() {
                 <template #trigger>
                     <Button
                         :disabled="
-                            submitting || !occurrence || !grams || isfinished
+                            submitting ||
+                            !occurrence ||
+                            !grams ||
+                            isfinished ||
+                            alreadyTried
                         "
                         size="lg"
                         class="w-full"
