@@ -126,6 +126,14 @@ const routes = [
                     requireGuest: true,
                 },
             },
+            {
+                path: "weighing",
+                name: "joes-weight-weighing",
+                component: () => import("@/views/Games/JoesWeightWeighing.vue"),
+                meta: {
+                    requireAuth: true,
+                },
+            },
         ],
     },
     {

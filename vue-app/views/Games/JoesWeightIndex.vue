@@ -1,4 +1,5 @@
 <script setup>
+import IfAuth from "@/components/IfAuth.vue";
 import Layout from "@/components/Layout.vue";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import Button from "@/components/ui/button/Button.vue";
@@ -123,6 +124,24 @@ async function submit() {
                     </template>
                 </ValidationDrawer>
             </template>
+
+            <IfAuth>
+                <div class="flex flex-col gap-4">
+                    <RouterLink
+                        v-if="!isFinished"
+                        :to="{ name: 'joes-weight-weighing' }"
+                    >
+                        <Button class="w-full">Pesée</Button>
+                    </RouterLink>
+                    <Button
+                        variant="link"
+                        as="a"
+                        :href="`/admin/occurrences/${occurrence.id}`"
+                    >
+                        Ouvrir sur la console admin
+                    </Button>
+                </div>
+            </IfAuth>
         </div>
 
         <Spinner v-else-if="gamesStore.fetching" class="m-4"></Spinner>
