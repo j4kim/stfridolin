@@ -61,9 +61,11 @@ function goToOcc() {
             </div>
         </ItemContent>
         <ItemActions>
-            <Button :disabled @click="goToOcc">
-                {{ buttonText }}
-            </Button>
+            <slot name="actions" v-bind="{ goToOcc, disabled, buttonText }">
+                <Button :disabled @click="goToOcc">
+                    {{ buttonText }}
+                </Button>
+            </slot>
         </ItemActions>
     </Item>
 </template>
