@@ -23,6 +23,10 @@ export const useGamesStore = defineStore("games", () => {
     const fetching = ref(false);
     const betting = ref(false);
 
+    const guestParticipates = computed(() => {
+        return guestStore.movements.some((m) => m.game_id === gameId.value);
+    });
+
     async function fetchGame() {
         if (!gameName.value) {
             throw new Error("No gameName");
@@ -149,5 +153,6 @@ export const useGamesStore = defineStore("games", () => {
         setRanking,
         participate,
         finish,
+        guestParticipates,
     };
 });

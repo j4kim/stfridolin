@@ -46,7 +46,6 @@ class OccurrenceController extends Controller
     {
         $request->validate([
             "articleName" => "required|string",
-            "meta" => "required|array",
         ]);
         /** @var OccurrenceStatus $status */
         $status = $occurrence->status;

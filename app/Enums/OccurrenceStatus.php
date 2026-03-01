@@ -33,6 +33,6 @@ enum OccurrenceStatus: string implements HasLabel, HasColor
 
     public function isClosed(): bool
     {
-        return in_array($this, [self::Finished, self::Cancelled, self::Ranked]);
+        return in_array($this, [self::Started, self::Finished, self::Cancelled, self::Ranked]);
     }
 }

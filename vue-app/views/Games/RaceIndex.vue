@@ -1,31 +1,26 @@
 <script setup>
 import Layout from "@/components/Layout.vue";
+import ParticipateToWhereIsJoe from "@/components/ParticipateToWhereIsJoe.vue";
 import RaceOccurenceItem from "@/components/RaceOccurenceItem.vue";
 import Button from "@/components/ui/button/Button.vue";
 import { ItemGroup, ItemSeparator } from "@/components/ui/item";
 import Spinner from "@/components/ui/spinner/Spinner.vue";
 import { useGamesStore } from "@/stores/games";
-import { computed, ref } from "vue";
+import { computed } from "vue";
 
 const gamesStore = useGamesStore();
 
 const occurrences = computed(() => gamesStore.game?.occurrences || []);
-
-const participating = ref(false);
 </script>
 
 <template>
     <Layout>
         <h2 class="my-2 space-x-1 px-4">{{ gamesStore.game?.title }}</h2>
 
-        <div class="my-2 px-4" v-if="gamesStore.gameName === 'where-is-joe'">
-            <Button
-                class="w-full"
-                @click="participating = true"
-                v-text="participating ? 'Tu participes' : 'Participer'"
-                :disabled="participating"
-            ></Button>
-        </div>
+        <ParticipateToWhereIsJoe
+            v-if="gamesStore.gameName === 'where-is-joe'"
+            class="my-2 px-4"
+        />
 
         <ItemGroup v-if="occurrences.length">
             <ItemSeparator />
@@ -42,7 +37,7 @@ const participating = ref(false);
                         #actions="{ disabled, goToOcc, buttonText }"
                     >
                         <Button
-                            v-show="participating"
+                            v-show="gamesStore.guestParticipates"
                             :disabled
                             @click="goToOcc"
                         >
