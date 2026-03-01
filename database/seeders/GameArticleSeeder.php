@@ -16,6 +16,28 @@ class GameArticleSeeder extends Seeder
      */
     public function run(): void
     {
+        Article::where('type', 'jukeboxe')->delete();
+
+        $jukeboxe = Game::where('name', 'jukeboxe')->firstOrFail();
+
+        Article::create([
+            'type' => ArticleType::Participation,
+            'game_id' => $jukeboxe->id,
+            'name' => "add-to-queue",
+            'description' => "Ajout d'un morceau en file d'attente",
+            'currency' => Currency::Tokens,
+            'price' => 5,
+        ]);
+
+        Article::create([
+            'type' => ArticleType::Participation,
+            'game_id' => $jukeboxe->id,
+            'name' => "vote",
+            'description' => "Vote au Jukeboxe",
+            'currency' => Currency::Tokens,
+            'price' => 3,
+        ]);
+
         Article::create([
             'type' => ArticleType::Participation,
             'game_id' => Game::where('name', 'marble-race')->firstOrFail()->id,
