@@ -85,6 +85,15 @@ class GameArticleSeeder extends Seeder
 
         Article::create([
             'type' => ArticleType::Participation,
+            'game_id' => Game::where('name', 'where-is-joe')->firstOrFail()->id,
+            'name' => "where-is-joe-bet",
+            'description' => "Pari au \"Où est Joe ?\"",
+            'currency' => Currency::Tokens,
+            'price' => 0,
+        ]);
+
+        Article::create([
+            'type' => ArticleType::Participation,
             'game_id' => Game::where('name', 'degustation')->firstOrFail()->id,
             'name' => "degustation",
             'description' => "Participation à la dégustation",
