@@ -75,6 +75,10 @@ async function submit() {
             <Alert v-if="isFinished">
                 <TriangleAlert />
                 <AlertTitle>Le jeu est terminé</AlertTitle>
+                <div class="col-start-2" v-if="occurrence.meta.weighing">
+                    Résultat de la pesée:
+                    <strong>{{ occurrence.meta.weighing / 1000 }} kg</strong>
+                </div>
             </Alert>
 
             <Alert v-if="existingBets.length">
