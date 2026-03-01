@@ -108,24 +108,40 @@ async function start() {
 
             <IfAuth>
                 <div class="mb-12 flex flex-col gap-4 p-4">
-                    <ValidationDrawer
-                        v-if="status === 'initial'"
-                        trigger="Ouvrir les paris"
-                        :title="`Ouvrir les paris&nbsp;?`"
-                        :action="() => open()"
-                    />
-                    <ValidationDrawer
-                        v-if="status === 'open'"
-                        trigger="Démarrer"
-                        :title="`Fermer les paris et démarrer la course&nbsp;?`"
-                        :action="() => start()"
-                    />
-                    <RouterLink
-                        v-if="status === 'started'"
-                        :to="{ name: 'race-ranking' }"
-                    >
-                        <Button class="w-full">Faire classement</Button>
-                    </RouterLink>
+                    <template v-if="gamesStore.gameName === 'where-is-joe'">
+                        <ValidationDrawer
+                            v-if="status === 'started'"
+                            trigger="Ouvrir les paris"
+                            :title="`Ouvrir les paris&nbsp;?`"
+                            :action="() => open()"
+                        />
+                        <RouterLink
+                            v-if="status === 'open'"
+                            :to="{ name: 'race-ranking' }"
+                        >
+                            <Button class="w-full">Faire classement</Button>
+                        </RouterLink>
+                    </template>
+                    <template v-else>
+                        <ValidationDrawer
+                            v-if="status === 'initial'"
+                            trigger="Ouvrir les paris"
+                            :title="`Ouvrir les paris&nbsp;?`"
+                            :action="() => open()"
+                        />
+                        <ValidationDrawer
+                            v-if="status === 'open'"
+                            trigger="Démarrer"
+                            :title="`Fermer les paris et démarrer la course&nbsp;?`"
+                            :action="() => start()"
+                        />
+                        <RouterLink
+                            v-if="status === 'started'"
+                            :to="{ name: 'race-ranking' }"
+                        >
+                            <Button class="w-full">Faire classement</Button>
+                        </RouterLink>
+                    </template>
                     <Button
                         variant="link"
                         as="a"

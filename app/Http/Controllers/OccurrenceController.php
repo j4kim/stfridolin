@@ -80,9 +80,6 @@ class OccurrenceController extends Controller
 
     public function open(Occurrence $occurrence, Request $request)
     {
-        if ($occurrence->status !== OccurrenceStatus::Initial) {
-            abort(400, "La course doit être en statut initial");
-        }
         $occurrence->status = OccurrenceStatus::Open;
         $occurrence->save();
         return [
@@ -119,9 +116,6 @@ class OccurrenceController extends Controller
             "ranking" => "required|array",
             "ranking.*" => "required|integer",
         ]);
-        if ($occurrence->status !== OccurrenceStatus::Started) {
-            abort(400, "La course doit être commencée");
-        }
         $points = @$occurrence->meta['points'];
         if (!$points) {
             abort(500, "Le nombre de points à distribuer n'est pas spécifié dans les métadonnées de l'occurrence");
