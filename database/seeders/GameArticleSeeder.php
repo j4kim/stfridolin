@@ -71,7 +71,7 @@ class GameArticleSeeder extends Seeder
             'name' => "bet-on-horse",
             'description' => "Pari sur un cheval",
             'currency' => Currency::Tokens,
-            'price' => 20,
+            'price' => 30,
         ]);
 
         Article::create([
@@ -80,7 +80,7 @@ class GameArticleSeeder extends Seeder
             'name' => "where-is-joe",
             'description' => "Participation à \"Où est Joe ?\"",
             'currency' => Currency::Tokens,
-            'price' => 20,
+            'price' => 30,
         ]);
 
         Article::create([
@@ -98,7 +98,7 @@ class GameArticleSeeder extends Seeder
             'name' => "domingold",
             'description' => "Participation à la tombola",
             'currency' => Currency::Tokens,
-            'price' => 20,
+            'price' => 12,
         ]);
 
         Article::create([
