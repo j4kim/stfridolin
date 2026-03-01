@@ -45,7 +45,12 @@ const sortedCompetitors = computed(() => {
                     </Badge>
                 </div>
                 <ItemMedia @click="emits('item-click', competitor)">
-                    <img class="size-12 rounded" :src="competitor.image_url" />
+                    <img
+                        v-if="competitor.image_url"
+                        class="size-12 rounded"
+                        :src="competitor.image_url"
+                    />
+                    <div v-else class="size-12 rounded bg-neutral-700"></div>
                 </ItemMedia>
                 <ItemContent>
                     <div>
