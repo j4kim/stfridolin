@@ -4,7 +4,6 @@ import RaceOccurenceItem from "@/components/RaceOccurenceItem.vue";
 import { ItemGroup, ItemSeparator } from "@/components/ui/item";
 import Spinner from "@/components/ui/spinner/Spinner.vue";
 import { useGamesStore } from "@/stores/games";
-import { tr } from "@/translate";
 import { computed } from "vue";
 
 const gamesStore = useGamesStore();
@@ -14,7 +13,7 @@ const occurrences = computed(() => gamesStore.game?.occurrences || []);
 
 <template>
     <Layout>
-        <h2 class="my-2 space-x-1 px-4">{{ tr($route.params.gameName) }}</h2>
+        <h2 class="my-2 space-x-1 px-4">{{ gamesStore.game?.title }}</h2>
 
         <ItemGroup v-if="occurrences.length">
             <ItemSeparator />
