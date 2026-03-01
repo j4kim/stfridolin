@@ -1,10 +1,13 @@
 <script setup>
 import { useLink } from "vue-router";
 import SidebarMenuButton from "./ui/sidebar/SidebarMenuButton.vue";
+import { useSidebar } from "./ui/sidebar";
 
 defineOptions({
     inheritAttrs: false,
 });
+
+const sidebar = useSidebar();
 
 const props = defineProps({
     to: Object | String,
@@ -15,6 +18,7 @@ const { isExactActive, navigate, href } = useLink(props);
 
 function onClick() {
     navigate();
+    sidebar.setOpenMobile(false);
 }
 </script>
 
