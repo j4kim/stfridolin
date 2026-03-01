@@ -80,6 +80,7 @@ class GameSeeder extends Seeder
                 'title' => "Poids de Joe",
                 'start_at' => '2026-03-06 18:00:00',
                 'end_at' => '2026-03-06 00:00:00',
+                'meta' => ['weighing' => null],
             ],
         );
         Game::create([

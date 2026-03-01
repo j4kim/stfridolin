@@ -116,11 +116,25 @@ const routes = [
     },
     {
         path: "/joes-weight",
-        name: "joes-weight",
         component: () => import("@/views/Games/JoesWeight.vue"),
-        meta: {
-            requireGuest: true,
-        },
+        children: [
+            {
+                path: "",
+                name: "joes-weight",
+                component: () => import("@/views/Games/JoesWeightIndex.vue"),
+                meta: {
+                    requireGuest: true,
+                },
+            },
+            {
+                path: "weighing",
+                name: "joes-weight-weighing",
+                component: () => import("@/views/Games/JoesWeightWeighing.vue"),
+                meta: {
+                    requireAuth: true,
+                },
+            },
+        ],
     },
     {
         path: "/voucher/:id",

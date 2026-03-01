@@ -35,13 +35,14 @@ export const useGamesStore = defineStore("games", () => {
         }
     }
 
-    async function fetchOccurrence(occurrenceId) {
+    async function fetchOccurrence(occurrenceId, params = {}) {
         if (occurrence.value && occurrenceId != occurrence.value.id) {
             occurrence.value = null;
         }
+        params.occurrence = occurrenceId;
         fetching.value = true;
         occurrence.value = await api("occurrences.get")
-            .params(occurrenceId)
+            .params(params)
             .get()
             .finally(() => (fetching.value = false));
     }
@@ -82,6 +83,23 @@ export const useGamesStore = defineStore("games", () => {
             .data({ ranking })
             .post();
         await fetchOccurrence(occurrence.value.id);
+        return result;
+    }
+
+    async function participate(occurrenceId, meta, articleName) {
+        const result = await api("occurrences.participate")
+            .params({ occurrence: occurrenceId })
+            .data({ meta, articleName })
+            .post();
+        guestStore.movements.unshift(result.movement);
+        return result;
+    }
+
+    async function finish(occurrenceId, meta) {
+        const result = await api("occurrences.finish")
+            .params({ occurrence: occurrenceId })
+            .data({ meta })
+            .post();
         return result;
     }
 
@@ -126,5 +144,7 @@ export const useGamesStore = defineStore("games", () => {
         openRace,
         startRace,
         setRanking,
+        participate,
+        finish,
     };
 });

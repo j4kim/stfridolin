@@ -16,7 +16,7 @@ import { useArticlesStore } from "@/stores/articles";
 import { useGuestStore } from "@/stores/guest";
 
 const props = defineProps<{
-    trigger: string;
+    trigger?: string;
     title: string;
     action: Function;
     articleName?: string;
@@ -54,7 +54,9 @@ async function submit() {
 <template>
     <Drawer v-model:open="open">
         <DrawerTrigger as-child>
-            <Button :disabled> {{ trigger }} </Button>
+            <slot name="trigger">
+                <Button :disabled> {{ trigger }} </Button>
+            </slot>
         </DrawerTrigger>
         <DrawerContent>
             <DrawerHeader>
