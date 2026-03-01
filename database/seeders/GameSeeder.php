@@ -101,25 +101,41 @@ class GameSeeder extends Seeder
             'title' =>  "Où est Joe ?",
         ])->occurrences()->createMany([
             [
-                'title' => "Où est Joe ? - 1ère manche",
-                'start_at' => '2026-03-06 21:30:00',
-                'end_at' => '2026-03-06 21:35:00',
+                'title' => "1ère manche",
+                'start_at' => '2026-03-06 22:30:00',
+                'end_at' => '2026-03-06 22:33:00',
+                'meta' => ['points' => 2000],
             ],
             [
-                'title' => "Où est Joe ? - 2ème manche",
-                'start_at' => '2026-03-06 21:35:00',
-                'end_at' => '2026-03-06 22:40:00',
+                'title' => "2ème manche",
+                'start_at' => '2026-03-06 22:33:00',
+                'end_at' => '2026-03-06 22:36:00',
+                'meta' => ['points' => 2000],
             ],
             [
-                'title' => "Où est Joe ? - 3ème manche",
-                'start_at' => '2026-03-06 22:40:00',
+                'title' => "3ème manche",
+                'start_at' => '2026-03-06 22:36:00',
+                'end_at' => '2026-03-06 22:39:00',
+                'meta' => ['points' => 2000],
+            ],
+            [
+                'title' => "4ème manche",
+                'start_at' => '2026-03-06 22:39:00',
+                'end_at' => '2026-03-06 22:42:00',
+                'meta' => ['points' => 2000],
+            ],
+            [
+                'title' => "5ème manche",
+                'start_at' => '2026-03-06 22:42:00',
                 'end_at' => '2026-03-06 22:45:00',
+                'meta' => ['points' => 2000],
             ],
             [
-                'title' => "Où est Joe ? - 4ème manche",
+                'title' => "6ème manche",
                 'start_at' => '2026-03-06 22:45:00',
-                'end_at' => '2026-03-06 22:50:00',
-            ]
+                'end_at' => '2026-03-06 22:48:00',
+                'meta' => ['points' => 2000],
+            ],
         ]);
         Game::create([
             'name' => "degustation",
