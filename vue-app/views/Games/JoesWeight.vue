@@ -66,7 +66,7 @@ async function submit() {
             {{ gamesStore.game?.title }}
         </h2>
 
-        <div class="space-y-6 px-4">
+        <div class="mb-12 space-y-6 px-4">
             <p class="text-sm">
                 Tu l'as vu notre beau dauphin à facette ? Devine son poids. La
                 personne la plus proche décroche le gros lot.
@@ -90,37 +90,38 @@ async function submit() {
                 </AlertDescription>
             </Alert>
 
-            <Field>
-                <Label>Ta prédiction :</Label>
-                <div class="flex items-center justify-center gap-2">
-                    <Input
-                        type="number"
-                        class="h-10 text-center text-lg"
-                        v-model="grams"
-                        required
-                        min="1"
-                        step="1"
-                    />
-                    grammes
-                </div>
-            </Field>
+            <template v-if="!isFinished && existingBets.length < 10">
+                <Field>
+                    <Label>Ta prédiction :</Label>
+                    <div class="flex items-center justify-center gap-2">
+                        <Input
+                            type="number"
+                            class="h-10 text-center text-lg"
+                            v-model="grams"
+                            required
+                            min="1"
+                            step="1"
+                        />
+                        grammes
+                    </div>
+                </Field>
 
-            <ValidationDrawer
-                :title="`Valider ${grams / 1000} kg&nbsp;?`"
-                :action="submit"
-                :articleName
-                v-if="!isFinished"
-            >
-                <template #trigger>
-                    <Button
-                        :disabled="submitting || !occurrence"
-                        size="lg"
-                        class="w-full"
-                    >
-                        Placer le pari
-                    </Button>
-                </template>
-            </ValidationDrawer>
+                <ValidationDrawer
+                    :title="`Valider ${grams / 1000} kg&nbsp;?`"
+                    :action="submit"
+                    :articleName
+                >
+                    <template #trigger>
+                        <Button
+                            :disabled="submitting || !occurrence"
+                            size="lg"
+                            class="w-full"
+                        >
+                            Placer le pari
+                        </Button>
+                    </template>
+                </ValidationDrawer>
+            </template>
         </div>
 
         <Spinner v-if="gamesStore.fetching" class="m-4"></Spinner>
