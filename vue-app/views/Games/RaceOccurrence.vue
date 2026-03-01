@@ -34,6 +34,7 @@ const articleName = computed(() => {
     return {
         "marble-race": "bet-on-a-marble",
         "horse-show": "bet-on-horse",
+        "where-is-joe": "where-is-joe-bet",
     }[route.params.gameName];
 });
 
