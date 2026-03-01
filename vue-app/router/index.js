@@ -116,6 +116,7 @@ const routes = [
     },
     {
         path: "/joes-weight",
+        component: () => import("@/views/Games/JoesWeight.vue"),
         children: [
             {
                 path: "",

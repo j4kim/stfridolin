@@ -10,19 +10,13 @@ import ValidationDrawer from "@/components/ValidationDrawer.vue";
 import { useGamesStore } from "@/stores/games";
 import { useGuestStore } from "@/stores/guest";
 import { CheckCircle2Icon, TriangleAlert } from "lucide-vue-next";
-import { computed, onUnmounted, ref } from "vue";
+import { computed, ref } from "vue";
 import { toast } from "vue-sonner";
 
 const gamesStore = useGamesStore();
 const guestStore = useGuestStore();
 
 const articleName = "guess-joes-weight";
-
-gamesStore.gameName = "joes-weight";
-
-onUnmounted(() => (gamesStore.gameName = null));
-
-gamesStore.fetchGame();
 
 const occurrence = computed(() => gamesStore.game?.occurrences[0]);
 
