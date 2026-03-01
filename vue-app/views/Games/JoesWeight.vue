@@ -66,7 +66,7 @@ async function submit() {
             {{ gamesStore.game?.title }}
         </h2>
 
-        <form class="space-y-6 px-4" ref="form">
+        <div class="space-y-6 px-4">
             <p class="text-sm">
                 Tu l'as vu notre beau dauphin à facette ? Devine son poids. La
                 personne la plus proche décroche le gros lot.
@@ -114,7 +114,6 @@ async function submit() {
                 <template #trigger>
                     <Button
                         :disabled="submitting || !occurrence"
-                        type="submit"
                         size="lg"
                         class="w-full"
                     >
@@ -122,7 +121,7 @@ async function submit() {
                     </Button>
                 </template>
             </ValidationDrawer>
-        </form>
+        </div>
 
         <Spinner v-if="gamesStore.fetching" class="m-4"></Spinner>
     </Layout>
