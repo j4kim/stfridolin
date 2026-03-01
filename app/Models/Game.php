@@ -35,7 +35,7 @@ class Game extends Model
             "quiz" => null,
             "joes-weight" => route('vue-app', "joes-weight"),
             "horse-show" => route('vue-app', "race/horse-show/$occurrenceId"),
-            "where-is-joe" => null,
+            "where-is-joe" => route('vue-app', "race/where-is-joe/$occurrenceId"),
             "degustation" => null,
             "domingold" => null,
             "bullseye" => null,
