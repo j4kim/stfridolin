@@ -27,6 +27,9 @@ export const useGamesStore = defineStore("games", () => {
         if (!gameName.value) {
             throw new Error("No gameName");
         }
+        if (gameName.value !== game.value?.name) {
+            game.value = null;
+        }
         fetching.value = true;
         try {
             game.value = await api("games.get").params(gameName.value).get();
