@@ -34,7 +34,7 @@ class Game extends Model
             "marble-race" => route('vue-app', "race/marble-race/$occurrenceId"),
             "quiz" => null,
             "joes-weight" => route('vue-app', "joes-weight"),
-            "horse-show" => null,
+            "horse-show" => route('vue-app', "race/horse-show/$occurrenceId"),
             "where-is-joe" => null,
             "degustation" => null,
             "domingold" => null,
