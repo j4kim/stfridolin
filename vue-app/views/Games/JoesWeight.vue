@@ -1,5 +1,6 @@
 <script setup>
 import Layout from "@/components/Layout.vue";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import Button from "@/components/ui/button/Button.vue";
 import Field from "@/components/ui/field/Field.vue";
 import Input from "@/components/ui/input/Input.vue";
@@ -8,6 +9,7 @@ import Spinner from "@/components/ui/spinner/Spinner.vue";
 import ValidationDrawer from "@/components/ValidationDrawer.vue";
 import { useGamesStore } from "@/stores/games";
 import { useGuestStore } from "@/stores/guest";
+import { CheckCircle2Icon } from "lucide-vue-next";
 import { computed, onUnmounted, ref } from "vue";
 import { toast } from "vue-sonner";
 
@@ -18,8 +20,12 @@ const articleName = "guess-joes-weight";
 
 gamesStore.gameName = "joes-weight";
 
+onUnmounted(() => (gamesStore.gameName = null));
+
 gamesStore.fetchGame();
+
 const occurrence = computed(() => gamesStore.game?.occurrences[0]);
+
 const isfinished = computed(() =>
     ["finished", "cancelled"].includes(occurrence.value?.status),
 );
@@ -59,6 +65,24 @@ const alreadyTried = computed(() => {
                 Tu l'as vu notre beau dauphin à facette ? Devine son poids. La
                 personne la plus proche décroche le gros lot.
             </p>
+
+            <Alert v-if="existingBets.length">
+                <CheckCircle2Icon />
+                <AlertTitle v-if="existingBets.length === 1">
+                    Ta prédiction
+                </AlertTitle>
+                <AlertTitle v-else>Tes prédictions</AlertTitle>
+                <div class="prose prose-invert col-start-2">
+                    <ul>
+                        <li v-for="bet in existingBets">
+                            {{ bet.meta.prediction / 1000 }} kg
+                        </li>
+                    </ul>
+                </div>
+                <AlertDescription>
+                    Tu peux placer d'autres paris dans une limite de 10.
+                </AlertDescription>
+            </Alert>
 
             <Field>
                 <Label>Ta prédiction :</Label>
