@@ -66,7 +66,7 @@ async function submit() {
             {{ gamesStore.game?.title }}
         </h2>
 
-        <form class="space-y-6 px-4" ref="form" @submit.prevent="submit">
+        <form class="space-y-6 px-4" ref="form">
             <p class="text-sm">
                 Tu l'as vu notre beau dauphin à facette ? Devine son poids. La
                 personne la plus proche décroche le gros lot.
