@@ -66,7 +66,7 @@ async function submit() {
             {{ gamesStore.game?.title }}
         </h2>
 
-        <div class="mb-12 space-y-6 px-4">
+        <div class="mb-12 space-y-6 px-4" v-if="occurrence">
             <p class="text-sm">
                 Tu l'as vu notre beau dauphin à facette ? Devine son poids. La
                 personne la plus proche décroche le gros lot.
@@ -94,7 +94,9 @@ async function submit() {
                         </li>
                     </ul>
                 </div>
-                <AlertDescription v-if="!isFinished">
+                <AlertDescription
+                    v-if="!isFinished && existingBets.length < 10"
+                >
                     Tu peux placer d'autres paris dans une limite de 10.
                 </AlertDescription>
             </Alert>
@@ -121,11 +123,7 @@ async function submit() {
                     :articleName
                 >
                     <template #trigger>
-                        <Button
-                            :disabled="submitting || !occurrence"
-                            size="lg"
-                            class="w-full"
-                        >
+                        <Button :disabled="submitting" size="lg" class="w-full">
                             Placer le pari
                         </Button>
                     </template>
@@ -133,6 +131,6 @@ async function submit() {
             </template>
         </div>
 
-        <Spinner v-if="gamesStore.fetching" class="m-4"></Spinner>
+        <Spinner v-else-if="gamesStore.fetching" class="m-4"></Spinner>
     </Layout>
 </template>
