@@ -1,6 +1,6 @@
 <script setup>
 import Layout from "@/components/Layout.vue";
-import MarbleRaceOccurenceItem from "@/components/MarbleRaceOccurenceItem.vue";
+import RaceOccurenceItem from "@/components/RaceOccurenceItem.vue";
 import { ItemGroup, ItemSeparator } from "@/components/ui/item";
 import Spinner from "@/components/ui/spinner/Spinner.vue";
 import { useGamesStore } from "@/stores/games";
@@ -21,7 +21,7 @@ const occurrences = computed(() => gamesStore.game?.occurrences || []);
         <ItemGroup v-if="occurrences.length">
             <ItemSeparator />
             <template v-for="occ in occurrences" :key="occ.id">
-                <MarbleRaceOccurenceItem :occ="occ" />
+                <RaceOccurenceItem :occ="occ" />
                 <ItemSeparator />
             </template>
         </ItemGroup>

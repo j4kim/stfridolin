@@ -77,12 +77,12 @@ const routes = [
     },
     {
         path: "/race/:gameName",
-        component: () => import("@/views/Games/MarbleRace.vue"),
+        component: () => import("@/views/Games/Race.vue"),
         children: [
             {
                 path: "",
                 name: "race-index",
-                component: () => import("@/views/Games/MarbleRaceIndex.vue"),
+                component: () => import("@/views/Games/RaceIndex.vue"),
                 meta: {
                     requireGuest: true,
                 },
@@ -90,8 +90,7 @@ const routes = [
             {
                 path: ":occId",
                 name: "race-occurrence",
-                component: () =>
-                    import("@/views/Games/MarbleRaceOccurrence.vue"),
+                component: () => import("@/views/Games/RaceOccurrence.vue"),
                 meta: {
                     requireGuest: true,
                 },
@@ -99,7 +98,7 @@ const routes = [
             {
                 path: ":occId/ranking",
                 name: "race-ranking",
-                component: () => import("@/views/Games/MarbleRaceRanking.vue"),
+                component: () => import("@/views/Games/RaceRanking.vue"),
                 meta: {
                     requireAuth: true,
                 },
