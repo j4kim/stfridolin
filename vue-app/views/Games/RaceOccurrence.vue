@@ -24,7 +24,9 @@ const status = computed(() => gamesStore.occurrence?.status);
 
 const existingBet = computed(() => {
     return guestStore.movements.find(
-        (m) => m.occurrence_id === gamesStore.occurrence?.id,
+        (m) =>
+            m.occurrence_id === gamesStore.occurrence?.id &&
+            m.type === "race-bet",
     );
 });
 
