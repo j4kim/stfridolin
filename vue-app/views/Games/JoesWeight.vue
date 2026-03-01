@@ -39,7 +39,17 @@ const existingBets = computed(() => {
 const grams = ref(null);
 const submitting = ref(false);
 
+const alreadyTried = computed(() => {
+    return existingBets.value.some((b) => b.meta.prediction == grams.value);
+});
+
 async function submit() {
+    if (alreadyTried.value) {
+        return toast.error("Tu as déjà placé ce pari");
+    }
+    if (grams.value < 1) {
+        return toast.error("Entre un nombre positif");
+    }
     const meta = { prediction: grams.value };
     submitting.value = true;
     const result = await gamesStore
@@ -48,10 +58,6 @@ async function submit() {
     grams.value = null;
     toast.success(result.message);
 }
-
-const alreadyTried = computed(() => {
-    return existingBets.value.some((b) => b.meta.pridction == grams.value);
-});
 </script>
 
 <template>
@@ -60,7 +66,7 @@ const alreadyTried = computed(() => {
             {{ gamesStore.game?.title }}
         </h2>
 
-        <form class="space-y-6 px-4">
+        <form class="space-y-6 px-4" ref="form" @submit.prevent="submit">
             <p class="text-sm">
                 Tu l'as vu notre beau dauphin à facette ? Devine son poids. La
                 personne la plus proche décroche le gros lot.
@@ -92,6 +98,8 @@ const alreadyTried = computed(() => {
                         class="h-10 text-center text-lg"
                         v-model="grams"
                         required
+                        min="1"
+                        step="1"
                     />
                     grammes
                 </div>
@@ -101,16 +109,12 @@ const alreadyTried = computed(() => {
                 :title="`Valider ${grams / 1000} kg&nbsp;?`"
                 :action="submit"
                 :articleName
+                v-if="!isFinished"
             >
                 <template #trigger>
                     <Button
-                        :disabled="
-                            submitting ||
-                            !occurrence ||
-                            !grams ||
-                            isfinished ||
-                            alreadyTried
-                        "
+                        :disabled="submitting || !occurrence"
+                        type="submit"
                         size="lg"
                         class="w-full"
                     >
