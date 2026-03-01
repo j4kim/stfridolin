@@ -35,6 +35,7 @@ async function submit() {
     const result = await gamesStore
         .participate(occurrence.value, meta, articleName)
         .finally(() => (submitting.value = false));
+    grams.value = null;
     toast.success(result.message);
 }
 
