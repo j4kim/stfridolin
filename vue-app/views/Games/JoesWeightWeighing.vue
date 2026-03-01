@@ -35,7 +35,7 @@ watch(
 const weighing = ref(null);
 const setting = ref(false);
 
-async function setWeighing() {
+async function finish() {
     setting.value = true;
     const meta = { weighing: weighing.value };
     const res = await gamesStore
@@ -77,10 +77,10 @@ const allPredi = computed(() =>
             <Input v-model="weighing" />
             <Button
                 class="w-full"
-                @click="setWeighing"
-                :disabled="!weighing || !gamesStore.occurrence || setting"
-                >Valider la pesée</Button
-            >
+                @click="finish"
+                :disabled="!gamesStore.occurrence || setting"
+                v-text="weighing ? 'Valider la pesée' : 'Fermer les paris'"
+            ></Button>
         </div>
 
         <div class="my-8 px-4" v-if="gamesStore.occurrence?.meta.weighing">
