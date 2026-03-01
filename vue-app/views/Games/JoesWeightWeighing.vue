@@ -15,6 +15,7 @@ import {
 import { useGamesStore } from "@/stores/games";
 import { ChevronRight } from "lucide-vue-next";
 import { computed, ref, watch } from "vue";
+import { mean } from "lodash-es";
 
 const gamesStore = useGamesStore();
 
@@ -42,16 +43,24 @@ async function setWeighing() {
         .finally(() => (setting.value = false));
 }
 
-const sortedBets = computed(() => {
+const orderedBets = computed(() => {
     if (!gamesStore.occurrence?.bets) return [];
     const bets = gamesStore.occurrence.bets;
-    const weighing = gamesStore.occurrence.meta.weighing;
-    if (!weighing) return bets;
-    return bets
+    return bets.sort((a, b) => a.meta.prediction - b.meta.prediction);
+});
+
+const rankedBets = computed(() => {
+    const weighing = gamesStore.occurrence?.meta.weighing;
+    if (!weighing) return orderedBets.value;
+    return orderedBets.value
         .map((b) => ({ ...b, diff: b.meta.prediction - weighing }))
         .map((b) => ({ ...b, absDiff: Math.abs(b.diff) }))
         .sort((a, b) => a.absDiff - b.absDiff);
 });
+
+const allPredi = computed(() =>
+    orderedBets.value.map((b) => b.meta.prediction / 1000),
+);
 </script>
 
 <template>
@@ -79,9 +88,22 @@ const sortedBets = computed(() => {
             <strong>{{ occurrence.meta.weighing / 1000 }} kg</strong>
         </div>
 
+        <div class="my-4 px-4 text-sm">
+            <div>{{ allPredi.length }} paris</div>
+            <div v-if="allPredi.length">
+                Min: <strong>{{ allPredi[0] }} kg</strong>
+            </div>
+            <div v-if="allPredi.length">
+                Max: <strong>{{ allPredi[allPredi.length - 1] }} kg</strong>
+            </div>
+            <div>
+                Moyenne: <strong>{{ mean(allPredi).toFixed(3) }} kg</strong>
+            </div>
+        </div>
+
         <ItemGroup>
             <ItemSeparator />
-            <template v-for="bet in sortedBets" :key="bet.id">
+            <template v-for="bet in rankedBets" :key="bet.id">
                 <Item>
                     <ItemContent>
                         <div>
