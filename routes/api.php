@@ -24,6 +24,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('occurrences/{occurrence}/open', [OccurrenceController::class, 'open'])->name('occurrences.open');
     Route::post('occurrences/{occurrence}/start', [OccurrenceController::class, 'start'])->name('occurrences.start');
     Route::post('occurrences/{occurrence}/set-ranking', [OccurrenceController::class, 'setRanking'])->name('occurrences.setRanking');
+    Route::post('occurrences/{occurrence}/finish', [OccurrenceController::class, 'finish'])->name('occurrences.finish');
 
     Route::middleware(EnsureMasterClient::class)->group(function () {
         Route::put('spotify/play', [SpotifyController::class, 'play'])->name('spotify.play');

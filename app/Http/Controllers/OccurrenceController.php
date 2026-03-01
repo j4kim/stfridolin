@@ -125,4 +125,23 @@ class OccurrenceController extends Controller
             "message" => "Classement enregistré",
         ];
     }
+
+    public function finish(Occurrence $occurrence, Request $request)
+    {
+        /** @var OccurrenceStatus $status */
+        $status = $occurrence->status;
+        if ($status->isClosed()) {
+            abort(400, "Ce jeu est " . $status->getLabel());
+        }
+        $occurrence->meta = array_merge(
+            $occurrence->meta,
+            $request->input('meta', []),
+        );
+        $occurrence->status = OccurrenceStatus::Finished;
+        $occurrence->save();
+        return [
+            "occurrence" => $occurrence,
+            "message" => "Jeu terminé",
+        ];
+    }
 }
