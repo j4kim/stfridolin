@@ -37,9 +37,7 @@ async function startAll() {
                     trigger="Démarrer"
                     :title="`Démarrer le jeu&nbsp;?`"
                     :action="() => startAll()"
-                >
-                    <template #validation> Oui </template>
-                </ValidationDrawer>
+                />
             </IfAuth>
         </div>
 

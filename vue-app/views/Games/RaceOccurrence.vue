@@ -113,17 +113,13 @@ async function start() {
                         trigger="Ouvrir les paris"
                         :title="`Ouvrir les paris&nbsp;?`"
                         :action="() => open()"
-                    >
-                        <template #validation> Oui </template>
-                    </ValidationDrawer>
+                    />
                     <ValidationDrawer
                         v-if="status === 'open'"
                         trigger="Démarrer"
                         :title="`Fermer les paris et démarrer la course&nbsp;?`"
                         :action="() => start()"
-                    >
-                        <template #validation> Oui </template>
-                    </ValidationDrawer>
+                    />
                     <RouterLink
                         v-if="status === 'started'"
                         :to="{ name: 'race-ranking' }"
