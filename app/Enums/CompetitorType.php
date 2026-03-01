@@ -11,6 +11,7 @@ enum CompetitorType: string implements HasLabel, HasColor
 {
     case Marble = 'marble';
     case Horse = 'horse';
+    case Character = 'character';
 
     public function getLabel(): string | Htmlable | null
     {
