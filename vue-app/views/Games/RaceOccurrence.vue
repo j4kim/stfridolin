@@ -68,6 +68,7 @@ async function start() {
             <p
                 class="text-muted-foreground my-2 px-4 text-sm"
                 v-if="status === 'open' || status === 'initial'"
+                v-show="gamesStore.gameName !== 'where-is-joe'"
             >
                 Départ à {{ gamesStore.occurrence.start_at_time }}
             </p>
@@ -91,6 +92,18 @@ async function start() {
                 "
                 :showBettors="['ranked', 'started'].includes(status)"
             >
+                <template #rank="{ rank }">
+                    <div
+                        v-if="gamesStore.gameName === 'where-is-joe'"
+                        class="w-8"
+                    >
+                        <span v-if="rank === 1">intrus</span>
+                    </div>
+                    <div v-else class="w-6">
+                        <span v-if="rank === Infinity"> DNF </span>
+                        <Badge v-else>{{ rank }}</Badge>
+                    </div>
+                </template>
                 <template #actions="{ competitor }">
                     <ValidationDrawer
                         v-if="!existingBet && status === 'open'"
