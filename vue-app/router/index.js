@@ -76,43 +76,34 @@ const routes = [
         },
     },
     {
-        path: "/marble-races",
-        component: () => import("@/views/Games/MarbleRace.vue"),
+        path: "/race/:gameName",
+        component: () => import("@/views/Games/Race.vue"),
         children: [
             {
                 path: "",
-                name: "marble-races",
-                component: () => import("@/views/Games/MarbleRaceIndex.vue"),
+                name: "race-index",
+                component: () => import("@/views/Games/RaceIndex.vue"),
                 meta: {
                     requireGuest: true,
                 },
             },
             {
                 path: ":occId",
-                name: "marble-race-occurrence",
-                component: () =>
-                    import("@/views/Games/MarbleRaceOccurrence.vue"),
+                name: "race-occurrence",
+                component: () => import("@/views/Games/RaceOccurrence.vue"),
                 meta: {
                     requireGuest: true,
                 },
             },
             {
                 path: ":occId/ranking",
-                name: "marble-race-ranking",
-                component: () => import("@/views/Games/MarbleRaceRanking.vue"),
+                name: "race-ranking",
+                component: () => import("@/views/Games/RaceRanking.vue"),
                 meta: {
                     requireAuth: true,
                 },
             },
         ],
-    },
-    {
-        path: "/horse-show",
-        name: "horse-show",
-        component: () => import("@/views/Tbi.vue"),
-        meta: {
-            requireGuest: true,
-        },
     },
     {
         path: "/joes-weight",

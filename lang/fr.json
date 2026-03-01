@@ -52,5 +52,7 @@
     "started": "démarré",
     "finished": "terminé",
     "ranked": "classé",
-    "cancelled": "annulé"
+    "cancelled": "annulé",
+    "marble-race": "Course de billes",
+    "horse-show": "Concours hippique"
 }

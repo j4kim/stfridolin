@@ -6,9 +6,10 @@ import Input from "@/components/ui/input/Input.vue";
 import Spinner from "@/components/ui/spinner/Spinner.vue";
 import { useGamesStore } from "@/stores/games";
 import { ChevronRight } from "lucide-vue-next";
-import { computed, ref } from "vue";
+import { ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { toast } from "vue-sonner";
+import { tr } from "@/translate";
 
 const route = useRoute();
 const router = useRouter();
@@ -39,18 +40,18 @@ async function submit() {
         .setRanking(ranking.value)
         .finally(() => (submitting.value = false));
     toast.success(result.message);
-    router.push({ name: "marble-race-occurrence" });
+    router.push({ name: "race-occurrence" });
 }
 </script>
 
 <template>
     <Layout>
         <h2 class="my-2 space-x-1 px-4">
-            <RouterLink :to="{ name: 'marble-races' }"
-                >Courses de billes</RouterLink
-            >
+            <RouterLink :to="{ name: 'race-index' }">{{
+                tr($route.params.gameName)
+            }}</RouterLink>
             <ChevronRight :size="14" class="mb-px inline" />
-            <RouterLink :to="{ name: 'marble-race-occurrence' }">{{
+            <RouterLink :to="{ name: 'race-occurrence' }">{{
                 gamesStore.occurrence?.title
             }}</RouterLink>
             <ChevronRight :size="14" class="mb-px inline" />

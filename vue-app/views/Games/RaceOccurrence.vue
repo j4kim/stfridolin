@@ -12,6 +12,7 @@ import { ChevronRight } from "lucide-vue-next";
 import { computed } from "vue";
 import { useRoute } from "vue-router";
 import { toast } from "vue-sonner";
+import { tr } from "@/translate";
 
 const route = useRoute();
 
@@ -28,8 +29,15 @@ const existingBet = computed(() => {
     );
 });
 
+const articleName = computed(() => {
+    return {
+        "marble-race": "bet-on-a-marble",
+        "horse-show": "bet-on-horse",
+    }[route.params.gameName];
+});
+
 async function bet(competitor) {
-    const result = await gamesStore.betOn(competitor, "bet-on-a-marble");
+    const result = await gamesStore.betOn(competitor, articleName.value);
     toast.success(result.message);
 }
 
@@ -47,9 +55,9 @@ async function start() {
 <template>
     <Layout>
         <h2 class="my-2 space-x-1 px-4">
-            <RouterLink :to="{ name: 'marble-races' }"
-                >Courses de billes</RouterLink
-            >
+            <RouterLink :to="{ name: 'race-index' }">{{
+                tr($route.params.gameName)
+            }}</RouterLink>
             <ChevronRight :size="14" class="mb-px inline" />
             <span class="font-bold">{{ gamesStore.occurrence?.title }}</span>
         </h2>
@@ -87,7 +95,7 @@ async function start() {
                         trigger="Choisir"
                         :title="`Parier sur ${competitor.name}&nbsp;?`"
                         :action="() => bet(competitor)"
-                        articleName="bet-on-a-marble"
+                        :articleName="articleName"
                         :disabled="gamesStore.betting"
                     ></ValidationDrawer>
                     <Badge v-if="existingBet?.competitor_id === competitor.id">
@@ -116,7 +124,7 @@ async function start() {
                     </ValidationDrawer>
                     <RouterLink
                         v-if="status === 'started'"
-                        :to="{ name: 'marble-race-ranking' }"
+                        :to="{ name: 'race-ranking' }"
                     >
                         <Button class="w-full">Faire classement</Button>
                     </RouterLink>

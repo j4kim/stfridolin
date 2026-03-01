@@ -45,16 +45,28 @@ const sortedCompetitors = computed(() => {
                     </Badge>
                 </div>
                 <ItemMedia @click="emits('item-click', competitor)">
-                    <img class="size-12 rounded" :src="competitor.image_url" />
+                    <img
+                        v-if="competitor.image_url"
+                        class="size-12 rounded"
+                        :src="competitor.image_url"
+                    />
+                    <div v-else class="size-12 rounded bg-neutral-700"></div>
                 </ItemMedia>
                 <ItemContent>
                     <div>
                         <ItemTitle>{{ competitor.name }}</ItemTitle>
                         <template v-if="showBettors">
+                            <template v-if="competitor.bettors.length < 10">
+                                <ItemDescription
+                                    v-for="bettor in competitor.bettors"
+                                >
+                                    {{ bettor }}
+                                </ItemDescription>
+                            </template>
                             <ItemDescription
-                                v-for="bettor in competitor.bettors"
+                                v-else-if="competitor.bettors.length"
                             >
-                                {{ bettor }}
+                                {{ competitor.bettors.length }} paris
                             </ItemDescription>
                         </template>
                     </div>

@@ -6,7 +6,6 @@ import {
     SidebarGroupContent,
     SidebarGroupLabel,
     SidebarMenu,
-    SidebarMenuButton,
     SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { useGuestStore } from "@/stores/guest";
@@ -25,7 +24,7 @@ import {
     Weight,
 } from "lucide-vue-next";
 import { computed } from "vue";
-import { useRoute } from "vue-router";
+import AppSidebarLink from "./AppSidebarLink.vue";
 
 const mainStore = useMainStore();
 
@@ -67,12 +66,18 @@ const groups = computed(() => [
             },
             {
                 title: "Courses de billes",
-                to: { name: "marble-races" },
+                to: {
+                    name: "race-index",
+                    params: { gameName: "marble-race" },
+                },
                 icon: CirclePile,
             },
             {
                 title: "Concours hippique",
-                to: { name: "horse-show" },
+                to: {
+                    name: "race-index",
+                    params: { gameName: "horse-show" },
+                },
                 icon: Trophy,
             },
             {
@@ -103,14 +108,13 @@ const groups = computed(() => [
             },
             {
                 title: "Admin panel",
-                href: "/admin",
+                to: "/admin",
                 icon: Settings,
+                external: true,
             },
         ],
     },
 ]);
-
-const route = useRoute();
 </script>
 
 <template>
@@ -128,24 +132,16 @@ const route = useRoute();
                                 <SidebarMenuItem
                                     v-if="!group.requiresAuth || mainStore.user"
                                 >
-                                    <SidebarMenuButton
-                                        as-child
-                                        :is-active="
-                                            route.name === link.to?.name
-                                        "
+                                    <AppSidebarLink
+                                        :to="link.to"
+                                        :external="link.external"
                                     >
                                         <component
-                                            :is="link.href ? 'a' : 'RouterLink'"
-                                            :to="link.to"
-                                            :href="link.href"
-                                        >
-                                            <component
-                                                v-if="link.icon"
-                                                :is="link.icon"
-                                            />
-                                            <span>{{ link.title }}</span>
-                                        </component>
-                                    </SidebarMenuButton>
+                                            v-if="link.icon"
+                                            :is="link.icon"
+                                        />
+                                        <span>{{ link.title }}</span>
+                                    </AppSidebarLink>
                                 </SidebarMenuItem>
                             </template>
                         </SidebarMenu>

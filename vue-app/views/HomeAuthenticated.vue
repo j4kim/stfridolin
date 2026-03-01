@@ -77,7 +77,10 @@ guestStore.fetchGuestMovementsIfMissing();
                     <CardFooter>
                         <RouterLink
                             class="w-full"
-                            :to="{ name: 'marble-races' }"
+                            :to="{
+                                name: 'race-index',
+                                params: { gameName: 'marble-race' },
+                            }"
                         >
                             <Button class="w-full">
                                 <CirclePile />
