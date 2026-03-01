@@ -18,7 +18,13 @@ const occurrences = computed(() => gamesStore.game?.occurrences || []);
         <ItemGroup v-if="occurrences.length">
             <ItemSeparator />
             <template v-for="occ in occurrences" :key="occ.id">
-                <RaceOccurenceItem :occ="occ" />
+                <RaceOccurenceItem
+                    :occ="occ"
+                    :showBetsOpenAt="
+                        gamesStore.game.type === 'race' &&
+                        occ.status === 'initial'
+                    "
+                />
                 <ItemSeparator />
             </template>
         </ItemGroup>
