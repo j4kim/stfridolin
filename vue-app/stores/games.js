@@ -95,7 +95,7 @@ export const useGamesStore = defineStore("games", () => {
         return result;
     }
 
-    async function finish(meta, occurrenceId) {
+    async function finish(occurrenceId, meta) {
         const result = await api("occurrences.finish")
             .params({ occurrence: occurrenceId })
             .data({ meta })
