@@ -24,7 +24,11 @@ const isfinished = computed(() =>
     ["finished", "cancelled"].includes(occurrence.value?.status),
 );
 
-onUnmounted(() => (gamesStore.gameName = null));
+const existingBets = computed(() => {
+    return guestStore.movements.filter(
+        (m) => m.occurrence_id === occurrence.value?.id,
+    );
+});
 
 const grams = ref(null);
 const submitting = ref(false);
