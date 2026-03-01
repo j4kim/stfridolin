@@ -1,15 +1,25 @@
 <script setup>
 import { useGamesStore } from "@/stores/games";
-import { onUnmounted } from "vue";
-import { useRoute } from "vue-router";
+import { onBeforeRouteLeave, onBeforeRouteUpdate, useRoute } from "vue-router";
 
 const gamesStore = useGamesStore();
 
 const route = useRoute();
 
-gamesStore.gameName = route.params.gameName;
+function setGame(route) {
+    const gameName = route.params.gameName;
+    if (gameName) {
+        gamesStore.gameName = route.params.gameName;
+        gamesStore.fetchGame();
+    } else {
+        gamesStore.gameName = null;
+        gamesStore.game = null;
+    }
+}
 
-onUnmounted(() => (gamesStore.gameName = null));
+setGame(route);
+onBeforeRouteUpdate(setGame);
+onBeforeRouteLeave(setGame);
 </script>
 
 <template>

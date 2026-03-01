@@ -9,8 +9,6 @@ import { computed } from "vue";
 
 const gamesStore = useGamesStore();
 
-gamesStore.fetchGame();
-
 const occurrences = computed(() => gamesStore.game?.occurrences || []);
 </script>
 
