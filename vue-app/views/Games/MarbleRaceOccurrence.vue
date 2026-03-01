@@ -29,8 +29,15 @@ const existingBet = computed(() => {
     );
 });
 
+const articleName = computed(() => {
+    return {
+        "marble-race": "bet-on-a-marble",
+        "horse-show": "bet-on-horse",
+    }[route.params.gameName];
+});
+
 async function bet(competitor) {
-    const result = await gamesStore.betOn(competitor, "bet-on-a-marble");
+    const result = await gamesStore.betOn(competitor, articleName.value);
     toast.success(result.message);
 }
 
@@ -88,7 +95,7 @@ async function start() {
                         trigger="Choisir"
                         :title="`Parier sur ${competitor.name}&nbsp;?`"
                         :action="() => bet(competitor)"
-                        articleName="bet-on-a-marble"
+                        :articleName="articleName"
                         :disabled="gamesStore.betting"
                     ></ValidationDrawer>
                     <Badge v-if="existingBet?.competitor_id === competitor.id">
