@@ -1,13 +1,16 @@
 <script setup>
+import AnimatedCount from "@/components/AnimatedCount.vue";
 import Competitors from "@/components/Competitors.vue";
 import IfAuth from "@/components/IfAuth.vue";
 import Layout from "@/components/Layout.vue";
+import { AlertTitle, Alert, AlertDescription } from "@/components/ui/alert";
 import Badge from "@/components/ui/badge/Badge.vue";
 import Button from "@/components/ui/button/Button.vue";
 import Spinner from "@/components/ui/spinner/Spinner.vue";
 import ValidationDrawer from "@/components/ValidationDrawer.vue";
 import { useGamesStore } from "@/stores/games";
 import { useGuestStore } from "@/stores/guest";
+import { icon } from "@/translate";
 import { ArrowRight, ChevronRight } from "lucide-vue-next";
 import { computed } from "vue";
 import { onBeforeRouteUpdate, useRoute } from "vue-router";
@@ -97,6 +100,23 @@ onBeforeRouteUpdate((to) => {
             >
                 Terminée
             </p>
+
+            <div v-if="existingBet?.points" class="my-4 px-4">
+                <Alert>
+                    <component :is="icon('points')" />
+                    <AlertTitle>C'est gagné !!</AlertTitle>
+                    <AlertDescription>
+                        <p>
+                            Bravo, Tu reçois
+                            <AnimatedCount
+                                :startVal="0"
+                                :value="existingBet.points"
+                            />
+                            points !
+                        </p>
+                    </AlertDescription>
+                </Alert>
+            </div>
 
             <div
                 class="my-2 px-4"
