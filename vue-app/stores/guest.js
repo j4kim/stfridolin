@@ -62,6 +62,16 @@ export const useGuestStore = defineStore("guest", () => {
             const paymentStore = usePaymentStore();
             paymentStore.setPayment(data.payment);
         });
+
+        channel.bind("MovementUpdated", (data) => {
+            const id = data.model.id;
+            const existingIdx = movements.value.findIndex((m) => m.id == id);
+            if (existingIdx === -1) {
+                movements.value.unshift(data.model);
+            } else {
+                movements.value[existingIdx] = data.model;
+            }
+        });
     }
 
     return {
