@@ -135,6 +135,12 @@ onBeforeRouteUpdate((to) => {
             </div>
 
             <Competitors
+                v-if="
+                    !(
+                        gamesStore.gameName === 'where-is-joe' &&
+                        status === 'started'
+                    )
+                "
                 :competitors="gamesStore.occurrence.competitors"
                 :ranking="
                     status === 'ranked' ? gamesStore.occurrence.ranking : null
