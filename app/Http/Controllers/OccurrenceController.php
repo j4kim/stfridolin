@@ -18,7 +18,8 @@ class OccurrenceController extends Controller
         $bets = $occurrence->bets()->with('guest')->get();
         foreach ($occurrence->competitors as $competitor) {
             $competitor->bettors = $bets->where('competitor_id', $competitor->id)
-                ->map(fn($bet) => $bet->guest->name);
+                ->map(fn($bet) => $bet->guest->name)
+                ->values();
         }
         if ($request->withBets) {
             $occurrence->bets = $bets;
