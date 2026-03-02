@@ -177,6 +177,7 @@ onBeforeRouteUpdate((to) => {
             <IfAuth>
                 <div class="mb-12 flex flex-col gap-4 p-4">
                     <template v-if="gamesStore.gameName === 'where-is-joe'">
+                        <!-- lifecycle: initial -> started -> open -> closed -> ranked (start next) -->
                         <ValidationDrawer
                             v-if="status === 'started'"
                             trigger="Ouvrir les paris"
@@ -191,6 +192,7 @@ onBeforeRouteUpdate((to) => {
                         </RouterLink>
                     </template>
                     <template v-else>
+                        <!-- lifecycle: initial -> open -> started -> ranked -->
                         <ValidationDrawer
                             v-if="status === 'initial'"
                             trigger="Ouvrir les paris"

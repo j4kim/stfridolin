@@ -12,6 +12,7 @@ enum OccurrenceStatus: string implements HasLabel, HasColor
     case Initial = 'initial';
     case Open = 'open';
     case Started = 'started';
+    case Closed = 'closed';
     case Finished = 'finished';
     case Ranked = 'ranked';
     case Cancelled = 'cancelled';

@@ -7,9 +7,11 @@ import { useGamesStore } from "@/stores/games";
 
 const gamesStore = useGamesStore();
 
-async function startAll() {
-    await api("occurrences.startAll")
-        .params({ gameId: gamesStore.gameId })
+const firstOcc = computed(() => gamesStore.game?.occurrences[0]);
+
+async function start() {
+    await api("occurrences.start")
+        .params({ occurrence: firstOcc.value.id })
         .post();
 }
 </script>
@@ -18,11 +20,11 @@ async function startAll() {
     <div>
         <ParticipateToWhereIsJoe />
 
-        <IfAuth v-if="gamesStore.game?.occurrences[0]?.status === 'initial'">
+        <IfAuth v-if="firstOcc?.status === 'initial'">
             <ValidationDrawer
                 trigger="Démarrer"
                 :title="`Démarrer le jeu&nbsp;?`"
-                :action="() => startAll()"
+                :action="() => start()"
             />
         </IfAuth>
     </div>
