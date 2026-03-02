@@ -125,6 +125,9 @@ export const useGamesStore = defineStore("games", () => {
         channel.bind("OccurrenceUpdated", (data) => {
             if (occurrence.value?.id == data.model.id) {
                 occurrence.value = merge(occurrence.value, data.model);
+                if (data.model.status === "ranked") {
+                    fetchOccurrence(data.model.id);
+                }
             }
             if (game.value?.occurrences) {
                 const index = game.value.occurrences.findIndex(
