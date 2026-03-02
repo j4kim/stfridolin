@@ -8,9 +8,9 @@ import Spinner from "@/components/ui/spinner/Spinner.vue";
 import ValidationDrawer from "@/components/ValidationDrawer.vue";
 import { useGamesStore } from "@/stores/games";
 import { useGuestStore } from "@/stores/guest";
-import { ChevronRight } from "lucide-vue-next";
+import { ArrowRight, ChevronRight } from "lucide-vue-next";
 import { computed } from "vue";
-import { useRoute } from "vue-router";
+import { onBeforeRouteUpdate, useRoute } from "vue-router";
 import { toast } from "vue-sonner";
 
 const route = useRoute();
@@ -52,6 +52,19 @@ async function start() {
     const result = await gamesStore.startRace();
     toast.success(result.message);
 }
+
+const nextOccurrence = computed(() => {
+    const occs = gamesStore.game?.occurrences;
+    if (!occs.length) return null;
+    const idx = occs.findIndex((o) => o.id == route.params.occId);
+    if (idx < 0) return null;
+    if (idx === occs.length - 1) return null;
+    return occs[idx + 1];
+});
+
+onBeforeRouteUpdate((to) => {
+    gamesStore.fetchOccurrence(to.params.occId);
+});
 </script>
 
 <template>
@@ -84,6 +97,22 @@ async function start() {
             >
                 Terminée
             </p>
+
+            <div
+                class="my-2 px-4"
+                v-if="
+                    gamesStore.gameName === 'where-is-joe' &&
+                    status === 'ranked' &&
+                    nextOccurrence
+                "
+            >
+                <RouterLink :to="{ params: { occId: nextOccurrence.id } }">
+                    <Button class="w-full" variant="outline">
+                        <ArrowRight />
+                        Manche suivante
+                    </Button>
+                </RouterLink>
+            </div>
 
             <Competitors
                 :competitors="gamesStore.occurrence.competitors"
