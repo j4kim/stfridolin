@@ -9,9 +9,11 @@ import { ItemGroup, ItemSeparator } from "@/components/ui/item";
 import Spinner from "@/components/ui/spinner/Spinner.vue";
 import ValidationDrawer from "@/components/ValidationDrawer.vue";
 import { useGamesStore } from "@/stores/games";
+import { useMainStore } from "@/stores/main";
 import { computed } from "vue";
 
 const gamesStore = useGamesStore();
+const mainStore = useMainStore();
 
 const occurrences = computed(() => gamesStore.game?.occurrences || []);
 
@@ -56,7 +58,9 @@ async function startAll() {
                         #actions="{ disabled, goToOcc, buttonText }"
                     >
                         <Button
-                            v-show="gamesStore.guestParticipates"
+                            v-show="
+                                gamesStore.guestParticipates || mainStore.user
+                            "
                             :disabled
                             @click="goToOcc"
                         >
