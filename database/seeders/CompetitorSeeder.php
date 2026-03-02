@@ -66,5 +66,19 @@ class CompetitorSeeder extends Seeder
             $competitors->push($c);
         }
         $o->competitors()->attach($competitors);
+
+        $whereIsJoe = Game::firstWhere('name', "where-is-joe");
+        $competitors = collect();
+        for ($i = 1; $i < 10; $i++) {
+            $c = Competitor::create([
+                'name' => "Personnage #$i",
+                'type' => CompetitorType::Character,
+            ]);
+            $competitors->push($c);
+        }
+
+        foreach ($whereIsJoe->occurrences as $occurrence) {
+            $occurrence->competitors()->attach($competitors);
+        }
     }
 }

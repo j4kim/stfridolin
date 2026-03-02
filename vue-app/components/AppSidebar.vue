@@ -14,6 +14,7 @@ import {
     CirclePile,
     CircleStar,
     HandFist,
+    HatGlasses,
     Home,
     Play,
     QrCode,
@@ -60,17 +61,22 @@ const groups = computed(() => [
         label: "Jeux",
         links: [
             {
-                title: "Jukeboxe",
-                to: { name: "vote" },
-                icon: HandFist,
-            },
-            {
                 title: "Courses de billes",
                 to: {
                     name: "race-index",
                     params: { gameName: "marble-race" },
                 },
                 icon: CirclePile,
+            },
+            {
+                title: "Jukeboxe",
+                to: { name: "vote" },
+                icon: HandFist,
+            },
+            {
+                title: "Poids de Joe",
+                to: { name: "joes-weight" },
+                icon: Weight,
             },
             {
                 title: "Concours hippique",
@@ -81,9 +87,12 @@ const groups = computed(() => [
                 icon: Trophy,
             },
             {
-                title: "Poids de Joe",
-                to: { name: "joes-weight" },
-                icon: Weight,
+                title: "Où est Joe ?",
+                to: {
+                    name: "race-index",
+                    params: { gameName: "where-is-joe" },
+                },
+                icon: HatGlasses,
             },
         ],
     },

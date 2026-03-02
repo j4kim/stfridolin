@@ -1,18 +1,20 @@
 <script setup>
+import AnimatedCount from "@/components/AnimatedCount.vue";
 import Competitors from "@/components/Competitors.vue";
 import IfAuth from "@/components/IfAuth.vue";
 import Layout from "@/components/Layout.vue";
+import { AlertTitle, Alert, AlertDescription } from "@/components/ui/alert";
 import Badge from "@/components/ui/badge/Badge.vue";
 import Button from "@/components/ui/button/Button.vue";
 import Spinner from "@/components/ui/spinner/Spinner.vue";
 import ValidationDrawer from "@/components/ValidationDrawer.vue";
 import { useGamesStore } from "@/stores/games";
 import { useGuestStore } from "@/stores/guest";
-import { ChevronRight } from "lucide-vue-next";
+import { icon } from "@/translate";
+import { ArrowRight, ChevronRight } from "lucide-vue-next";
 import { computed } from "vue";
-import { useRoute } from "vue-router";
+import { onBeforeRouteUpdate, useRoute } from "vue-router";
 import { toast } from "vue-sonner";
-import { tr } from "@/translate";
 
 const route = useRoute();
 
@@ -25,7 +27,9 @@ const status = computed(() => gamesStore.occurrence?.status);
 
 const existingBet = computed(() => {
     return guestStore.movements.find(
-        (m) => m.occurrence_id === gamesStore.occurrence?.id,
+        (m) =>
+            m.occurrence_id === gamesStore.occurrence?.id &&
+            m.type === "race-bet",
     );
 });
 
@@ -33,6 +37,7 @@ const articleName = computed(() => {
     return {
         "marble-race": "bet-on-a-marble",
         "horse-show": "bet-on-horse",
+        "where-is-joe": "where-is-joe-bet",
     }[route.params.gameName];
 });
 
@@ -50,13 +55,26 @@ async function start() {
     const result = await gamesStore.startRace();
     toast.success(result.message);
 }
+
+const nextOccurrence = computed(() => {
+    const occs = gamesStore.game?.occurrences;
+    if (!occs.length) return null;
+    const idx = occs.findIndex((o) => o.id == route.params.occId);
+    if (idx < 0) return null;
+    if (idx === occs.length - 1) return null;
+    return occs[idx + 1];
+});
+
+onBeforeRouteUpdate((to) => {
+    gamesStore.fetchOccurrence(to.params.occId);
+});
 </script>
 
 <template>
     <Layout>
         <h2 class="my-2 space-x-1 px-4">
             <RouterLink :to="{ name: 'race-index' }">{{
-                tr($route.params.gameName)
+                gamesStore.game?.title
             }}</RouterLink>
             <ChevronRight :size="14" class="mb-px inline" />
             <span class="font-bold">{{ gamesStore.occurrence?.title }}</span>
@@ -66,6 +84,7 @@ async function start() {
             <p
                 class="text-muted-foreground my-2 px-4 text-sm"
                 v-if="status === 'open' || status === 'initial'"
+                v-show="gamesStore.gameName !== 'where-is-joe'"
             >
                 Départ à {{ gamesStore.occurrence.start_at_time }}
             </p>
@@ -82,13 +101,64 @@ async function start() {
                 Terminée
             </p>
 
+            <div v-if="existingBet?.points" class="my-4 px-4">
+                <Alert>
+                    <component :is="icon('points')" />
+                    <AlertTitle>C'est gagné !!</AlertTitle>
+                    <AlertDescription>
+                        <p>
+                            Bravo, Tu reçois
+                            <AnimatedCount
+                                :startVal="0"
+                                :value="existingBet.points"
+                            />
+                            points !
+                        </p>
+                    </AlertDescription>
+                </Alert>
+            </div>
+
+            <div
+                class="my-2 px-4"
+                v-if="
+                    gamesStore.gameName === 'where-is-joe' &&
+                    status === 'ranked' &&
+                    nextOccurrence
+                "
+            >
+                <RouterLink :to="{ params: { occId: nextOccurrence.id } }">
+                    <Button class="w-full" variant="outline">
+                        <ArrowRight />
+                        Manche suivante
+                    </Button>
+                </RouterLink>
+            </div>
+
             <Competitors
+                v-if="
+                    !(
+                        gamesStore.gameName === 'where-is-joe' &&
+                        status === 'started'
+                    )
+                "
                 :competitors="gamesStore.occurrence.competitors"
                 :ranking="
                     status === 'ranked' ? gamesStore.occurrence.ranking : null
                 "
                 :showBettors="['ranked', 'started'].includes(status)"
             >
+                <template #rank="{ rank }">
+                    <div
+                        v-if="gamesStore.gameName === 'where-is-joe'"
+                        class="w-8"
+                    >
+                        <span v-if="rank === 1">intrus</span>
+                    </div>
+                    <div v-else class="w-6">
+                        <span v-if="rank === Infinity"> DNF </span>
+                        <Badge v-else>{{ rank }}</Badge>
+                    </div>
+                </template>
                 <template #actions="{ competitor }">
                     <ValidationDrawer
                         v-if="!existingBet && status === 'open'"
@@ -106,28 +176,40 @@ async function start() {
 
             <IfAuth>
                 <div class="mb-12 flex flex-col gap-4 p-4">
-                    <ValidationDrawer
-                        v-if="status === 'initial'"
-                        trigger="Ouvrir les paris"
-                        :title="`Ouvrir les paris&nbsp;?`"
-                        :action="() => open()"
-                    >
-                        <template #validation> Oui </template>
-                    </ValidationDrawer>
-                    <ValidationDrawer
-                        v-if="status === 'open'"
-                        trigger="Démarrer"
-                        :title="`Fermer les paris et démarrer la course&nbsp;?`"
-                        :action="() => start()"
-                    >
-                        <template #validation> Oui </template>
-                    </ValidationDrawer>
-                    <RouterLink
-                        v-if="status === 'started'"
-                        :to="{ name: 'race-ranking' }"
-                    >
-                        <Button class="w-full">Faire classement</Button>
-                    </RouterLink>
+                    <template v-if="gamesStore.gameName === 'where-is-joe'">
+                        <ValidationDrawer
+                            v-if="status === 'started'"
+                            trigger="Ouvrir les paris"
+                            :title="`Ouvrir les paris&nbsp;?`"
+                            :action="() => open()"
+                        />
+                        <RouterLink
+                            v-if="status === 'open'"
+                            :to="{ name: 'race-ranking' }"
+                        >
+                            <Button class="w-full">Faire classement</Button>
+                        </RouterLink>
+                    </template>
+                    <template v-else>
+                        <ValidationDrawer
+                            v-if="status === 'initial'"
+                            trigger="Ouvrir les paris"
+                            :title="`Ouvrir les paris&nbsp;?`"
+                            :action="() => open()"
+                        />
+                        <ValidationDrawer
+                            v-if="status === 'open'"
+                            trigger="Démarrer"
+                            :title="`Fermer les paris et démarrer la course&nbsp;?`"
+                            :action="() => start()"
+                        />
+                        <RouterLink
+                            v-if="status === 'started'"
+                            :to="{ name: 'race-ranking' }"
+                        >
+                            <Button class="w-full">Faire classement</Button>
+                        </RouterLink>
+                    </template>
                     <Button
                         variant="link"
                         as="a"

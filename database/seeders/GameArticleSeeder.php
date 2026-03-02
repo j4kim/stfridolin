@@ -63,6 +63,7 @@ class GameArticleSeeder extends Seeder
             'description' => "Pronostique sur le poids de Joe",
             'currency' => Currency::Tokens,
             'price' => 20,
+            'meta' => ['participationLimit' => 10],
         ]);
 
         Article::create([
@@ -71,7 +72,7 @@ class GameArticleSeeder extends Seeder
             'name' => "bet-on-horse",
             'description' => "Pari sur un cheval",
             'currency' => Currency::Tokens,
-            'price' => 20,
+            'price' => 30,
         ]);
 
         Article::create([
@@ -80,7 +81,17 @@ class GameArticleSeeder extends Seeder
             'name' => "where-is-joe",
             'description' => "Participation à \"Où est Joe ?\"",
             'currency' => Currency::Tokens,
-            'price' => 20,
+            'price' => 30,
+            'meta' => ['participationLimit' => 1],
+        ]);
+
+        Article::create([
+            'type' => ArticleType::Participation,
+            'game_id' => Game::where('name', 'where-is-joe')->firstOrFail()->id,
+            'name' => "where-is-joe-bet",
+            'description' => "Pari au \"Où est Joe ?\"",
+            'currency' => Currency::Tokens,
+            'price' => 0,
         ]);
 
         Article::create([
@@ -98,7 +109,8 @@ class GameArticleSeeder extends Seeder
             'name' => "domingold",
             'description' => "Participation à la tombola",
             'currency' => Currency::Tokens,
-            'price' => 20,
+            'price' => 12,
+            'meta' => ['participationLimit' => 10],
         ]);
 
         Article::create([

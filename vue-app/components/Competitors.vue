@@ -10,7 +10,6 @@ import {
     ItemDescription,
 } from "@/components/ui/item";
 import { computed } from "vue";
-import Badge from "./ui/badge/Badge.vue";
 
 const props = defineProps({
     competitors: Array,
@@ -38,11 +37,8 @@ const sortedCompetitors = computed(() => {
         <ItemSeparator />
         <template v-for="competitor in sortedCompetitors" :key="competitor.id">
             <Item>
-                <div v-if="competitor.rank" class="w-6">
-                    <span v-if="competitor.rank === Infinity"> DNF </span>
-                    <Badge v-else>
-                        {{ competitor.rank }}
-                    </Badge>
+                <div v-if="competitor.rank">
+                    <slot name="rank" :rank="competitor.rank"></slot>
                 </div>
                 <ItemMedia @click="emits('item-click', competitor)">
                     <img

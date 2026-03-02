@@ -77,8 +77,11 @@ async function submit() {
                 <Button @click="submit" :disabled="loading || tooShort">
                     <Spinner v-if="loading" class="animate-spin" />
                     <slot name="validation">
-                        <CircleStar v-if="!loading" />
-                        Dépenser {{ article.price }} jetons
+                        <template v-if="article && article.price > 0">
+                            <CircleStar v-if="!loading" />
+                            Dépenser {{ article.price }} jetons
+                        </template>
+                        <template v-else>Oui</template>
                     </slot>
                 </Button>
                 <DrawerClose as-child>

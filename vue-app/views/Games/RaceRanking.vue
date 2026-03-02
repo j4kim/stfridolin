@@ -9,7 +9,6 @@ import { ChevronRight } from "lucide-vue-next";
 import { ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { toast } from "vue-sonner";
-import { tr } from "@/translate";
 
 const route = useRoute();
 const router = useRouter();
@@ -48,7 +47,7 @@ async function submit() {
     <Layout>
         <h2 class="my-2 space-x-1 px-4">
             <RouterLink :to="{ name: 'race-index' }">{{
-                tr($route.params.gameName)
+                gamesStore.game?.title
             }}</RouterLink>
             <ChevronRight :size="14" class="mb-px inline" />
             <RouterLink :to="{ name: 'race-occurrence' }">{{

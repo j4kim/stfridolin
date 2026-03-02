@@ -13,6 +13,10 @@ import { useMainStore } from "@/stores/main";
 
 const props = defineProps({
     occ: Object,
+    showBetsOpenAt: {
+        type: Boolean,
+        default: true,
+    },
 });
 
 const router = useRouter();
@@ -50,16 +54,18 @@ function goToOcc() {
                 <ItemTitle>{{ occ.title }}</ItemTitle>
                 <ItemDescription>
                     <div>Départ à {{ occ.start_at_time }}</div>
-                    <div v-if="occ.status === 'initial'">
+                    <div v-if="showBetsOpenAt">
                         Ouverture des paris à {{ occ.bets_open_at_time }}
                     </div>
                 </ItemDescription>
             </div>
         </ItemContent>
         <ItemActions>
-            <Button :disabled @click="goToOcc">
-                {{ buttonText }}
-            </Button>
+            <slot name="actions" v-bind="{ goToOcc, disabled, buttonText }">
+                <Button :disabled @click="goToOcc">
+                    {{ buttonText }}
+                </Button>
+            </slot>
         </ItemActions>
     </Item>
 </template>
