@@ -36,6 +36,14 @@ const routes = [
     },
     // Routes requiring guest auth
     {
+        path: "/movements",
+        name: "movements",
+        component: () => import("@/views/Guest/Movements.vue"),
+        meta: {
+            requireGuest: true,
+        },
+    },
+    {
         path: "/buy-tokens",
         name: "buy-tokens",
         component: () => import("@/views/Guest/BuyTokens.vue"),
