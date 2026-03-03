@@ -209,6 +209,11 @@ onBeforeRouteUpdate((to) => {
                         >
                             <Button class="w-full">Faire classement</Button>
                         </RouterLink>
+                        <RouterLink :to="{ name: 'race-video' }">
+                            <Button class="w-full" variant="link"
+                                >Intégration vidéo</Button
+                            >
+                        </RouterLink>
                     </template>
                     <Button
                         variant="link"

@@ -103,6 +103,15 @@ const routes = [
                     requireAuth: true,
                 },
             },
+            {
+                path: ":occId/video",
+                name: "race-video",
+                component: () =>
+                    import("@/views/Games/RaceOccurrenceVideo.vue"),
+                meta: {
+                    requireGuest: true,
+                },
+            },
         ],
     },
     {
