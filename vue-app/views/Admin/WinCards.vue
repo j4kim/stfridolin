@@ -3,13 +3,13 @@ import PrintableCards from "@/components/PrintableCards.vue";
 import { icon } from "@/translate";
 import { ref } from "vue";
 
-const pages = ref(2);
+const nb = ref(21);
 </script>
 
 <template>
-    <PrintableCards :items="new Array(9 * pages)">
+    <PrintableCards :items="new Array(nb)">
         <template #below-header>
-            Pages: <input type="number" v-model="pages" />
+            Cartes: <input type="number" v-model="nb" />
         </template>
         <template #item>
             <div class="mx-auto">
