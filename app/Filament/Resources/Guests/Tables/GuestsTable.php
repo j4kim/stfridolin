@@ -17,6 +17,7 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\Summarizers\Average;
 use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -85,6 +86,7 @@ class GuestsTable
                     ->visibleFrom('sm'),
             ])
             ->filters([
+                SelectFilter::make('type')->options(GuestType::class),
                 TernaryFilter::make('is_registered')
                     ->queries(
                         true: fn(Builder $query) => $query->has('registrationMovements'),
