@@ -1,13 +1,18 @@
 <script setup>
-import { onMounted } from "vue";
+import { computed, onMounted, ref } from "vue";
+import { chunk } from "lodash-es";
 
-defineProps({
+const props = defineProps({
     items: Array,
 });
 
 onMounted(() => {
     document.documentElement.classList.remove("dark");
 });
+
+const chunkSize = ref(21);
+
+const chunks = computed(() => chunk(props.items, chunkSize.value));
 </script>
 
 <template>
@@ -17,9 +22,11 @@ onMounted(() => {
     </header>
     <div class="p-4 print:hidden">
         <slot name="below-header" v-bind="items"></slot>
+
+        <div>Cartes par page: <input type="number" v-model="chunkSize" /></div>
     </div>
-    <div class="flex flex-wrap">
-        <div v-for="item in items" class="card-container">
+    <div v-for="chunkItems in chunks" class="cards-container flex flex-wrap">
+        <div v-for="item in chunkItems" class="card-container">
             <div class="card flex flex-col justify-center p-[5mm]">
                 <img class="mx-auto mb-[2mm] w-[10mm]" src="/favicon.svg" />
                 <slot name="item" v-bind="item"></slot>
@@ -45,23 +52,33 @@ onMounted(() => {
 @page {
     margin: 6mm;
 }
+.cards-container {
+    --margin: 5mm;
+    padding: var(--margin);
+    break-inside: avoid;
+}
 .card-container {
     --width: 55mm;
     --height: 85mm;
-    --margin: 5mm;
     break-inside: avoid;
     position: relative;
+    margin: calc(-1 * var(--margin));
 }
 .card {
     width: var(--width);
     height: var(--height);
     margin: var(--margin);
+    background-color: white;
+    position: relative;
+    z-index: 1;
+    outline: 1.5mm solid white;
 }
 .cut-line {
     height: var(--margin);
     width: var(--margin);
     position: absolute;
     --length: 2mm;
+    z-index: 0;
     div {
         position: absolute;
         background-color: grey;

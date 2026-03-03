@@ -13,7 +13,7 @@ class GuestController extends Controller
 {
     public function index()
     {
-        return Guest::where('type', '!=', GuestType::Patron)->get();
+        return Guest::where('type', '!=', GuestType::Patron)->orderBy('name')->get();
     }
 
     public function get(string $key)
