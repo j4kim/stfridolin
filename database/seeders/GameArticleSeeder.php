@@ -98,16 +98,18 @@ class GameArticleSeeder extends Seeder
             'type' => ArticleType::Participation,
             'game_id' => Game::where('name', 'degustation')->firstOrFail()->id,
             'name' => "degustation",
-            'description' => "Participation à la dégustation",
+            'description' => "Dégustation de vins de Troquet",
             'currency' => Currency::Tokens,
             'price' => 20,
         ]);
 
+        $domingold = Game::where('name', 'domingold')->firstOrFail();
+
         Article::create([
             'type' => ArticleType::Participation,
-            'game_id' => Game::where('name', 'domingold')->firstOrFail()->id,
+            'game_id' => $domingold->id,
             'name' => "domingold",
-            'description' => "Participation à la tombola",
+            'description' => "1 ticket de tombola",
             'currency' => Currency::Tokens,
             'price' => 12,
             'meta' => ['participationLimit' => 10],
@@ -115,7 +117,19 @@ class GameArticleSeeder extends Seeder
 
         Article::create([
             'type' => ArticleType::Participation,
-            'game_id' => Game::where('name', 'bullseye')->firstOrFail()->id,
+            'game_id' => $domingold->id,
+            'name' => "domingold-5",
+            'description' => "5 tickets de tombola",
+            'currency' => Currency::Tokens,
+            'price' => 50,
+            'meta' => ['participationLimit' => 2],
+        ]);
+
+        $bullseye = Game::where('name', 'bullseye')->firstOrFail();
+
+        Article::create([
+            'type' => ArticleType::Participation,
+            'game_id' => $bullseye->id,
             'name' => "bullseye",
             'description' => "Participation au bullseye",
             'currency' => Currency::Tokens,
@@ -124,11 +138,31 @@ class GameArticleSeeder extends Seeder
 
         Article::create([
             'type' => ArticleType::Participation,
-            'game_id' => Game::where('name', 'ball-toss')->firstOrFail()->id,
+            'game_id' => $bullseye->id,
+            'name' => "bullseye-3",
+            'description' => "3 essais au bullseye",
+            'currency' => Currency::Tokens,
+            'price' => 20,
+        ]);
+
+        $ballToss = Game::where('name', 'ball-toss')->firstOrFail();
+
+        Article::create([
+            'type' => ArticleType::Participation,
+            'game_id' => $ballToss->id,
             'name' => "ball-toss",
             'description' => "Participation au lancer de balles",
             'currency' => Currency::Tokens,
             'price' => 8,
+        ]);
+
+        Article::create([
+            'type' => ArticleType::Participation,
+            'game_id' => $ballToss->id,
+            'name' => "ball-toss-3",
+            'description' => "3 essais au lancer de balles",
+            'currency' => Currency::Tokens,
+            'price' => 20,
         ]);
 
         Article::create([
