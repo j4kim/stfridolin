@@ -2,6 +2,7 @@
 import { api } from "@/api";
 import PrintableCards from "@/components/PrintableCards.vue";
 import QrCode from "@/components/QrCode.vue";
+import { BicepsFlexed, Star } from "lucide-vue-next";
 import { ref } from "vue";
 
 const guests = ref([]);
@@ -14,6 +15,10 @@ api("guests.index")
 <template>
     <PrintableCards :items="guests">
         <template #item="guest">
+            <div class="mx-auto">
+                <Star v-if="guest.type === 'vip'" />
+                <BicepsFlexed v-if="guest.type === 'volunteer'" />
+            </div>
             <h1 class="text-center text-xl font-bold">
                 {{ guest.name }}
             </h1>
