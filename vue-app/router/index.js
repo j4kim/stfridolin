@@ -177,6 +177,14 @@ const routes = [
         },
     },
     {
+        path: "/spend-cards",
+        name: "spend-cards",
+        component: () => import("@/views/Admin/SpendCards.vue"),
+        meta: {
+            requireAuth: true,
+        },
+    },
+    {
         path: "/qr-scan",
         name: "qr-scan",
         component: () => import("@/views/Admin/QrScan.vue"),

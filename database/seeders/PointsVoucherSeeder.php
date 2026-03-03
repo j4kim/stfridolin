@@ -25,7 +25,7 @@ class PointsVoucherSeeder extends Seeder
                 'description' => number_format($points, thousands_separator: '’') . " points",
                 'currency' => Currency::None,
                 'price' => 0,
-                'meta' => ['points' => $points],
+                'meta' => ['points' => $points, 'type' => 'points'],
             ]);
 
             Voucher::factory(9)->create(['article_id' => $article->id]);

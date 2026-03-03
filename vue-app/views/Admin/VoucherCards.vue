@@ -2,6 +2,7 @@
 import { api } from "@/api";
 import PrintableCards from "@/components/PrintableCards.vue";
 import QrCode from "@/components/QrCode.vue";
+import { icon } from "@/translate";
 import { ref } from "vue";
 
 const vouchers = ref([]);
@@ -14,6 +15,12 @@ api("vouchers.index")
 <template>
     <PrintableCards :items="vouchers">
         <template #item="voucher">
+            <div class="mx-auto">
+                <component
+                    v-if="voucher.article.meta?.type"
+                    :is="icon(voucher.article.meta.type)"
+                />
+            </div>
             <h1 class="text-center text-xl font-bold">
                 {{ voucher.article.description }}
             </h1>

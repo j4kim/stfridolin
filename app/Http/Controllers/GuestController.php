@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\ArticleType;
 use App\Enums\MovementType;
+use App\Models\Article;
 use App\Models\Guest;
 use Illuminate\Http\Request;
 
@@ -48,9 +50,13 @@ class GuestController extends Controller
         if ($guest->$currency < $amount) {
             abort(400, "Vous n'avez pas assez de " . __($currency));
         }
+        $article = $request->articleId ? Article::findOrFail($request->articleId) : null;
+        $type = $article?->type === ArticleType::Participation ? MovementType::GameParticipation : MovementType::Manual;
         return $guest->createMovement([
             $currency => -$amount,
-            'type' => MovementType::Manual,
+            'type' => $type,
+            'article_id' => $request->articleId,
+            'game_id' => $article?->game_id,
             'meta' => ['source' => 'self-service'],
         ]);
     }

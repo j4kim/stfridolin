@@ -56,7 +56,7 @@ class ArticleSeeder extends Seeder
                 'currency' => Currency::CHF,
                 'std_price' => $stdPrice,
                 'price' => $price,
-                'meta' => ['tokens' => $tokens],
+                'meta' => ['tokens' => $tokens, 'type' => 'tokens'],
             ]);
         }
 

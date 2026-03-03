@@ -84,6 +84,11 @@ class AdminPanelProvider extends PanelProvider
                     ->icon(Heroicon::Printer)
                     ->group('Outils')
                     ->sort(9100),
+                NavigationItem::make("Cartes dépense")
+                    ->url(fn() => route('vue-app', 'spend-cards'))
+                    ->icon(Heroicon::Printer)
+                    ->group('Outils')
+                    ->sort(9200),
                 NavigationItem::make('Scan')
                     ->url(fn() => route('vue-app', 'qr-scan'))
                     ->icon(Heroicon::QrCode)

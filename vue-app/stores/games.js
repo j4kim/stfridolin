@@ -144,6 +144,7 @@ export const useGamesStore = defineStore("games", () => {
         games,
         game,
         gameName,
+        byName,
         gameId,
         occurrence,
         fetching,
