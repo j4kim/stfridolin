@@ -54,6 +54,7 @@ class GameArticleSeeder extends Seeder
             'description' => "Participation au quiz",
             'currency' => Currency::Tokens,
             'price' => 20,
+            'meta' => ['qrcodes' => 2],
         ]);
 
         Article::create([
@@ -101,6 +102,7 @@ class GameArticleSeeder extends Seeder
             'description' => "Dégustation de vins de Troquet",
             'currency' => Currency::Tokens,
             'price' => 20,
+            'meta' => ['qrcodes' => 2],
         ]);
 
         $domingold = Game::where('name', 'domingold')->firstOrFail();
@@ -112,7 +114,7 @@ class GameArticleSeeder extends Seeder
             'description' => "1 ticket de tombola",
             'currency' => Currency::Tokens,
             'price' => 12,
-            'meta' => ['participationLimit' => 10],
+            'meta' => ['participationLimit' => 10, 'qrcodes' => 2],
         ]);
 
         Article::create([
@@ -122,7 +124,7 @@ class GameArticleSeeder extends Seeder
             'description' => "5 tickets de tombola",
             'currency' => Currency::Tokens,
             'price' => 50,
-            'meta' => ['participationLimit' => 2],
+            'meta' => ['participationLimit' => 2, 'qrcodes' => 2],
         ]);
 
         $bullseye = Game::where('name', 'bullseye')->firstOrFail();
@@ -134,6 +136,7 @@ class GameArticleSeeder extends Seeder
             'description' => "Participation au bullseye",
             'currency' => Currency::Tokens,
             'price' => 8,
+            'meta' => ['qrcodes' => 2],
         ]);
 
         Article::create([
@@ -143,6 +146,7 @@ class GameArticleSeeder extends Seeder
             'description' => "3 essais au bullseye",
             'currency' => Currency::Tokens,
             'price' => 20,
+            'meta' => ['qrcodes' => 2],
         ]);
 
         $ballToss = Game::where('name', 'ball-toss')->firstOrFail();
@@ -154,6 +158,7 @@ class GameArticleSeeder extends Seeder
             'description' => "Participation au lancer de balles",
             'currency' => Currency::Tokens,
             'price' => 8,
+            'meta' => ['qrcodes' => 2],
         ]);
 
         Article::create([
@@ -163,6 +168,7 @@ class GameArticleSeeder extends Seeder
             'description' => "3 essais au lancer de balles",
             'currency' => Currency::Tokens,
             'price' => 20,
+            'meta' => ['qrcodes' => 2],
         ]);
 
         Article::create([
@@ -172,6 +178,7 @@ class GameArticleSeeder extends Seeder
             'description' => "Participation à l'âne aveugle",
             'currency' => Currency::Tokens,
             'price' => 8,
+            'meta' => ['qrcodes' => 2],
         ]);
     }
 }
