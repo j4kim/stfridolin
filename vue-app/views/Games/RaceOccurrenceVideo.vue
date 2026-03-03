@@ -1,12 +1,11 @@
 <script setup>
-import Competitors from "@/components/Competitors.vue";
 import Layout from "@/components/Layout.vue";
 import Badge from "@/components/ui/badge/Badge.vue";
 import Button from "@/components/ui/button/Button.vue";
 import { useGamesStore } from "@/stores/games";
 import { useFullscreen, useWakeLock } from "@vueuse/core";
 import { ChevronRight } from "lucide-vue-next";
-import { computed, onMounted, useTemplateRef } from "vue";
+import { computed, onMounted, ref, useTemplateRef } from "vue";
 import { onBeforeRouteUpdate, useRoute } from "vue-router";
 
 const route = useRoute();
@@ -42,6 +41,8 @@ onMounted(async () => {
         await request();
     }
 });
+
+const greenBg = ref(false);
 </script>
 
 <template>
@@ -58,11 +59,18 @@ onMounted(async () => {
             <span class="font-bold">Intégration vidéo</span>
         </h2>
 
-        <div class="p-4">
+        <div class="class flex items-center gap-4 p-4">
             <Button size="sm" @click="enter">Plein écran</Button>
+            <label><input type="checkbox" v-model="greenBg" /> fond vert</label>
         </div>
 
-        <div class="flex h-dvh flex-col" ref="video">
+        <div
+            class="flex h-dvh flex-col"
+            ref="video"
+            :class="{
+                'bg-green-500': greenBg,
+            }"
+        >
             <h2 class="p-6 font-bold">
                 {{ gamesStore.occurrence?.title }}
             </h2>
