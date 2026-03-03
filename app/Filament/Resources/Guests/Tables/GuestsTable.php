@@ -2,8 +2,11 @@
 
 namespace App\Filament\Resources\Guests\Tables;
 
+use App\Enums\ArticleType;
 use App\Enums\GuestType;
+use App\Enums\MovementType;
 use App\Filament\Tools\ColumnTools;
+use App\Models\Article;
 use App\Models\Guest;
 use Filament\Actions\BulkAction;
 use Filament\Actions\BulkActionGroup;
@@ -107,7 +110,25 @@ class GuestsTable
                     BulkAction::make('Modifier type')
                         ->schema([Select::make('type')->options(GuestType::class)])
                         ->modalWidth(Width::Medium)
-                        ->action(fn(Collection $records, array $data) => $records->each->update($data))
+                        ->action(fn(Collection $records, array $data) => $records->each->update($data)),
+                    BulkAction::make('Valider inscription')
+                        ->requiresConfirmation()
+                        ->modalWidth(Width::Medium)
+                        ->action(function (Collection $records) {
+                            $article = Article::firstWhere('type', ArticleType::Registration);
+                            foreach ($records as $guest) {
+                                if ($guest->registrationMovements()->exists()) {
+                                    continue;
+                                }
+                                $guest->createMovement([
+                                    'type' => MovementType::Registration,
+                                    'article_id' => $article->id,
+                                    'chf' => $guest->type === GuestType::Guest ? -30 : null,
+                                    'tokens' => $guest->type === GuestType::Volunteer ? 100 : $article->meta['tokens'],
+                                    'meta' => ['source' => 'admin panel'],
+                                ]);
+                            }
+                        }),
                 ]),
             ])
             ->defaultSort('created_at', 'desc');
