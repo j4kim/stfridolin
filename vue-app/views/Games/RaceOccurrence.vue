@@ -145,7 +145,7 @@ onBeforeRouteUpdate((to) => {
                 :ranking="
                     status === 'ranked' ? gamesStore.occurrence.ranking : null
                 "
-                :showBettors="['ranked', 'started'].includes(status)"
+                :showBettors="status === 'ranked'"
             >
                 <template #rank="{ rank }">
                     <div
