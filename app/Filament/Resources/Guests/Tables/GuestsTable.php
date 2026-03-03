@@ -2,10 +2,17 @@
 
 namespace App\Filament\Resources\Guests\Tables;
 
+use App\Enums\ArticleType;
+use App\Enums\GuestType;
+use App\Enums\MovementType;
 use App\Filament\Tools\ColumnTools;
+use App\Models\Article;
 use App\Models\Guest;
+use Filament\Actions\BulkAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
+use Filament\Forms\Components\Select;
+use Filament\Support\Enums\Width;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\Summarizers\Average;
 use Filament\Tables\Columns\Summarizers\Sum;
@@ -13,6 +20,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
 
 class GuestsTable
 {
@@ -46,6 +54,11 @@ class GuestsTable
                     ->sortable()
                     ->toggleable()
                     ->url(fn(int $state, Guest $guest) => ColumnTools::movementsUrl('guest', $guest->id))
+                    ->visibleFrom('sm'),
+                TextColumn::make('type')
+                    ->badge()
+                    ->sortable()
+                    ->toggleable()
                     ->visibleFrom('sm'),
                 IconColumn::make('registration_movements_count')
                     ->boolean()
@@ -94,6 +107,28 @@ class GuestsTable
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
+                    BulkAction::make('Modifier type')
+                        ->schema([Select::make('type')->options(GuestType::class)])
+                        ->modalWidth(Width::Medium)
+                        ->action(fn(Collection $records, array $data) => $records->each->update($data)),
+                    BulkAction::make('Valider inscription')
+                        ->requiresConfirmation()
+                        ->modalWidth(Width::Medium)
+                        ->action(function (Collection $records) {
+                            $article = Article::firstWhere('type', ArticleType::Registration);
+                            foreach ($records as $guest) {
+                                if ($guest->registrationMovements()->exists()) {
+                                    continue;
+                                }
+                                $guest->createMovement([
+                                    'type' => MovementType::Registration,
+                                    'article_id' => $article->id,
+                                    'chf' => $guest->type === GuestType::Guest ? -30 : null,
+                                    'tokens' => $guest->type === GuestType::Volunteer ? 100 : $article->meta['tokens'],
+                                    'meta' => ['source' => 'admin panel'],
+                                ]);
+                            }
+                        }),
                 ]),
             ])
             ->defaultSort('created_at', 'desc');

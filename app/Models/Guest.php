@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\GuestType;
 use App\Enums\MovementType;
 use App\Enums\PaymentStatus;
 use App\Tools\Stripe;
@@ -20,6 +21,13 @@ class Guest extends Model
     use BroadcastsEvents;
 
     protected $appends = ['auth_url'];
+
+    protected function casts(): array
+    {
+        return [
+            'type' => GuestType::class,
+        ];
+    }
 
     protected static function booted(): void
     {

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\ArticleType;
+use App\Enums\GuestType;
 use App\Enums\MovementType;
 use App\Models\Article;
 use App\Models\Guest;
@@ -12,7 +13,7 @@ class GuestController extends Controller
 {
     public function index()
     {
-        return Guest::all();
+        return Guest::where('type', '!=', GuestType::Patron)->get();
     }
 
     public function get(string $key)
