@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import { computed, ref } from "vue";
 import { watchDebounced } from "@vueuse/core";
 import { api } from "@/api";
+import { pusher } from "@/broadcasting";
 
 export const useTracksStore = defineStore("tracks", () => {
     const searchQuery = ref("");
@@ -22,6 +23,12 @@ export const useTracksStore = defineStore("tracks", () => {
     }
 
     watchDebounced(searchQuery, searchTracks, { debounce: 500 });
+
+
+    pusher.subscribe('tracks').bind("MovementCreated",  (data) => {
+            fetchQueue();
+        });
+ 
 
     async function searchMore() {
         searchingMore.value = true;
