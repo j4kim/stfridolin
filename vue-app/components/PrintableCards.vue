@@ -10,7 +10,7 @@ onMounted(() => {
     document.documentElement.classList.remove("dark");
 });
 
-const chunkSize = ref(10);
+const chunkSize = ref(21);
 
 const chunks = computed(() => chunk(props.items, chunkSize.value));
 </script>
@@ -71,6 +71,7 @@ const chunks = computed(() => chunk(props.items, chunkSize.value));
     background-color: white;
     position: relative;
     z-index: 1;
+    outline: 1.5mm solid white;
 }
 .cut-line {
     height: var(--margin);
