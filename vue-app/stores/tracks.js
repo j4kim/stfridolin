@@ -56,6 +56,10 @@ export const useTracksStore = defineStore("tracks", () => {
         queueTracks.value.filter((t) => !t.proposed_by),
     );
 
+    const guestTracksTimeEstimateMs = computed(() =>
+        guestTracks.value.reduce((timeAccumulate, element) => timeAccumulate + element.duration_ms, 0));
+
+
     async function add(track) {
         const response = await api("tracks.store")
             .params(track.spotify_uri)
@@ -84,5 +88,6 @@ export const useTracksStore = defineStore("tracks", () => {
         backupTracks,
         add,
         inQueue,
+        guestTracksTimeEstimateMs,
     };
 });

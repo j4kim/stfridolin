@@ -47,6 +47,7 @@ class Track extends Model
             'spotify_uri' => $data['uri'],
             'img_url' => $data['album']['images'][0]['url'],
             'img_thumbnail_url' => $data['album']['images'][2]['url'],
+            'duration_ms' => $data['duration_ms'],
         ];
     }
 

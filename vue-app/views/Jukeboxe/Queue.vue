@@ -6,10 +6,20 @@ import IfAuth from "@/components/IfAuth.vue";
 import { ChevronRight, ListPlus } from "lucide-vue-next";
 import { useTracksStore } from "@/stores/tracks";
 import Spinner from "@/components/ui/spinner/Spinner.vue";
+import { computed } from "vue";
 
 const tracksStore = useTracksStore();
 
 tracksStore.fetchQueue();
+
+
+
+const guestTracksEndTimeEstimate = computed(() =>{
+    return new Date(Date.now() + tracksStore.guestTracksTimeEstimateMs)
+})
+
+
+
 </script>
 
 <template>
@@ -21,7 +31,7 @@ tracksStore.fetchQueue();
         </h2>
 
         <IfAuth>
-            <p class="my-2 px-4">Morceaux ajoutés par les invités:</p>
+            <p class="my-2 px-4">Morceaux ajoutés par les invités. Heure estimée de fin : {{ guestTracksEndTimeEstimate.toLocaleTimeString() }}</p>
         </IfAuth>
         <Spinner v-if="tracksStore.fetchingQueue" class="m-4" />
         <Tracks :tracks="tracksStore.guestTracks" />
