@@ -11,7 +11,7 @@ import {
     ItemTitle,
 } from "@/components/ui/item";
 import { useGuestStore } from "@/stores/guest";
-import { tr } from "@/translate";
+import { icon, tr } from "@/translate";
 import dayjs from "dayjs";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import "dayjs/locale/fr";
@@ -34,10 +34,7 @@ guestStore.fetchGuestMovements({ with: ["article"] });
                     <ItemContent>
                         <div>
                             <ItemTitle>
-                                <span class="capitalize">{{ tr(m.type) }}</span>
-                                <span v-if="m.article"
-                                    >({{ m.article.description }})</span
-                                >
+                                {{ m.article?.description ?? tr(m.type) }}
                             </ItemTitle>
                             <ItemDescription>
                                 {{ dayjs(m.created_at).format("lll") }}
@@ -46,11 +43,15 @@ guestStore.fetchGuestMovements({ with: ["article"] });
                     </ItemContent>
                     <ItemActions>
                         <template v-for="cur in ['chf', 'tokens', 'points']">
-                            <Badge v-if="m[cur]" variant="secondary">
+                            <Badge
+                                v-if="m[cur]"
+                                :variant="m[cur] < 0 ? 'secondary' : ''"
+                            >
                                 <span>
                                     <span v-if="m[cur] > 0">+</span>{{ m[cur] }}
                                 </span>
                                 {{ tr(cur) }}
+                                <component :is="icon(cur)" />
                             </Badge>
                         </template>
                     </ItemActions>
