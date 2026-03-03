@@ -19,7 +19,7 @@ api("guests.index")
                 <Star v-if="guest.type === 'vip'" />
                 <BicepsFlexed v-if="guest.type === 'volunteer'" />
             </div>
-            <hr v-if="guest.name === '_'" class="mt-16" />
+            <hr v-if="guest.name === '_'" class="mt-12 mb-2" />
             <h1 v-else class="text-center text-xl font-bold">
                 {{ guest.name }}
             </h1>
