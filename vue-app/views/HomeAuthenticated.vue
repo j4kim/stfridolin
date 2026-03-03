@@ -129,55 +129,7 @@ guestStore.fetchGuestMovementsIfMissing();
                         </RouterLink>
                     </CardFooter>
                 </Card>
-            </div>
-
-            <h2 class="my-4 px-8 text-2xl font-bold">Programme</h2>
-
-            <div class="px-8">
-                <table class="w-full">
-                    <tbody>
-                        <tr>
-                            <th class="text-left tabular-nums">18:30</th>
-                            <td>Cérémonie d'ouverture</td>
-                        </tr>
-                        <tr>
-                            <th class="text-left tabular-nums">19:00</th>
-                            <td>Course de bille - qualifications</td>
-                        </tr>
-                        <tr>
-                            <th class="text-left tabular-nums">19:30</th>
-                            <td>Course EZ</td>
-                        </tr>
-                        <tr>
-                            <th class="text-left tabular-nums">20:00</th>
-                            <td>Course de bille - qualifications</td>
-                        </tr>
-                        <tr>
-                            <th class="text-left tabular-nums">20:30</th>
-                            <td>Quiz de la Saint-Fridolin</td>
-                        </tr>
-                        <tr>
-                            <th class="text-left tabular-nums">21:00</th>
-                            <td>Course de bille - demi-finale</td>
-                        </tr>
-                        <tr>
-                            <th class="text-left tabular-nums">21:30</th>
-                            <td>Course EZ</td>
-                        </tr>
-                        <tr>
-                            <th class="text-left tabular-nums">22:00</th>
-                            <td>Course de bille - demi-finale</td>
-                        </tr>
-                        <tr>
-                            <th class="text-left tabular-nums">20:30</th>
-                            <td>Quiz Estelle Zamme</td>
-                        </tr>
-                        <tr>
-                            <th class="text-left tabular-nums">23:00</th>
-                            <td>Course de bille - finale</td>
-                        </tr>
-                    </tbody>
-                </table>
+                Et plein d'autres jeux à découvrir !
             </div>
 
             <div class="h-12"></div>
