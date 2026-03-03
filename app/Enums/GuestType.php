@@ -12,6 +12,7 @@ enum GuestType: string implements HasLabel, HasColor
     case Guest = 'guest';
     case VIP = 'vip';
     case Volunteer = 'volunteer';
+    case Patron = 'patron';
 
     public function getLabel(): string | Htmlable | null
     {
