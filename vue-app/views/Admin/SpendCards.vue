@@ -25,14 +25,14 @@ const cards = computed(() => {
         to: { name: "spend", params: { currency } },
         description: "Dépense de " + tr(currency),
         currency,
-        copies: 2,
+        copies: 9,
     }));
-    const all = articleCards.concat(freeSpendCards);
-    return all.map((c) => {
+    const all = articleCards.concat(freeSpendCards).map((c) => {
         const { href } = useLink({ to: c.to });
         c.url = location.origin + href.value;
         return c;
     });
+    return all.map((c) => Array(c.copies).fill(c)).flat();
 });
 </script>
 
