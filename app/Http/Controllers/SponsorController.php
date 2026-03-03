@@ -9,6 +9,6 @@ class SponsorController extends Controller
 {
     public function index()
     {
-        return Sponsor::all();
+        return Sponsor::orderBy('name')->get();
     }
 }
