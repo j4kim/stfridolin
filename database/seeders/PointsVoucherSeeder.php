@@ -16,9 +16,20 @@ class PointsVoucherSeeder extends Seeder
      */
     public function run(): void
     {
-        $pointsCredits = [1, 2, 3, 5, 10, 20, 50, 100, 200, 500];
+        Article::where('type', ArticleType::PointsCredit)->delete();
 
-        foreach ($pointsCredits as $points) {
+        $pointsQuantities = [
+            2000 => 4,
+            1000 => 2,
+            750 => 2,
+            500 => 2,
+            400 => 2,
+            300 => 2,
+            200 => 2,
+            100 => 56,
+        ];
+
+        foreach ($pointsQuantities as $points => $quantity) {
             $article = Article::create([
                 'type' => ArticleType::PointsCredit,
                 'name' => "$points-points",
@@ -28,7 +39,7 @@ class PointsVoucherSeeder extends Seeder
                 'meta' => ['points' => $points, 'type' => 'points'],
             ]);
 
-            Voucher::factory(9)->create(['article_id' => $article->id]);
+            Voucher::factory($quantity)->create(['article_id' => $article->id]);
         }
     }
 }
