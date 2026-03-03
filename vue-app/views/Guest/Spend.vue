@@ -104,5 +104,7 @@ async function submit() {
         </form>
     </Layout>
 
-    <FullScreenMovement v-else :movement />
+    <FullScreenMovement v-else :movement>
+        <div v-if="article">{{ article.description }}</div>
+    </FullScreenMovement>
 </template>
