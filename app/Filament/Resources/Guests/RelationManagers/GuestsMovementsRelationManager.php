@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Guests\RelationManagers;
 
 use App\Enums\ArticleType;
+use App\Enums\GuestType;
 use App\Enums\MovementType;
 use App\Filament\Resources\Movements\MovementResource;
 use App\Models\Article;
@@ -61,8 +62,14 @@ class GuestsMovementsRelationManager extends RelationManager
         if ($type === MovementType::Registration) {
             $article = Article::firstWhere('type', ArticleType::Registration);
             $movementData['article_id'] = $article->id;
-            $movementData['chf'] = -$article->price;
-            $movementData['tokens'] = $article->meta['tokens'];
+            if ($guest->type === GuestType::Guest) {
+                $movementData['chf'] = -$article->price;
+                $movementData['tokens'] = $article->meta['tokens'];
+            } else if ($guest->type === GuestType::Volunteer) {
+                $movementData['tokens'] = 100;
+            } else if ($guest->type === GuestType::VIP) {
+                $movementData['tokens'] = $article->meta['tokens'];
+            }
         }
 
         if (isset($data['created_at'])) {
