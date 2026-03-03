@@ -28,6 +28,10 @@ export const useGuestStore = defineStore("guest", () => {
         }
     }
 
+    async function fetchGuestMovements(params = {}) {
+        movements.value = await api("guests.movements").params(params).get();
+    }
+
     async function createGuests(names) {
         return await api("guests.storeMany").data({ names }).post();
     }
@@ -62,6 +66,16 @@ export const useGuestStore = defineStore("guest", () => {
             const paymentStore = usePaymentStore();
             paymentStore.setPayment(data.payment);
         });
+
+        channel.bind("MovementUpdated", (data) => {
+            const id = data.model.id;
+            const existingIdx = movements.value.findIndex((m) => m.id == id);
+            if (existingIdx === -1) {
+                movements.value.unshift(data.model);
+            } else {
+                movements.value[existingIdx] = data.model;
+            }
+        });
     }
 
     return {
@@ -71,6 +85,7 @@ export const useGuestStore = defineStore("guest", () => {
         createGuests,
         fetchGuest,
         fetchGuestMovementsIfMissing,
+        fetchGuestMovements,
         subscribeToBroadcastEvents,
     };
 });

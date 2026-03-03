@@ -23,9 +23,16 @@ export const useGamesStore = defineStore("games", () => {
     const fetching = ref(false);
     const betting = ref(false);
 
+    const guestParticipates = computed(() => {
+        return guestStore.movements.some((m) => m.game_id === gameId.value);
+    });
+
     async function fetchGame() {
         if (!gameName.value) {
             throw new Error("No gameName");
+        }
+        if (gameName.value !== game.value?.name) {
+            game.value = null;
         }
         fetching.value = true;
         try {
@@ -35,13 +42,14 @@ export const useGamesStore = defineStore("games", () => {
         }
     }
 
-    async function fetchOccurrence(occurrenceId) {
+    async function fetchOccurrence(occurrenceId, params = {}) {
         if (occurrence.value && occurrenceId != occurrence.value.id) {
             occurrence.value = null;
         }
+        params.occurrence = occurrenceId;
         fetching.value = true;
         occurrence.value = await api("occurrences.get")
-            .params(occurrenceId)
+            .params(params)
             .get()
             .finally(() => (fetching.value = false));
     }
@@ -85,6 +93,23 @@ export const useGamesStore = defineStore("games", () => {
         return result;
     }
 
+    async function participate(occurrenceId, meta, articleName) {
+        const result = await api("occurrences.participate")
+            .params({ occurrence: occurrenceId })
+            .data({ meta, articleName })
+            .post();
+        guestStore.movements.unshift(result.movement);
+        return result;
+    }
+
+    async function finish(occurrenceId, meta) {
+        const result = await api("occurrences.finish")
+            .params({ occurrence: occurrenceId })
+            .data({ meta })
+            .post();
+        return result;
+    }
+
     watch(gameId, (newGameId, oldGameId) => {
         if (newGameId) {
             subscribeToGameChannel(newGameId);
@@ -100,6 +125,9 @@ export const useGamesStore = defineStore("games", () => {
         channel.bind("OccurrenceUpdated", (data) => {
             if (occurrence.value?.id == data.model.id) {
                 occurrence.value = merge(occurrence.value, data.model);
+                if (data.model.status === "ranked") {
+                    fetchOccurrence(data.model.id);
+                }
             }
             if (game.value?.occurrences) {
                 const index = game.value.occurrences.findIndex(
@@ -116,6 +144,7 @@ export const useGamesStore = defineStore("games", () => {
         games,
         game,
         gameName,
+        byName,
         gameId,
         occurrence,
         fetching,
@@ -126,5 +155,8 @@ export const useGamesStore = defineStore("games", () => {
         openRace,
         startRace,
         setRanking,
+        participate,
+        finish,
+        guestParticipates,
     };
 });

@@ -35,7 +35,8 @@ class GuestInfolist
                     TextEntry::make('authenticated_at')
                         ->dateTime("d.m.Y H:i")
                         ->placeholder('-'),
-                ])->columns(3),
+                    TextEntry::make('type')->badge(),
+                ])->columns(4),
             ]);
     }
 }

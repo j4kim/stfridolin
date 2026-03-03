@@ -10,7 +10,6 @@ import {
     ItemDescription,
 } from "@/components/ui/item";
 import { computed } from "vue";
-import Badge from "./ui/badge/Badge.vue";
 
 const props = defineProps({
     competitors: Array,
@@ -38,23 +37,32 @@ const sortedCompetitors = computed(() => {
         <ItemSeparator />
         <template v-for="competitor in sortedCompetitors" :key="competitor.id">
             <Item>
-                <div v-if="competitor.rank" class="w-6">
-                    <span v-if="competitor.rank === Infinity"> DNF </span>
-                    <Badge v-else>
-                        {{ competitor.rank }}
-                    </Badge>
+                <div v-if="competitor.rank">
+                    <slot name="rank" :rank="competitor.rank"></slot>
                 </div>
                 <ItemMedia @click="emits('item-click', competitor)">
-                    <img class="size-12 rounded" :src="competitor.image_url" />
+                    <img
+                        v-if="competitor.image_url"
+                        class="size-12 rounded"
+                        :src="competitor.image_url"
+                    />
+                    <div v-else class="size-12 rounded bg-neutral-700"></div>
                 </ItemMedia>
                 <ItemContent>
                     <div>
                         <ItemTitle>{{ competitor.name }}</ItemTitle>
                         <template v-if="showBettors">
+                            <template v-if="competitor.bettors.length < 10">
+                                <ItemDescription
+                                    v-for="bettor in competitor.bettors"
+                                >
+                                    {{ bettor }}
+                                </ItemDescription>
+                            </template>
                             <ItemDescription
-                                v-for="bettor in competitor.bettors"
+                                v-else-if="competitor.bettors.length"
                             >
-                                {{ bettor }}
+                                {{ competitor.bettors.length }} paris
                             </ItemDescription>
                         </template>
                     </div>

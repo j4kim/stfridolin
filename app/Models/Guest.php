@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\GuestType;
 use App\Enums\MovementType;
 use App\Enums\PaymentStatus;
 use App\Tools\Stripe;
@@ -20,6 +21,13 @@ class Guest extends Model
     use BroadcastsEvents;
 
     protected $appends = ['auth_url'];
+
+    protected function casts(): array
+    {
+        return [
+            'type' => GuestType::class,
+        ];
+    }
 
     protected static function booted(): void
     {
@@ -146,7 +154,11 @@ class Guest extends Model
 
     public function betOn(Occurrence $occurrence, Competitor $competitor, Article $article): Movement
     {
-        if ($this->movements()->where('occurrence_id', $occurrence->id)->exists()) {
+        $alreadyBet = $this->movements()
+            ->where('occurrence_id', $occurrence->id)
+            ->where('type', MovementType::RaceBet)
+            ->exists();
+        if ($alreadyBet) {
             abort(400, "Vous avez déjà parié sur cette course");
         }
         return $this->createMovement([

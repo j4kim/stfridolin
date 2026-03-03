@@ -1,8 +1,5 @@
 <?php
 
-use App\Enums\ArticleType;
-use App\Models\Article;
-use App\Models\Game;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('articles', function (Blueprint $table) {
-            $table->foreignId('game_id')->nullable()->constrained()->cascadeOnDelete();
+        Schema::table('guests', function (Blueprint $table) {
+            $table->string('type')->default('guest');
         });
     }
 
@@ -24,9 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('articles', function (Blueprint $table) {
-            $table->dropForeign(['game_id']);
-            $table->dropColumn('game_id');
+        Schema::table('guests', function (Blueprint $table) {
+            $table->dropColumn('type');
         });
     }
 };

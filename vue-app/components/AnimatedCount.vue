@@ -2,7 +2,7 @@
 import { CountUp } from "countup.js";
 import { onMounted, useTemplateRef, watch } from "vue";
 
-const props = defineProps({ value: Number });
+const props = defineProps({ value: Number, startVal: Number });
 
 const countEl = useTemplateRef("counter");
 
@@ -17,10 +17,11 @@ watch(
 
 onMounted(() => {
     countUp = new CountUp(countEl.value, props.value, {
-        startVal: props.value,
-        duration: 1,
+        startVal: props.startVal ?? props.value,
+        duration: 1.5,
         separator: "’",
     });
+    countUp.start();
 });
 </script>
 

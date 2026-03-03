@@ -3,7 +3,7 @@ import Layout from "@/components/Layout.vue";
 import NumberCard from "@/components/NumberCard.vue";
 import { Button } from "@/components/ui/button";
 import { useGuestStore } from "@/stores/guest";
-import { CircleStar, Gift, Home, Power } from "lucide-vue-next";
+import { CircleStar, Gift, Home, List, Power } from "lucide-vue-next";
 import { useRoute, useRouter } from "vue-router";
 
 const route = useRoute();
@@ -45,16 +45,6 @@ function logOut() {
                                 Acheter des jetons
                             </Button>
                         </RouterLink>
-                        <RouterLink
-                            :to="{
-                                name: 'spend',
-                                params: { currency: 'tokens' },
-                            }"
-                        >
-                            <Button class="w-full" size="lg">
-                                Dépenser des jetons
-                            </Button>
-                        </RouterLink>
                     </template>
                 </NumberCard>
                 <NumberCard
@@ -63,20 +53,7 @@ function logOut() {
                     :icon="Gift"
                     description="Participez aux jeux pour tenter de gagner des points,
                     puis échangez vos points contre des lots au kiosque à plaisir."
-                >
-                    <template #drawerFooter>
-                        <RouterLink
-                            :to="{
-                                name: 'spend',
-                                params: { currency: 'points' },
-                            }"
-                        >
-                            <Button class="w-full" size="lg">
-                                Dépenser des points
-                            </Button>
-                        </RouterLink>
-                    </template>
-                </NumberCard>
+                ></NumberCard>
             </div>
             <div class="flex flex-col gap-4 p-4">
                 <RouterLink :to="{ name: 'buy-tokens' }">
@@ -89,6 +66,12 @@ function logOut() {
                     <Button class="w-full" size="lg" variant="outline">
                         <Home />
                         Accueil
+                    </Button>
+                </RouterLink>
+                <RouterLink :to="{ name: 'movements' }">
+                    <Button class="w-full" size="lg" variant="outline">
+                        <List />
+                        Historique
                     </Button>
                 </RouterLink>
                 <Button size="lg" variant="outline" @click="logOut">

@@ -7,11 +7,12 @@ use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasLabel;
 use Illuminate\Contracts\Support\Htmlable;
 
-enum CompetitorType: string implements HasLabel, HasColor
+enum GuestType: string implements HasLabel, HasColor
 {
-    case Marble = 'marble';
-    case Horse = 'horse';
-    case Character = 'character';
+    case Guest = 'guest';
+    case VIP = 'vip';
+    case Volunteer = 'volunteer';
+    case Patron = 'patron';
 
     public function getLabel(): string | Htmlable | null
     {
@@ -21,6 +22,9 @@ enum CompetitorType: string implements HasLabel, HasColor
     public function getColor(): string | array | null
     {
         return match ($this) {
+            self::Guest => Color::Lime,
+            self::VIP => Color::Cyan,
+            self::Volunteer => Color::Emerald,
             default => Color::Slate,
         };
     }

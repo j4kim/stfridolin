@@ -36,6 +36,14 @@ const routes = [
     },
     // Routes requiring guest auth
     {
+        path: "/movements",
+        name: "movements",
+        component: () => import("@/views/Guest/Movements.vue"),
+        meta: {
+            requireGuest: true,
+        },
+    },
+    {
         path: "/buy-tokens",
         name: "buy-tokens",
         component: () => import("@/views/Guest/BuyTokens.vue"),
@@ -76,51 +84,65 @@ const routes = [
         },
     },
     {
-        path: "/marble-races",
-        component: () => import("@/views/Games/MarbleRace.vue"),
+        path: "/race/:gameName",
+        component: () => import("@/views/Games/Race.vue"),
         children: [
             {
                 path: "",
-                name: "marble-races",
-                component: () => import("@/views/Games/MarbleRaceIndex.vue"),
+                name: "race-index",
+                component: () => import("@/views/Games/RaceIndex.vue"),
                 meta: {
                     requireGuest: true,
                 },
             },
             {
                 path: ":occId",
-                name: "marble-race-occurrence",
-                component: () =>
-                    import("@/views/Games/MarbleRaceOccurrence.vue"),
+                name: "race-occurrence",
+                component: () => import("@/views/Games/RaceOccurrence.vue"),
                 meta: {
                     requireGuest: true,
                 },
             },
             {
                 path: ":occId/ranking",
-                name: "marble-race-ranking",
-                component: () => import("@/views/Games/MarbleRaceRanking.vue"),
+                name: "race-ranking",
+                component: () => import("@/views/Games/RaceRanking.vue"),
                 meta: {
                     requireAuth: true,
+                },
+            },
+            {
+                path: ":occId/video",
+                name: "race-video",
+                component: () =>
+                    import("@/views/Games/RaceOccurrenceVideo.vue"),
+                meta: {
+                    requireGuest: true,
                 },
             },
         ],
     },
     {
-        path: "/horse-show",
-        name: "horse-show",
-        component: () => import("@/views/Tbi.vue"),
-        meta: {
-            requireGuest: true,
-        },
-    },
-    {
         path: "/joes-weight",
-        name: "joes-weight",
         component: () => import("@/views/Games/JoesWeight.vue"),
-        meta: {
-            requireGuest: true,
-        },
+        children: [
+            {
+                path: "",
+                name: "joes-weight",
+                component: () => import("@/views/Games/JoesWeightIndex.vue"),
+                meta: {
+                    requireGuest: true,
+                },
+            },
+            {
+                path: "weighing",
+                name: "joes-weight-weighing",
+                component: () => import("@/views/Games/JoesWeightWeighing.vue"),
+                meta: {
+                    requireAuth: true,
+                },
+            },
+        ],
     },
     {
         path: "/voucher/:id",
@@ -156,6 +178,14 @@ const routes = [
         },
     },
     {
+        path: "/sponsors",
+        name: "sponsors",
+        component: () => import("@/views/Admin/Sponsors.vue"),
+        meta: {
+            requireAuth: true,
+        },
+    },
+    {
         path: "/guest-cards",
         name: "guest-cards",
         component: () => import("@/views/Admin/GuestCards.vue"),
@@ -167,6 +197,22 @@ const routes = [
         path: "/voucher-cards",
         name: "voucher-cards",
         component: () => import("@/views/Admin/VoucherCards.vue"),
+        meta: {
+            requireAuth: true,
+        },
+    },
+    {
+        path: "/spend-cards",
+        name: "spend-cards",
+        component: () => import("@/views/Admin/SpendCards.vue"),
+        meta: {
+            requireAuth: true,
+        },
+    },
+    {
+        path: "/win-cards",
+        name: "win-cards",
+        component: () => import("@/views/Admin/WinCards.vue"),
         meta: {
             requireAuth: true,
         },

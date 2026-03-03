@@ -70,6 +70,12 @@ class Movement extends Model
         if ($this->type === MovementType::JukeboxeVote) {
             $channels[] = new Channel("votes");
         }
+        if ($this->type === MovementType::JukeboxeAdd) {
+            $channels[] = new Channel("tracks");
+        }
+        if ($event === 'updated') {
+            $channels[] = new Channel("guest-$this->guest_id");
+        }
         return $channels;
     }
 }
