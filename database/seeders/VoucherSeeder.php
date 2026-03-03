@@ -14,6 +14,7 @@ class VoucherSeeder extends Seeder
      */
     public function run(): void
     {
+        Voucher::factory(54)->create(['article_id' => Article::firstWhere('name', '10-tokens')->id]);
         Voucher::factory(9)->create(['article_id' => Article::firstWhere('name', '40-tokens')->id]);
         Voucher::factory(18)->create(['article_id' => Article::firstWhere('name', '100-tokens')->id]);
         Voucher::factory(18)->create(['article_id' => Article::firstWhere('name', '200-tokens')->id]);

@@ -17,6 +17,10 @@ class ArticleSeeder extends Seeder
     {
         $tokenPackages = [
             [
+                'tokens' => 10,
+                'discount' => 1, // free
+            ],
+            [
                 'tokens' => 40,
                 'discount' => 0, // 10 CHF
             ],

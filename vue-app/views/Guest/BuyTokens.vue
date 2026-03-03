@@ -20,7 +20,9 @@ const stdPackages = computed(() =>
 );
 
 const discountPackages = computed(() =>
-    articlesStore.tokenPackages.filter((p) => p.discount !== null),
+    articlesStore.tokenPackages.filter(
+        (p) => p.discount !== null && p.price > 0,
+    ),
 );
 
 const loading = ref(false);
