@@ -28,6 +28,10 @@ export const useGuestStore = defineStore("guest", () => {
         }
     }
 
+    async function fetchGuestMovements(params = {}) {
+        movements.value = await api("guests.movements").params(params).get();
+    }
+
     async function createGuests(names) {
         return await api("guests.storeMany").data({ names }).post();
     }
@@ -81,6 +85,7 @@ export const useGuestStore = defineStore("guest", () => {
         createGuests,
         fetchGuest,
         fetchGuestMovementsIfMissing,
+        fetchGuestMovements,
         subscribeToBroadcastEvents,
     };
 });

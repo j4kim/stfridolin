@@ -8,6 +8,7 @@
     "std_price": "prix de base",
     "currency": "monnaie",
     "tokens": "jetons",
+    "chf": "CHF",
     "succeeded_payments_sum_amount": "dépense",
     "movements_count": "mvmnts",
     "registration_movements_count": "inscrit",

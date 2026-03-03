@@ -26,10 +26,13 @@ class GuestController extends Controller
         return $guest;
     }
 
-    public function movements()
+    public function movements(Request $request)
     {
         $guest = Guest::fromRequest();
-        return $guest->movements()->latest()->get();
+        return $guest->movements()
+            ->with($request->input('with', []))
+            ->latest()
+            ->get();
     }
 
     public function storeMany(Request $request)
