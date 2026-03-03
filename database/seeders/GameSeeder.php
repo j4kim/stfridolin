@@ -141,24 +141,12 @@ class GameSeeder extends Seeder
             'name' => "degustation",
             'type' => GameType::Fun,
             'title' =>  "Dégustation",
-        ])->occurrences()->create(
-            [
-                'title' => "Dégustation de Goron",
-                'start_at' => '2026-03-06 19:15:00',
-                'end_at' => '2026-03-06 22:00:00',
-            ],
-        );
+        ]);
         Game::create([
             'name' => "domingold",
             'type' => GameType::Fun,
             'title' =>  "Domingold",
-        ])->occurrences()->create(
-            [
-                'title' => "Domingold",
-                'start_at' => '2026-03-06 18:00:00',
-                'end_at' => '2026-03-06 00:00:00',
-            ],
-        );
+        ]);
         Game::create([
             'name' => "bullseye",
             'type' => GameType::Fun,
