@@ -15,6 +15,9 @@ onMounted(() => {
         <a href="/" class="link">Home</a>
         <a href="/admin" class="link">Admin panel</a>
     </header>
+    <div class="p-4 print:hidden">
+        <slot name="below-header" v-bind="items"></slot>
+    </div>
     <div class="flex flex-wrap">
         <div v-for="item in items" class="card-container">
             <div class="card flex flex-col justify-center p-[5mm]">

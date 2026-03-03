@@ -185,6 +185,14 @@ const routes = [
         },
     },
     {
+        path: "/win-cards",
+        name: "win-cards",
+        component: () => import("@/views/Admin/WinCards.vue"),
+        meta: {
+            requireAuth: true,
+        },
+    },
+    {
         path: "/qr-scan",
         name: "qr-scan",
         component: () => import("@/views/Admin/QrScan.vue"),
