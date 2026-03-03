@@ -170,6 +170,14 @@ const routes = [
         },
     },
     {
+        path: "/sponsors",
+        name: "sponsors",
+        component: () => import("@/views/Admin/Sponsors.vue"),
+        meta: {
+            requireAuth: true,
+        },
+    },
+    {
         path: "/guest-cards",
         name: "guest-cards",
         component: () => import("@/views/Admin/GuestCards.vue"),

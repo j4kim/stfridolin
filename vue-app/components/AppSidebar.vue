@@ -23,6 +23,7 @@ import {
     TvMinimalPlay,
     User,
     Weight,
+    Zap,
 } from "lucide-vue-next";
 import { computed } from "vue";
 import AppSidebarLink from "./AppSidebarLink.vue";
@@ -109,6 +110,11 @@ const groups = computed(() => [
                 title: "Spotify",
                 to: { name: "spotify" },
                 icon: Play,
+            },
+            {
+                title: "Sponsors",
+                to: { name: "sponsors" },
+                icon: Zap,
             },
             {
                 title: "Scan",
