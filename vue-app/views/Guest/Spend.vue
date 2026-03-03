@@ -6,18 +6,44 @@ import Button from "@/components/ui/button/Button.vue";
 import { Field, FieldLabel } from "@/components/ui/field";
 import Input from "@/components/ui/input/Input.vue";
 import Spinner from "@/components/ui/spinner/Spinner.vue";
+import { useArticlesStore } from "@/stores/articles";
+import { useGamesStore } from "@/stores/games";
 import { icon, tr } from "@/translate";
-import { onMounted, ref, useTemplateRef } from "vue";
+import { computed, onMounted, ref, useTemplateRef } from "vue";
 import { useRoute } from "vue-router";
 
 const route = useRoute();
+
+const gamesStore = useGamesStore();
+const articlesStore = useArticlesStore();
+
+const game = computed(() => {
+    if (!route.query.game) return null;
+    return gamesStore.byName[route.query.game];
+});
+
+const article = computed(() => {
+    if (!game.value) return null;
+    const articles = articlesStore.articles.filter(
+        (a) => a.game_id == game.value.id && a.type === "participation",
+    );
+    return articles[0];
+});
+
+const initialAmount = computed(() => {
+    return route.query.amount ?? article.value?.price;
+});
 
 const amount = ref(null);
 
 const form = useTemplateRef("form");
 
 onMounted(() => {
-    form.value.querySelector("input").focus();
+    if (initialAmount.value) {
+        amount.value = initialAmount.value;
+    } else {
+        form.value.querySelector("input").focus();
+    }
 });
 
 const movement = ref(null);
@@ -25,7 +51,11 @@ const submitting = ref(false);
 
 async function submit() {
     submitting.value = true;
-    const params = { currency: route.params.currency, amount: amount.value };
+    const params = {
+        currency: route.params.currency,
+        amount: amount.value,
+        articleId: article.value?.id,
+    };
     try {
         const request = api("guests.spend").params(params);
         movement.value = await request.put();
@@ -40,6 +70,10 @@ async function submit() {
         <h2 class="my-2 px-4 font-bold">
             Dépenser des {{ tr(route.params.currency) }}
         </h2>
+        <h3 class="my-2 px-4" v-if="article">
+            {{ article.description }}
+        </h3>
+
         <form class="px-4" @submit.prevent="submit" ref="form">
             <hr class="mb-4" />
             <Field>
