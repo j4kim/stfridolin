@@ -7,27 +7,17 @@ import { Field, FieldLabel } from "@/components/ui/field";
 import Input from "@/components/ui/input/Input.vue";
 import Spinner from "@/components/ui/spinner/Spinner.vue";
 import { useArticlesStore } from "@/stores/articles";
-import { useGamesStore } from "@/stores/games";
 import { icon, tr } from "@/translate";
 import { computed, onMounted, ref, useTemplateRef } from "vue";
 import { useRoute } from "vue-router";
 
 const route = useRoute();
 
-const gamesStore = useGamesStore();
 const articlesStore = useArticlesStore();
 
-const game = computed(() => {
-    if (!route.query.game) return null;
-    return gamesStore.byName[route.query.game];
-});
-
 const article = computed(() => {
-    if (!game.value) return null;
-    const articles = articlesStore.articles.filter(
-        (a) => a.game_id == game.value.id && a.type === "participation",
-    );
-    return articles[0];
+    if (!route.query.article) return null;
+    return articlesStore.byName[route.query.article];
 });
 
 const initialAmount = computed(() => {
