@@ -34,6 +34,9 @@ api("vouchers.index")
             <div class="text-center font-mono text-[7pt] opacity-50">
                 {{ voucher.id }}
             </div>
+            <div class="text-center text-[7pt] opacity-50">
+                (Code à usage unique)
+            </div>
         </template>
     </PrintableCards>
 </template>
