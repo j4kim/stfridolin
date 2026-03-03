@@ -158,8 +158,8 @@ const groups = computed(() => [
                 </SidebarGroup>
             </template>
         </SidebarContent>
-        <span class="p-2 text-[10px] opacity-40">
+        <a class="p-2 text-[10px] opacity-40" href="/admin">
             v{{ mainStore.pkgVersion }}
-        </span>
+        </a>
     </Sidebar>
 </template>
