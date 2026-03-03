@@ -1,4 +1,5 @@
 <script setup>
+import AnimatedCount from "@/components/AnimatedCount.vue";
 import Layout from "@/components/Layout.vue";
 import SvgTitle from "@/components/SvgTitle.vue";
 import Button from "@/components/ui/button/Button.vue";
@@ -19,6 +20,8 @@ import {
 } from "lucide-vue-next";
 
 const guestStore = useGuestStore();
+
+guestStore.fetchGuestMovementsIfMissing();
 </script>
 
 <template>
@@ -38,7 +41,8 @@ const guestStore = useGuestStore();
                 Tu as actuellement
                 <span class="inline-flex items-baseline gap-1 font-extrabold">
                     <CircleStar size="1em" class="self-center" />
-                    {{ guestStore.guest.tokens }} jetons.
+                    <AnimatedCount :value="guestStore.guest.tokens" />
+                    jetons.
                 </span>
                 Les jetons sont une monnaie d'échange pour participer aux jeux.
                 Si tu gagnes à un jeu, tu reçoit des
@@ -71,7 +75,13 @@ const guestStore = useGuestStore();
                         </CardDescription>
                     </CardHeader>
                     <CardFooter>
-                        <RouterLink class="w-full" :to="{ name: 'vote' }">
+                        <RouterLink
+                            class="w-full"
+                            :to="{
+                                name: 'race-index',
+                                params: { gameName: 'marble-race' },
+                            }"
+                        >
                             <Button class="w-full">
                                 <CirclePile />
                                 Parier sur votre championne
@@ -108,7 +118,10 @@ const guestStore = useGuestStore();
                         </CardDescription>
                     </CardHeader>
                     <CardFooter>
-                        <RouterLink class="w-full" :to="{ name: 'vote' }">
+                        <RouterLink
+                            class="w-full"
+                            :to="{ name: 'joes-weight' }"
+                        >
                             <Button class="w-full">
                                 <Weight />
                                 Lezgo je pronostique
@@ -116,55 +129,7 @@ const guestStore = useGuestStore();
                         </RouterLink>
                     </CardFooter>
                 </Card>
-            </div>
-
-            <h2 class="my-4 px-8 text-2xl font-bold">Programme</h2>
-
-            <div class="px-8">
-                <table class="w-full">
-                    <tbody>
-                        <tr>
-                            <th class="text-left tabular-nums">18:30</th>
-                            <td>Cérémonie d'ouverture</td>
-                        </tr>
-                        <tr>
-                            <th class="text-left tabular-nums">19:00</th>
-                            <td>Course de bille - qualifications</td>
-                        </tr>
-                        <tr>
-                            <th class="text-left tabular-nums">19:30</th>
-                            <td>Course EZ</td>
-                        </tr>
-                        <tr>
-                            <th class="text-left tabular-nums">20:00</th>
-                            <td>Course de bille - qualifications</td>
-                        </tr>
-                        <tr>
-                            <th class="text-left tabular-nums">20:30</th>
-                            <td>Quiz de la Saint-Fridolin</td>
-                        </tr>
-                        <tr>
-                            <th class="text-left tabular-nums">21:00</th>
-                            <td>Course de bille - demi-finale</td>
-                        </tr>
-                        <tr>
-                            <th class="text-left tabular-nums">21:30</th>
-                            <td>Course EZ</td>
-                        </tr>
-                        <tr>
-                            <th class="text-left tabular-nums">22:00</th>
-                            <td>Course de bille - demi-finale</td>
-                        </tr>
-                        <tr>
-                            <th class="text-left tabular-nums">20:30</th>
-                            <td>Quiz Estelle Zamme</td>
-                        </tr>
-                        <tr>
-                            <th class="text-left tabular-nums">23:00</th>
-                            <td>Course de bille - finale</td>
-                        </tr>
-                    </tbody>
-                </table>
+                Et plein d'autres jeux à découvrir !
             </div>
 
             <div class="h-12"></div>

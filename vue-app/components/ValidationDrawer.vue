@@ -16,10 +16,10 @@ import { useArticlesStore } from "@/stores/articles";
 import { useGuestStore } from "@/stores/guest";
 
 const props = defineProps<{
-    trigger: string;
+    trigger?: string;
     title: string;
     action: Function;
-    articleName: string;
+    articleName?: string;
     disabled?: boolean;
 }>();
 
@@ -28,11 +28,15 @@ const open = ref(false);
 const articlesStore = useArticlesStore();
 const guestStore = useGuestStore();
 
-const article = computed<any>(() => articlesStore.byName[props.articleName]);
+const article = computed<any>(
+    () => props.articleName && articlesStore.byName[props.articleName],
+);
 
 const guest = computed<any>(() => guestStore.guest);
 
-const tooShort = computed(() => guest.value.tokens < article.value.price);
+const tooShort = computed(
+    () => props.articleName && guest.value.tokens < article.value.price,
+);
 
 const loading = ref(false);
 
@@ -50,7 +54,9 @@ async function submit() {
 <template>
     <Drawer v-model:open="open">
         <DrawerTrigger as-child>
-            <Button :disabled> {{ trigger }} </Button>
+            <slot name="trigger">
+                <Button :disabled> {{ trigger }} </Button>
+            </slot>
         </DrawerTrigger>
         <DrawerContent>
             <DrawerHeader>
@@ -70,8 +76,13 @@ async function submit() {
             <DrawerFooter>
                 <Button @click="submit" :disabled="loading || tooShort">
                     <Spinner v-if="loading" class="animate-spin" />
-                    <CircleStar v-else />
-                    Dépenser {{ article.price }} jetons
+                    <slot name="validation">
+                        <template v-if="article && article.price > 0">
+                            <CircleStar v-if="!loading" />
+                            Dépenser {{ article.price }} jetons
+                        </template>
+                        <template v-else>Oui</template>
+                    </slot>
                 </Button>
                 <DrawerClose as-child>
                     <Button variant="outline"> Annuler </Button>

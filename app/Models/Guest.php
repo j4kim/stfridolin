@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\GuestType;
 use App\Enums\MovementType;
 use App\Enums\PaymentStatus;
 use App\Tools\Stripe;
@@ -20,6 +21,13 @@ class Guest extends Model
     use BroadcastsEvents;
 
     protected $appends = ['auth_url'];
+
+    protected function casts(): array
+    {
+        return [
+            'type' => GuestType::class,
+        ];
+    }
 
     protected static function booted(): void
     {
@@ -52,11 +60,6 @@ class Guest extends Model
     public function succeededPayments(): HasMany
     {
         return $this->payments()->where('status', PaymentStatus::succeeded);
-    }
-
-    public function votes(): HasMany
-    {
-        return $this->hasMany(Vote::class);
     }
 
     public function tracks(): HasMany
@@ -120,6 +123,50 @@ class Guest extends Model
         return $this->createMovement([
             'article_id' => $article->id,
             'type' => MovementType::SpendTokens,
+            'tokens' => -$article->price,
+        ]);
+    }
+
+    public function vote(Fight $fight, Track $track): Movement
+    {
+        $article = Article::where('name', 'vote')->firstOrFail();
+        return $this->createMovement([
+            'article_id' => $article->id,
+            'type' => MovementType::JukeboxeVote,
+            'tokens' => -$article->price,
+            'game_id' => $article->game_id,
+            'fight_id' => $fight->id,
+            'track_id' => $track->id,
+        ]);
+    }
+
+    public function addTrack(Track $track): Movement
+    {
+        $article = Article::where('name', 'add-to-queue')->firstOrFail();
+        return $this->createMovement([
+            'article_id' => $article->id,
+            'type' => MovementType::JukeboxeAdd,
+            'tokens' => -$article->price,
+            'game_id' => $article->game_id,
+            'track_id' => $track->id,
+        ]);
+    }
+
+    public function betOn(Occurrence $occurrence, Competitor $competitor, Article $article): Movement
+    {
+        $alreadyBet = $this->movements()
+            ->where('occurrence_id', $occurrence->id)
+            ->where('type', MovementType::RaceBet)
+            ->exists();
+        if ($alreadyBet) {
+            abort(400, "Vous avez déjà parié sur cette course");
+        }
+        return $this->createMovement([
+            'article_id' => $article->id,
+            'game_id' => $article->game_id,
+            'occurrence_id' => $occurrence->id,
+            'competitor_id' => $competitor->id,
+            'type' => MovementType::RaceBet,
             'tokens' => -$article->price,
         ]);
     }

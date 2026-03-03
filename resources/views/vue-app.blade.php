@@ -42,6 +42,7 @@
         data-stripe-pk="{{ config('services.stripe.pk') }}"
         data-pusher-key="{{ config('broadcasting.connections.pusher.key') }}"
         data-translations="{{ json_encode(App\Tools\Translations::all()) }}"
+        data-games="{{ json_encode(App\Models\Game::all()) }}"
     >
         <div id="app"></div>
     </body>

@@ -35,7 +35,7 @@ class PaymentController extends Controller
             'purpose' => $input->get('purpose'),
             'amount' => $amount,
             'original_amount' => $amount,
-            'method' => $input->get('method'),
+            'method' => $input->get('method', 'stripe'),
             'description' => $input->get('description', $article->description),
             'article_id' => $article->id,
             'meta' => $input->except('description', 'purpose', 'method'),

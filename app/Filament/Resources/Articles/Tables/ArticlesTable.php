@@ -21,6 +21,8 @@ class ArticlesTable
                 TextColumn::make('type')
                     ->badge()
                     ->searchable(),
+                ColumnTools::gameLinkColumn()
+                    ->visibleFrom('sm'),
                 TextColumn::make('name')
                     ->searchable()
                     ->visibleFrom('sm'),

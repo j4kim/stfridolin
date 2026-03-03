@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { defineAsyncComponent } from "vue";
 import { useMainStore } from "./stores/main";
-import FullPageLoading from "./views/FullPageLoading.vue";
+import FullPageLoading from "./components/FullPageLoading.vue";
 
 const mainStore = useMainStore();
 

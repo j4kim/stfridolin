@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Articles\Schemas;
 
 use App\Filament\Tools\EntryTools;
 use App\Filament\Tools\Helpers;
+use Filament\Infolists\Components\Entry;
 use Filament\Infolists\Components\KeyValueEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
@@ -27,6 +28,7 @@ class ArticleInfolist
                         ->formatStateUsing(fn($state) => "-$state%")
                         ->badge()
                         ->color(Helpers::discountColor()),
+                    EntryTools::gameLink(),
                     KeyValueEntry::make('meta'),
                 ]),
             ]);

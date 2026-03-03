@@ -5,7 +5,6 @@ const mainStore = useMainStore();
 </script>
 
 <template>
-    <template v-if="mainStore.user">
-        <slot></slot>
-    </template>
+    <slot v-if="mainStore.user"></slot>
+    <slot v-else name="else"></slot>
 </template>

@@ -17,6 +17,10 @@ class ArticleSeeder extends Seeder
     {
         $tokenPackages = [
             [
+                'tokens' => 10,
+                'discount' => 1, // free
+            ],
+            [
                 'tokens' => 40,
                 'discount' => 0, // 10 CHF
             ],
@@ -56,7 +60,7 @@ class ArticleSeeder extends Seeder
                 'currency' => Currency::CHF,
                 'std_price' => $stdPrice,
                 'price' => $price,
-                'meta' => ['tokens' => $tokens],
+                'meta' => ['tokens' => $tokens, 'type' => 'tokens'],
             ]);
         }
 
@@ -67,22 +71,6 @@ class ArticleSeeder extends Seeder
             'currency' => Currency::CHF,
             'price' => 30,
             'meta' => ['tokens' => 20],
-        ]);
-
-        Article::create([
-            'type' => ArticleType::Jukeboxe,
-            'name' => "add-to-queue",
-            'description' => "Ajout d'un morceau en file d'attente",
-            'currency' => Currency::Tokens,
-            'price' => 5,
-        ]);
-
-        Article::create([
-            'type' => ArticleType::Jukeboxe,
-            'name' => "vote",
-            'description' => "Vote au Jukeboxe",
-            'currency' => Currency::Tokens,
-            'price' => 3,
         ]);
     }
 }

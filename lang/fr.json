@@ -8,6 +8,7 @@
     "std_price": "prix de base",
     "currency": "monnaie",
     "tokens": "jetons",
+    "chf": "CHF",
     "succeeded_payments_sum_amount": "dépense",
     "movements_count": "mvmnts",
     "registration_movements_count": "inscrit",
@@ -41,5 +42,19 @@
     "article_type": "Type d'article",
     "receive-points": "Gain",
     "donation": "Don",
-    "confirm": "Confirmer"
+    "confirm": "Confirmer",
+    "game": "jeu",
+    "title": "titre",
+    "start_at": "commence à",
+    "end_at": "finit à",
+    "competitor": "concurrent",
+    "initial": "",
+    "open": "ouvert",
+    "started": "démarré",
+    "finished": "terminé",
+    "ranked": "classé",
+    "cancelled": "annulé",
+    "vip": "VIP",
+    "volunteer": "bénévole",
+    "parton": "mécène"
 }

@@ -41,6 +41,7 @@ const currency = computed(() => {
                 {{ movement[currency] }} {{ tr(currency) }}
             </div>
             <div class="text-2xl">{{ guestStore.guest.name }}</div>
+            <slot></slot>
             <div class="tabular-nums">{{ createdAt }}</div>
         </div>
         <RouterLink

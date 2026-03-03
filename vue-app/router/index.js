@@ -17,28 +17,36 @@ const routes = [
     {
         path: "/auth",
         name: "guest-auth-form",
-        component: () => import("@/views/GuestAuthForm.vue"),
+        component: () => import("@/views/Guest/GuestAuthForm.vue"),
     },
     {
         path: "/guest/:key",
         name: "guest-page",
-        component: () => import("@/views/GuestPage.vue"),
+        component: () => import("@/views/Guest/GuestPage.vue"),
     },
     {
         path: "/thunasse",
         name: "registration-payment",
-        component: () => import("@/views/RegistrationPayment.vue"),
+        component: () => import("@/views/Guest/RegistrationPayment.vue"),
     },
     {
         path: "/thunasse/:id/status",
         name: "registration-payment-status",
-        component: () => import("@/views/RegistrationPaymentStatus.vue"),
+        component: () => import("@/views/Guest/RegistrationPaymentStatus.vue"),
     },
     // Routes requiring guest auth
     {
+        path: "/movements",
+        name: "movements",
+        component: () => import("@/views/Guest/Movements.vue"),
+        meta: {
+            requireGuest: true,
+        },
+    },
+    {
         path: "/buy-tokens",
         name: "buy-tokens",
-        component: () => import("@/views/BuyTokens.vue"),
+        component: () => import("@/views/Guest/BuyTokens.vue"),
         meta: {
             requireGuest: true,
         },
@@ -46,7 +54,7 @@ const routes = [
     {
         path: "/payment/:id/status",
         name: "payment-status",
-        component: () => import("@/views/PaymentStatus.vue"),
+        component: () => import("@/views/Guest/PaymentStatus.vue"),
         meta: {
             requireGuest: true,
         },
@@ -54,7 +62,7 @@ const routes = [
     {
         path: "/vote",
         name: "vote",
-        component: () => import("@/views/Vote.vue"),
+        component: () => import("@/views/Jukeboxe/Vote.vue"),
         meta: {
             requireGuest: true,
         },
@@ -62,7 +70,7 @@ const routes = [
     {
         path: "/queue",
         name: "queue",
-        component: () => import("@/views/Queue.vue"),
+        component: () => import("@/views/Jukeboxe/Queue.vue"),
         meta: {
             requireGuest: true,
         },
@@ -70,39 +78,76 @@ const routes = [
     {
         path: "/add-to-queue",
         name: "add-to-queue",
-        component: () => import("@/views/AddToQueue.vue"),
+        component: () => import("@/views/Jukeboxe/AddToQueue.vue"),
         meta: {
             requireGuest: true,
         },
     },
     {
-        path: "/marble-race",
-        name: "marble-race",
-        component: () => import("@/views/Tbi.vue"),
-        meta: {
-            requireGuest: true,
-        },
-    },
-    {
-        path: "/olympics",
-        name: "olympics",
-        component: () => import("@/views/Tbi.vue"),
-        meta: {
-            requireGuest: true,
-        },
+        path: "/race/:gameName",
+        component: () => import("@/views/Games/Race.vue"),
+        children: [
+            {
+                path: "",
+                name: "race-index",
+                component: () => import("@/views/Games/RaceIndex.vue"),
+                meta: {
+                    requireGuest: true,
+                },
+            },
+            {
+                path: ":occId",
+                name: "race-occurrence",
+                component: () => import("@/views/Games/RaceOccurrence.vue"),
+                meta: {
+                    requireGuest: true,
+                },
+            },
+            {
+                path: ":occId/ranking",
+                name: "race-ranking",
+                component: () => import("@/views/Games/RaceRanking.vue"),
+                meta: {
+                    requireAuth: true,
+                },
+            },
+            {
+                path: ":occId/video",
+                name: "race-video",
+                component: () =>
+                    import("@/views/Games/RaceOccurrenceVideo.vue"),
+                meta: {
+                    requireGuest: true,
+                },
+            },
+        ],
     },
     {
         path: "/joes-weight",
-        name: "joes-weight",
-        component: () => import("@/views/Tbi.vue"),
-        meta: {
-            requireGuest: true,
-        },
+        component: () => import("@/views/Games/JoesWeight.vue"),
+        children: [
+            {
+                path: "",
+                name: "joes-weight",
+                component: () => import("@/views/Games/JoesWeightIndex.vue"),
+                meta: {
+                    requireGuest: true,
+                },
+            },
+            {
+                path: "weighing",
+                name: "joes-weight-weighing",
+                component: () => import("@/views/Games/JoesWeightWeighing.vue"),
+                meta: {
+                    requireAuth: true,
+                },
+            },
+        ],
     },
     {
         path: "/voucher/:id",
         name: "voucher",
-        component: () => import("@/views/Voucher.vue"),
+        component: () => import("@/views/Guest/Voucher.vue"),
         meta: {
             requireGuest: true,
         },
@@ -110,7 +155,7 @@ const routes = [
     {
         path: "/spend/:currency",
         name: "spend",
-        component: () => import("@/views/Spend.vue"),
+        component: () => import("@/views/Guest/Spend.vue"),
         meta: {
             requireGuest: true,
         },
@@ -119,7 +164,7 @@ const routes = [
     {
         path: "/spotify",
         name: "spotify",
-        component: () => import("@/views/Spotify.vue"),
+        component: () => import("@/views/Admin/Spotify.vue"),
         meta: {
             requireAuth: true,
         },
@@ -127,7 +172,15 @@ const routes = [
     {
         path: "/boxing",
         name: "boxing",
-        component: () => import("@/views/Boxing.vue"),
+        component: () => import("@/views/Admin/Boxing.vue"),
+        meta: {
+            requireAuth: true,
+        },
+    },
+    {
+        path: "/sponsors",
+        name: "sponsors",
+        component: () => import("@/views/Admin/Sponsors.vue"),
         meta: {
             requireAuth: true,
         },
@@ -135,7 +188,7 @@ const routes = [
     {
         path: "/guest-cards",
         name: "guest-cards",
-        component: () => import("@/views/GuestCards.vue"),
+        component: () => import("@/views/Admin/GuestCards.vue"),
         meta: {
             requireAuth: true,
         },
@@ -143,7 +196,23 @@ const routes = [
     {
         path: "/voucher-cards",
         name: "voucher-cards",
-        component: () => import("@/views/VoucherCards.vue"),
+        component: () => import("@/views/Admin/VoucherCards.vue"),
+        meta: {
+            requireAuth: true,
+        },
+    },
+    {
+        path: "/spend-cards",
+        name: "spend-cards",
+        component: () => import("@/views/Admin/SpendCards.vue"),
+        meta: {
+            requireAuth: true,
+        },
+    },
+    {
+        path: "/win-cards",
+        name: "win-cards",
+        component: () => import("@/views/Admin/WinCards.vue"),
         meta: {
             requireAuth: true,
         },
@@ -151,7 +220,7 @@ const routes = [
     {
         path: "/qr-scan",
         name: "qr-scan",
-        component: () => import("@/views/QrScan.vue"),
+        component: () => import("@/views/Admin/QrScan.vue"),
         meta: {
             requireAuth: true,
         },
@@ -175,8 +244,12 @@ router.beforeEach(async (to) => {
         return false;
     }
     const { useGuestStore } = await import("@/stores/guest");
-    if (to.meta?.requireGuest && !useGuestStore().guest.id) {
-        return { name: "guest-auth-form" };
+    if (to.meta?.requireGuest) {
+        const guestStore = useGuestStore();
+        if (!guestStore.guest.id) {
+            return { name: "guest-auth-form" };
+        }
+        guestStore.fetchGuestMovementsIfMissing();
     }
 });
 

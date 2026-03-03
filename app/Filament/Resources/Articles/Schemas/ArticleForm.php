@@ -30,6 +30,11 @@ class ArticleForm
                     ->required()
                     ->numeric(),
                 KeyValue::make('meta'),
+                Select::make('game_id')
+                    ->label('Game')
+                    ->relationship('game', 'name')
+                    ->preload()
+                    ->searchable(),
             ]);
     }
 }

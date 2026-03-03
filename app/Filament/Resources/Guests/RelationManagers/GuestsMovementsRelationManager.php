@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Guests\RelationManagers;
 
 use App\Enums\ArticleType;
+use App\Enums\GuestType;
 use App\Enums\MovementType;
 use App\Filament\Resources\Movements\MovementResource;
 use App\Models\Article;
@@ -61,8 +62,11 @@ class GuestsMovementsRelationManager extends RelationManager
         if ($type === MovementType::Registration) {
             $article = Article::firstWhere('type', ArticleType::Registration);
             $movementData['article_id'] = $article->id;
-            $movementData['chf'] = -$article->price;
+            $movementData['chf'] = $data['chf'] ? -$data['chf'] : null;
             $movementData['tokens'] = $article->meta['tokens'];
+            if ($guest->type === GuestType::Volunteer) {
+                $movementData['tokens'] = 100;
+            }
         }
 
         if (isset($data['created_at'])) {
@@ -154,7 +158,14 @@ class GuestsMovementsRelationManager extends RelationManager
 
                 Action::make("add_regristration")
                     ->modalWidth(Width::Medium)
-                    ->schema(self::commonActionFields())
+                    ->schema(function (): array {
+                        $type = $this->getOwnerRecord()->type;
+                        $defaultChf = $type === GuestType::Guest ? 30 : 0;
+                        return [
+                            TextInput::make('chf')->label("Entrée payée (CHF)")->default($defaultChf),
+                            ...self::commonActionFields(),
+                        ];
+                    })
                     ->action(fn(array $data) => $this->createGuestMovement($data, MovementType::Registration))
                     ->hidden(fn() => $this->getOwnerRecord()->registrationMovements()->exists()),
 

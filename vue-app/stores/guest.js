@@ -9,6 +9,7 @@ import { usePaymentStore } from "./payment";
 export const useGuestStore = defineStore("guest", () => {
     const guest = useStorage("guest", {});
     const error = ref(null);
+    const movements = ref([]);
 
     async function fetchGuest(key) {
         error.value = null;
@@ -19,6 +20,16 @@ export const useGuestStore = defineStore("guest", () => {
             error.value = e;
             router.push({ name: "guest-auth-form", replace: true });
         }
+    }
+
+    async function fetchGuestMovementsIfMissing() {
+        if (guest.value.id && movements.value.length === 0) {
+            movements.value = await api("guests.movements").get();
+        }
+    }
+
+    async function fetchGuestMovements(params = {}) {
+        movements.value = await api("guests.movements").params(params).get();
     }
 
     async function createGuests(names) {
@@ -55,13 +66,26 @@ export const useGuestStore = defineStore("guest", () => {
             const paymentStore = usePaymentStore();
             paymentStore.setPayment(data.payment);
         });
+
+        channel.bind("MovementUpdated", (data) => {
+            const id = data.model.id;
+            const existingIdx = movements.value.findIndex((m) => m.id == id);
+            if (existingIdx === -1) {
+                movements.value.unshift(data.model);
+            } else {
+                movements.value[existingIdx] = data.model;
+            }
+        });
     }
 
     return {
         guest,
+        movements,
         error,
         createGuests,
         fetchGuest,
+        fetchGuestMovementsIfMissing,
+        fetchGuestMovements,
         subscribeToBroadcastEvents,
     };
 });

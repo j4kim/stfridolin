@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\MovementType;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -35,7 +36,7 @@ class Track extends Model
 
     public function votes(): HasMany
     {
-        return $this->hasMany(Vote::class);
+        return $this->hasMany(Movement::class)->where('type', MovementType::JukeboxeVote);
     }
 
     public static function formatSpotifyData(array $data): array
@@ -64,8 +65,35 @@ class Track extends Model
         $query->where('used', false)->orderByDesc('priority')->orderBy('id');
     }
 
+    public static function queryQueue(): Builder
+    {
+        /** @var Builder $query  */
+        $query = Track::query()->queue();
+        return $query;
+    }
+
     public static function getCandidates(): Collection
     {
-        return self::query()->queue()->take(2)->get();
+        $submitted_without_dupplicates = self::queryQueue()
+            ->whereNotNull('proposed_by')
+            ->get()
+            ->unique('proposed_by')
+            ->unique('artist_name')
+            ->values();
+
+        if ($submitted_without_dupplicates->count() >= 2) {
+            return $submitted_without_dupplicates->take(2);
+        }
+
+        $reserve_songs_without_dupplicates = self::queryQueue()
+            ->whereNull('proposed_by')
+            ->get()
+            ->unique('artist_name')
+            ->values();
+
+        return $submitted_without_dupplicates
+            ->concat($reserve_songs_without_dupplicates)
+            ->take(2)
+            ->values();
     }
 }

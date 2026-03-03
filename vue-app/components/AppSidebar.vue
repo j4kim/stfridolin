@@ -6,7 +6,6 @@ import {
     SidebarGroupContent,
     SidebarGroupLabel,
     SidebarMenu,
-    SidebarMenuButton,
     SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { useGuestStore } from "@/stores/guest";
@@ -15,6 +14,7 @@ import {
     CirclePile,
     CircleStar,
     HandFist,
+    HatGlasses,
     Home,
     Play,
     QrCode,
@@ -23,9 +23,10 @@ import {
     TvMinimalPlay,
     User,
     Weight,
+    Zap,
 } from "lucide-vue-next";
 import { computed } from "vue";
-import { useRoute } from "vue-router";
+import AppSidebarLink from "./AppSidebarLink.vue";
 
 const mainStore = useMainStore();
 
@@ -61,24 +62,38 @@ const groups = computed(() => [
         label: "Jeux",
         links: [
             {
+                title: "Courses de billes",
+                to: {
+                    name: "race-index",
+                    params: { gameName: "marble-race" },
+                },
+                icon: CirclePile,
+            },
+            {
                 title: "Jukeboxe",
                 to: { name: "vote" },
                 icon: HandFist,
             },
             {
-                title: "Course de billes",
-                to: { name: "marble-race" },
-                icon: CirclePile,
+                title: "Poids de Joe",
+                to: { name: "joes-weight" },
+                icon: Weight,
             },
             {
-                title: "Les Joes Olympiques",
-                to: { name: "olympics" },
+                title: "Concours hippique",
+                to: {
+                    name: "race-index",
+                    params: { gameName: "horse-show" },
+                },
                 icon: Trophy,
             },
             {
-                title: "Poinds de Joe",
-                to: { name: "joes-weight" },
-                icon: Weight,
+                title: "Où est Joe ?",
+                to: {
+                    name: "race-index",
+                    params: { gameName: "where-is-joe" },
+                },
+                icon: HatGlasses,
             },
         ],
     },
@@ -97,20 +112,24 @@ const groups = computed(() => [
                 icon: Play,
             },
             {
+                title: "Sponsors",
+                to: { name: "sponsors" },
+                icon: Zap,
+            },
+            {
                 title: "Scan",
                 to: { name: "qr-scan" },
                 icon: QrCode,
             },
             {
                 title: "Admin panel",
-                href: "/admin",
+                to: "/admin",
                 icon: Settings,
+                external: true,
             },
         ],
     },
 ]);
-
-const route = useRoute();
 </script>
 
 <template>
@@ -128,24 +147,16 @@ const route = useRoute();
                                 <SidebarMenuItem
                                     v-if="!group.requiresAuth || mainStore.user"
                                 >
-                                    <SidebarMenuButton
-                                        as-child
-                                        :is-active="
-                                            route.name === link.to?.name
-                                        "
+                                    <AppSidebarLink
+                                        :to="link.to"
+                                        :external="link.external"
                                     >
                                         <component
-                                            :is="link.href ? 'a' : 'RouterLink'"
-                                            :to="link.to"
-                                            :href="link.href"
-                                        >
-                                            <component
-                                                v-if="link.icon"
-                                                :is="link.icon"
-                                            />
-                                            <span>{{ link.title }}</span>
-                                        </component>
-                                    </SidebarMenuButton>
+                                            v-if="link.icon"
+                                            :is="link.icon"
+                                        />
+                                        <span>{{ link.title }}</span>
+                                    </AppSidebarLink>
                                 </SidebarMenuItem>
                             </template>
                         </SidebarMenu>
@@ -153,8 +164,8 @@ const route = useRoute();
                 </SidebarGroup>
             </template>
         </SidebarContent>
-        <span class="p-2 text-[10px] opacity-40">
+        <a class="p-2 text-[10px] opacity-40" href="/admin">
             v{{ mainStore.pkgVersion }}
-        </span>
+        </a>
     </Sidebar>
 </template>
