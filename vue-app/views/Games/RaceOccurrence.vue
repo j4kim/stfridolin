@@ -73,6 +73,23 @@ const nextOccurrence = computed(() => {
 onBeforeRouteUpdate((to) => {
     gamesStore.fetchOccurrence(to.params.occId);
 });
+
+const statusText = computed(() => {
+    if (route.params.gameName === "where-is-joe") {
+        return {
+            started: "Regarde la vidéo",
+            open: "Qui est l'intrus ?",
+            closed: "En attente du verdict...",
+            ranked: "Manche terminée",
+        }[status.value];
+    }
+    return {
+        initial: `Départ à ${gamesStore.occurrence?.start_at_time}`,
+        open: `Faites vos jeux !`,
+        started: `En cours`,
+        ranked: `Terminé`,
+    }[status.value];
+});
 </script>
 
 <template>
@@ -88,22 +105,9 @@ onBeforeRouteUpdate((to) => {
         <template v-if="gamesStore.occurrence">
             <p
                 class="text-muted-foreground my-2 px-4 text-sm"
-                v-if="status === 'open' || status === 'initial'"
-                v-show="gamesStore.gameName !== 'where-is-joe'"
+                v-if="statusText"
             >
-                Départ à {{ gamesStore.occurrence.start_at_time }}
-            </p>
-            <p
-                class="text-muted-foreground my-2 px-4 text-sm"
-                v-else-if="status === 'started'"
-            >
-                En cours
-            </p>
-            <p
-                class="text-muted-foreground my-2 px-4 text-sm"
-                v-else-if="status === 'ranked'"
-            >
-                Terminée
+                {{ statusText }}
             </p>
 
             <div v-if="existingBet?.points" class="my-4 px-4">
