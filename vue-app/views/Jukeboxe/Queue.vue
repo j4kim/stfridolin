@@ -7,8 +7,10 @@ import { ChevronRight, ListPlus } from "lucide-vue-next";
 import { useTracksStore } from "@/stores/tracks";
 import Spinner from "@/components/ui/spinner/Spinner.vue";
 import { computed } from "vue";
+import { useMainStore } from "@/stores/main";
 
 const tracksStore = useTracksStore();
+const mainStore = useMainStore();
 
 tracksStore.fetchQueue();
 
@@ -37,12 +39,16 @@ const guestTracksEndTimeEstimate = computed(() =>{
         <Tracks :tracks="tracksStore.guestTracks" />
 
         <div class="my-4 px-4">
-            <RouterLink :to="{ name: 'add-to-queue' }">
+            <RouterLink :to="{ name: 'add-to-queue' }" v-if="mainStore.isJukeboxActive">
                 <Button class="w-full" variant="outline">
                     <ListPlus />
                     Ajouter un morceau en file d'attente
                 </Button>
             </RouterLink>
+            <Button class="w-full" variant="outline" v-else>
+                <ListPlus />
+                <s>Ajouter un morceau en file d'attente</s> Le Jukeboxe ferme !
+            </Button>
         </div>
 
         <IfAuth>
