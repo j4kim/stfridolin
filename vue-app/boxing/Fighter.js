@@ -67,6 +67,10 @@ export class Fighter {
 
     initTimelines() {
         this.root = document.getElementById(this.id);
+        if (!this.root) {
+            console.log("no root", this.id);
+            return;
+        }
         this.animables = this.root.querySelectorAll("path, use");
         this.animations = {
             sway: new Sway(this),
