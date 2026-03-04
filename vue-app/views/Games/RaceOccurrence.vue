@@ -51,6 +51,11 @@ async function open() {
     toast.success(result.message);
 }
 
+async function close() {
+    const result = await gamesStore.closeRace();
+    toast.success(result.message);
+}
+
 async function start() {
     const result = await gamesStore.startRace();
     toast.success(result.message);
@@ -183,8 +188,14 @@ onBeforeRouteUpdate((to) => {
                             :title="`Ouvrir les paris&nbsp;?`"
                             :action="() => open()"
                         />
-                        <RouterLink
+                        <ValidationDrawer
                             v-if="status === 'open'"
+                            trigger="Fermer les paris"
+                            :title="`Fermer les paris&nbsp;?`"
+                            :action="() => close()"
+                        />
+                        <RouterLink
+                            v-if="status === 'closed'"
                             :to="{ name: 'race-ranking' }"
                         >
                             <Button class="w-full">Faire classement</Button>
