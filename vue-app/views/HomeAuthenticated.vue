@@ -44,8 +44,8 @@ guestStore.fetchGuestMovementsIfMissing();
                     <AnimatedCount :value="guestStore.guest.tokens" />
                     jetons.
                 </span>
-                Les jetons sont une monnaie d'échange pour participer aux jeux.
-                Si tu gagnes à un jeu, tu reçoit des
+                Les jetons sont la monnaie de participation aux jeux. Si tu
+                gagnes à un jeu, tu reçoit des
                 <span class="inline-flex items-baseline gap-1 font-extrabold">
                     <Gift size="1em" class="self-center" />
                     points,

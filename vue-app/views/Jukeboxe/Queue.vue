@@ -30,7 +30,7 @@ tracksStore.fetchQueue();
             <RouterLink :to="{ name: 'add-to-queue' }">
                 <Button class="w-full" variant="outline">
                     <ListPlus />
-                    Ajouter un morceau en file d'attente
+                    Ajouter un morceau
                 </Button>
             </RouterLink>
         </div>
