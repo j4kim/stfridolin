@@ -61,6 +61,20 @@ export const useSpotifyStore = defineStore("spotify", () => {
         };
     });
 
+    async function play(params = null) {
+        await api("spotify.play").params(params).put();
+        playback.value.is_playing = true;
+    }
+
+    async function pause() {
+        await api("spotify.pause").put();
+        playback.value.is_playing = false;
+    }
+
+    async function toggle() {
+        await (playback.value?.is_playing ? pause() : play());
+    }
+
     return {
         devices,
         playback,
@@ -73,5 +87,8 @@ export const useSpotifyStore = defineStore("spotify", () => {
         playTrack,
         skipToNext,
         track,
+        play,
+        pause,
+        toggle,
     };
 });
