@@ -29,6 +29,13 @@ class FightController extends Controller
             throw new FightEndedException;
         }
         $winner = $fight->end()->getWinner();
+        /** @var Movement $mvmnt */
+        $mvmnt = $winner->trackAddMvmnt;
+        if ($mvmnt) {
+            $mvmnt->points = 20;
+            $mvmnt->save();
+            $mvmnt->guest->recomputeTokensAndPoints()->save();
+        }
         defer(fn() => Spotify::addToQueue($winner->spotify_uri));
         return $fight;
     }
