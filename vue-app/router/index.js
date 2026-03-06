@@ -225,6 +225,11 @@ const routes = [
             requireAuth: true,
         },
     },
+    {
+        path: "/free-qr",
+        name: "free-qr",
+        component: () => import("@/views/Admin/FreeQr.vue"),
+    },
 ];
 
 const router = createRouter({
