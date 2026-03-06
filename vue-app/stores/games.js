@@ -76,6 +76,14 @@ export const useGamesStore = defineStore("games", () => {
         return result;
     }
 
+    async function closeRace() {
+        const result = await api("occurrences.close")
+            .params({ occurrence: occurrence.value.id })
+            .post();
+        await fetchOccurrence(occurrence.value.id);
+        return result;
+    }
+
     async function startRace() {
         const result = await api("occurrences.start")
             .params({ occurrence: occurrence.value.id })
@@ -153,6 +161,7 @@ export const useGamesStore = defineStore("games", () => {
         betOn,
         betting,
         openRace,
+        closeRace,
         startRace,
         setRanking,
         participate,

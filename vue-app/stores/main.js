@@ -12,7 +12,6 @@ export const useMainStore = defineStore("main", () => {
             `Package (${pkgVersion}) and config (${appVersion}) versions mismatch`,
         );
     }
-
     const isNavigating = ref(false);
 
     let timer;

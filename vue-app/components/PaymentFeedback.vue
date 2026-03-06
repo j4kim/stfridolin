@@ -2,9 +2,10 @@
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import Spinner from "@/components/ui/spinner/Spinner.vue";
+import { useGuestStore } from "@/stores/guest";
 import { usePaymentStore } from "@/stores/payment";
 import { CheckCircle2Icon, RefreshCcw, TriangleAlert } from "lucide-vue-next";
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 
 const paymentStore = usePaymentStore();
@@ -53,6 +54,17 @@ async function fetchAndRetry() {
 }
 
 fetchAndRetry();
+
+watch(
+    status,
+    (s) => {
+        if (s === "succeeded") {
+            const guestStore = useGuestStore();
+            guestStore.refreshGuest();
+        }
+    },
+    { immediate: true },
+);
 </script>
 
 <template>

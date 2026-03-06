@@ -22,6 +22,7 @@ class GameInfolist
                         TextEntry::make('title'),
                         TextEntry::make('description'),
                         KeyValueEntry::make('meta'),
+                        TextEntry::make('active'),
                     ])
             ]);
     }

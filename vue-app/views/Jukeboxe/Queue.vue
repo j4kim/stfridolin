@@ -6,10 +6,17 @@ import IfAuth from "@/components/IfAuth.vue";
 import { ChevronRight, ListPlus } from "lucide-vue-next";
 import { useTracksStore } from "@/stores/tracks";
 import Spinner from "@/components/ui/spinner/Spinner.vue";
+import { computed } from "vue";
+import { useMainStore } from "@/stores/main";
 
 const tracksStore = useTracksStore();
+const mainStore = useMainStore();
 
 tracksStore.fetchQueue();
+
+const guestTracksEndTimeEstimate = computed(() => {
+    return new Date(Date.now() + tracksStore.guestTracksTimeEstimateMs);
+});
 </script>
 
 <template>
@@ -21,7 +28,10 @@ tracksStore.fetchQueue();
         </h2>
 
         <IfAuth>
-            <p class="my-2 px-4">Morceaux ajoutés par les invités:</p>
+            <p class="my-2 px-4">
+                Morceaux ajoutés par les invités. Heure estimée de fin :
+                {{ guestTracksEndTimeEstimate.toLocaleTimeString() }}
+            </p>
         </IfAuth>
         <Spinner v-if="tracksStore.fetchingQueue" class="m-4" />
         <Tracks :tracks="tracksStore.guestTracks" />
@@ -30,7 +40,7 @@ tracksStore.fetchQueue();
             <RouterLink :to="{ name: 'add-to-queue' }">
                 <Button class="w-full" variant="outline">
                     <ListPlus />
-                    Ajouter un morceau en file d'attente
+                    Ajouter un morceau
                 </Button>
             </RouterLink>
         </div>

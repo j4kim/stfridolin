@@ -23,6 +23,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('guests', [GuestController::class, 'index'])->name('guests.index');
     Route::get('vouchers', [VoucherController::class, 'index'])->name('vouchers.index');
     Route::post('occurrences/{occurrence}/open', [OccurrenceController::class, 'open'])->name('occurrences.open');
+    Route::post('occurrences/{occurrence}/close', [OccurrenceController::class, 'close'])->name('occurrences.close');
     Route::post('occurrences/{gameId}/start-all', [OccurrenceController::class, 'startAll'])->name('occurrences.startAll');
     Route::post('occurrences/{occurrence}/start', [OccurrenceController::class, 'start'])->name('occurrences.start');
     Route::post('occurrences/{occurrence}/set-ranking', [OccurrenceController::class, 'setRanking'])->name('occurrences.setRanking');

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\GameType;
+use App\Events\SetJukeboxActive;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -13,7 +14,17 @@ class Game extends Model
         return [
             'meta' => 'array',
             'type' => GameType::class,
+            'active' => 'boolean',
         ];
+    }
+
+    protected static function booted(): void
+    {
+        static::updating(function (Game $game) {
+            if ($game->name === 'jukeboxe') {
+                SetJukeboxActive::dispatch($game->active);
+            }
+        });
     }
 
     public function occurrences(): HasMany
