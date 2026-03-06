@@ -202,19 +202,6 @@ guestStore.fetchGuestMovementsIfMissing();
                 </Card>
                 <Card>
                     <CardHeader>
-                        <CardTitle>Dégustation de Goron</CardTitle>
-                        <CardDescription>
-                            Au PMU, on parie sur des courses, on discute avec
-                            les copains et, très occasionnellement, on y boit
-                            des coups. Et pas n’importe quels coups, bien
-                            souvent du rouge qui tâche.
-                            <br />
-                            De 19h30 à 21h30 près de la scène.
-                        </CardDescription>
-                    </CardHeader>
-                </Card>
-                <Card>
-                    <CardHeader>
                         <CardTitle>Coin Forain</CardTitle>
                         <CardDescription>
                             Gagne des points aux jeux d'adresses proposés par le
