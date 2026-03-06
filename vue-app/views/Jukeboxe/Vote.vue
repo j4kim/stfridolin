@@ -15,8 +15,10 @@ import {
 import { toast } from "vue-sonner";
 import { ref } from "vue";
 import Spinner from "@/components/ui/spinner/Spinner.vue";
+import { useMainStore } from "@/stores/main";
 
 const fightStore = useFightStore();
+const mainStore = useMainStore
 
 const loading = ref(true);
 
@@ -71,12 +73,16 @@ async function vote(track) {
         <Spinner v-else-if="loading" class="m-4"></Spinner>
 
         <div class="my-4 flex flex-col gap-2 px-4">
-            <RouterLink :to="{ name: 'add-to-queue' }">
+            <RouterLink :to="{ name: 'add-to-queue' }" v-if="mainStore.isJukeboxActive">
                 <Button class="w-full" variant="outline">
                     <ListPlus />
                     Ajouter un morceau
                 </Button>
             </RouterLink>
+            <Button class="w-full" variant="outline" v-else>
+                <ListPlus />
+                <s>Ajouter un morceau en file d'attente</s> Le Jukeboxe ferme !
+            </Button>
             <RouterLink :to="{ name: 'queue' }">
                 <Button class="w-full" variant="outline">
                     <ListMusic />

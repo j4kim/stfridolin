@@ -1,9 +1,14 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
+import { api } from "@/api";
 import { version as pkgVersion } from "../../package.json";
+import { pusher } from "@/broadcasting";
+
 
 export const useMainStore = defineStore("main", () => {
     const user = ref(JSON.parse(document.body.dataset.user));
+
+    const isJukeboxActive = ref(JSON.parse(document.body.dataset.games).find((e) => e.name == 'jukeboxe').active);
 
     const { appVersion, appName } = document.body.dataset;
 
@@ -12,8 +17,13 @@ export const useMainStore = defineStore("main", () => {
             `Package (${pkgVersion}) and config (${appVersion}) versions mismatch`,
         );
     }
-
     const isNavigating = ref(false);
+
+
+    pusher.subscribe('set-jukebox-active').bind("SetJukeboxActive", async (data) => {
+            isJukeboxActive.value = data.is_active;
+        });
+ 
 
     let timer;
 
@@ -34,6 +44,7 @@ export const useMainStore = defineStore("main", () => {
         appName,
         user,
         isNavigating,
+        isJukeboxActive,
         startNavigation,
         endNavigation,
     };

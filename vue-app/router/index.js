@@ -79,6 +79,12 @@ const routes = [
         path: "/add-to-queue",
         name: "add-to-queue",
         component: () => import("@/views/Jukeboxe/AddToQueue.vue"),
+        beforeEnter: (to, from) => {
+        const isJukeboxActive = JSON.parse(document.body.dataset.games).find((e) => e.name == 'jukeboxe').active
+        if (!isJukeboxActive){
+             return {name : 'queue'};
+        }
+    },
         meta: {
             requireGuest: true,
         },
