@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Collection;
 
 class Track extends Model
@@ -39,6 +40,11 @@ class Track extends Model
         return $this->hasMany(Movement::class)->where('type', MovementType::JukeboxeVote);
     }
 
+    public function trackAddMvmnt(): HasOne
+    {
+        return $this->hasOne(Movement::class)->where('type', MovementType::JukeboxeAdd);
+    }
+
     public static function formatSpotifyData(array $data): array
     {
         return [
@@ -47,6 +53,7 @@ class Track extends Model
             'spotify_uri' => $data['uri'],
             'img_url' => $data['album']['images'][0]['url'],
             'img_thumbnail_url' => $data['album']['images'][2]['url'],
+            'duration_ms' => $data['duration_ms'],
         ];
     }
 

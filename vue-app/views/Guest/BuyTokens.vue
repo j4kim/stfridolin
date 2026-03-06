@@ -5,7 +5,7 @@ import TokenPackages from "@/components/TokenPackages.vue";
 import { Alert } from "@/components/ui/alert";
 import Spinner from "@/components/ui/spinner/Spinner.vue";
 import { useArticlesStore } from "@/stores/articles";
-import { TriangleAlert } from "lucide-vue-next";
+import { AlertCircleIcon, TriangleAlert } from "lucide-vue-next";
 import { usePaymentStore } from "@/stores/payment";
 import { computed, ref } from "vue";
 
@@ -51,6 +51,20 @@ function buy(article) {
                         </span>
                     </div>
                 </Alert>
+                <Alert
+                    v-if="paymentStore.article?.name == '100000-tokens'"
+                    variant="destructive"
+                >
+                    <AlertCircleIcon />
+                    <div class="col-start-2">
+                        <strong> Attention: </strong>
+                        <span>
+                            Cette offre est débile, tu ne pourras jamais
+                            dépenser autant de points. Mais bon, si tu veux à ce
+                            point nous soutenir, on est content.
+                        </span>
+                    </div></Alert
+                >
             </template>
         </StripePayment>
         <div v-else>

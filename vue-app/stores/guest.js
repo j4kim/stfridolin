@@ -22,6 +22,13 @@ export const useGuestStore = defineStore("guest", () => {
         }
     }
 
+    async function refreshGuest() {
+        if (!guest.value.key) {
+            throw new Error("No guest key");
+        }
+        guest.value = await api("guests.get").params(guest.value.key).get();
+    }
+
     async function fetchGuestMovementsIfMissing() {
         if (guest.value.id && movements.value.length === 0) {
             movements.value = await api("guests.movements").get();
@@ -84,6 +91,7 @@ export const useGuestStore = defineStore("guest", () => {
         error,
         createGuests,
         fetchGuest,
+        refreshGuest,
         fetchGuestMovementsIfMissing,
         fetchGuestMovements,
         subscribeToBroadcastEvents,

@@ -19,7 +19,6 @@ class GuestFactory extends Factory
         return [
             'name' => fake()->name(),
             'key' => str()->random(4),
-            'tokens' => fake()->numberBetween(0, 40),
         ];
     }
 }

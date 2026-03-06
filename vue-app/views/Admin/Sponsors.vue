@@ -40,7 +40,7 @@ api("sponsors.index")
             class="flex flex-col items-center gap-12 p-4"
         >
             <h1 class="text-4xl font-bold italic">Merci à nos sponsors !</h1>
-            <div class="flex flex-wrap gap-12">
+            <div class="flex flex-wrap content-center items-center gap-12">
                 <div
                     v-for="sponsor in sponsors"
                     class="flex flex-col items-center gap-4"

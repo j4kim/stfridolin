@@ -3,10 +3,11 @@ import PrintableCards from "@/components/PrintableCards.vue";
 import QrCode from "@/components/QrCode.vue";
 import { useArticlesStore } from "@/stores/articles";
 import { icon, tr } from "@/translate";
-import { computed } from "vue";
-import { useLink } from "vue-router";
+import { computed, ref } from "vue";
 
 const articlesStore = useArticlesStore();
+
+const freeSpendCardCopies = ref(4);
 
 const cards = computed(() => {
     const articleCards = articlesStore.articles
@@ -14,30 +15,26 @@ const cards = computed(() => {
         .filter((a) => a.meta?.qrcodes)
         .map((a) => ({
             ...a,
-            to: {
-                name: "spend",
-                params: { currency: "tokens" },
-                query: { article: a.name },
-            },
+            url: `${location.origin}/spend/tokens/?article=${a.name}`,
             copies: a.meta.qrcodes,
         }));
     const freeSpendCards = ["tokens", "points"].map((currency) => ({
-        to: { name: "spend", params: { currency } },
+        url: `${location.origin}/spend/${currency}`,
         description: "Dépense de " + tr(currency),
         currency,
-        copies: 9,
+        copies: freeSpendCardCopies.value,
     }));
-    const all = articleCards.concat(freeSpendCards).map((c) => {
-        const { href } = useLink({ to: c.to });
-        c.url = location.origin + href.value;
-        return c;
-    });
-    return all.map((c) => Array(c.copies).fill(c)).flat();
+    const all = articleCards.concat(freeSpendCards);
+    return all.map((c) => Array(+c.copies).fill(c)).flat();
 });
 </script>
 
 <template>
     <PrintableCards :items="cards">
+        <template #below-header>
+            Copies cartes dépense libre:
+            <input type="number" v-model="freeSpendCardCopies" />
+        </template>
         <template #item="card">
             <h1 class="text text-center font-bold">
                 {{ card.description }}

@@ -89,6 +89,16 @@ class OccurrenceController extends Controller
         ];
     }
 
+    public function close(Occurrence $occurrence, Request $request)
+    {
+        $occurrence->status = OccurrenceStatus::Closed;
+        $occurrence->save();
+        return [
+            "occurrence" => $occurrence,
+            "message" => "Paris fermés",
+        ];
+    }
+
     public function startAll(int $gameId)
     {
         $game = Game::findOrFail($gameId);

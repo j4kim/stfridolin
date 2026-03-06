@@ -1,5 +1,4 @@
 <script setup>
-import { api } from "@/api";
 import Button from "@/components/ui/button/Button.vue";
 import Progress from "@/components/ui/progress/Progress.vue";
 import { useClockStore } from "@/stores/clock";
@@ -8,16 +7,6 @@ import { Pause, Play } from "lucide-vue-next";
 
 const spotify = useSpotifyStore();
 const clock = useClockStore();
-
-async function play(params = null) {
-    await api("spotify.play").params(params).put();
-    spotify.playback.is_playing = true;
-}
-
-async function pause() {
-    await api("spotify.pause").put();
-    spotify.playback.is_playing = false;
-}
 </script>
 
 <template>
@@ -31,7 +20,7 @@ async function pause() {
                     variant="outline"
                     size="icon"
                     class="rounded-full"
-                    @click="spotify.playback?.is_playing ? pause() : play()"
+                    @click="spotify.toggle"
                 >
                     <component
                         :is="spotify.playback?.is_playing ? Pause : Play"
