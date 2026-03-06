@@ -55,6 +55,7 @@ Route::middleware(AuthenticateGuest::class)->group(function () {
     Route::post('vouchers/{voucher}/use', [VoucherController::class, 'use'])->name('vouchers.use');
     Route::put('guests/spend', [GuestController::class, 'spend'])->name('guests.spend');
     Route::get('games/{gameName}', [GameController::class, 'get'])->name('games.get');
+    Route::get('games', [GameController::class, 'getAll'])->name('games.get-all');
     Route::get('occurrences/{occurrence}', [OccurrenceController::class, 'get'])->name('occurrences.get');
     Route::post('occurrences/{occurrence}/bet/{competitor}', [OccurrenceController::class, 'bet'])->name('occurrences.bet');
     Route::post('occurrences/{occurrence}/participate', [OccurrenceController::class, 'participate'])->name('occurrences.participate');
