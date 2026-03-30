@@ -11,4 +11,9 @@ class GameController extends Controller
     {
         return Game::with(['occurrences', 'articles'])->firstWhere('name', $gameName);
     }
+
+    public function getAll()
+    {
+        return Game::with(['occurrences', 'articles'])->get();
+    }
 }

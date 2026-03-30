@@ -42,6 +42,14 @@ export const useGamesStore = defineStore("games", () => {
         }
     }
 
+    async function fetchAllGames(){
+        try {
+            games.value = await api("games.get-all").get();
+        } catch(e) {
+            //games.value = ref(JSON.parse(document.body.dataset.games));
+        }
+    }
+
     async function fetchOccurrence(occurrenceId, params = {}) {
         if (occurrence.value && occurrenceId != occurrence.value.id) {
             occurrence.value = null;
@@ -167,5 +175,6 @@ export const useGamesStore = defineStore("games", () => {
         participate,
         finish,
         guestParticipates,
+        fetchAllGames,
     };
 });
