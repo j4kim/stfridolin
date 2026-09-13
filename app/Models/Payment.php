@@ -91,4 +91,10 @@ class Payment extends Model
             $this->registerGuests();
         }
     }
+
+    public function broadcastWith(): array
+    {
+        $this->guest->unsetRelation('movements');
+        return $this->toArray();
+    }
 }

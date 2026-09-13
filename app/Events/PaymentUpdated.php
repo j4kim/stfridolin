@@ -37,4 +37,27 @@ class PaymentUpdated implements ShouldBroadcastNow
     {
         return 'PaymentUpdated';
     }
+
+    public function broadcastWith(): array
+    {
+        return [
+            "payment" => [
+                "id" => $this->payment->id,
+                "created_at" => $this->payment->created_at,
+                "updated_at" => $this->payment->updated_at,
+                "guest_id" => $this->payment->guest_id,
+                "stripe_id" => $this->payment->stripe_id,
+                "status" => $this->payment->status,
+                "stripe_data" => $this->payment->stripe_data,
+                "purpose" => $this->payment->purpose,
+                "amount" => $this->payment->amount,
+                "method" => $this->payment->method,
+                "article_id" => $this->payment->article_id,
+                "description" => $this->payment->description,
+                "original_amount" => $this->payment->original_amount,
+                "meta" => $this->payment->meta,
+                "article" => $this->payment->article,
+            ]
+        ];
+    }
 }
