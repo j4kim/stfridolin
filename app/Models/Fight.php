@@ -98,7 +98,7 @@ class Fight extends Model
 
         //Update priority on loser_track
         $loserTrack = $winner === 'left' ? $this->rightTrack : $this->leftTrack;
-        $loserTrack->decrement('priority', 1, ['used' => false]);
+        $loserTrack->decrement('priority', 33, ['used' => false]);
         EndFight::dispatch($winner, $this->draw);
         return $this;
     }

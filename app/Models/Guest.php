@@ -218,4 +218,26 @@ class Guest extends Model
         $this->points = $this->movements->sum('points');
         return $this;
     }
+
+    public function broadcastWith(): array
+    {
+        return [
+            "id" => $this->id,
+            "created_at" => $this->created_at,
+            "updated_at" => $this->updated_at,
+            "guest_id" => $this->guest_id,
+            "payment_id" => $this->payment_id,
+            "article_id" => $this->article_id,
+            "type" => $this->type,
+            "meta" => $this->meta,
+            "chf" => $this->chf,
+            "tokens" => $this->tokens,
+            "points" => $this->points,
+            "game_id" => $this->game_id,
+            "occurrence_id" => $this->occurrence_id,
+            "competitor_id" => $this->competitor_id,
+            "fight_id" => $this->fight_id,
+            "track_id" => $this->track_id,
+        ];
+    }
 }
